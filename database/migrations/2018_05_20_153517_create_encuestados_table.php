@@ -13,7 +13,7 @@ class CreateEncuestadosTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Encuestados', function (Blueprint $table) {
+        Schema::create('TBL_Encuestados', function (Blueprint $table) {
             $table->increments('PK_ECD_Id');
             $table->integer("ECD_Codigo");
             $table->dateTime("ECD_FechaSolucion");

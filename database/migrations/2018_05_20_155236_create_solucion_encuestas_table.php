@@ -13,7 +13,7 @@ class CreateSolucionEncuestasTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Solucion_Encuestas', function (Blueprint $table) {
+        Schema::create('TBL_Solucion_Encuestas', function (Blueprint $table) {
             $table->increments('PK_SEC_Id');
             $table->integer("FK_SEC_Respuesta")->unsigned();
             $table->integer("FK_SEC_DatosEncuest")->unsigned();

@@ -13,7 +13,7 @@ class CreateFacultadesTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Facultades', function (Blueprint $table) {
+        Schema::create('TBL_Facultades', function (Blueprint $table) {
             $table->increments('PK_FCD_Id');
             $table->string("FCD_Nombre");
             $table->mediumText("FCD_Descripcion")->nullable();

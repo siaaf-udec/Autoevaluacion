@@ -13,7 +13,7 @@ class CreateDocumentosInstitucionalesTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Documentos_Institucionales', function (Blueprint $table) {
+        Schema::create('TBL_Documentos_Institucionales', function (Blueprint $table) {
             $table->increments('PK_DOI_Id');
             $table->string("DOI_Nombre");
             $table->mediumText("DOI_Descripcion")->nullable();

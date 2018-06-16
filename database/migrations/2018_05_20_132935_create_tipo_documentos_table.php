@@ -13,7 +13,7 @@ class CreateTipoDocumentosTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Tipo_Documentos', function (Blueprint $table) {
+        Schema::create('TBL_Tipo_Documentos', function (Blueprint $table) {
             $table->increments('PK_TDO_Id');
             $table->string("TDO_Nombre");
             $table->timestamps();

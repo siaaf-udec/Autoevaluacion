@@ -13,7 +13,7 @@ class CreateDependenciasTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Dependencias', function (Blueprint $table) {
+        Schema::create('TBL_Dependencias', function (Blueprint $table) {
             $table->increments('PK_DPC_Id');
             $table->string("DPC_Nombre");
             $table->timestamps();

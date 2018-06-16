@@ -13,7 +13,7 @@ class CreateSedesTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Sedes', function (Blueprint $table) {
+        Schema::create('TBL_Sedes', function (Blueprint $table) {
             $table->increments('PK_SDS_Id');
             $table->string("SDS_Nombre");
             $table->mediumText("SDS_Descripcion")->nullable();

@@ -13,7 +13,7 @@ class CreateCaracteristicasTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Caracteristicas', function (Blueprint $table) {
+        Schema::create('TBL_Caracteristicas', function (Blueprint $table) {
             $table->increments('PK_CRT_Id');
             $table->string("CRT_Nombre");
             $table->mediumText("CRT_Descripcion")->nullable();

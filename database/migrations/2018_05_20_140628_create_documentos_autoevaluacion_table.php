@@ -13,7 +13,7 @@ class CreateDocumentosAutoevaluacionTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Documentos_Autoevaluacion', function (Blueprint $table) {
+        Schema::create('TBL_Documentos_Autoevaluacion', function (Blueprint $table) {
             $table->increments('PK_DOA_Id');
             $table->string("DOA_Numero")->nullable();
             $table->year("DOA_Anio")->nullable();

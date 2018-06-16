@@ -13,7 +13,7 @@ class CreateGruposInteresTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Grupos_Interes', function (Blueprint $table) {
+        Schema::create('TBL_Grupos_Interes', function (Blueprint $table) {
             $table->increments('PK_GIT_Id');
             $table->string("GIT_Nombre");
             $table->integer("FK_GIT_Estado")->unsigned();

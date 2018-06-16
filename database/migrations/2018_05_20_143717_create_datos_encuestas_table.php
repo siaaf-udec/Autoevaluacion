@@ -13,7 +13,7 @@ class CreateDatosEncuestasTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Datos_Encuestas', function (Blueprint $table) {
+        Schema::create('TBL_Datos_Encuestas', function (Blueprint $table) {
             $table->increments('PK_DAE_Id');
             $table->string("DAE_Titulo");
             $table->mediumText("DAE_Descripcion")->nullable();

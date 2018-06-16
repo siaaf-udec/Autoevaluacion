@@ -13,7 +13,7 @@ class CreateFasesTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Fases', function (Blueprint $table) {
+        Schema::create('TBL_Fases', function (Blueprint $table) {
             $table->increments('PK_FSS_Id');
             $table->string("FSS_Nombre");
             $table->mediumText("FSS_Descripcion")->nullable();

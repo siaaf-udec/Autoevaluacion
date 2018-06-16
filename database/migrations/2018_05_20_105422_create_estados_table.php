@@ -13,7 +13,7 @@ class CreateEstadosTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Estados', function (Blueprint $table) {
+        Schema::create('TBL_Estados', function (Blueprint $table) {
             $table->increments('PK_ESD_Id')->unsigned()->unique();
             $table->string("ESD_Nombre", 60);
             $table->boolean("ESD_Valor");

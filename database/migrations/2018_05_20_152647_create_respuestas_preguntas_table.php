@@ -13,7 +13,7 @@ class CreateRespuestasPreguntasTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Respuestas_Preguntas', function (Blueprint $table) {
+        Schema::create('TBL_Respuestas_Preguntas', function (Blueprint $table) {
             $table->increments('PK_RPG_Id');
 
             $table->string("RPG_Texto", 300);

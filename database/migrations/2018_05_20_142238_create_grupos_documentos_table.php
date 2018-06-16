@@ -13,7 +13,7 @@ class CreateGruposDocumentosTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Grupos_Documentos', function (Blueprint $table) {
+        Schema::create('TBL_Grupos_Documentos', function (Blueprint $table) {
             $table->increments('PK_GRD_Id');
             $table->string("GRD_Nombre");
             $table->mediumText("GRD_Descripcion");

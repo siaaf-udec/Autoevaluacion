@@ -13,7 +13,7 @@ class CreatePreguntasEncuestasTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Preguntas_Encuestas', function (Blueprint $table) {
+        Schema::create('TBL_Preguntas_Encuestas', function (Blueprint $table) {
             $table->increments('PK_PEN_Id');
             $table->integer("FK_PEN_Pregunta")->unsigned();
             $table->integer("FK_PEN_Encuesta")->unsigned();

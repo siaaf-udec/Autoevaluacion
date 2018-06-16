@@ -13,7 +13,7 @@ class CreateLineamientosTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Lineamientos', function (Blueprint $table) {
+        Schema::create('TBL_Lineamientos', function (Blueprint $table) {
             $table->increments('PK_LNM_Id');
             $table->string("LNM_Nombre");
             $table->mediumText("LNM_Descripcion")->nullable();

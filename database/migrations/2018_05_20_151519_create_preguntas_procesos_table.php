@@ -13,7 +13,7 @@ class CreatePreguntasProcesosTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Preguntas_Procesos', function (Blueprint $table) {
+        Schema::create('TBL_Preguntas_Procesos', function (Blueprint $table) {
             $table->increments('PK_PPR_Id');
             $table->integer("FK_PPR_Pregunta")->unsigned();
             $table->integer("FK_PPR_Proceso")->unsigned();

@@ -13,7 +13,7 @@ class CreatePreguntasTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Preguntas', function (Blueprint $table) {
+        Schema::create('TBL_Preguntas', function (Blueprint $table) {
             $table->increments('PK_PGT_Id');
             $table->string("PGT_Texto", 150);
             $table->integer("FK_PGT_Estado")->unsigned();

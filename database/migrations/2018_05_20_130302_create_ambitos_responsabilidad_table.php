@@ -13,7 +13,7 @@ class CreateAmbitosResponsabilidadTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Ambitos_Responsabilidad', function (Blueprint $table) {
+        Schema::create('TBL_Ambitos_Responsabilidad', function (Blueprint $table) {
             $table->increments('PK_AMB_Id');
             $table->string("AMB_Nombre");
             $table->timestamps();

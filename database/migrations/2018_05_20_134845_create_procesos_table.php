@@ -13,7 +13,7 @@ class CreateProcesosTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Procesos', function (Blueprint $table) {
+        Schema::create('TBL_Procesos', function (Blueprint $table) {
             $table->increments('PK_PCS_Id');
             $table->string("PCS_Nombre");
             $table->date("PCS_FechaInicio");

@@ -13,7 +13,7 @@ class CreateTipoProgramaTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Tipo_Programas', function (Blueprint $table) {
+        Schema::create('TBL_Tipo_Programas', function (Blueprint $table) {
             $table->increments('PK_TPR_Id');
             $table->string("TPR_Nombre");
             $table->mediumText("TPR_Descripcion")->nullable();

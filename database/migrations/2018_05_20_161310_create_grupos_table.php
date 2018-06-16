@@ -13,7 +13,7 @@ class CreateGruposTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Grupos', function (Blueprint $table) {
+        Schema::create('TBL_Grupos', function (Blueprint $table) {
             $table->increments('PK_GRP_Id');
             $table->string("GRP_Nombre");
             $table->mediumText("GRP_Descripcion")->nullable();

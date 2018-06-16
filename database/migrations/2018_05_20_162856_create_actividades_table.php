@@ -13,7 +13,7 @@ class CreateActividadesTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Actividades', function (Blueprint $table) {
+        Schema::create('TBL_Actividades', function (Blueprint $table) {
             $table->increments('PK_ACT_Id');
             $table->string("ACT_Nombre");
             $table->mediumText("ACT_Descripcion")->nullable();
@@ -24,7 +24,6 @@ class CreateActividadesTable extends Migration
             $table->integer("FK_ACT_Estado")->unsigned();
             $table->timestamps();
 
-            $table->foreign("FK_ACT_Roles")->references("PK_ROL_Id")->on("TBL_Roles")->onDelete("cascade");
             $table->foreign("FK_ACT_Grupos")->references("PK_GRP_Id")->on("TBL_Grupos")->onDelete("cascade");
             $table->foreign("FK_ACT_Subgrupos")->references("PK_SGP_Id")->on("TBL_Subgrupos")->onDelete("cascade");
             $table->foreign("FK_ACT_Estado")->references("PK_ESD_Id")->on("TBL_Estados")->onDelete("cascade");

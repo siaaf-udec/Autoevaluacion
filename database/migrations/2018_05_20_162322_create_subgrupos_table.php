@@ -13,7 +13,7 @@ class CreateSubgruposTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Subgrupos', function (Blueprint $table) {
+        Schema::create('TBL_Subgrupos', function (Blueprint $table) {
             $table->increments('PK_SGP_Id');
             $table->string("SGP_Nombre");
             $table->mediumText("SGP_Descripcion")->nullable();

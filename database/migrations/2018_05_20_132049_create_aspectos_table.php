@@ -13,7 +13,7 @@ class CreateAspectosTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Aspectos', function (Blueprint $table) {
+        Schema::create('TBL_Aspectos', function (Blueprint $table) {
             $table->increments('PK_ASP_Id');
             $table->string("ASP_Nombre");
             $table->mediumText("ASP_Descripcion")->nullable();

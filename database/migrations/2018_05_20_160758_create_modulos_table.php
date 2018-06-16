@@ -13,7 +13,7 @@ class CreateModulosTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Modulos', function (Blueprint $table) {
+        Schema::create('TBL_Modulos', function (Blueprint $table) {
             $table->increments('PK_MDL_Id');
             $table->string("MDL_Nombre");
             $table->mediumText("MDL_Descripcion")->nullable();

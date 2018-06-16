@@ -13,7 +13,7 @@ class CreateEncuestasTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Encuestas', function (Blueprint $table) {
+        Schema::create('TBL_Encuestas', function (Blueprint $table) {
             $table->increments('PK_ECT_Id');
             $table->dateTime("ECT_FechaPublicacion");
             $table->dateTime("ECT_FechaFinalizacion");

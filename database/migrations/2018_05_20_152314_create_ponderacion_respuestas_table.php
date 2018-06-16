@@ -13,7 +13,7 @@ class CreatePonderacionRespuestasTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Ponderacion_Respuestas', function (Blueprint $table) {
+        Schema::create('TBL_Ponderacion_Respuestas', function (Blueprint $table) {
             $table->increments('PK_PRT_Id');
             $table->integer("PRT_Ponderacion");
             $table->integer("FK_PRT_TipoRespuestas")->unsigned();

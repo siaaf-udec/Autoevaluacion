@@ -13,7 +13,7 @@ class CreateProgramasAcademicosTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Programas_Academicos', function (Blueprint $table) {
+        Schema::create('TBL_Programas_Academicos', function (Blueprint $table) {
             $table->increments('PK_PAC_Id');
             $table->string("PAC_Nombre");
             $table->mediumText("PAC_Descripcion")->nullable();

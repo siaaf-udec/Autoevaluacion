@@ -13,7 +13,7 @@ class CreateIndicadoresDocumentalesTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Indicadores_Documentales', function (Blueprint $table) {
+        Schema::create('TBL_Indicadores_Documentales', function (Blueprint $table) {
             $table->increments('PK_IDO_Id');
             $table->string("IDO_Nombre");
             $table->mediumText("IDO_Descripcion")->nullable();

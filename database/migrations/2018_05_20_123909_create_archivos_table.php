@@ -13,7 +13,7 @@ class CreateArchivosTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Archivos', function (Blueprint $table) {
+        Schema::create('TBL_Archivos', function (Blueprint $table) {
             $table->increments('PK_ACV_Id');
             $table->string("ACV_Nombre");
             $table->string("ACV_Extension")->nullable();

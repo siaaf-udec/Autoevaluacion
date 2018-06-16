@@ -13,7 +13,7 @@ class CreateFactoresTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Factores', function (Blueprint $table) {
+        Schema::create('TBL_Factores', function (Blueprint $table) {
             $table->increments('PK_FCT_Id');
             $table->string("FCT_Nombre");
             $table->mediumText("FCT_Descripcion")->nullable();

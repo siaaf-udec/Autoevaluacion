@@ -13,7 +13,7 @@ class CreatePonderacionFactorTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Ponderacion_Factor', function (Blueprint $table) {
+        Schema::create('TBL_Ponderacion_Factor', function (Blueprint $table) {
             $table->increments('PK_POF_Id');
             $table->string("POF_Valor");
         });

@@ -13,7 +13,7 @@ class CreateTipoRespuestasTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Tipo_Respuestas', function (Blueprint $table) {
+        Schema::create('TBL_Tipo_Respuestas', function (Blueprint $table) {
             $table->increments('PK_TRP_Id');
             $table->integer("TRP_TotalPonderacion");
             $table->integer("TRP_CantidadRespuestas");

@@ -13,7 +13,7 @@ class CreateIndicadoresTable extends Migration
      */
     public function up()
     {
-        Schema::connection("autoevaluation")->create('TBL_Indicadores', function (Blueprint $table) {
+        Schema::create('TBL_Indicadores', function (Blueprint $table) {
             $table->increments('PK_EDC_Id');
             $table->string("IND_Nombre");
             $table->integer("IND_Identificador");
