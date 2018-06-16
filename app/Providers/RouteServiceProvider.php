@@ -39,6 +39,12 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapSuperAdminRoutes();
+
+        $this->mapFuentesPrimariasRoutes();
+
+        $this->mapFuentesSecundariasRoutes();
+
         //
     }
 
@@ -69,5 +75,50 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+    }
+
+    /**
+     * Define the "super administrador" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapSuperAdminRoutes()
+    {
+        Route::prefix('admin')
+             ->middleware(['web', 'auth'])
+             ->namespace($this->namespace . '\superAdministrador')
+             ->group(base_path('routes/superAdministrador.php'));
+    }
+
+    /**
+     * Define the "fuentes primarias" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapFuentesPrimariasRoutes()
+    {
+        Route::prefix('admin/fuentesPrimarias')
+             ->middleware(['web', 'auth'])
+             ->namespace($this->namespace . '\fuentesPrimarias')
+             ->group(base_path('routes/fuentesPrimarias.php'));
+    }
+
+    /**
+     * Define the "fuentes secundarias" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapFuentesSecundariasRoutes()
+    {
+        Route::prefix('admin/fuentesSecundarias')
+             ->middleware(['web', 'auth'])
+             ->namespace($this->namespace . '\fuentesSecundarias')
+             ->group(base_path('routes/fuentesSecundarias.php'));
     }
 }

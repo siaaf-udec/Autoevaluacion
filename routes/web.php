@@ -11,6 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('admin.layouts.app');
+
+
+Route::group(['prefix' => 'admin/lira'], function () {
+    Route::get('/', function () {
+        return view('admin.layouts.app');
+    });
+});
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
+    Route::group(['prefix' => 'superAdministrador'], function () {
+    });
+    Route::group(['prefix' => 'fuentesPrimarias'], function () {
+    });
+    Route::group(['prefix' => 'fuentesSecundarias'], function () {
+    });
 });
