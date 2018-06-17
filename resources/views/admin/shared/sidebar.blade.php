@@ -17,10 +17,15 @@
                     <li><a href="javascript:void(0)"><i class="fa fa-home"></i> Home
                         </a>
                     </li>
-
-                    @include('admin.shared.menuSidebar.superAdmin')
+                    @hasrole('SUPERADMIN')
+                    @include('admin.shared.menuSidebar.superadmin')
+                    @endhasrole
+                    @hasanyrole('SUPERADMIN|FUENTES_PRIMARIAS')
                     @include('admin.shared.menuSidebar.fuentesPrimarias')
+                    @endhasanyrole
+                    @hasanyrole('SUPERADMIN|FUENTES_SECUNDARIAS')
                     @include('admin.shared.menuSidebar.fuentesSecundarias')
+                    @endhasanyrole
                     
                 </ul>
             </div>

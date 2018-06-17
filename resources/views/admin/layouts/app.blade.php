@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -10,6 +10,8 @@
 
     <title>{{ config('app.name') }} - @yield('title')</title>
     @include('admin.shared.head')
+    <!-- Syles for content-->
+    @stack('styles')
 </head>
 
 <body class="nav-md">
@@ -36,6 +38,8 @@
         </div>
     </div>
     @include('admin.shared.scripts')
+    <!-- Scripts for content -->
+    @stack('scripts')
     <!-- Functions for content -->
     @stack('functions')
 </body>

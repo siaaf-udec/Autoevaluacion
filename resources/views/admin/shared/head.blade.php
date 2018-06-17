@@ -1,14 +1,15 @@
 <!-- Bootstrap -->
-<link href="{{ asset('admin/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('gentella/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 <!-- Font Awesome -->
-<link href="{{ asset('admin/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+<link href="{{ asset('gentella/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
 <!-- NProgress -->
-<link href="{{ asset('admin/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
+<link href="{{ asset('gentella/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
 <!-- jQuery custom content scroller -->
-<link href="{{ asset('admin/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}" rel="stylesheet"/>
+<link href="{{ asset('gentella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}" rel="stylesheet"/>
 
 <!-- Custom Theme Style -->
-<link href="{{ asset('admin/build/css/custom.min.css') }}" rel="stylesheet">
+<link href="{{ asset('gentella/build/css/custom.min.css') }}" rel="stylesheet">
 
-<!-- Syles for content-->
-@stack('styles')
+<link href="{{ url('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
+<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
+<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">

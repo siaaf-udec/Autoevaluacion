@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
-use App\Models\Usuario;
+use App\Models\User;
 
 class UsersTableSeeder extends Seeder
 {
@@ -13,27 +13,27 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $user1 = Usuario::create([
-            'USU_Nombre' => 'Claudia',
-            'USU_Apellido' => 'admin',
-            'USU_Correo' => 'claudia@app.com',
-            'USU_Clave' => bcrypt('123456')
+        $user1 = User::create([
+            'name' => 'Claudia',
+            'lastname' => 'admin',
+            'email' => 'claudia@app.com',
+            'password' => bcrypt('123456')
         ]);
         $user1->assignRole('SUPERADMIN');
 
-        $user1 = Usuario::create([
-            'USU_Nombre' => 'Alejandro',
-            'USU_Apellido' => '2',
-            'USU_Correo' => 'alejo@app.com',
-            'USU_Clave' => bcrypt('123456')
+        $user1 = User::create([
+            'name' => 'Alejandro',
+            'lastname' => '2',
+            'email' => 'alejo@app.com',
+            'password' => bcrypt('123456')
         ]);
         $user1->assignRole('FUENTES_PRIMARIAS');
 
-        $user1 = Usuario::create([
-            'USU_Nombre' => 'Liz',
-            'USU_Apellido' => 'Quintero',
-            'USU_Correo' => 'liz@app.com',
-            'USU_Clave' => bcrypt('123456')
+        $user1 = User::create([
+            'name' => 'Liz',
+            'lastname' => 'Quintero',
+            'email' => 'liz@app.com',
+            'password' => bcrypt('123456')
         ]);
         $user1->assignRole('FUENTES_SECUNDARIAS');
     }

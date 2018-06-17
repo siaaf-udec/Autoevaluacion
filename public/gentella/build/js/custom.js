@@ -5033,7 +5033,6 @@ if (typeof NProgress != 'undefined') {
 		init_DataTables();
 		init_chart_doughnut();
 		init_gauge();
-		init_PNotify();
 		init_starrr();
 		init_calendar();
 		init_compose();
