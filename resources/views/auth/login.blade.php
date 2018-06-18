@@ -1,50 +1,58 @@
-@extends('layouts.app') 
-@section('title', 'login') 
-@section('content')
-<div class="form login_form">
-    <section class="login_content">
-        {!! Form::open(['role' => 'form', 'id' => 'form-login', 'method' => 'POST', 'url' => route('login.in')]) !!}
-        <h1>Login</h1>
-        <div>
-            {!! Form::email('email', old('email'), ['class' => 'form-control', 'placeholder' => 'Correo', 'required', 'autofocus', 'max'
-            => '60']) !!}
+@include('public.shared.design')
+@include('public.shared.head')
+@include('public.shared.header')
+  </head>
+  <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
+  <main>
+    <div class="main">
+        <section class="module bg-dark-30" data-background="{{ asset('titan/assets/images/fondo_1.jpg')}} ">
+        <div class="container">
+            <div class="row">
+              <div class="col-sm-8 col-sm-offset-2">
+                <h1 class="module-title font-alt mb-0">Login-Registro</h1>
+              </div>
+            </div>
         </div>
-        <div>
-            {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Contraseña', 'required']) !!}
-
-        </div>
-        <div>
-            {!! Form::submit('Ingresar', ['class' => 'btn btn-default submit']) !!} {{ link_to('/password/reset', 'Olvidaste tu contraseña?',
-            ['class' => 'reset_pass'])}}
-        </div>
-
-        <div class="clearfix"></div>
-
-        <div class="separator">
-    @include('shared.footer')
-        </div>
-        {!! Form::close() !!}
-    </section>
-</div>
-@endsection
-@push('styles')
-<!-- PNotify -->
-<link href="gentella/vendors/pnotify/dist/pnotify.css" rel="stylesheet">
-<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
-<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet"> 
-@endpush @push('scripts')
-<!-- PNotify -->
-<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
-<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
-<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
-
-
-@foreach ($errors->all() as $error)
-<script type="text/javascript">
+        </section>
+        <br>
+        </br>
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-6 col-sm-offset-3">
+                <h4 class="module-title font-alt mb-0">Login</h4>
+                <hr class="divider-w mt-10 mb-20">
+                <div role="tabpanel">
+                {!! Form::open(['role' => 'form', 'id' => 'form-login', 'method' => 'POST', 'url' => route('login.in')]) !!}
+                <div>
+                {!! Form::email('email', old('email'), ['class' => 'form-control', 'placeholder' => 'Correo', 'required', 'autofocus', 'max'=> '60']) !!}
+                </div>
+                <br>
+                </br>
+                <div>
+                {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Contraseña', 'required']) !!}
+                </div>
+                <br>
+                </br>
+                <div>
+                {!! Form::submit('Ingresar', ['class' => 'btn btn-default submit']) !!} {{ link_to('/password/reset', 'Olvidaste tu contraseña?',['class' => 'reset_pass'])}}
+                </div>
+                <br>
+                </br>
+                </div>
+                {!! Form::close() !!}
+              </div>
+            </div>
+          </div>
+          <br>
+          </br>
+        @include('public.shared.footer')
+      <div class="scroll-up"><a href="#totop"><i class="fa fa-angle-double-up"></i></a></div>
+</main>
+    @include('public.shared.scripts')
+    @foreach ($errors->all() as $error)
+    <script type="text/javascript">
     new PNotify({ title: 'Error!', text: '{{ $error }}', type: 'error', styling: 'bootstrap3' });
-
-</script>
-@endforeach 
-@endpush
-
-
+    </script>
+    @endforeach 
+  </body>
+</html>

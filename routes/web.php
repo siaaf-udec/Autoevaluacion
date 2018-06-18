@@ -24,7 +24,7 @@ Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('re
 Route::post('register', 'Auth\RegisterController@register');
 */
 // Password Reset Routes...
-Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.res');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
@@ -38,4 +38,10 @@ Route::get('/home', function () {
 Route::get('/', function () {
     return view('public.layouts.index');
 })->name('home');
+Route::get('/direccion', function () {
+    return view('public.layouts.direccion');
+})->name('direccion');
+Route::get('/sistema', function () {
+    return view('public.layouts.sistema');
+})->name('sistema');
 

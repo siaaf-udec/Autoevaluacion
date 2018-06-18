@@ -1,29 +1,20 @@
-<!DOCTYPE html>
-<html lang="en-US" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Sistema de Informacion de Autoevaluación</title>
-
-    @include('public.shared.design')
-
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="{{ asset('titan/assets/images/favicons/ms-icon-144x144.png') }}">
-    <meta name="theme-color" content="#ffffff">
-    
-    @include('public.shared.head')
+@include('public.shared.design')
+@include('public.shared.head')
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
     <main>
         @include('public.shared.header')
-
+        <section class="bg-dark-30 showcase-page-header module parallax-bg" data-background="{{ asset('titan/assets/images/fondo_2.jpg') }}">
+        <div class="titan-caption">
+          <div class="caption-content">
+            <div class="font-alt mb-30 titan-title-size-1">Autoevaluación y acreditación.</div>
+            <div class="font-alt mb-40 titan-title-size-4">Sistema de informacion de Autoevaluación</div><a class="section-scroll btn btn-border-w btn-round" href="#demos">Procesos de Autoevaluación</a>
+          </div>
+        </div>
+        </section>
         @include('public.shared.footer')
-        
         div class="scroll-up"><a href="#totop"><i class="fa fa-angle-double-up"></i></a></div>
     </main>
-
     @include('public.shared.scripts')
   </body>
 </html>
