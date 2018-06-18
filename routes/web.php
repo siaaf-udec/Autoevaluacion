@@ -34,3 +34,8 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('/home', function () {
     return view('admin.layouts.app');
 })->name('admin.home');
+
+Route::get('/', function () {
+    return view('public.layouts.index');
+})->name('home');
+
