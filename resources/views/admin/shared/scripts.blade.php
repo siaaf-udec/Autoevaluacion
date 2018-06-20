@@ -8,12 +8,9 @@
 <script src="{{ asset('gentella/vendors/nprogress/nprogress.js') }}"></script>
 <!-- jQuery custom content scroller -->
 <script src="{{ asset('gentella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
-
+<!-- Scripts for content -->
+    @stack('scripts')
 <!-- Custom Theme Scripts -->
 <script src="{{ asset('gentella/build/js/custom.min.js') }}"></script>
 
-<!-- PNotify -->
-<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
-<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
-<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 

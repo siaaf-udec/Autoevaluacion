@@ -6,10 +6,7 @@
 <link href="{{ asset('gentella/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
 <!-- jQuery custom content scroller -->
 <link href="{{ asset('gentella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}" rel="stylesheet"/>
-
+<!-- Styles for content-->
+@stack('styles')
 <!-- Custom Theme Style -->
-<link href="{{ asset('gentella/build/css/custom.min.css') }}" rel="stylesheet">
-
-<link href="{{ url('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
-<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
-<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
+<link href="{{ asset('gentella/build/css/custom.css') }}" rel="stylesheet"/>

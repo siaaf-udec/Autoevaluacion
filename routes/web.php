@@ -45,3 +45,5 @@ Route::get('/sistema', function () {
     return view('public.layouts.sistema');
 })->name('sistema');
 
+
+

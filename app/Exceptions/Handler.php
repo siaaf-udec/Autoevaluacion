@@ -46,6 +46,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // If the request wants JSON (AJAX doesn't always want JSON)
+        if ($request->ajax()) {
+            return response(['msg' => 'Usuario registrado correctamente.',
+                'title' => '¡Error!',
+                'msg' => $exception->errors()
+            ], 422) // 200 Status Code: Standard response for successful HTTP request
+                ->header('Content-Type', 'application/json');
+        }
+
         return parent::render($request, $exception);
     }
 }
