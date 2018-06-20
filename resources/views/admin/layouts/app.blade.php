@@ -7,11 +7,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name') }} - @yield('title')</title>
     @include('admin.shared.head')
-    <!-- Syles for content-->
-    @stack('styles')
+    
 </head>
 
 <body class="nav-md">
@@ -28,7 +28,20 @@
 
             <!-- page content -->
             <div class="right_col" role="main">
-                @yield('content')
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>SIA <small>Sistema de información para la autoevaluación</small></h3>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                    @yield('content')
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- /page content -->
 
@@ -38,9 +51,9 @@
         </div>
     </div>
     @include('admin.shared.scripts')
-    <!-- Scripts for content -->
-    @stack('scripts')
+
     <!-- Functions for content -->
     @stack('functions')
 </body>
+
 </html>

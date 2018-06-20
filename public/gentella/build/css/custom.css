@@ -144,7 +144,7 @@ html , body{
     padding: 0 0 4px 0
 }
 .left_col {
-    background: #2A3F54
+    background: #0e3d38
 }
 .nav-sm .container.body .col-md-3.left_col {
     min-height: 100%;
@@ -360,7 +360,6 @@ body .container.body .right_col {
 .nav_title {
     width: 230px;
     float: left;
-    background: #2A3F54;
     border-radius: 0;
     height: 57px
 }
@@ -492,7 +491,6 @@ body .container.body .right_col {
 }
 body {
     color: #73879C;
-    background: #2A3F54;
     font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
     font-size: 13px;
     font-weight: 400;
@@ -4253,3 +4251,7 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
     background-color: #ffff !important;
 }
 /** /bootstrap-datetimepicker **/
+
+.swal2-popup {
+    font-size: 1.6rem !important;
+}

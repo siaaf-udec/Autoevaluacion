@@ -4,12 +4,13 @@
 
 <div class="form login_form">
     <section class="login_content">
-        {!! Form::open(['role' => 'form', 'id' => 'form-login', 'method' => 'POST', 'url' => route('password.request')]) !!}
-        {!! Form::hidden('token', $token) !!}
+        {!! Form::open(['id' => 'form-login', 'method' => 'POST', 'route' => 'password.request']) !!}
+        @csrf        
+        <input type="hidden" name="token" value="{{ $token }}">
         <h1>Restablecer</h1>
         {{ $email }}
         <div>
-            {!! Form::email('email', $email or old('email'), ['class' => 'form-control', 'placeholder' => 'Correo', 'required', 'autofocus', 'max'
+            {!! Form::email('email', $email ?? old('email'), ['class' => 'form-control', 'placeholder' => 'Correo', 'required', 'autofocus', 'max'
             => '60']) !!}
         </div>
         <div>
@@ -32,18 +33,17 @@
         {!! Form::close() !!}
     </section>
 </div>
-
 @endsection
 @push('styles')
 <!-- PNotify -->
-<link href="{{ url('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
-<link href="{{ url('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
-<link href="{{ url('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet"> 
+<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
+<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
+<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet"> 
 @endpush @push('scripts')
 <!-- PNotify -->
-<script src="{{ url('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
-<script src="{{ url('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
-<script src="{{ url('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
+<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
+<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
+<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 
 
 @foreach ($errors->all() as $error)
