@@ -74,15 +74,15 @@
                             styling: 'bootstrap3'
                         });
                     },
-                    error: function (response, NULL, jqXHR) {
+                    error: function (data) {
                         
-                        var errores = response.responseJSON.msg;
+                        var errores = data.responseJSON.errors;
                         var msg = '';
                         $.each(errores, function(name, val) {
                              msg += val + '<br>'; 
                         });
                         new PNotify({
-                            title: response.responseJSON.title,
+                            title: "Error!",
                             text: msg,
                             type: 'error',
                             styling: 'bootstrap3'

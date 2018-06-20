@@ -43,7 +43,7 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
     {!! Form::password('password',[
         'class' => 'form-control col-md-6 col-sm-6 col-xs-12',
-        'required' => 'required'
+        isset($edit) ? '' : 'required' => 'required'
     ] ) !!}
     </div>
 </div>

@@ -35,14 +35,19 @@
 @endpush @push('functions')
 <script type="text/javascript">
     $(document).ready(function() {
-        @if(Session::has('update'))
+        let sesion = sessionStorage.getItem("update");
+        console.log(sesion);
+        if(sesion != null){
+            sessionStorage.clear();
             new PNotify({
                                     title: "¡Usuario Modificado!",
-                                    text: "{{ session()->pull('update')}}",
+                                    text: sesion,
                                     type: 'success',
                                     styling: 'bootstrap3'
                                 });
-        @endif
+
+        }
+        
         table = $('#usuario-table-ajax').DataTable({
             processing: true, 
             serverSide: false,
