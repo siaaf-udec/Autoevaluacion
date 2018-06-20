@@ -13,11 +13,17 @@ class UserRequest extends FormRequest
  
     public function rules()
     {
+        $email = 'required|email|unique:users';
+        $userId = auth()->user()->id;
+        $eje = $this->route('user.name');
+        
+        if ($this->method() == 'PUT') {
+            $email = sprintf('required|email|unique:users,email,%d,id', $userId);
+        }
         return [
-            'email' => 'required|email|unique:users,id,'.$this->get('id'),
+            'email' => $email,
             'password' => 'required|min:3',
             'lastname' => 'required'
         ];
     }
-    
 }
