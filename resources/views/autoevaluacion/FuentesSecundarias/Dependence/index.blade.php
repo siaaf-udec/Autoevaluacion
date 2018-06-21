@@ -55,6 +55,9 @@
 <!-- Datatables -->
 <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
 <script src="{{asset('gentella/vendors/sweetalert/sweetalert2.all.min.js') }}"></script>
+<!-- validator -->
+<script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
+<script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
 <!-- PNotify -->
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
