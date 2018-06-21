@@ -108,7 +108,8 @@ class UserController extends Controller
     public function edit($id)
     {
         return view('autoevaluacion.SuperAdministrador.Users.edit', [
-            'user' => User::findOrFail($id)
+            'user' => User::findOrFail($id),
+            'edit' => true
         ]);
 
     }

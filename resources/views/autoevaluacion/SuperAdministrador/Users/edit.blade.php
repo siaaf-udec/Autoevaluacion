@@ -63,21 +63,21 @@
                     type    : form.attr('method'),
                     data    : form.serialize(),
                     dataType: 'json',
+                    Accept: 'application/json',
                     success: function (response, NULL, jqXHR) {
-                        @php
-                        session(['update' => 'El Usuario ha modificado exitosamente.']);
-                        @endphp
+                        sessionStorage.setItem('update', 'El Usuario se ha modificado exitosamente.');
+                        
                         window.location.replace(" {{ route('admin.usuarios.index')}} ");
                     },
-                    error: function (response, NULL, jqXHR) {
-                        
-                        var errores = response.responseJSON.msg;
+                    error: function (data) {
+                        console.log(data);
+                        var errores = data.responseJSON.errors;
                         var msg = '';
                         $.each(errores, function(name, val) {
                              msg += val + '<br>'; 
                         });
                         new PNotify({
-                            title: response.responseJSON.title,
+                            title: "Error!",
                             text: msg,
                             type: 'error',
                             styling: 'bootstrap3'

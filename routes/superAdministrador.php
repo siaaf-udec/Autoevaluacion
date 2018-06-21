@@ -13,3 +13,5 @@ Route::delete('usuarios/destroy/{id?}', [
                 'as' => 'admin.usuarios.destroy'
 ])->where(['id' => '[0-9]+']);
 
+
+Route::resource('data', 'UserController');
