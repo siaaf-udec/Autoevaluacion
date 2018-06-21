@@ -14,7 +14,7 @@
             </li> 
             <li><a href="{{ route('documental.grupodocumentos.index') }}"><i class="fa fa-briefcase"></i>Grupos de Documentos</a> 
             </li> 
-            <li><a href="#level2_2"><i class="fa fa-cog"></i>Tipos de Documentos</a> 
+            <li><a href="{{ route('documental.tipodocumento.index') }}"><i class="fa fa-cog"></i>Tipos de Documentos</a> 
             </li> 
             </ul> 
         </li> 

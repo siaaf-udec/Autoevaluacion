@@ -53,7 +53,7 @@
             serverSide: false,
             stateSave: true,
             keys: true,
-            dom: 'Bfrtip', 
+            dom: 'LBfrtip', 
             buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print' ],
             "ajax": "{{ route('admin.usuarios.data') }}",
             "columns": [
@@ -108,10 +108,10 @@
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ route('admin.usuarios.destroy') }}' + '/' + dataTable.id;
+                var route = '{{ url('admin/usuarios') }}' + '/' + dataTable.id;
                 var type = 'DELETE';
                 dataType: "JSON", 
-                SwalDelete(dataTable.id);
+                SwalDelete(dataTable.id, route);
                 
 
 
@@ -128,7 +128,7 @@
             });
             
     });
-   function SwalDelete(id){
+   function SwalDelete(id, route){
 		swal({
 			title: 'Esta seguro?',
 			text: "El usuario sera eliminado permanentemente!",
@@ -144,7 +144,7 @@
 			       
 			     $.ajax({
                             type: 'DELETE',
-                            url: "{{url('admin/usuarios/destroy')}}/" + id,
+                            url: route,
                             data: {
                                 '_token': $('meta[name="_token"]').attr('content'),
                             },

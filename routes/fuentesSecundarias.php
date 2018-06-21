@@ -39,3 +39,9 @@ Route::resource('data', 'DocumentGroupController');
 /**
  * Fin de rutas grupo documentos
  */
+
+Route::resource('tipodocumento', 'tipoDocumentoController', ['as' => 'documental'])->except([
+    'show'
+]);
+Route::get('fuentes/tipodocumento/data', 
+array('as' => 'documental.tipodocumento.data', 'uses' => 'tipoDocumentoController@data'));

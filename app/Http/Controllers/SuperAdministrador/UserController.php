@@ -9,7 +9,6 @@ use Yajra\Datatables\Datatables;
 use App\Models\User;
 
 use App\Http\Requests\UserRequest;
-use App\Models\Usuario;
 
 class UserController extends Controller
 {
@@ -51,10 +50,6 @@ class UserController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-        return AjaxResponse::fail(
-            '¡Lo sentimos mmmm!',
-            'No se pudo completar tu solicitud.'
-        );
 
     }
 
@@ -139,7 +134,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
        
             User::destroy($id);
