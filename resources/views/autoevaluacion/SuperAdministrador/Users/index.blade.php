@@ -35,6 +35,7 @@
 @endpush @push('functions')
 <script type="text/javascript">
     $(document).ready(function() {
+        
         let sesion = sessionStorage.getItem("update");
         console.log(sesion);
         if(sesion != null){

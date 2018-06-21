@@ -18,6 +18,10 @@ class CreateEstadosTable extends Migration
             $table->string("ESD_Nombre", 60);
             $table->boolean("ESD_Valor");
         });
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedInteger('id_estado')->nullable();
+            $table->foreign('id_estado')->references('PK_ESD_Id')->on("TBL_Estados")->onDelete('cascade');
+        });
     }
 
     /**
@@ -28,5 +32,9 @@ class CreateEstadosTable extends Migration
     public function down()
     {
         Schema::dropIfExists('TBL_Estados');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['id_estado']);
+        });
+
     }
 }

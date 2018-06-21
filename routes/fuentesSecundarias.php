@@ -41,7 +41,7 @@ Route::resource('data', 'DocumentGroupController');
  */
 
 Route::resource('tipodocumento', 'tipoDocumentoController', ['as' => 'documental'])->except([
-    'show'
+    'show', 'edit'
 ]);
 Route::get('fuentes/tipodocumento/data', 
 array('as' => 'documental.tipodocumento.data', 'uses' => 'tipoDocumentoController@data'));

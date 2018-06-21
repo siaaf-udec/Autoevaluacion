@@ -28,6 +28,8 @@
 <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
 <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
 <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
+<!-- Select2 -->
+<link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @endpush
 
 @push('scripts')
@@ -38,10 +40,13 @@
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
+<!-- Select2 -->
+<script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
 @endpush
 @push('functions')
 <script type="text/javascript">
     $(document).ready(function() {
+        $('.select2_user').select2();
             var form = $('#form_modificar_usuario');
             $(form).parsley({
                 trigger: 'change',

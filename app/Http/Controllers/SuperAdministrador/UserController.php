@@ -9,6 +9,7 @@ use Yajra\Datatables\Datatables;
 use App\Models\User;
 
 use App\Http\Requests\UserRequest;
+use App\Models\Estado;
 
 class UserController extends Controller
 {
@@ -33,6 +34,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        
         return view('autoevaluacion.SuperAdministrador.Users.index');
     }
     /**
@@ -61,7 +63,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('autoevaluacion.SuperAdministrador.Users.create');
+        $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+        return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados'));
     }
 
     /**
@@ -72,8 +75,11 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        
-        User::create($request->except('_token'));
+        $user = new User();
+        $user->fill($request->all());
+        $user->id_estado = $request->get('PK_ESD_Id');
+        $user->save();
+
         return response(['msg' => 'Usuario registrado correctamente.',
         'title' => '¡Registro exitoso!'
     ], 200) // 200 Status Code: Standard response for successful HTTP request
@@ -102,9 +108,13 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+
+
         return view('autoevaluacion.SuperAdministrador.Users.edit', [
             'user' => User::findOrFail($id),
-            'edit' => true
+            'edit' => true,
+            'estados' => $estados 
         ]);
 
     }
@@ -120,6 +130,8 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->fill($request->all());
+        $user->id_estado = $request->get('PK_ESD_Id');
+
         $user->save();
         return response(['msg' => 'El usuario ha sido modificado exitosamente.',
                 'title' => '¡Usuario Modificado!'

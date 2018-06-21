@@ -17,7 +17,9 @@ class UsersTableSeeder extends Seeder
             'name' => 'Claudia',
             'lastname' => 'admin',
             'email' => 'claudia@app.com',
-            'password' => '123456'
+            'password' => '123456',
+            'cedula' => '123',
+            'id_estado' => '1'
         ]);
         $user1->assignRole('SUPERADMIN');
 
@@ -25,7 +27,9 @@ class UsersTableSeeder extends Seeder
             'name' => 'Alejandro',
             'lastname' => '2',
             'email' => 'alejo@app.com',
-            'password' => '123456'
+            'password' => '123456',
+            'cedula' => '12',
+            'id_estado' => '1'
         ]);
         $user1->assignRole('FUENTES_PRIMARIAS');
 
@@ -33,7 +37,9 @@ class UsersTableSeeder extends Seeder
             'name' => 'Liz',
             'lastname' => 'Quintero',
             'email' => 'liz@app.com',
-            'password' => '123456'
+            'password' => '123456',
+            'cedula' => '1221',
+            'id_estado' => '1'
         ]);
         $user1->assignRole('FUENTES_SECUNDARIAS');
     }
