@@ -2,7 +2,7 @@
     <ul class="nav child_menu">
         <li><a><i class="fa fa-file"></i>Gestionar Encuestas<span class="fa fa-chevron-down"></span> </a>
         <ul class="nav child_menu">
-            <li class="sub_menu"><a href="level2.html"><i class="fa fa-plus-square-o"></i>Datos sobre encuestas</a>
+            <li class="sub_menu"><a href="{{ route('fuentesP.datosEncuestas.index') }}"><i class="fa fa-plus-square-o"></i>Datos sobre encuestas</a>
             </li>
             <li><a href="#level2_1"><i class="fa fa-cog"></i>Construir encuestas</a>
             </li>
