@@ -33,7 +33,11 @@ class RoleTableSeeder extends Seeder
             'VER_DEPENDENCIAS',
             'CREAR_DEPENDENCIAS',
             'MODIFICAR_DEPENDENCIAS',
-            'ELIMINAR_DEPENDENCIAS'
+            'ELIMINAR_DEPENDENCIAS',
+            'VER_GRUPO_DOCUMENTOS',
+            'CREAR_GRUPO_DOCUMENTOS',
+            'MODIFICAR_GRUPO_DOCUMENTOS',
+            'ELIMINAR_GRUPO_DOCUMENTOS'
         ]);
     }
 }

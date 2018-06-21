@@ -30,6 +30,12 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'CREAR_DEPENDENCIAS']);
         Permission::create(['name' => 'MODIFICAR_DEPENDENCIAS']);
         Permission::create(['name' => 'ELIMINAR_DEPENDENCIAS']);
+        //permisos para grupos de documentos
+        Permission::create(['name' => 'VER_GRUPO_DOCUMENTOS']);
+        Permission::create(['name' => 'CREAR_GRUPO_DOCUMENTOS']);
+        Permission::create(['name' => 'MODIFICAR_GRUPO_DOCUMENTOS']);
+        Permission::create(['name' => 'ELIMINAR_GRUPO_DOCUMENTOS']);
+
 
 
     }

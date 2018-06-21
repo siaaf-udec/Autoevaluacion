@@ -116,7 +116,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapFuentesSecundariasRoutes()
     {
-        Route::prefix('admin/fuentesSecundarias')
+        Route::prefix('admin/documental')
              ->middleware(['web', 'auth'])
              ->namespace($this->namespace . '\fuentesSecundarias')
              ->group(base_path('routes/fuentesSecundarias.php'));
