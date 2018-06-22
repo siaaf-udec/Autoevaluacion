@@ -4,14 +4,13 @@ namespace App\Http\Controllers\SuperAdministrador;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use App\Http\Requests\RolRequest;
 use DataTables;
+use App\Http\Requests\PermisosRequest;
 
 
-class RolController extends Controller
+
+class PermisosController extends Controller
 {
     /**
      * Instantiate a new controller instance.
@@ -20,10 +19,10 @@ class RolController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('permission:ACCEDER_ROLES');
-        $this->middleware(['permission:MODIFICAR_ROLES', 'permission:VER_ROLES'], ['only' => ['edit', 'update']]);
-        $this->middleware('permission:CREAR_ROLES', ['only' => ['create', 'store']]);
-        $this->middleware('permission:ELIMINAR_ROLES', ['only' => ['destroy']]);
+        $this->middleware('permission:ACCEDER_PERMISOS');
+        $this->middleware(['permission:MODIFICAR_PERMISOS', 'permission:VER_USUARIOS'], ['only' => ['edit', 'update']]);
+        $this->middleware('permission:CREAR_PERMISOS', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ELIMINAR_PERMISOS', ['only' => ['destroy']]);
     }
 
     /**
@@ -33,7 +32,7 @@ class RolController extends Controller
      */
     public function index()
     {
-        return view('autoevaluacion.SuperAdministrador.Roles.index');
+        return view('autoevaluacion.SuperAdministrador.Permisos.index');
     }
     /**
      * Process datatables ajax request.
@@ -43,8 +42,8 @@ class RolController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $roles = Role::all();
-            return Datatables::of($roles)
+            $permisos = Permission::all();
+            return Datatables::of($permisos)
                 ->make(true);
 
         }
@@ -58,9 +57,6 @@ class RolController extends Controller
      */
     public function create()
     {
-       $permisos = Permission::get()->pluck('name', 'name');
-
-        return view('autoevaluacion.SuperAdministrador.Roles.create', compact('permisos'));
     }
     /**
      * Store a newly created resource in storage.
@@ -68,14 +64,12 @@ class RolController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RolRequest $request)
+    public function store(PermisosRequest $request)
     {
-        $rol = Role::create($request->except('permission'));
-        $permisos = $request->input('permission') ? $request->input('permission') : [];
-        $rol->givePermissionTo($permisos);
+        $rol = Permission::create($request->all());
 
 
-        return response(['msg' => 'Rol registrado correctamente.',
+        return response(['msg' => 'Permiso registrado correctamente.',
         'title' => '¡Registro exitoso!'
     ], 200) // 200 Status Code: Standard response for successful HTTP request
           ->header('Content-Type', 'application/json');
@@ -99,14 +93,7 @@ class RolController extends Controller
      */
     public function edit($id)
     {
-        $permisos = Permission::get()->pluck('name', 'name');
 
-        $rol = Role::findOrFail($id);
-
-        $edit = true;
-
-        return view('autoevaluacion.SuperAdministrador.Roles.edit',
-        compact('rol', 'permisos', 'edit'));
     }
 
     /**
@@ -116,16 +103,14 @@ class RolController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(RolRequest $request, $id)
+    public function update(PermisosRequest $request, $id)
     {
-        $rol = Role::findOrFail($id);
-        $rol->update($request->except('permission'));
-        $permisos = $request->input('permission') ? $request->input('permission') : [];
-        $rol->syncPermissions($permisos);
+        $permission = Permission::findOrFail($id);
+        $permission->update($request->all());
 
 
-        return response(['msg' => 'El Rol ha sido modificado exitosamente.',
-                'title' => 'Rol Modificado!'
+        return response(['msg' => 'El Permiso ha sido modificado exitosamente.',
+                'title' => 'Permiso Modificado!'
             ], 200) // 200 Status Code: Standard response for successful HTTP request
                 ->header('Content-Type', 'application/json');
     }
@@ -138,11 +123,12 @@ class RolController extends Controller
      */
     public function destroy($id)
     {
-        $rol = Role::findOrFail($id);
-        $rol->delete();
+        $permission = Permission::findOrFail($id);
+        $permission->delete();
 
-        return response(['msg' => 'El Rol ha sido eliminado exitosamente.',
-                'title' => '¡Rol Eliminado!'
+
+        return response(['msg' => 'El Permiso ha sido eliminado exitosamente.',
+                'title' => '¡Permiso Eliminado!'
             ], 200) // 200 Status Code: Standard response for successful HTTP request
                 ->header('Content-Type', 'application/json');
     }

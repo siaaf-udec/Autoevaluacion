@@ -1,19 +1,23 @@
 @extends('admin.layouts.app') 
 @section('content') 
 @component('admin.components.panel') @slot('title', 'Roles')
+@can('CREAR_ROLES')
 <div class="col-md-12">
     <div class="actions">
-        <a href="{{ route('admin.rol.create') }}" class="btn btn-info">
+        <a href="{{ route('admin.roles.create') }}" class="btn btn-info">
                     <i class="fa fa-plus"></i> Agregar Rol</a></div>
 </div>
 <br>
 <br>
 <br>
+@endcan
+@can('VER_ROLES')
 <div class="col-md-12">
     @component('admin.components.datatable', ['id' => 'rol_table_ajax']) @slot('columns', [ 'id', 'Nombre', 
-    'Acciones']) @endcomponent
+    'Acciones' => ['style' => 'width:85px;']]) @endcomponent
 
 </div>
+@endcan
 @endcomponent
 @endsection
  @push('scripts')
@@ -55,14 +59,14 @@
             keys: true,
             dom: 'lBfrtip',
             buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print' ],
-            "ajax": "{{ route('admin.rol.data') }}",
+            "ajax": "{{ route('admin.roles.data') }}",
             "columns": [
                 {data: 'id', name: 'id', "visible":false},
                 {data: 'name', name: 'Nombre'},
                  {
                     defaultContent: 
-                    '<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>' +
-                    '<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>',
+                    '@can('ELIMINAR_ROLES')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
+                    '@can('MODIFICAR_ROLES')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
                     data: 'action',
                     name: 'action',
                     title: 'Acciones',
@@ -105,7 +109,7 @@
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/rol') }}' + '/' + dataTable.id;
+                var route = '{{ url('admin/roles') }}' + '/' + dataTable.id;
                 var type = 'DELETE';
                 dataType: "JSON", 
                 SwalDelete(dataTable.id, route);
@@ -117,7 +121,7 @@
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/rol/') }}' + '/' + dataTable.id + '/edit';
+                var route = '{{ url('admin/roles/') }}' + '/' + dataTable.id + '/edit';
                 window.location.replace(route);
                 
 

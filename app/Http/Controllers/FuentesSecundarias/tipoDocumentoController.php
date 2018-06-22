@@ -12,6 +12,19 @@ use App\Http\Requests\TipoDocumentalRequest;
 class tipoDocumentoController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware([
+            'permission:CREAR_TIPO_DOCUMENTO',
+            'permission:VER_TIPO_DOCUMENTO'
+            ]);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

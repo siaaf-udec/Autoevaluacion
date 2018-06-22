@@ -16,10 +16,23 @@ class PermissionTableSeeder extends Seeder
         app()['cache']->forget('spatie.permission.cache');
 
         // Permisos Superadmin
+        Permission::create(['name' => 'ACCEDER_USUARIOS']);
         Permission::create(['name' => 'VER_USUARIOS']);
         Permission::create(['name' => 'CREAR_USUARIOS']);
         Permission::create(['name' => 'MODIFICAR_USUARIOS']);
         Permission::create(['name' => 'ELIMINAR_USUARIOS']);
+
+        Permission::create(['name' => 'ACCEDER_ROLES']);
+        Permission::create(['name' => 'VER_ROLES']);
+        Permission::create(['name' => 'CREAR_ROLES']);
+        Permission::create(['name' => 'MODIFICAR_ROLES']);
+        Permission::create(['name' => 'ELIMINAR_ROLES']);
+
+        Permission::create(['name' => 'ACCEDER_PERMISOS']);
+        Permission::create(['name' => 'VER_PERMISOS']);
+        Permission::create(['name' => 'CREAR_PERMISOS']);
+        Permission::create(['name' => 'MODIFICAR_PERMISOS']);
+        Permission::create(['name' => 'ELIMINAR_PERMISOS']);
         // Permisos Fuentes primarias
         Permission::create(['name' => 'VER_ENCUESTAS']);
         Permission::create(['name' => 'CREAR_ENCUESTAS']);
@@ -40,6 +53,12 @@ class PermissionTableSeeder extends Seeder
          Permission::create(['name' => 'CREAR_FACTORES']);
          Permission::create(['name' => 'MODIFICAR_FACTORES']);
          Permission::create(['name' => 'ELIMINAR_FACTORES']);
+        //permisos tipo documento
+        Permission::create(['name' => 'ACCEDER_TIPO_DOCUMENTO']);
+        Permission::create(['name' => 'VER_TIPO_DOCUMENTO']);
+        Permission::create(['name' => 'ELIMINAR_TIPO_DOCUMENTO']);
+        Permission::create(['name' => 'CREAR_TIPO_DOCUMENTO']);
+        Permission::create(['name' => 'MODIFICAR_TIPO_DOCUMENTO']);
 
     }
 }

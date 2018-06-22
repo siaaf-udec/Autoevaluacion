@@ -4,7 +4,7 @@
     @component('admin.components.panel')
             @slot('title', 'Crear Rol')
             {!! Form::open([
-                'route' => 'admin.rol.store',
+                'route' => 'admin.roles.store',
                 'method' => 'POST', 
                 'id' => 'form_crear_rol',
                 'class' => 'form-horizontal form-label-lef',
@@ -15,8 +15,8 @@
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-3">
             
-                    {{ link_to_route('admin.rol.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
-                    {!! Form::submit('Crear usuario', ['class' => 'btn btn-success']) !!}
+                    {{ link_to_route('admin.roles.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
+                    {!! Form::submit('Crear Rol', ['class' => 'btn btn-success']) !!}
                 </div>
             </div>
         {!! Form::close() !!}

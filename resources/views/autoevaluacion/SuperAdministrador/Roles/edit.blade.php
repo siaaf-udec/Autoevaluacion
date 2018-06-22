@@ -1,14 +1,15 @@
 @extends('admin.layouts.app') 
 @section('content')
  @component('admin.components.panel') @slot('title', 'Modificar Rol')
-{!! Form::model($rol, [ 'route' => ['admin.rol.update', $rol], 'method' => 'PUT', 'id' => 'form_modificar_rol',
+{!! Form::model($rol, [ 'route' => ['admin.roles.update', $rol], 'method' => 'PUT', 'id' => 'form_modificar_rol',
 'class' => 'form-horizontal form-label-lef', 'novalidate' ])!!}
     @include('autoevaluacion.SuperAdministrador.Roles._form')
 <div class="ln_solid"></div>
 <div class="form-group">
     <div class="col-md-6 col-md-offset-3">
 
-        {{ link_to_route('admin.rol.index',"Cancelar", [], ['class' => 'btn btn-info']) }} {!! Form::submit('Modificar usuario',
+        {{ link_to_route('admin.roles.index',"Cancelar", [], ['class' => 'btn btn-info']) }} 
+        {!! Form::submit('Modificar Rol',
         ['class' => 'btn btn-success']) !!}
     </div>
 </div>
@@ -61,7 +62,7 @@
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'El Rol se ha modificado exitosamente.');
                         
-                        window.location.replace(" {{ route('admin.rol.index')}} ");
+                        window.location.replace(" {{ route('admin.roles.index')}} ");
                     },
                     error: function (data) {
                         console.log(data);

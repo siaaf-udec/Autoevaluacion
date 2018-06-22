@@ -30,7 +30,7 @@ class RolRequest extends FormRequest
         $roles = 'required|string|max:50|unique:roles';
         
         if ($this->method() == 'PUT') {
-            $roles = 'required|string|max:50|'.Rule::unique('users')->ignore($id);
+            $roles = 'required|string|max:50|'.Rule::unique('roles')->ignore($id);
         }
 
         return [
