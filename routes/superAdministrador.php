@@ -13,3 +13,10 @@ Route::resource('rol', 'RolController', ['as' => 'admin'])->except([
     'show'
 ]);
 Route::get('roles/data', array('as' => 'admin.rol.data', 'uses' => 'RolController@data'));
+
+
+Route::resource('factores', 'FactorController', ['as' => 'admin'])->except([
+    'show'
+]);;
+
+Route::get('factores/data', array('as' => 'admin.factores.data', 'uses' => 'FactorController@data'));

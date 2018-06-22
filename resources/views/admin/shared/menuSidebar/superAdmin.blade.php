@@ -10,8 +10,12 @@
     </ul>
 </li>
 <li><a><i class="fa fa-diamond"></i> Super administrador <span class="fa fa-chevron-down"></span></a>
-    <ul class="nav child_menu">
-        <li><a href="tables.html">Tables</a></li>
-        <li><a href="tables_dynamic.html">Table Dynamic</a></li>
-    </ul>
+<ul class="nav child_menu">
+        <li><a><i class="fa fa-file"></i>CNA<span class="fa fa-chevron-down"></span> </a>
+        <ul class="nav child_menu">
+            <li class="sub_menu"><a href="{{ route('admin.factores.index') }}"><i class="fa fa-plus-square-o"></i>Factor</a>
+            </li>
+        </ul>
+        </li>
+</ul>
 </li>

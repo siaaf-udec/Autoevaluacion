@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Factor;
 
 class Estado extends Model
 {
@@ -33,4 +34,9 @@ class Estado extends Model
      * @var array
      */
     protected $guarded = ['PK_ESD_Id', 'created_at', 'updated_at'];
+
+    public function factor()
+    {
+        return $this->hasMany(Factor::class,'FK_FCT_Estado','PK_ESD_Id');
+    }
 }

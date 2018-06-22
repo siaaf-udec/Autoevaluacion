@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\FuentesPrimarias;
+namespace App\Http\Controllers\SuperAdministrador;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\Datatables\Datatables;
+use App\Models\Factor;
+use App\Models\Estado;
+use App\Models\Lineamiento;
 
-use App\Models\DatosEncuesta;
-use App\Models\GrupoInteres;
-
-class DatosEncuestasController extends Controller
+class FactorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,16 +19,33 @@ class DatosEncuestasController extends Controller
     public function __construct()
     {
         $this->middleware([
-            'permission:CREAR_ENCUESTAS',
-            'permission:VER_ENCUESTAS',
-            'permission:MODIFICAR_ENCUESTAS',
-            'permission:ELIMINAR_ENCUESTAS'
+            'permission:CREAR_FACTORES',
+            'permission:VER_FACTORES',
+            'permission:MODIFICAR_FACTORES',
+            'permission:ELIMINAR_FACTORES'
             ]);
 
     }
+    public function data(Request $request)
+    {
+        if ($request->ajax() && $request->isMethod('GET')) {
+            $factores = Factor::with(['estado' => function ($query) {
+            return $query->select('PK_ESD_Id','ESD_Nombre as nombre_estado');
+        }])
+        ->with(['lineamiento' => function ($query) {
+            return $query->select('PK_LNM_Id',
+                'LNM_Nombre as nombre');
+        }])->get();
+            return Datatables::of($factores)
+                ->removeColumn('created_at')
+                ->removeColumn('updated_at')
+                ->addIndexColumn()
+                ->make(true);
+        }
+    }
     public function index()
     {
-        return view('autoevaluacion.FuentesPrimarias.DatosEncuestas.index');
+        return view('autoevaluacion.SuperAdministrador.Factor.index');
     }
 
     /**
@@ -36,31 +53,11 @@ class DatosEncuestasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function data(Request $request)
-    {
-        if ($request->ajax() && $request->isMethod('GET')) {
-            $datosEncuesta = DatosEncuesta::select('PK_DAE_Id','DAE_Titulo','DAE_Descripcion',
-            'FK_DAE_GruposInteres')->with(['grupos' => function($query){
-                return $query->select('PK_GIT_Id','GIT_Nombre as nombre');
-            }
-        ])->get();
-            return Datatables::of($datosEncuesta)
-                ->removeColumn('created_at')
-                ->removeColumn('updated_at')
-                ->addIndexColumn()
-                ->make(true);
-        }
-        dd($datosEncuesta);
-        return AjaxResponse::fail(
-            '¡Lo sentimos mmmm!',
-            'No se pudo completar tu solicitud.'
-        );
-
-    }
     public function create()
     {
-        $items = GrupoInteres::pluck('GIT_Nombre', 'PK_GIT_Id');
-        return view('autoevaluacion.FuentesPrimarias.DatosEncuestas.create', compact('items'));
+        $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+        $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
+        return view('autoevaluacion.SuperAdministrador.Factor.create', compact('estados','lineamientos'));
     }
 
     /**
@@ -71,8 +68,8 @@ class DatosEncuestasController extends Controller
      */
     public function store(Request $request)
     {
-        DatosEncuesta::create($request->all());
-        return response(['msg' => 'Datos registrados correctamente.',
+        Factor::create($request->all());
+        return response(['msg' => 'Factor registrado correctamente.',
         'title' => '¡Registro exitoso!'
     ], 200) // 200 Status Code: Standard response for successful HTTP request
           ->header('Content-Type', 'application/json');
@@ -98,11 +95,12 @@ class DatosEncuestasController extends Controller
      */
     public function edit($id)
     {
-        $items = GrupoInteres::pluck('GIT_Nombre', 'PK_GIT_Id');
-        return view('autoevaluacion.FuentesPrimarias.DatosEncuestas.edit', [
-            'user' => DatosEncuesta::findOrFail($id),
+        $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+        $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
+        return view('autoevaluacion.SuperAdministrador.Factor.edit', [
+            'user' => Factor::findOrFail($id),
             'edit' => true,
-        ], compact('items'));
+        ], compact('estados','lineamientos'));
     }
 
     /**
@@ -114,11 +112,11 @@ class DatosEncuestasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = DatosEncuesta::find($id);
+        $user = Factor::find($id);
         $user->fill($request->all());
         $user->save();
-        return response(['msg' => 'Los datos han sido modificado exitosamente.',
-                'title' => 'Datos Modificados!'
+        return response(['msg' => 'EL factor ha sido modificado exitosamente.',
+                'title' => 'Factor Modificado!'
             ], 200) // 200 Status Code: Standard response for successful HTTP request
                 ->header('Content-Type', 'application/json');
 
@@ -132,10 +130,10 @@ class DatosEncuestasController extends Controller
      */
     public function destroy($id)
     {
-        DatosEncuesta::destroy($id);
+        Factor::destroy($id);
 
-            return response(['msg' => 'Los datos han sido eliminados exitosamente.',
-                'title' => 'Datos Eliminados!'
+            return response(['msg' => 'El factor ha sido eliminado exitosamente.',
+                'title' => 'Factor Eliminado!'
             ], 200) // 200 Status Code: Standard response for successful HTTP request
                 ->header('Content-Type', 'application/json');
     }
