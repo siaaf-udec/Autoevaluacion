@@ -1,38 +1,27 @@
-@extends('admin.layouts.app')
-
+@extends('admin.layouts.app') 
 @section('content')
-    @component('admin.components.panel')
-            @slot('title', 'Crear Usuario')
-            {!! Form::open([
-                'route' => 'admin.usuarios.store',
-                'method' => 'POST', 
-                'id' => 'form_crear_usuario',
-                'class' => 'form-horizontal form-label-lef',
-                'novalidate'
-            ])!!}
-            @include('autoevaluacion.SuperAdministrador.Users._form')
-            <div class="ln_solid"></div>
-            <div class="form-group">
-                <div class="col-md-6 col-md-offset-3">
-            
-                    {{ link_to_route('admin.usuarios.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
-                    {!! Form::submit('Crear usuario', ['class' => 'btn btn-success']) !!}
-                </div>
-            </div>
-        {!! Form::close() !!}
-    @endcomponent
-@endsection
+ @component('admin.components.panel') @slot('title', 'Modificar Rol')
+{!! Form::model($rol, [ 'route' => ['admin.rol.update', $rol], 'method' => 'PUT', 'id' => 'form_modificar_rol',
+'class' => 'form-horizontal form-label-lef', 'novalidate' ])!!}
+    @include('autoevaluacion.SuperAdministrador.Roles._form')
+<div class="ln_solid"></div>
+<div class="form-group">
+    <div class="col-md-6 col-md-offset-3">
 
-@push('styles')
+        {{ link_to_route('admin.rol.index',"Cancelar", [], ['class' => 'btn btn-info']) }} {!! Form::submit('Modificar usuario',
+        ['class' => 'btn btn-success']) !!}
+    </div>
+</div>
+{!! Form::close() !!} @endcomponent
+@endsection
+ @push('styles')
 <!-- PNotify -->
 <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
 <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
 <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
 <!-- Select2 -->
-<link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
-@endpush
-
-@push('scripts')
+<link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet"> 
+@endpush @push('scripts')
 <!-- validator -->
 <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
 <script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
@@ -42,14 +31,12 @@
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 <!-- Select2 -->
 <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
-@endpush
-@push('functions')
+
+@endpush @push('functions')
 <script type="text/javascript">
-    
-        $(document).ready(function() {
-            $('.select2_user').select2();
-            $('.select2_roles').select2();
-            var form = $('#form_crear_usuario');
+    $(document).ready(function() {
+        $('.select2_permisos').select2();
+            var form = $('#form_modificar_rol');
             $(form).parsley({
                 trigger: 'change',
                 successClass: "has-success",
@@ -70,23 +57,14 @@
                     type    : form.attr('method'),
                     data    : form.serialize(),
                     dataType: 'json',
+                    Accept: 'application/json',
                     success: function (response, NULL, jqXHR) {
-                        $(form)[0].reset();
-                        $(".select2_roles").select2('data', {}); // clear out values selected 
-                        $(".select2_roles").select2({ allowClear: true });
-                        $(".select2_user").select2('data', {}); // clear out values selected 
-                        $(".select2_user").select2({ allowClear: true });
-                        // re-init to show default status
-                        $(form).parsley().reset();
-                        new PNotify({
-                            title: response.title,
-                            text: response.msg,
-                            type: 'success',
-                            styling: 'bootstrap3'
-                        });
+                        sessionStorage.setItem('update', 'El Rol se ha modificado exitosamente.');
+                        
+                        window.location.replace(" {{ route('admin.rol.index')}} ");
                     },
                     error: function (data) {
-                        
+                        console.log(data);
                         var errores = data.responseJSON.errors;
                         var msg = '';
                         $.each(errores, function(name, val) {
@@ -102,7 +80,8 @@
                 });
             });
         });
-    
 
 </script>
+
+
 @endpush

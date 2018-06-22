@@ -8,7 +8,6 @@
 /**
  * Rutas para la opcion de dependencias
  */
-Route::get('/', array('as' => 'admin.home', 'uses' => 'pageController@index'));
 
 Route::resource('dependencia', 'DependenciaController', ['as' => 'documental'])->except([
     'show', 'destroy'
@@ -27,7 +26,6 @@ Route::resource('data', 'DependenciaController');
  /**
  * Rutas para la opcion de grupo de documentos
  */
-Route::get('/', array('as' => 'admin.home', 'uses' => 'pageController@index'));
 
 Route::resource('grupodocumentos', 'DocumentGroupController', ['as' => 'documental'])->except([
     'show', 'destroy'

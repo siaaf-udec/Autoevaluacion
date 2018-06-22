@@ -19,11 +19,13 @@ class UserRequest extends FormRequest
         $password = 'required|min:3';
         $id = $this->route()->parameter('usuario');
         $cedula = "required|numeric|max:9999999999|unique:users";
+        $roles = 'required';
         
         if ($this->method() == 'PUT') {
             $email = 'required|email|'.Rule::unique('users')->ignore($id);
             $cedula = 'required|numeric|'.Rule::unique('users')->ignore($id);
             $password = '';
+            $roles = '';
         }
         return [
             'email' => $email,
@@ -31,7 +33,8 @@ class UserRequest extends FormRequest
             'name' => 'required|string|max:50',
             'lastname' => 'required|string|max:50',
             'cedula' => $cedula,
-            'PK_ESD_Id' => 'required|numeric|exists:tbl_estados'
+            'PK_ESD_Id' => 'required|numeric|exists:tbl_estados',
+            'roles' => $roles
         ];
     }
     /**

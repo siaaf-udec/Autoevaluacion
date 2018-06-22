@@ -47,6 +47,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('.select2_user').select2();
+        $('.select2_roles').select2();
             var form = $('#form_modificar_usuario');
             $(form).parsley({
                 trigger: 'change',

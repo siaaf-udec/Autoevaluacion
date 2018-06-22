@@ -2,20 +2,20 @@
 
 @section('content')
     @component('admin.components.panel')
-            @slot('title', 'Crear Usuario')
+            @slot('title', 'Crear Rol')
             {!! Form::open([
-                'route' => 'admin.usuarios.store',
+                'route' => 'admin.rol.store',
                 'method' => 'POST', 
-                'id' => 'form_crear_usuario',
+                'id' => 'form_crear_rol',
                 'class' => 'form-horizontal form-label-lef',
                 'novalidate'
             ])!!}
-            @include('autoevaluacion.SuperAdministrador.Users._form')
+            @include('autoevaluacion.SuperAdministrador.Roles._form')
             <div class="ln_solid"></div>
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-3">
             
-                    {{ link_to_route('admin.usuarios.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
+                    {{ link_to_route('admin.rol.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
                     {!! Form::submit('Crear usuario', ['class' => 'btn btn-success']) !!}
                 </div>
             </div>
@@ -47,9 +47,8 @@
 <script type="text/javascript">
     
         $(document).ready(function() {
-            $('.select2_user').select2();
-            $('.select2_roles').select2();
-            var form = $('#form_crear_usuario');
+            $('.select2_permisos').select2();
+            var form = $('#form_crear_rol');
             $(form).parsley({
                 trigger: 'change',
                 successClass: "has-success",
@@ -72,10 +71,8 @@
                     dataType: 'json',
                     success: function (response, NULL, jqXHR) {
                         $(form)[0].reset();
-                        $(".select2_roles").select2('data', {}); // clear out values selected 
-                        $(".select2_roles").select2({ allowClear: true });
-                        $(".select2_user").select2('data', {}); // clear out values selected 
-                        $(".select2_user").select2({ allowClear: true });
+                        $(".select2_permisos").select2('data', {}); // clear out values selected 
+                        $(".select2_permisos").select2({ allowClear: true });
                         // re-init to show default status
                         $(form).parsley().reset();
                         new PNotify({

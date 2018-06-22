@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use DataTables;
 
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 use App\Http\Requests\UserRequest;
 use App\Models\Estado;
@@ -22,9 +23,8 @@ class UserController extends Controller
     {
         $this->middleware([
             'permission:CREAR_USUARIOS',
-            'permission:VER_USUARIOS' 
+            'permission:VER_USUARIOS'
             ]);
-
     }
 
     /**
@@ -34,7 +34,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        
         return view('autoevaluacion.SuperAdministrador.Users.index');
     }
     /**
@@ -45,14 +44,14 @@ class UserController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-             $users = User::with('estado', 'roles')->get();
+            $users = User::with('estado', 'roles')->get();
             //dd($users->with('profile')->get());
             return DataTables::of($users)
                 ->addColumn('estado', function ($users) {
                     // Ensure the user has a profile. Just a check (Optional)
                     if (! $users->estado) {
                         return '';
-                    }elseif (!strcmp($users->estado->ESD_Nombre, 'HABILITADO')) {
+                    } elseif (!strcmp($users->estado->ESD_Nombre, 'HABILITADO')) {
                         return "<span class='label label-sm label-success'>" . $users->estado->ESD_Nombre. "</span>";
                     } else {
                         return "<span class='label label-sm label-danger'>" . $users->estado->ESD_Nombre . "</span>";
@@ -65,8 +64,6 @@ class UserController extends Controller
                         return '';
                     }
                     return $users->roles->map(function ($rol) {
-                        
-
                         return str_limit($rol->name, 30, '...');
                     })->implode(', ');
                 })
@@ -76,10 +73,7 @@ class UserController extends Controller
                 ->removeColumn('updated_at')
                 ->removeColumn('id_estado')
                 ->make(true);
-
-
         }
-
     }
 
 
@@ -91,7 +85,8 @@ class UserController extends Controller
     public function create()
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados'));
+        $roles = Role::get()->pluck('name', 'name');
+        return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados', 'roles'));
     }
     /**
      * Store a newly created resource in storage.
@@ -106,12 +101,13 @@ class UserController extends Controller
         $user->id_estado = $request->get('PK_ESD_Id');
         $user->save();
 
+        $roles = $request->input('roles') ? $request->input('roles') : [];
+        $user->assignRole($roles);
+
         return response(['msg' => 'Usuario registrado correctamente.',
         'title' => '¡Registro exitoso!'
     ], 200) // 200 Status Code: Standard response for successful HTTP request
           ->header('Content-Type', 'application/json');
-
-        
     }
 
     /**
@@ -122,8 +118,6 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        
-
     }
 
     /**
@@ -135,12 +129,11 @@ class UserController extends Controller
     public function edit($id)
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        return view('autoevaluacion.SuperAdministrador.Users.edit', [
-            'user' => User::findOrFail($id),
-            'edit' => true,
-            'estados' => $estados 
-        ]);
-
+        $roles = Role::get()->pluck('name', 'name');
+        $user = User::findOrFail($id);
+        $edit = true;
+        return view('autoevaluacion.SuperAdministrador.Users.edit',
+        compact('user', 'estados', 'roles', 'edit'));
     }
 
     /**
@@ -157,11 +150,14 @@ class UserController extends Controller
         $user->id_estado = $request->get('PK_ESD_Id');
 
         $user->save();
+
+        $roles = $request->input('roles') ? $request->input('roles') : [];
+        $user->syncRoles($roles);
+
         return response(['msg' => 'El usuario ha sido modificado exitosamente.',
                 'title' => '¡Usuario Modificado!'
             ], 200) // 200 Status Code: Standard response for successful HTTP request
                 ->header('Content-Type', 'application/json');
-
     }
 
     /**
@@ -172,14 +168,11 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-       
-            User::destroy($id);
+        User::destroy($id);
 
-            return response(['msg' => 'El usuario ha sido eliminado exitosamente.',
+        return response(['msg' => 'El usuario ha sido eliminado exitosamente.',
                 'title' => '¡Usuario Eliminado!'
             ], 200) // 200 Status Code: Standard response for successful HTTP request
                 ->header('Content-Type', 'application/json');
-
-        
     }
 }
