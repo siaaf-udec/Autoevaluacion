@@ -66,7 +66,6 @@ class UserController extends Controller
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -109,8 +108,6 @@ class UserController extends Controller
     public function edit($id)
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-
-
         return view('autoevaluacion.SuperAdministrador.Users.edit', [
             'user' => User::findOrFail($id),
             'edit' => true,

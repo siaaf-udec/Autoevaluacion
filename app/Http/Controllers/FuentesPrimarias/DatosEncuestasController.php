@@ -20,7 +20,9 @@ class DatosEncuestasController extends Controller
     {
         $this->middleware([
             'permission:CREAR_ENCUESTAS',
-            'permission:VER_ENCUESTAS' 
+            'permission:VER_ENCUESTAS',
+            'permission:MODIFICAR_ENCUESTAS',
+            'permission:ELIMINAR_ENCUESTAS'
             ]);
 
     }
@@ -37,13 +39,18 @@ class DatosEncuestasController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $datosEncuesta = DatosEncuesta::all();
+            $datosEncuesta = DatosEncuesta::select('PK_DAE_Id','DAE_Titulo','DAE_Descripcion',
+            'FK_DAE_GruposInteres')->with(['grupos' => function($query){
+                return $query->select('PK_GIT_Id','GIT_Nombre as nombre');
+            }
+        ])->get();
             return Datatables::of($datosEncuesta)
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
                 ->addIndexColumn()
                 ->make(true);
         }
+        dd($datosEncuesta);
         return AjaxResponse::fail(
             '¡Lo sentimos mmmm!',
             'No se pudo completar tu solicitud.'
@@ -70,7 +77,6 @@ class DatosEncuestasController extends Controller
     ], 200) // 200 Status Code: Standard response for successful HTTP request
           ->header('Content-Type', 'application/json');
 
-        
     }
 
     /**
@@ -92,7 +98,11 @@ class DatosEncuestasController extends Controller
      */
     public function edit($id)
     {
-        //
+        $items = GrupoInteres::pluck('GIT_Nombre', 'PK_GIT_Id');
+        return view('autoevaluacion.FuentesPrimarias.DatosEncuestas.edit', [
+            'user' => DatosEncuesta::findOrFail($id),
+            'edit' => true,
+        ], compact('items'));
     }
 
     /**
@@ -104,7 +114,14 @@ class DatosEncuestasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = DatosEncuesta::find($id);
+        $user->fill($request->all());
+        $user->save();
+        return response(['msg' => 'Los datos han sido modificado exitosamente.',
+                'title' => 'Datos Modificadoa!'
+            ], 200) // 200 Status Code: Standard response for successful HTTP request
+                ->header('Content-Type', 'application/json');
+
     }
 
     /**
@@ -115,6 +132,11 @@ class DatosEncuestasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DatosEncuesta::destroy($id);
+
+            return response(['msg' => 'Los datos han sido eliminados exitosamente.',
+                'title' => 'Datos Eliminados!'
+            ], 200) // 200 Status Code: Standard response for successful HTTP request
+                ->header('Content-Type', 'application/json');
     }
 }

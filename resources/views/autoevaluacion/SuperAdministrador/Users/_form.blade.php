@@ -49,14 +49,14 @@
         'required' ] ) !!}
     </div>
 </div>
+
 <div class="item form-group">
     {!! Form::label('estado','Estado', [ 'class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
         {{-- <select class="select2_user form-control" name="id_estado">
             @foreach($estados as $estado)
         <option selected="{{ isset($user)?  }}" value="{{  $estado->PK_ESD_Id }}">{{ $estado->ESD_Nombre }}</option>
-            @endforeach
-                                                       
+            @endforeach                                          
         </select> --}}
         {!! Form::select('PK_ESD_Id', $estados, old('PK_ESD_Id', isset($user)? $user->id_estado:''), [
             'class' => 'select2_user form-control', 

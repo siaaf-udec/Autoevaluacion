@@ -6,10 +6,6 @@
             </li>
             <li><a href="#level2_1"><i class="fa fa-cog"></i>Construir encuestas</a>
             </li>
-            <li><a href="#level2_2"><i class="fa fa-refresh"></i>Modificar encuestas</a>
-            </li>
-            <li><a href="#level2_2"><i class="fa fa-remove"></i>Eliminar datos encuestas</a>
-            </li>
             <li><a href="#level2_2"><i class="fa fa-check-square-o"></i>Publicar encuestas</a>
             </li>
             <li><a href="#level2_2"><i class="fa fa-paste"></i>Importar encuestas</a>

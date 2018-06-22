@@ -40,7 +40,7 @@
         if(sesion != null){
             sessionStorage.clear();
             new PNotify({
-                                    title: "¡Usuario Modificado!",
+                                    title: "Datos Modificados!",
                                     text: sesion,
                                     type: 'success',
                                     styling: 'bootstrap3'
@@ -60,7 +60,7 @@
                 {data: 'PK_DAE_Id', name: 'id', "visible":false},
                 {data: 'DAE_Titulo', name: 'Titulo'},
                 {data: 'DAE_Descripcion', name: 'Descripcion'},
-                {data: 'FK_DAE_GruposInteres', name: 'Grupos de Interes'},
+                {data: 'grupos.nombre', name: 'Grupos de Interes'},
                  {
                     defaultContent: 
                     '<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>' +
@@ -102,24 +102,21 @@
                 }
             }
         });
-        
         table.on('click', '.remove', function (e) {
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ route('admin.usuarios.destroy') }}' + '/' + dataTable.id;
+                var route = '{{ url('admin/fuentesPrimarias/datosEncuestas/') }}' + '/' + dataTable.PK_DAE_Id;
                 var type = 'DELETE';
                 dataType: "JSON", 
-                SwalDelete(dataTable.id);
-                
-
+                SwalDelete(dataTable.PK_DAE_Id, route);
 
             });
              table.on('click', '.edit', function (e) {
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/usuarios/') }}' + '/' + dataTable.id + '/edit';
+                var route = '{{ url('admin/fuentesPrimarias/datosEncuestas/') }}' + '/' + dataTable.PK_DAE_Id + '/edit';
                 window.location.replace(route);
                 
 
@@ -127,10 +124,10 @@
             });
             
     });
-   function SwalDelete(id){
+    function SwalDelete(id, route){
 		swal({
 			title: 'Esta seguro?',
-			text: "El usuario sera eliminado permanentemente!",
+			text: "Los datos seran eliminados permanentemente!",
 			type: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: '#3085d6',
@@ -143,7 +140,7 @@
 			       
 			     $.ajax({
                             type: 'DELETE',
-                            url: "{{url('admin/usuarios/destroy')}}/" + id,
+                            url: route,
                             data: {
                                 '_token': $('meta[name="_token"]').attr('content'),
                             },

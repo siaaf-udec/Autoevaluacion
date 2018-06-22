@@ -46,9 +46,7 @@
                                     type: 'success',
                                     styling: 'bootstrap3'
                                 });
-
         }
-        
         table = $('#usuario-table-ajax').DataTable({
             processing: true, 
             serverSide: false,
@@ -104,7 +102,6 @@
             }
         });
         
-
         table.on('click', '.remove', function (e) {
                 e.preventDefault();
                 $tr = $(this).closest('tr');

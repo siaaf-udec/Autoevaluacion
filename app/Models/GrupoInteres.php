@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\DatosEncuesta;
 
 class GrupoInteres extends Model
 {
@@ -26,4 +27,9 @@ class GrupoInteres extends Model
      * @var array
      */
     protected $guarded = ['PK_GIT_Id', 'created_at', 'updated_at'];
+
+    public function datos()
+    {
+        return $this->hasMany(DatosEncuesta::class,'FK_DAE_GruposInteres','PK_GIT_Id');
+    }
 }
