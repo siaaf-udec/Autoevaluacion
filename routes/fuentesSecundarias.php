@@ -2,6 +2,9 @@
 /**
  * Fuentes Secundarias
  */
+// DB::listen(function($query){
+// 	echo "<pre>{$query->sql}</pre>";
+// });
 /**
  * Rutas para la opcion de dependencias
  */

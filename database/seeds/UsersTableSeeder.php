@@ -22,6 +22,8 @@ class UsersTableSeeder extends Seeder
             'id_estado' => '1'
         ]);
         $user1->assignRole('SUPERADMIN');
+        $user1->assignRole('FUENTES_PRIMARIAS');
+
 
         $user1 = User::create([
             'name' => 'Alejandro',

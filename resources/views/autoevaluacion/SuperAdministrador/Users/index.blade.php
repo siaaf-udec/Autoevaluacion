@@ -9,8 +9,9 @@
 <br>
 <br>
 <div class="col-md-12">
-    @component('admin.components.datatable', ['id' => 'usuario-table-ajax']) @slot('columns', [ 'id', 'Nombre', 'Apellido', 'Email',
-    'Acciones' => ['style' => 'width:85px;'] ]) @endcomponent
+    @component('admin.components.datatable', ['id' => 'usuario-table-ajax']) @slot('columns', [ 
+        'id', 'Nombre', 'Apellido', 'Email', 'Roles', 'Estado',
+    'Acciones']) @endcomponent
 
 </div>
 @endcomponent
@@ -52,7 +53,7 @@
             serverSide: false,
             stateSave: true,
             keys: true,
-            dom: 'LBfrtip', 
+            dom: 'lBfrtip',
             buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print' ],
             "ajax": "{{ route('admin.usuarios.data') }}",
             "columns": [
@@ -60,6 +61,8 @@
                 {data: 'name', name: 'Nombre'},
                 {data: 'lastname', name: 'Apellido'},
                 {data: 'email', name: 'Email'},
+                {data: 'roles', name: 'roles.name'},
+                {data: 'estado', name: 'estado'},
                  {
                     defaultContent: 
                     '<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>' +

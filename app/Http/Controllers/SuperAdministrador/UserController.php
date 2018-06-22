@@ -4,7 +4,7 @@ namespace App\Http\Controllers\SuperAdministrador;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Yajra\Datatables\Datatables;
+use DataTables;
 
 use App\Models\User;
 
@@ -45,12 +45,39 @@ class UserController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $usuarios = User::all();
-            return Datatables::of($usuarios)
+             $users = User::with('estado', 'roles')->get();
+            //dd($users->with('profile')->get());
+            return DataTables::of($users)
+                ->addColumn('estado', function ($users) {
+                    // Ensure the user has a profile. Just a check (Optional)
+                    if (! $users->estado) {
+                        return '';
+                    }elseif (!strcmp($users->estado->ESD_Nombre, 'HABILITADO')) {
+                        return "<span class='label label-sm label-success'>" . $users->estado->ESD_Nombre. "</span>";
+                    } else {
+                        return "<span class='label label-sm label-danger'>" . $users->estado->ESD_Nombre . "</span>";
+                    }
+                    return "<span class='label label-sm label-primary'>" . $users->estado->ESD_Nombre . "</span>";
+                })
+                ->addColumn('roles', function ($users) {
+                    // Ensure the user has a profile. Just a check (Optional)
+                    if (! $users->roles) {
+                        return '';
+                    }
+                    return $users->roles->map(function ($rol) {
+                        
+
+                        return str_limit($rol->name, 30, '...');
+                    })->implode(', ');
+                })
+                ->rawColumns(['estado'])
+                ->removeColumn('cedula')
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
-                ->addIndexColumn()
+                ->removeColumn('id_estado')
                 ->make(true);
+
+
         }
 
     }
