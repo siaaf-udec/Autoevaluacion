@@ -1,5 +1,6 @@
 @extends('admin.layouts.app') 
 @section('content') @component('admin.components.panel') @slot('title', 'Usuarios')
+@can('CREAR_USUARIOS')
 <div class="col-md-12">
     <div class="actions">
         <a href="{{ route('admin.usuarios.create') }}" class="btn btn-info">
@@ -8,6 +9,8 @@
 <br>
 <br>
 <br>
+@endcan
+@can('VER_USUARIOS')
 <div class="col-md-12">
     @component('admin.components.datatable', ['id' => 'usuario-table-ajax']) @slot('columns', [ 
         'id', 'Nombre', 'Apellido', 'Email', 'Roles', 'Estado',
@@ -15,6 +18,7 @@
 
 </div>
 @endcomponent
+@endcan
 @endsection
  @push('scripts')
 <!-- Datatables -->
@@ -65,8 +69,8 @@
                 {data: 'estado', name: 'estado'},
                  {
                     defaultContent: 
-                    '<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>' +
-                    '<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>',
+                    '@can('ELIMINAR_USUARIOS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
+                    '@can('MODIFICAR_USUARIOS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
                     data: 'action',
                     name: 'action',
                     title: 'Acciones',

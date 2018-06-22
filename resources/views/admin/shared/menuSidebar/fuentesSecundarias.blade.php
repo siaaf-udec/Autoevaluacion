@@ -14,8 +14,10 @@
             </li> 
             <li><a href="{{ route('documental.grupodocumentos.index') }}"><i class="fa fa-briefcase"></i>Grupos de Documentos</a> 
             </li> 
+            @can('ACCEDER_TIPO_DOCUMENTO')
             <li><a href="{{ route('documental.tipodocumento.index') }}"><i class="fa fa-cog"></i>Tipos de Documentos</a> 
-            </li> 
+            </li>
+            @endcan 
             </ul> 
         </li> 
         <li><a><i class="fa fa-spinner"></i>Informes<span class="fa fa-chevron-down"></span> </a> 

@@ -11,6 +11,7 @@ use Spatie\Permission\Models\Role;
 
 use App\Http\Requests\UserRequest;
 use App\Models\Estado;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -21,10 +22,10 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware([
-            'permission:CREAR_USUARIOS',
-            'permission:VER_USUARIOS'
-            ]);
+        $this->middleware('permission:ACCEDER_USUARIOS');
+        $this->middleware(['permission:MODIFICAR_USUARIOS', 'permission:VER_USUARIOS'], ['only' => ['edit', 'update']]);
+        $this->middleware('permission:CREAR_USUARIOS', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ELIMINAR_USUARIOS', ['only' => ['destroy']]);
     }
 
     /**
@@ -43,6 +44,7 @@ class UserController extends Controller
      */
     public function data(Request $request)
     {
+        
         if ($request->ajax() && $request->isMethod('GET')) {
             $users = User::with('estado', 'roles')->get();
             //dd($users->with('profile')->get());
@@ -74,6 +76,7 @@ class UserController extends Controller
                 ->removeColumn('id_estado')
                 ->make(true);
         }
+        
     }
 
 
@@ -132,8 +135,10 @@ class UserController extends Controller
         $roles = Role::get()->pluck('name', 'name');
         $user = User::findOrFail($id);
         $edit = true;
-        return view('autoevaluacion.SuperAdministrador.Users.edit',
-        compact('user', 'estados', 'roles', 'edit'));
+        return view(
+            'autoevaluacion.SuperAdministrador.Users.edit',
+            compact('user', 'estados', 'roles', 'edit')
+            );
     }
 
     /**

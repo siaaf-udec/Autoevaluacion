@@ -9,10 +9,15 @@ Route::resource('usuarios', 'userController', ['as' => 'admin'])->except([
 ]);
 Route::get('usuarios/data', array('as' => 'admin.usuarios.data', 'uses' => 'userController@data'));
 
-Route::resource('rol', 'RolController', ['as' => 'admin'])->except([
+Route::resource('roles', 'RolController', ['as' => 'admin'])->except([
     'show'
 ]);
-Route::get('roles/data', array('as' => 'admin.rol.data', 'uses' => 'RolController@data'));
+Route::get('roles/data', array('as' => 'admin.roles.data', 'uses' => 'RolController@data'));
+
+Route::resource('permisos', 'PermisosController', ['as' => 'admin'])->except([
+    'show'
+]);
+Route::get('permisos/data', array('as' => 'admin.permisos.data', 'uses' => 'PermisosController@data'));
 
 
 Route::resource('factores', 'FactorController', ['as' => 'admin'])->except([
