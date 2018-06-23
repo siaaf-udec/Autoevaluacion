@@ -59,6 +59,16 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'ELIMINAR_TIPO_DOCUMENTO']);
         Permission::create(['name' => 'CREAR_TIPO_DOCUMENTO']);
         Permission::create(['name' => 'MODIFICAR_TIPO_DOCUMENTO']);
+        //permisos caracteristicas
+        Permission::create(['name' => 'VER_CARACTERISTICAS']);
+        Permission::create(['name' => 'CREAR_CARACTERISTICAS']);
+        Permission::create(['name' => 'MODIFICAR_CARACTERISTICAS']);
+        Permission::create(['name' => 'ELIMINAR_CARACTERISTICAS']);
+        //permisos ambitos
+        Permission::create(['name' => 'VER_AMBITOS']);
+        Permission::create(['name' => 'CREAR_AMBITOS']);
+        Permission::create(['name' => 'MODIFICAR_AMBITOS']);
+        Permission::create(['name' => 'ELIMINAR_AMBITOS']);
 
     }
 }

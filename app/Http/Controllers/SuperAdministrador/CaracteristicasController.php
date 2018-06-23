@@ -18,7 +18,14 @@ class CaracteristicasController extends Controller
      *
      * @return void \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware([
+            'permission:CREAR_CARACTERISTICAS',
+            'permission:VER_CARACTERISTICAS' 
+            ]);
 
+    }
     public function index()
     {
         return view('autoevaluacion.SuperAdministrador.Caracteristicas.index');

@@ -15,7 +15,7 @@ class DocumentGroupController extends Controller
     {
         $this->middleware([
             'permission:CREAR_GRUPO_DOCUMENTOS',
-            'permission:VER_GRUPO_DOCUMENTOS' 
+            'permission:VER_GRUPO_DOCUMENTOS'
             ]);
 
     }

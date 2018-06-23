@@ -16,6 +16,14 @@ class AmbitoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware([
+            'permission:CREAR_AMBITOS',
+            'permission:VER_AMBITOS' 
+            ]);
+
+    }
     public function index()
     {
         return view('autoevaluacion.SuperAdministrador.Ambito.index');
