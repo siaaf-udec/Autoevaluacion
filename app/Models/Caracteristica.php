@@ -32,9 +32,8 @@ class Caracteristica extends Model
     }
 
     public function factor(){
-        return $this->belongsTo(Factor::class, 'FK_CRT_Factor', 'PK_FCT_Id');
+        return $this->hasOne(Factor::class, 'PK_FCT_Id', 'FK_CRT_Factor');
     }
-
     public function estado(){
         return $this->belongsTo(Estado::class, 'FK_CRT_Estado', 'PK_ESD_Id');
     }

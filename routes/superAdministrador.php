@@ -25,3 +25,10 @@ Route::resource('factores', 'FactorController', ['as' => 'admin'])->except([
 ]);;
 
 Route::get('factores/data', array('as' => 'admin.factores.data', 'uses' => 'FactorController@data'));
+
+Route::resource('caracteristicas', 'CaracteristicasController', ['as' => 'admin'])->except([
+    'show']);;
+
+Route::get('caracteristicas/data', array('as' => 'admin.caracteristicas.data', 'uses' => 'CaracteristicasController@data'));
+
+Route::get('caracteristicas/factor/{id}','CaracteristicasController@factores');

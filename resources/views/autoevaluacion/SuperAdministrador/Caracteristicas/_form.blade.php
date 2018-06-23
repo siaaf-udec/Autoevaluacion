@@ -36,28 +36,34 @@
 <div class="item form-group">
     {!! Form::label('lineamiento','Lineamiento', [ 'class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {{-- <select class="select2_user form-control" name="id_lineamiento">
+        {{-- <select id= "lineamiento" class="select2_user form-control" name="lineamientos" >
             @foreach($lineamientos as $lineamiento)
-        <option selected="{{ isset($user)?  }}" value="{{  $lineamiento->PK_LNM_Id }}">{{ $lineamiento->LNM_Nombre }}</option>
+        <option selected="{{ isset($user)?  }}" value="{{ $lineamiento->PK_LNM_Id }}">{{ $lineamiento->LNM_Nombre }}</option>
             @endforeach                                          
         </select> --}}
-        {!! Form::select('FK_FCT_Lineamiento', $lineamientos, old('FK_FCT_Lineamiento', isset($user)? $user->id_lineamiento:''), [
-            'class' => 'select2_user form-control', 
+        <script>var ruta = "factor"; var id_one = "#lineamiento"; var id_two= "#factores";</script>
+        {!! Form::select('FK_FCT_Lineamiento',$lineamientos, old('FK_FCT_Lineamiento'), [
+            'placeholder' => 'Seleccione un lineamiento',
+            'class' => 'select2_user form-control',
+            'id' => 'lineamiento', 
+            'required']) !!}
+    </div>
+</div>
+<div class="item form-group">
+    {!! Form::label('factores','Factor', [ 'class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        {{-- <select id= "factores" class="select2_user form-control" name="factor">
+            @foreach($factores as $factor)
+        <option selected="{{ isset($user)?  }}" value="{{ $factor->PK_FCT_Id }}">{{ $factor->FCT_Nombre }}</option>
+            @endforeach                                          
+        </select> --}}
+        {!! Form::select('FK_CRT_Factor', [] , old('FK_CRT_Factor', isset($user)? $user->factor:''), [
+            'placeholder' => 'Seleccione un Factor',
+            'class' => 'select2_user form-control',
+            'id' => 'factores', 
             'required']) !!}
     </div>
 </div>
 
-<div class="item form-group">
-    {!! Form::label('factor','Factor', [ 'class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        {{-- <select class="select2_user form-control" name="id_factor">
-            @foreach($factores as $factor)
-        <option selected="{{ isset($user)?  }}" value="{{  $factores->PK_FCT_Id }}">{{ $factores->FCT_Nombre }}</option>
-            @endforeach                                          
-        </select> --}}
-        {!! Form::select('FK_CRT_Factor', null, old('FK_CRT_Factor', isset($user)? $user->id_factor:''), [
-            'class' => 'select2_user form-control', 
-            'required']) !!}
-    </div>
-</div>
+
 

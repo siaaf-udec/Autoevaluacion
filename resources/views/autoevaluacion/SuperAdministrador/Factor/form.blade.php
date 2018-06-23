@@ -49,6 +49,7 @@
             @endforeach                                          
         </select> --}}
         {!! Form::select('FK_FCT_Estado', $estados, old('FK_FCT_Estado', isset($user)? $user->id_estado:''), [
+            'placeholder' => 'Seleccione un Estado',
             'class' => 'select2_user form-control', 
             'required']) !!}
     </div>
@@ -58,10 +59,11 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
         {{-- <select class="select2_user form-control" name="id_lineamiento">
             @foreach($lineamientos as $lineamiento)
-        <option selected="{{ isset($user)?  }}" value="{{  $lineamiento->PK_LNM_Id }}">{{ $lineamiento->LNM_Nombre }}</option>
+        <option selected="{{ isset($user)?  }}" value="{{ $lineamiento->PK_LNM_Id }}">{{ $lineamiento->LNM_Nombre }}</option>
             @endforeach                                          
         </select> --}}
         {!! Form::select('FK_FCT_Lineamiento', $lineamientos, old('FK_FCT_Lineamiento', isset($user)? $user->id_lineamiento:''), [
+            'placeholder' => 'Seleccione un lineamiento',
             'class' => 'select2_user form-control', 
             'required']) !!}
     </div>

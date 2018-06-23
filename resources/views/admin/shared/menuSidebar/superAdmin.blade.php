@@ -24,6 +24,8 @@
         <ul class="nav child_menu">
             <li class="sub_menu"><a href="{{ route('admin.factores.index') }}"><i class="fa fa-plus-square-o"></i>Factor</a>
             </li>
+            <li class="sub_menu"><a href="{{ route('admin.caracteristicas.index') }}"><i class="fa fa-plus-square-o"></i>Caracteristicas</a>
+            </li>
         </ul>
         </li>
 </ul>

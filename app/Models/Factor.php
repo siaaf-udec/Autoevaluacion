@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Estado;
 use App\Models\Lineamiento;
+use App\Models\Caracteristica;
 
 class Factor extends Model
 {
@@ -36,5 +37,9 @@ class Factor extends Model
     public function lineamiento()
     {
         return $this->hasOne(Lineamiento::class,'PK_LNM_Id','FK_FCT_Lineamiento');
+    }
+    public function caracteristica()
+    {
+        return $this->hasMany(Caracteristica::class,'FK_CRT_Factor','PK_FCT_Id');
     }
 }

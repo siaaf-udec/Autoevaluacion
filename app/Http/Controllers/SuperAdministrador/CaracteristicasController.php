@@ -9,7 +9,7 @@ use App\Models\Factor;
 use App\Models\Estado;
 use App\Models\Ambito;
 use App\Models\Lineamiento;
-
+use Yajra\Datatables\Datatables;
 
 class CaracteristicasController extends Controller
 {
@@ -32,7 +32,7 @@ class CaracteristicasController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $caracteristicas = Caracteristica::select('PK_CRT_Id','CRT_Nombre','CRT_Descripcion',
+            $caracteristicas = Caracteristica::with('PK_CRT_Id','CRT_Nombre','CRT_Descripcion',
             'FK_CRT_Factor')->with(['factor' => function($query){
                 return $query->select('PK_FCT_Id','FCT_Nombre as nombre');
             }
@@ -52,8 +52,8 @@ class CaracteristicasController extends Controller
     }
     public function create()
     {
+
         $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
-        $factores = Factor::where('FK_FCT_Lineamiento',$id)->pluck('FCT_Nombre','PK_FCT_Id');
         return view('autoevaluacion.SuperAdministrador.Caracteristicas.create', compact('lineamientos'));
     }
 
@@ -133,13 +133,10 @@ class CaracteristicasController extends Controller
             ], 200) // 200 Status Code: Standard response for successful HTTP request
                 ->header('Content-Type', 'application/json');
     }
-    public function lineamientos()
-    {
-        $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
-    }
     public function factores($id)
     {
         $factores = Factor::where('FK_FCT_Lineamiento',$id)->pluck('FCT_Nombre','PK_FCT_Id');
+        return json_encode($factores);
     }
 }
 

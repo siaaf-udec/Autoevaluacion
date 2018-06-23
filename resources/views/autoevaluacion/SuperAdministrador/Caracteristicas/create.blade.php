@@ -31,6 +31,7 @@
 @endpush
 
 @push('scripts')
+<script src="{{ asset('js/custom.js') }}"></script>
 <!-- validator -->
 <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
 <script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
@@ -38,59 +39,11 @@
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
-
 <!-- Select2 -->
 <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
 @endpush
 @push('functions')
 <script type="text/javascript">
-    
-        $(document).ready(function() {
-            $("#id_factor").prop('disabled', true); //#slt-cursos - #id de select factores
-
-    $("#id_lineamiento").change(function(){ //# id select lineamientos
-        var factores = $("#id_factor"); //id select factores
-        var lineamientos = $(this);
-        if($(this).val() != '')
-        {
-            $.ajax({
-                data: { id : lineamientos.val() },
-                url:   'admin/caracteristicas/factores/', /url factores
-                type:  'POST',
-                dataType: 'json',
-                beforeSend: function () 
-                {
-                    lineamientos.prop('disabled', true);
-                },
-                success:  function (r) 
-                {
-                    lineamientos.prop('disabled', false);
-
-                    factores.find('option').remove();
-
-                    $(r).each(function(i, v){ 
-                        factores.append('<option value="' + v.id + '">' + v.Nombre + '</option>');
-                    })
-
-                    factores.prop('disabled', false);
-                },
-                error: function()
-                {
-                    alert('Ocurrio un error en el servidor ..');
-                    lineamientos.prop('disabled', false);
-                }
-            });
-        }
-        else
-        {
-            factores.find('option').remove();
-            factores.prop('disabled', true);
-        }
-    })
-})
-
-
-
             $('.select2_user').select2();
             var form = $('#form_crear_caracteristicas');
             $(form).parsley({
@@ -137,6 +90,7 @@
                     }
                 });
             });
-        });
 </script>
+
+
 @endpush
