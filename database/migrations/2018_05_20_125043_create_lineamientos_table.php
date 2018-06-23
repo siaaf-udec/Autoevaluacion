@@ -17,7 +17,9 @@ class CreateLineamientosTable extends Migration
             $table->increments('PK_LNM_Id');
             $table->string("LNM_Nombre");
             $table->mediumText("LNM_Descripcion")->nullable();
+            $table->timestamps();
             });
+            
     }
 
     /**

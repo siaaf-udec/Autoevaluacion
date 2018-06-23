@@ -20,6 +20,15 @@
 </li>
 <li><a><i class="fa fa-diamond"></i> Super administrador <span class="fa fa-chevron-down"></span></a>
 <ul class="nav child_menu">
+        <li><a><i class="fa fa-file"></i>CNA<span class="fa fa-chevron-down"></span> </a>            
+            <ul class="nav child_menu">
+                @can('ACCEDER_LINEAMIENTOS')
+                <li class="sub_menu"><a href="{{ route('admin.lineamientos.index') }}"><i class="fa fa-plus-square-o"></i>Lineamiento</a>
+                </li>
+                @endcan
+                <li class="sub_menu"><a href="{{ route('admin.factores.index') }}"><i class="fa fa-plus-square-o"></i>Factor</a>
+                </li>
+            </ul>
         <li><a><i class="fa fa-file"></i>CNA<span class="fa fa-chevron-down"></span> </a>
         <ul class="nav child_menu">
             <li class="sub_menu"><a href="{{ route('admin.factores.index') }}"><i class="fa fa-plus-square-o"></i>Factor</a>

@@ -20,7 +20,7 @@ class CreateCaracteristicasTable extends Migration
             $table->integer("CRT_Identificador");
             $table->integer("FK_CRT_Factor")->unsigned();
             $table->integer("FK_CRT_Estado")->unsigned();
-            $table->integer("FK_CRT_Ambito")->unsigned();
+            $table->integer("FK_CRT_Ambito")->unsigned()->nullable();
             $table->timestamps();
 
             $table->foreign("FK_CRT_Factor")->references("PK_FCT_Id")->on("TBL_Factores")->onDelete("cascade");

@@ -33,6 +33,13 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'CREAR_PERMISOS']);
         Permission::create(['name' => 'MODIFICAR_PERMISOS']);
         Permission::create(['name' => 'ELIMINAR_PERMISOS']);
+
+        Permission::create(['name' => 'ACCEDER_LINEAMIENTOS']);
+        Permission::create(['name' => 'VER_LINEAMIENTOS']);
+        Permission::create(['name' => 'CREAR_LINEAMIENTOS']);
+        Permission::create(['name' => 'MODIFICAR_LINEAMIENTOS']);
+        Permission::create(['name' => 'ELIMINAR_LINEAMIENTOS']);
+
         // Permisos Fuentes primarias
         Permission::create(['name' => 'VER_ENCUESTAS']);
         Permission::create(['name' => 'CREAR_ENCUESTAS']);
@@ -48,11 +55,11 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'CREAR_GRUPO_DOCUMENTOS']);
         Permission::create(['name' => 'MODIFICAR_GRUPO_DOCUMENTOS']);
         Permission::create(['name' => 'ELIMINAR_GRUPO_DOCUMENTOS']);
-         //permisos para factores
-         Permission::create(['name' => 'VER_FACTORES']);
-         Permission::create(['name' => 'CREAR_FACTORES']);
-         Permission::create(['name' => 'MODIFICAR_FACTORES']);
-         Permission::create(['name' => 'ELIMINAR_FACTORES']);
+        //permisos para factores
+        Permission::create(['name' => 'VER_FACTORES']);
+        Permission::create(['name' => 'CREAR_FACTORES']);
+        Permission::create(['name' => 'MODIFICAR_FACTORES']);
+        Permission::create(['name' => 'ELIMINAR_FACTORES']);
         //permisos tipo documento
         Permission::create(['name' => 'ACCEDER_TIPO_DOCUMENTO']);
         Permission::create(['name' => 'VER_TIPO_DOCUMENTO']);

@@ -15,13 +15,13 @@ class CreateAspectosTable extends Migration
     {
         Schema::create('TBL_Aspectos', function (Blueprint $table) {
             $table->increments('PK_ASP_Id');
-            $table->string("ASP_Nombre");
+            $table->mediumText("ASP_Nombre");
             $table->mediumText("ASP_Descripcion")->nullable();
-            $table->integer("ASP_Identificador");
-            $table->integer("FK_ASP_Carateristica")->unsigned();
+            $table->string("ASP_Identificador");
+            $table->integer("FK_ASP_Caracteristica")->unsigned();
             $table->timestamps();
 
-            $table->foreign("FK_ASP_Carateristica")->references("PK_CRT_Id")->on("TBL_Caracteristicas")->onDelete("cascade");
+            $table->foreign("FK_ASP_Caracteristica")->references("PK_CRT_Id")->on("TBL_Caracteristicas")->onDelete("cascade");
         });
     }
 

@@ -20,6 +20,13 @@ Route::resource('permisos', 'PermisosController', ['as' => 'admin'])->except([
 Route::get('permisos/data', array('as' => 'admin.permisos.data', 'uses' => 'PermisosController@data'));
 
 
+Route::resource('lineamientos', 'LineamientoController', ['as' => 'admin'])->except([
+    'show'
+]);
+Route::get('lineamientos/data', array('as' => 'admin.lineamientos.data', 'uses' => 'LineamientoController@data'));
+
+
+
 Route::resource('factores', 'FactorController', ['as' => 'admin'])->except([
     'show'
 ]);;

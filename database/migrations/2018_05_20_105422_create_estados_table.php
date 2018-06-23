@@ -31,10 +31,12 @@ class CreateEstadosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('TBL_Estados');
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['id_estado']);
+            $table->dropForeign('users_id_estado_foreign');
+            $table->dropColumn('id_estado');
         });
+        Schema::dropIfExists('TBL_Estados');
+        
 
     }
 }
