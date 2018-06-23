@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Caracteristica;
 use App\Models\Factor;
 use App\Models\Estado;
-use App\Models\Ambito;
+use App\Models\AmbitoResponsabilidad;
 use App\Models\Lineamiento;
 use Yajra\Datatables\Datatables;
 
@@ -32,29 +32,32 @@ class CaracteristicasController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $caracteristicas = Caracteristica::with('PK_CRT_Id','CRT_Nombre','CRT_Descripcion',
-            'FK_CRT_Factor')->with(['factor' => function($query){
-                return $query->select('PK_FCT_Id','FCT_Nombre as nombre');
-            }
-        ])->get();
-            return Datatables::of($caracteristicas)
+            $caracteristica = Caracteristica::with(['estado' => function ($query) {
+            return $query->select('PK_ESD_Id','ESD_Nombre as nombre_estado');
+        }])
+        ->with(['ambitoresponsabilidad' => function ($query) {
+            return $query->select('PK_AMB_Id',
+                'AMB_Nombre as nombre');
+        }])->with(['factor' => function ($query) {
+            return $query->select('PK_FCT_Id',
+                'FCT_Nombre as nombre_factor');
+        }])
+        ->get();
+            return Datatables::of($caracteristica)
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
                 ->addIndexColumn()
                 ->make(true);
-        }
-        dd($datosEncuesta);
-        return AjaxResponse::fail(
-            '¡Lo sentimos mmmm!',
-            'No se pudo completar tu solicitud.'
-        );
 
+        }
     }
     public function create()
     {
 
         $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
-        return view('autoevaluacion.SuperAdministrador.Caracteristicas.create', compact('lineamientos'));
+        $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+        $ambitos = AmbitoResponsabilidad::pluck('AMB_Nombre', 'PK_AMB_Id');
+        return view('autoevaluacion.SuperAdministrador.Caracteristicas.create', compact('lineamientos','estados','ambitos'));
     }
 
     /**
@@ -65,7 +68,15 @@ class CaracteristicasController extends Controller
      */
     public function store(Request $request)
     {
-        Caracteristica::create($request->all());
+        $caracteristica = new Caracteristica;
+        $caracteristica->CRT_Nombre = $request->CRT_Nombre;
+        $caracteristica->CRT_Descripcion = $request->CRT_Descripcion;
+        $caracteristica->CRT_Identificador = $request->CRT_Identificador;
+        $caracteristica->FK_CRT_Factor = $request->FK_CRT_Factor;
+        $caracteristica->FK_CRT_Estado = $request->FK_CRT_Estado;
+        $caracteristica->FK_CRT_Ambito = $request->FK_CRT_Ambito;
+        $caracteristica->save();
+        //Caracteristica::create($request->select('CRT_Nombre','CRT_Descripcion','CRT_Identificador','FK_CRT_Factor','FK_CRT_Estado','FK_CRT_Ambito'));
         return response(['msg' => 'Datos registrados correctamente.',
         'title' => '¡Registro exitoso!'
     ], 200) // 200 Status Code: Standard response for successful HTTP request
@@ -92,11 +103,14 @@ class CaracteristicasController extends Controller
      */
     public function edit($id)
     {
-        $items = Factor::pluck('FCT_Nombre', 'PK_FCT_Id');
+        
+        $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
+        $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+        $ambitos = AmbitoResponsabilidad::pluck('AMB_Nombre', 'PK_AMB_Id');
         return view('autoevaluacion.SuperAdministrador.Caracteristicas.edit', [
             'user' => Caracteristica::findOrFail($id),
             'edit' => true,
-        ], compact('items'));
+        ], compact('lineamientos','estados','ambitos'));
     }
 
     /**

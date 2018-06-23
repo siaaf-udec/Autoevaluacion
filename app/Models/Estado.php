@@ -39,4 +39,8 @@ class Estado extends Model
     {
         return $this->hasMany(Factor::class,'FK_FCT_Estado','PK_ESD_Id');
     }
+    public function caracteristica()
+    {
+        return $this->hasMany(Caracteristica::class,'FK_CRT_Estado','PK_ESD_Id');
+    }
 }

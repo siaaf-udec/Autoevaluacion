@@ -5,41 +5,18 @@
 // DB::listen(function($query){
 // 	echo "<pre>{$query->sql}</pre>";
 // });
-/**
- * Rutas para la opcion de dependencias
- */
 
 Route::resource('dependencia', 'DependenciaController', ['as' => 'documental'])->except([
-    'show', 'destroy'
+    'show', 'edit'
 ]);;
-Route::get('dependencia/data', array('as' => 'documental.dependencia.data', 'uses' => 'DependenciaController@data'));
-Route::delete('dependencia/destroy/{id?}', [
-                'uses' => 'DependenciaController@destroy',
-                'as' => 'documental.dependencia.destroy'
-])->where(['id' => '[0-9]+']);
-
-Route::resource('data', 'DependenciaController');
-/**
- * Fin de rutas dependencia
- */
-
- /**
- * Rutas para la opcion de grupo de documentos
- */
+Route::get('dependencia/data', 
+array('as' => 'documental.dependencia.data', 'uses' => 'DependenciaController@data'));
 
 Route::resource('grupodocumentos', 'DocumentGroupController', ['as' => 'documental'])->except([
-    'show', 'destroy'
+    'show', 'edit'
 ]);;
-Route::get('grupodocumentos/data', array('as' => 'documental.grupodocumentos.data', 'uses' => 'DocumentGroupController@data'));
-Route::delete('grupodocumentos/destroy/{id?}', [
-                'uses' => 'DocumentGroupController@destroy',
-                'as' => 'documental.grupodocumentos.destroy'
-])->where(['id' => '[0-9]+']);
-
-Route::resource('data', 'DocumentGroupController');
-/**
- * Fin de rutas grupo documentos
- */
+Route::get('grupodocumentos/data', 
+array('as' => 'documental.grupodocumentos.data', 'uses' => 'DocumentGroupController@data'));
 
 Route::resource('tipodocumento', 'tipoDocumentoController', ['as' => 'documental'])->except([
     'show', 'edit'

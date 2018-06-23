@@ -10,7 +10,7 @@
 <br>
 <div class="col-md-12">
     @component('admin.components.datatable', 
-    ['id' => 'caracteristicas-table-ajax']) @slot('columns', [ 'id', 'Nombre', 'Descripcion', 'Factor',
+    ['id' => 'caracteristicas-table-ajax']) @slot('columns', [ 'id', 'Nombre', 'Descripcion','Identificador','Factor','Estado','Ambito',
     'Acciones' => ['style' => 'width:85px;'] ]) @endcomponent
 
 </div>
@@ -61,7 +61,11 @@
                 {data: 'PK_CRT_Id', name: 'id', "visible":false},
                 {data: 'CRT_Nombre', name: 'Nombre'},
                 {data: 'CRT_Descripcion', name: 'Descripcion'},
-                {data: 'factor.nombre', name: 'Factor'},
+                {data: 'CRT_Identificador', name: 'Identificador'},
+                {data: 'factor.nombre_factor', name: 'Factor'},
+                {data: 'estado.nombre_estado', name: 'Estado'},
+                {data: 'ambitoresponsabilidad.nombre', name: 'Ambito'},
+
                  {
                     defaultContent: 
                     '<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>' +
@@ -117,7 +121,7 @@
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ url('admincaracteriticas/') }}' + '/' + dataTable.PK_CRT_Id + '/edit';
+                var route = '{{ url('admin/caracteristicas/') }}' + '/' + dataTable.PK_CRT_Id + '/edit';
                 window.location.replace(route);
                 
 

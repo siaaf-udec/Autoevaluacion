@@ -2,21 +2,20 @@
 
 @section('content')
     @component('admin.components.panel')
-            @slot('title', 'Modificar dependencia')
-            {!! Form::model($dependencia, [
-                'route' => ['documental.dependencia.update', $dependencia],
+            @slot('title', 'Modificar Datos')
+            {!! Form::model($user, [
+                'route' => ['admin.caracteristicas.update', $user],
                 'method' => 'PUT', 
-                'id' => 'form_modificar_dependencia',
+                'id' => 'form_modificar_datos',
                 'class' => 'form-horizontal form-label-lef',
                 'novalidate'
             ])!!}
-            @include('autoevaluacion.FuentesSecundarias.Dependence._form')
+            @include('autoevaluacion.SuperAdministrador.Caracteristicas._form')
             <div class="ln_solid"></div>
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-3">
-            
-                    {{ link_to_route('documental.dependencia.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
-                    {!! Form::submit('Modificar dependencia', ['class' => 'btn btn-success']) !!}
+                    {{ link_to_route('admin.caracteristicas.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
+                    {!! Form::submit('Modificar Datos', ['class' => 'btn btn-success']) !!}
                 </div>
             </div>
         {!! Form::close() !!}
@@ -28,9 +27,12 @@
 <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
 <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
 <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
+<!-- Select2 -->
+<link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @endpush
 
 @push('scripts')
+<script src="{{ asset('js/custom.js') }}"></script>
 <!-- validator -->
 <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
 <script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
@@ -38,11 +40,15 @@
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
+<!-- Select2 -->
+<script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
 @endpush
 @push('functions')
 <script type="text/javascript">
     $(document).ready(function() {
-            var form = $('#form_modificar_dependencia');
+        $('.select2_user').select2();
+
+            var form = $('#form_modificar_datos');
             $(form).parsley({
                 trigger: 'change',
                 successClass: "has-success",
@@ -65,9 +71,9 @@
                     dataType: 'json',
                     Accept: 'application/json',
                     success: function (response, NULL, jqXHR) {
-                        sessionStorage.setItem('update', 'la dependencia se ha modificado exitosamente.');
+                        sessionStorage.setItem('update', 'Los datos se han modificado exitosamente.');
                         
-                        window.location.replace(" {{ route('documental.dependencia.index')}} ");
+                        window.location.replace(" {{ route('admin.caracteristicas.index')}} ");
                     },
                     error: function (data) {
                         console.log(data);

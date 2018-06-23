@@ -59,7 +59,7 @@ class DependenciaController extends Controller
      */
     public function create()
     {
-        return view('autoevaluacion.SuperAdministrador.Users.create');
+        
     }
 
     /**

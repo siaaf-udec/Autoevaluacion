@@ -1,107 +1,86 @@
 @extends('admin.layouts.app') 
-@section('content') @component('admin.components.panel') @slot('title', 'Grupos de Documentos')
+@section('content') @component('admin.components.panel') @slot('title', 'Grupo de documentos')
 <div class="col-md-12">
     <div class="actions">
-        <a class="btn btn-info" data-toggle="modal" data-target="#modal-create-docgroup">
-                    <i class="fa fa-plus"></i> Agregar Grupo de Documentos</a></div>
+        <a id="crear_grupo" href="#" class="btn btn-info" data-toggle="modal" data-target="#modal_grupo">
+        <i class="fa fa-plus"></i> Agregar Grupo de documentos</a></div>
+    <!-- Modal-->
+    <div class="modal fade" id="modal_grupo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="grupodocumentos">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modal_titulo">Crear Ambito</h4>
+                </div>
+                <div class="modal-body">
+                    
+                    {!! Form::open([ 'route' => 'documental.grupodocumentos.store', 'method' => 'POST', 
+                    'id' => 'form_grupo', 'class'
+                    => 'form-horizontal form-label-lef', 'novalidate' ])!!}
+    @include('autoevaluacion.FuentesSecundarias.DocumentGroup._form')
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+                    {!! Form::submit('Crear
+                    Grupo', ['class' => 'btn btn-success',
+                    'id' => 'accion']) !!}
+
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+    <!--FIN Modal CREAR-->
+
 </div>
 <br>
 <br>
-
 <br>
 <div class="col-md-12">
-    @component('admin.components.datatable', ['id' => 'documentgroup-table-ajax']) 
-    @slot('columns', [ '#' => ['style' => 'width:20px;'], 'id', 'Nombre','Descripcion', 'Acciones' => ['style' => 'width:85px;'] ]) 
-    @endcomponent
+    @component('admin.components.datatable', ['id' => 'grupo_table_ajax']) @slot('columns', [ 'id', 'Nombre','Descripcion' ,'Acciones'
+    => ['style' => 'width:85px;'] ]) @endcomponent
+
 </div>
-
-<div class="modal fade" id="modal-create-docgroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Registrar Grupo de Documentos</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-                        {!! Form::open([
-                        'route' => 'documental.grupodocumentos.store',
-                        'method' => 'POST', 
-                        'id' => 'form_crear_grupodocumento',
-                        'class' => 'form-horizontal form-label-lef',
-                        'novalidate'
-                        ])!!}
-                            <div class="row">
-                                <div class="col-md-12">
-                                @include('autoevaluacion.FuentesSecundarias.DocumentGroup._form')
-                                </div>
-                            </div>
-      </div>
-      <div class="modal-footer">
-      {!! Form::submit('Crear Grupo de Documentos', ['class' => 'btn btn-success']) !!}
-      {!! Form::button('Cancelar', ['class' => 'btn red', 'data-dismiss' => 'modal' ]) !!}
-                        </div>
-      {!! Form::close() !!}
-    </div>
-  </div>
-</div>
-
-
 @endcomponent
 @endsection
 
- @push('scripts')
+@push('scripts')
+ <!-- validator -->
+<script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
+<script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
 <!-- Datatables -->
 <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
 <script src="{{asset('gentella/vendors/sweetalert/sweetalert2.all.min.js') }}"></script>
-<!-- validator -->
-<script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
-<script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
 <!-- PNotify -->
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
+<script src="{{ asset('js/admin.js') }}"></script>
 
-@endpush 
-@push('styles')
+@endpush @push('styles')
 <!-- Datatables -->
 <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
 <!-- PNotify -->
 <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
 <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
-<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
-
+<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet"> 
 @endpush @push('functions')
 <script type="text/javascript">
     $(document).ready(function() {
-        let sesion = sessionStorage.getItem("update");
-        console.log(sesion);
-        if(sesion != null){
-            sessionStorage.clear();
-            new PNotify({
-                                    title: "¡Registro Modificado!",
-                                    text: sesion,
-                                    type: 'success',
-                                    styling: 'bootstrap3'
-                                });
-
-        }
+        var formCreate = $('#form_grupo');
+        $('#crear_grupo').click(function(){
+            $(formCreate)[0].reset();
+            $('.modal-title').text("Crear Grupo de documentos");
+            $('#accion').val("Crear");
+            $('#accion').removeClass('modificar')
+        });
         
-        table = $('#documentgroup-table-ajax').DataTable({
-            processing: true, 
-            serverSide: false,
-            stateSave: true,
-            keys: true,
-            dom: 'Bfrtip', 
-            buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print' ],
-            "ajax": "{{ route('documental.grupodocumentos.data') }}",
-            "columns": [
-                {data: 'DT_Row_Index'},
+        var data, routeDatatable;
+        data =  [
                 {data: 'PK_GRD_Id', name: 'id', "visible":false},
                 {data: 'GRD_Nombre', name: 'Nombre'},
                 {data: 'GRD_Descripcion', name: 'Descripcion'},
-
                  {
                     defaultContent: 
                     '<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>' +
@@ -117,57 +96,122 @@
                     render: null,
                     responsivePriority: 2
                 }
-            ],
+        ];
+        routeDatatable = "{{ route('documental.grupodocumentos.data') }}";
+
+        table = $('#grupo_table_ajax').DataTable({
+            processing: true,
+            serverSide: false,
+            stateSave: true,
+            keys: true,
+            dom: 'lBfrtip',
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+            "ajax": routeDatatable,
+            "columns": data,
             language: {
-                "sProcessing":     "Procesando...",
-                "sLengthMenu":     "Mostrar _MENU_ registros",
-                "sZeroRecords":    "No se encontraron resultados",
-                "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix":    "",
-                "sSearch":         "Buscar:",
-                "sUrl":            "",
-                "sInfoThousands":  ",",
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
                 "sLoadingRecords": "Cargando...",
                 "oPaginate": {
-                    "sFirst":    "Primero",
-                    "sLast":     "Último",
-                    "sNext":     "Siguiente",
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
                     "sPrevious": "Anterior"
                 },
                 "oAria": {
-                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
                     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                 }
             }
         });
-        
+        $(formCreate).parsley({
+            trigger: 'change',
+            successClass: "has-success",
+            errorClass: "has-error",
+            classHandler: function (el) {
+                return el.$element.closest('.form-group');
+            },
+            errorsWrapper: '<p class="help-block help-block-error"></p>',
+            errorTemplate: '<span></span>',
+        });
+
+        $(document).on('submit', '#form_grupo', function(e){
+            e.preventDefault();
+            let route = formCreate.attr('action');
+            let method = formCreate.attr('method');
+            let data = formCreate.serialize();
+            if($('#accion').hasClass('modificar')){
+                route = '{{ url('admin/documental/grupodocumentos/') }}' + '/' + $('#PK_GRD_Id').val();
+                method = "PUT";
+            }
+
+            $.ajax({
+                    url     : route,
+                    type    : method,
+                    data    : data,
+                    dataType: 'json',
+                    success: function (response, NULL, jqXHR) {
+                        
+                        $(formCreate)[0].reset();
+                        $(formCreate).parsley().reset();
+                        $('#modal_grupo').modal('hide');
+                        new PNotify({
+                            title: response.title,
+                            text: response.msg,
+                            type: 'success',
+                            styling: 'bootstrap3'
+                        });
+                        table.ajax.reload();
+                    },
+                    error: function (data) {
+                        console.log(data);
+                        var errores = data.responseJSON.errors;
+                        var msg = '';
+                        $.each(errores, function(name, val) {
+                             msg += val + '<br>'; 
+                        });
+                        new PNotify({
+                            title: "Error!",
+                            text: msg,
+                            type: 'error',
+                            styling: 'bootstrap3'
+                        });
+                    }
+                });
+        });       
 
         table.on('click', '.remove', function (e) {
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ route('documental.grupodocumentos.destroy') }}' + '/' + dataTable.PK_GRD_Id;
+                var route = '{{ url('admin/documental/grupodocumentos/') }}' + '/' + dataTable.PK_GRD_Id;
                 var type = 'DELETE';
                 dataType: "JSON", 
-                SwalDelete(dataTable.PK_GRD_Id);
-                
-
-
-            });
-             table.on('click', '.edit', function (e) {
-                e.preventDefault();
-                $tr = $(this).closest('tr');
-                var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/documental/grupodocumentos') }}' + '/' + dataTable.PK_GRD_Id + '/edit';
-                window.location.replace(route);
-                
-            });
+                SwalDelete(dataTable.PK_GRD_Id, route);
+        });
+        table.on('click', '.edit', function (e) {
+            $tr = $(this).closest('tr');
+            var dataTable = table.row($tr).data();
+            $('#GRD_Nombre').val(dataTable.GRD_Nombre);
+            $('#GRD_Descripcion').val(dataTable.GRD_Descripcion);  
+            $('#PK_GRD_Id').val(dataTable.PK_GRD_Id);
+            $('#modal_grupo').modal('show');
+            $('.modal-title').text("Modificar Grupo de Documentos");
+            $('#accion').val("Modificar");
+            $('#accion').addClass('modificar');
+        });
             
     });
-   function SwalDelete(id){
+   function SwalDelete(id, route){
 		swal({
 			title: 'Esta seguro?',
 			text: "El registro sera eliminado permanentemente!",
@@ -183,7 +227,7 @@
 			       
 			     $.ajax({
                             type: 'DELETE',
-                            url: "{{url('admin/documental/grupodocumentos/destroy')}}/" + id,
+                            url: route,
                             data: {
                                 '_token': $('meta[name="_token"]').attr('content'),
                             },
@@ -206,65 +250,7 @@
 			  });
 		    },
 			allowOutsideClick: false			  
-		});	
-		
+		});		
 	}
-
-
-/*
-* Funcion para almacenar dependencia
-*/
-
- $(document).ready(function() {
-            var form = $('#form_crear_grupodocumento');
-            $(form).parsley({
-                trigger: 'change',
-                successClass: "has-success",
-                errorClass: "has-error",
-                classHandler: function (el) {
-                return el.$element.closest('.form-group');
-                },
-                errorsWrapper: '<p class="help-block help-block-error"></p>',
-                errorTemplate: '<span></span>',
-            });
-           
- 
-            form.submit(function(e) {
-        
-                e.preventDefault();
-                $.ajax({
-                    url     : form.attr('action'),
-                    type    : form.attr('method'),
-                    data    : form.serialize(),
-                    dataType: 'json',
-                    success: function (response, NULL, jqXHR) {
-                        $(form)[0].reset();
-                        $(form).parsley().reset();
-                        new PNotify({
-                            title: response.title,
-                            text: response.msg,
-                            type: 'success',
-                            styling: 'bootstrap3'
-                        });
-                    },
-                    error: function (data) {
-                        
-                        var errores = data.responseJSON.errors;
-                        var msg = '';
-                        $.each(errores, function(name, val) {
-                             msg += val + '<br>'; 
-                        });
-                        new PNotify({
-                            title: "Error!",
-                            text: msg,
-                            type: 'error',
-                            styling: 'bootstrap3'
-                        });
-                    }
-                });
-            });
-        });
-
 </script>
-
 @endpush

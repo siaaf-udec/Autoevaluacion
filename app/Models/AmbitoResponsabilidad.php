@@ -29,4 +29,8 @@ class AmbitoResponsabilidad extends Model
      * @var array
      */
     protected $guarded = ['PK_AMB_Id', 'created_at', 'updated_at'];
+    public function caracteristica_()
+    {
+        return $this->hasMany(Caracteristica::class,'FK_CRT_AMB','PK_AMB_Id');
+    }
 }
