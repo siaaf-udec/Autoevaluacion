@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AmbitoResponsabilidad extends Model
 {
 
-    protected $connection = 'autoevaluation';
+  
 
     /**
      * Tabla asociada con el modelo.

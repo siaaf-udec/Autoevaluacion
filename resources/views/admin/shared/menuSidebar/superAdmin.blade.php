@@ -26,6 +26,8 @@
             </li>
             <li class="sub_menu"><a href="{{ route('admin.caracteristicas.index') }}"><i class="fa fa-plus-square-o"></i>Caracteristicas</a>
             </li>
+            <li class="sub_menu"><a href="{{ route('admin.ambito.index') }}"><i class="fa fa-plus-square-o"></i>Ambito</a>
+            </li>
         </ul>
         </li>
 </ul>
