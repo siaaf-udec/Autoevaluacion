@@ -49,3 +49,45 @@ function parsleyInit(form) {
         errorTemplate: '<span></span>',
     });
 }
+function selectDinamico(Id_select_1, Id_select_2, ruta) {
+    // Bloqueamos el SELECT de los select2
+    $(Id_select_2).prop('disabled', true);
+
+    // Hacemos la lógica que cuando nuestro SELECT cambia de valor haga algo
+    $(Id_select_1).change(function () {
+        // Guardamos el select de select2
+        var select2 = $(Id_select_2);
+
+        // Guardamos el select de select2
+        var select1 = $(this);
+
+        if ($(this).val() != '') {
+            $.ajax({
+                url: ruta + "/" + $(this).val(),
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    select2.prop('disabled', true);
+                },
+                success: function (r) {
+                    select1.prop('disabled', false);
+
+                    // Limpiamos el select
+                    select2.find('option').remove();
+                    $.each(r, function (key, data) { // indice, valor
+                        select2.append('<option value="' + key + '">' + data + '</option>');
+                    })
+
+                    select2.prop('disabled', false);
+                },
+                error: function () {
+                    alert('Ocurrio un error en el servidor ..');
+                    select.prop('disabled', false);
+                }
+            });
+        } else {
+            select2.find('option').remove();
+            select2.prop('disabled', true);
+        }
+    })
+}

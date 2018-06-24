@@ -23,21 +23,18 @@ Route::get('permisos/data', array('as' => 'admin.permisos.data', 'uses' => 'Perm
 Route::resource('lineamientos', 'LineamientoController', ['as' => 'admin'])->except([
     'show'
 ]);
-Route::get('lineamientos/data', array('as' => 'admin.lineamientos.data', 'uses' => 'LineamientoController@data'));
+Route::get('lineamientos/data/data', array('as' => 'admin.lineamientos.data', 'uses' => 'LineamientoController@data'));
 
 
 
-Route::resource('factores', 'FactorController', ['as' => 'admin'])->except([
-    'show'
-]);;
+Route::resource('factores', 'FactorController', ['as' => 'admin']);
 
-Route::get('factores/data', array('as' => 'admin.factores.data', 'uses' => 'FactorController@data'));
+Route::get('factores/data/data', array('as' => 'admin.factores.data', 'uses' => 'FactorController@data'));
 
 
-Route::resource('caracteristicas', 'CaracteristicasController', ['as' => 'admin'])->except([
-    'show']);
+Route::resource('caracteristicas', 'CaracteristicasController', ['as' => 'admin']);
 
-Route::get('caracteristicas/data', 
+Route::get('caracteristicas/data/data', 
 array('as' => 'admin.caracteristicas.data', 'uses' => 'CaracteristicasController@data'));
 
 Route::get('caracteristicas/factor/{id}','CaracteristicasController@factores');
@@ -47,3 +44,7 @@ Route::resource('ambito', 'AmbitoController', ['as' => 'admin'])->except([
 
 Route::get('ambito/data', 
 array('as' => 'admin.ambito.data', 'uses' => 'AmbitoController@data'));
+
+
+Route::resource('aspectos', 'AspectoController', ['as' => 'admin']);
+Route::get('aspectos/data/data', array('as' => 'admin.aspectos.data', 'uses' => 'AspectoController@data'));

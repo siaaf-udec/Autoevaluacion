@@ -84,7 +84,9 @@ class FactorController extends Controller
      */
     public function show($id)
     {
-        //
+        $factores = Factor::where('FK_FCT_Lineamiento', $id)->pluck('FCT_Nombre', 'PK_FCT_Id');
+        return json_encode($factores);
+
     }
 
     /**

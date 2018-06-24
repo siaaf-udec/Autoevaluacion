@@ -40,6 +40,12 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'MODIFICAR_LINEAMIENTOS']);
         Permission::create(['name' => 'ELIMINAR_LINEAMIENTOS']);
 
+        Permission::create(['name' => 'ACCEDER_ASPECTOS']);
+        Permission::create(['name' => 'VER_ASPECTOS']);
+        Permission::create(['name' => 'CREAR_ASPECTOS']);
+        Permission::create(['name' => 'MODIFICAR_ASPECTOS']);
+        Permission::create(['name' => 'ELIMINAR_ASPECTOS']);
+
         // Permisos Fuentes primarias
         Permission::create(['name' => 'VER_ENCUESTAS']);
         Permission::create(['name' => 'CREAR_ENCUESTAS']);

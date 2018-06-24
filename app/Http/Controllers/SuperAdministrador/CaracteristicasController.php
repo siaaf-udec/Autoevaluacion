@@ -99,7 +99,8 @@ class CaracteristicasController extends Controller
      */
     public function show($id)
     {
-        //
+        $caracteristicas = Caracteristica::where('FK_CRT_Factor', $id)->pluck('CRT_Nombre', 'PK_CRT_Id');
+        return json_encode($caracteristicas);
     }
 
     /**
