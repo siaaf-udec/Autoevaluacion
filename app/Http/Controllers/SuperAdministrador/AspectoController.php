@@ -42,17 +42,13 @@ class AspectoController extends Controller
      */
     public function data(Request $request)
     {
-        
-        
         if ($request->ajax() && $request->isMethod('GET')) {
             $aspectos = Aspecto::with('caracteristica.factor.lineamiento')->get();
             return DataTables::of($aspectos)
             ->removeColumn('created_at')
             ->removeColumn('updated_at')
             ->make(true);
-
         }
-        
     }
 
 
@@ -104,12 +100,12 @@ class AspectoController extends Controller
      */
     public function edit($id)
     {
-       $aspecto = Aspecto::findOrFail($id);
-       $lineamientos =  Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
+        $aspecto = Aspecto::findOrFail($id);
+        $lineamientos =  Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
 
-       $factor = new Factor();
-       $id_factor = $aspecto->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
-       $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
+        $factor = new Factor();
+        $id_factor = $aspecto->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
+        $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
 
         $caracteristica = new Caracteristica();
         $id_caracteristica = $aspecto->caracteristica->factor()->pluck('PK_FCT_Id')[0];

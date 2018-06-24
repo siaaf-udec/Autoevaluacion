@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
     @component('admin.components.panel')
-            @slot('title', 'Crear Caracteristicas')
+            @slot('title', 'Crear Aspectos')
             {!! Form::open([
                 'route' => 'admin.aspectos.store',
                 'method' => 'POST', 
@@ -72,7 +72,10 @@
                     success: function (response, NULL, jqXHR) {
                         $(form)[0].reset();
                         $(form).parsley().reset();
-                        
+                        $("#caracteristica").html('').select2();
+                        $("#factor").html('').select2();
+                        $('#factor').prop('disabled', true);
+                        $('#caracteristica').prop('disabled', true);
                         new PNotify({
                             title: response.title,
                             text: response.msg,
@@ -97,6 +100,5 @@
                 });
             });
 </script>
-
 
 @endpush

@@ -7,7 +7,7 @@
 <div class="form-group">
     <div class="col-md-6 col-md-offset-3">
 
-        {{ link_to_route('admin.usuarios.index',"Cancelar", [], ['class' => 'btn btn-info']) }} {!! Form::submit('Modificar Aspecto',
+        {{ link_to_route('admin.aspectos.index',"Cancelar", [], ['class' => 'btn btn-info']) }} {!! Form::submit('Modificar Aspecto',
         ['class' => 'btn btn-success']) !!}
     </div>
 </div>
@@ -42,7 +42,7 @@
             selectDinamico("#factor","#caracteristica","{{url('admin/caracteristicas')}}");
 
             $('#factor').prop('disabled', false);
-            $('#caracteristica').prop('disabled', false)
+            $('#caracteristica').prop('disabled', false);
             var form = $('#form_modificar_aspecto');
             $(form).parsley({
                 trigger: 'change',

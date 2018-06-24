@@ -2,6 +2,11 @@
 /**
  * Super administrador
  */
+
+//  DB::listen(function ($query) {
+//     DB::connection()->enableQueryLog();
+//  });
+
 Route::get('/', array('as' => 'admin.home', 'uses' => 'pageController@index'));
 
 Route::resource('usuarios', 'userController', ['as' => 'admin'])->except([
@@ -34,16 +39,20 @@ Route::get('factores/data/data', array('as' => 'admin.factores.data', 'uses' => 
 
 Route::resource('caracteristicas', 'CaracteristicasController', ['as' => 'admin']);
 
-Route::get('caracteristicas/data/data', 
-array('as' => 'admin.caracteristicas.data', 'uses' => 'CaracteristicasController@data'));
+Route::get(
+    'caracteristicas/data/data',
+array('as' => 'admin.caracteristicas.data', 'uses' => 'CaracteristicasController@data')
+);
 
-Route::get('caracteristicas/factor/{id}','CaracteristicasController@factores');
+Route::get('caracteristicas/factor/{id}', 'CaracteristicasController@factores');
 
 Route::resource('ambito', 'AmbitoController', ['as' => 'admin'])->except([
     'show']);
 
-Route::get('ambito/data', 
-array('as' => 'admin.ambito.data', 'uses' => 'AmbitoController@data'));
+Route::get(
+    'ambito/data',
+array('as' => 'admin.ambito.data', 'uses' => 'AmbitoController@data')
+);
 
 
 Route::resource('aspectos', 'AspectoController', ['as' => 'admin']);

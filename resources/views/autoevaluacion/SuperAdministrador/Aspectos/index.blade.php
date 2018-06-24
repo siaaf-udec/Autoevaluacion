@@ -13,7 +13,7 @@
 @can('VER_ASPECTOS')
 <div class="col-md-12">
     @component('admin.components.datatable', ['id' => 'aspecto_table_ajax']) @slot('columns', [ 
-        'id', 'Lineamiento', 'Factor', 'Caracteristica','Indentificador', 'Aspecto',
+        'id', 'Lineamiento', 'Factor', 'Característica','Identificador', 'Aspecto',
     'Acciones' => ['style' => 'width:85px;']]) @endcomponent
 
 </div>
