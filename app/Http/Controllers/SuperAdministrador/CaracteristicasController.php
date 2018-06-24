@@ -129,9 +129,15 @@ class CaracteristicasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = Caracteristica::find($id);
-        $user->fill($request->all());
-        $user->save();
+        
+        $caracteristica = Caracteristica::find($id);
+        $caracteristica->CRT_Nombre = $request->CRT_Nombre;
+        $caracteristica->CRT_Descripcion = $request->CRT_Descripcion;
+        $caracteristica->CRT_Identificador = $request->CRT_Identificador;
+        $caracteristica->FK_CRT_Factor = $request->FK_CRT_Factor;
+        $caracteristica->FK_CRT_Estado = $request->FK_CRT_Estado;
+        $caracteristica->FK_CRT_Ambito = $request->FK_CRT_Ambito;
+        $caracteristica->save();
         return response(['msg' => 'Los datos han sido modificado exitosamente.',
                 'title' => 'Datos Modificadoa!'
             ], 200) // 200 Status Code: Standard response for successful HTTP request

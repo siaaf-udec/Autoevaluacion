@@ -41,7 +41,7 @@
         <option selected="{{ isset($user)?  }}" value="{{ $lineamiento->PK_LNM_Id }}">{{ $lineamiento->LNM_Nombre }}</option>
             @endforeach                                          
         </select> --}}
-        <script>var ruta = "factor"; var id_one = "#lineamiento"; var id_two= "#factores";</script>
+        <script>var ruta = "{{url('admin/caracteristicas/factor/')}}"; var id_one = "#lineamiento"; var id_two= "#factores";</script>
         {!! Form::select('FK_FCT_Lineamiento',$lineamientos, old('FK_FCT_Lineamiento'), [
             'placeholder' => 'Seleccione un lineamiento',
             'class' => 'select2_user form-control',
@@ -90,8 +90,8 @@
         {!! Form::select('FK_CRT_Ambito',$ambitos, old('FK_CRT_Ambito'), [
             'placeholder' => 'Seleccione un Ambito de Responsabilidad',
             'class' => 'select2_user form-control',
-            'id' => 'ambito', 
-            'required']) !!}
+            'id' => 'ambito'
+            ]) !!}
     </div>
 </div>
 
