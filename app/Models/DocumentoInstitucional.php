@@ -11,7 +11,7 @@ class DocumentoInstitucional extends Model
      *
      * @var string
      */
-    protected $table = 'TBL_Documentos_Autoevaluacion';
+    protected $table = 'TBL_Documentos_Institucionales';
 
     /**
      * LLave primaria del modelo.
@@ -25,5 +25,14 @@ class DocumentoInstitucional extends Model
      *
      * @var array
      */
+    protected $fillable = ['DOI_Nombre','DOI_Descripcion','link','FK_DOI_Archivo','FK_DOI_GrupoDocumento'];
     protected $guarded = ['PK_DOI_Id', 'created_at', 'updated_at'];
+    public function grupodocumento()
+    {
+        return $this->hasOne(GrupoDocumento::class,'PK_GRD_Id','FK_DOI_GrupoDocumento');
+    }
+    public function archivo()
+    {
+        return $this->belongsTo(Archivo::class,'FK_DOI_Archivo','PK_ACV_Id');
+    }
 }

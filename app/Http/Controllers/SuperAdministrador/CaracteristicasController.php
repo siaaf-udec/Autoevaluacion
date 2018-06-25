@@ -75,15 +75,7 @@ class CaracteristicasController extends Controller
      */
     public function store(Request $request)
     {
-        $caracteristica = new Caracteristica;
-        $caracteristica->CRT_Nombre = $request->CRT_Nombre;
-        $caracteristica->CRT_Descripcion = $request->CRT_Descripcion;
-        $caracteristica->CRT_Identificador = $request->CRT_Identificador;
-        $caracteristica->FK_CRT_Factor = $request->FK_CRT_Factor;
-        $caracteristica->FK_CRT_Estado = $request->FK_CRT_Estado;
-        $caracteristica->FK_CRT_Ambito = $request->FK_CRT_Ambito;
-        $caracteristica->save();
-        //Caracteristica::create($request->select('CRT_Nombre','CRT_Descripcion','CRT_Identificador','FK_CRT_Factor','FK_CRT_Estado','FK_CRT_Ambito'));
+        Caracteristica::create($request->except('FK_FCT_Lineamiento'));
         return response(['msg' => 'Datos registrados correctamente.',
         'title' => '¡Registro exitoso!'
     ], 200) // 200 Status Code: Standard response for successful HTTP request
@@ -132,12 +124,7 @@ class CaracteristicasController extends Controller
     {
         
         $caracteristica = Caracteristica::find($id);
-        $caracteristica->CRT_Nombre = $request->CRT_Nombre;
-        $caracteristica->CRT_Descripcion = $request->CRT_Descripcion;
-        $caracteristica->CRT_Identificador = $request->CRT_Identificador;
-        $caracteristica->FK_CRT_Factor = $request->FK_CRT_Factor;
-        $caracteristica->FK_CRT_Estado = $request->FK_CRT_Estado;
-        $caracteristica->FK_CRT_Ambito = $request->FK_CRT_Ambito;
+        $caracteristica->fill($request->except('FK_FCT_Lineamiento'));
         $caracteristica->save();
         return response(['msg' => 'Los datos han sido modificado exitosamente.',
                 'title' => 'Datos Modificadoa!'

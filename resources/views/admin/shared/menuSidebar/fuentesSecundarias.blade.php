@@ -10,7 +10,7 @@
         <ul class="nav child_menu"> 
             <li class="sub_menu"><a href="level2.html"><i class="fa fa-clipboard"></i>Documentos Autoevaluacion</a> 
             </li> 
-            <li><a href="#level2_1"><i class="fa fa-file-text"></i>Documentos Institucionales</a> 
+            <li><a href="{{ route('documental.documentoinstitucional.index') }}"><i class="fa fa-file-text"></i>Documentos Institucionales</a> 
             </li> 
             <li><a href="{{ route('documental.grupodocumentos.index') }}"><i class="fa fa-briefcase"></i>Grupos de Documentos</a> 
             </li> 

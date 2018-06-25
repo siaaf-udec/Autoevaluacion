@@ -26,5 +26,10 @@ class Archivo extends Model
      *
      * @var array
      */
+    protected $fillable = ['ACV_Nombre', 'ACV_Extension', 'ruta'];
     protected $guarded = ['PK_ACV_Id', 'created_at', 'updated_at'];
+    public function documentoinstitucional()
+    {
+        return $this->hasMany(DocumentoInstitucional::class,'FK_DOI_Archivo','PK_ACV_Id');
+    }
 }
