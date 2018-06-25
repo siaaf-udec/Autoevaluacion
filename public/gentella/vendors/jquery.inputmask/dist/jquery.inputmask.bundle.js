@@ -1829,19 +1829,19 @@
             placeholder: "yyyy.mm.dd",
             leapday: ".02.29",
             separator: ".",
-            alias: "yyyy/mm/dd"
+            alias: "yyyy-mm-dd"
         },
         "yyyy-mm-dd": {
             mask: "y-1-2",
             placeholder: "yyyy-mm-dd",
             leapday: "-02-29",
             separator: "-",
-            alias: "yyyy/mm/dd"
+            alias: "yyyy-mm-dd"
         },
         datetime: {
             mask: "1/2/y h:s",
-            placeholder: "dd/mm/yyyy hh:mm",
-            alias: "dd/mm/yyyy",
+            placeholder: "yyyy-mm-dd hh:mm",
+            alias: "yyyy-mm-dd",
             regex: {
                 hrspre: new RegExp("[012]"),
                 hrs24: new RegExp("2[0-4]|1[3-9]"),

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Factor;
+use App\Models\Encuesta;
 
 class Estado extends Model
 {
@@ -42,5 +43,10 @@ class Estado extends Model
     public function caracteristica()
     {
         return $this->hasMany(Caracteristica::class,'FK_CRT_Estado','PK_ESD_Id');
+    }
+
+    public function encuesta()
+    {
+        return $this->hasMany(Encuesta::class,'FK_ECT_Estado','PK_ESD_Id');
     }
 }

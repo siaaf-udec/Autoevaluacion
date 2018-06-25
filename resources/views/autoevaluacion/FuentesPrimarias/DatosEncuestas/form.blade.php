@@ -29,7 +29,8 @@
             @endforeach                                          
         </select> --}}
         {!! Form::select('FK_DAE_GruposInteres', $items, old('FK_DAE_GruposInteres', isset($user)? $user->id_datos:''), [
-            'class' => 'select2_user form-control', 
+            'class' => 'select2_user form-control',
+            'placeholder' => 'Seleccione un grupo de interes', 
             'required']) !!}
     </div>
 </div>

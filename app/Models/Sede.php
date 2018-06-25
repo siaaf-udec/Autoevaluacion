@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Proceso;
 
 class Sede extends Model
 {
@@ -26,4 +27,9 @@ class Sede extends Model
      * @var array
      */
     protected $guarded = ['PK_SDS_Id', 'created_at', 'updated_at'];
+
+    public function proceso()
+    {
+        return $this->hasMany(Proceso::class,'FK_PCS_Sede','PK_SDS_Id');
+    }
 }

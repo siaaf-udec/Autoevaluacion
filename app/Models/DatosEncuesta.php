@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\GrupoInteres;
+use App\Models\Encuesta;
 
 class DatosEncuesta extends Model
 {
@@ -31,5 +32,10 @@ class DatosEncuesta extends Model
     public function grupos()
     {
         return $this->hasOne(GrupoInteres::class,'PK_GIT_Id','FK_DAE_GruposInteres');
+    }
+
+    public function encuesta()
+    {
+        return $this->hasMany(Encuesta::class,'FK_ECT_DatosEncuesta','PK_DAE_Id');
     }
 }

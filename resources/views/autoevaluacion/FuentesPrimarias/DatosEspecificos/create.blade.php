@@ -1,19 +1,19 @@
 @extends('admin.layouts.app')
 @section('content')
     @component('admin.components.panel')
-            @slot('title', 'Crear Datos')
+            @slot('title', 'Crear Datos Especificos')
             {!! Form::open([
-                'route' => 'fuentesP.datosEncuestas.store',
+                'route' => 'fuentesP.datosEspecificos.store',
                 'method' => 'POST', 
-                'id' => 'form_crear_datosEncuesta',
+                'id' => 'form_crear_datosEspecificos',
                 'class' => 'form-horizontal form-label-lef',
                 'novalidate'
             ])!!}
-            @include('autoevaluacion.FuentesPrimarias.DatosEncuestas.form')
+            @include('autoevaluacion.FuentesPrimarias.DatosEspecificos.form')
             <div class="ln_solid"></div>
             <div class="form-group">
                 <div class="col-md-5 col-md-offset-3">
-                    {{ link_to_route('fuentesP.datosEncuestas.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
+                    {{ link_to_route('fuentesP.datosEspecificos.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
                     {!! Form::submit('Crear Datos', ['class' => 'btn btn-success']) !!}
                 </div>
             </div>
@@ -28,9 +28,13 @@
 <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
 
 <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
+
+<link href="{{ asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
+<link href="{{ asset('gentella/vendors/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css') }}" rel="stylesheet">
 @endpush
 
 @push('scripts')
+<script src="{{ asset('js/admin.js') }}"></script>
 <!-- validator -->
 <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
 <script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
@@ -41,12 +45,18 @@
 
 <!-- Select2 -->
 <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
+<script src="{{asset('gentella/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js') }}"></script>
 @endpush
 @push('functions')
 <script type="text/javascript">
-        $(document).ready(function() {
-            $('.select2_user').select2();
-            var form = $('#form_crear_datosEncuesta');
+            $('#estado').select2();
+            $('#sede').select2();
+            $('#proceso').select2();
+            $('#grupo').select2();
+            $('#descripcion').select2();
+            selectDinamico("#sede","#proceso","{{url('admin/procesos')}}");
+            selectDinamico("#grupo","#descripcion","{{url('admin/fuentesPrimarias/encuestas')}}");
+            var form = $('#form_crear_datosEspecificos');
             $(form).parsley({
                 trigger: 'change',
                 successClass: "has-success",
@@ -89,6 +99,5 @@
                     }
                 });
             });
-        });
 </script>
 @endpush

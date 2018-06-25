@@ -49,7 +49,6 @@
             $('#caracteristica').select2();
             selectDinamico("#lineamiento","#factor","{{url('admin/factores')}}");
             selectDinamico("#factor","#caracteristica","{{url('admin/caracteristicas')}}");
-
             var form = $('#form_crear_aspectos');
             $(form).parsley({
                 trigger: 'change',

@@ -24,7 +24,8 @@ class RoleTableSeeder extends Seeder
             'VER_ENCUESTAS',
             'CREAR_ENCUESTAS',
             'MODIFICAR_ENCUESTAS',
-            'ELIMINAR_ENCUESTAS'
+            'ELIMINAR_ENCUESTAS',
+            'CONSTRUIR_ENCUESTAS',
         ]);
 
         //Crear y asignar permisos fuentes secundarias

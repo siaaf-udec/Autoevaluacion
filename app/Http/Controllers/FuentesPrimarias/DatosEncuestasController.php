@@ -59,7 +59,7 @@ class DatosEncuestasController extends Controller
     }
     public function create()
     {
-        $items = GrupoInteres::pluck('GIT_Nombre', 'PK_GIT_Id');
+        $items = GrupoInteres::where('FK_GIT_Estado','=','1')->pluck('GIT_Nombre', 'PK_GIT_Id');
         return view('autoevaluacion.FuentesPrimarias.DatosEncuestas.create', compact('items'));
     }
 
@@ -76,7 +76,6 @@ class DatosEncuestasController extends Controller
         'title' => '¡Registro exitoso!'
     ], 200) // 200 Status Code: Standard response for successful HTTP request
           ->header('Content-Type', 'application/json');
-
     }
 
     /**
@@ -87,7 +86,7 @@ class DatosEncuestasController extends Controller
      */
     public function show($id)
     {
-        //
+       
     }
 
     /**
@@ -98,7 +97,7 @@ class DatosEncuestasController extends Controller
      */
     public function edit($id)
     {
-        $items = GrupoInteres::pluck('GIT_Nombre', 'PK_GIT_Id');
+        $items = GrupoInteres::where('FK_GIT_Estado','=','1')->pluck('GIT_Nombre', 'PK_GIT_Id');
         return view('autoevaluacion.FuentesPrimarias.DatosEncuestas.edit', [
             'user' => DatosEncuesta::findOrFail($id),
             'edit' => true,

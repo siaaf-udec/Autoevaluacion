@@ -1,7 +1,6 @@
 <div class="item form-group">
     {!! Form::label('PK_LNM_Id', 'Lineamiento', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        
         {!! Form::select('PK_LNM_Id', $lineamientos, old('PK_LNM_Id', isset($aspecto)? 
         $aspecto->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id', 'LNM_Nombre'): ''), [
             'placeholder' => 'Seleccione un lineamiento',

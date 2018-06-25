@@ -1,17 +1,17 @@
 @extends('admin.layouts.app') 
 @section('content')
 @component('admin.components.panel') 
-@slot('title', 'Datos Encuestas')
+@slot('title', 'Datos Especificos Encuestas')
 <div class="col-md-12">
     <div class="actions">
-        <a href="{{ route('fuentesP.datosEncuestas.create') }}" class="btn btn-info">
-                    <i class="fa fa-plus"></i> Agregar Datos</a></div>
+        <a href="{{ route('fuentesP.datosEspecificos.create') }}" class="btn btn-info">
+                    <i class="fa fa-plus"></i> Agregar Datos Expecificos</a></div>
     </div>
 <br>
 <br>
 <br>
 <div class="col-md-12">
-    @component('admin.components.datatable', ['id' => 'datosEncuesta-table-ajax']) @slot('columns', [ 'id', 'Titulo', 'Descripcion', 'Grupo de Interes',
+    @component('admin.components.datatable', ['id' => 'datosEspecificos-table-ajax']) @slot('columns', [ 'id', 'Fecha Publicacion', 'Fecha Finalizacion', 'Estado','Proceso','Descripcion',
     'Acciones' => ['style' => 'width:85px;'] ]) @endcomponent
 
 </div>
@@ -52,19 +52,21 @@
 
         }
         
-        table = $('#datosEncuesta-table-ajax').DataTable({
+        table = $('#datosEspecificos-table-ajax').DataTable({
             processing: true, 
             serverSide: false,
             stateSave: true,
             keys: true,
             dom: 'Bfrtip', 
             buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print' ],
-            "ajax": "{{ route('fuentesP.datosEncuestas.data') }}",
+            "ajax": "{{ route('fuentesP.datosEspecificos.data') }}",
             "columns": [
-                {data: 'PK_DAE_Id', name: 'id', "visible":false},
-                {data: 'DAE_Titulo', name: 'Titulo'},
-                {data: 'DAE_Descripcion', name: 'Descripcion'},
-                {data: 'grupos.nombre', name: 'Grupos de Interes'},
+                {data: 'PK_ECT_Id', name: 'id', "visible":false},
+                {data: 'ECT_FechaPublicacion', name: 'Fecha Publicacion'},
+                {data: 'ECT_FechaFinalizacion', name: 'Fecha Finalizacion'},
+                {data: 'estado.estado', name: 'Estado'},
+                {data: 'proceso.proceso', name: 'Proceso'},
+                {data: 'datos.datos', name: 'Descripcion'},
                  {
                     defaultContent: 
                     '<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>' +
@@ -120,7 +122,7 @@
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/fuentesPrimarias/datosEncuestas/') }}' + '/' + dataTable.PK_DAE_Id + '/edit';
+                var route = '{{ url('admin/fuentesPrimarias/datosEspecificos/') }}' + '/' + dataTable.PK_ECT_Id + '/edit';
                 window.location.replace(route);
                 
 
