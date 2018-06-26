@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Container\Autoevaluation\src\Dependencia;
 
 class DocumentoAutoevaluacion extends Model
 {
@@ -26,4 +27,29 @@ class DocumentoAutoevaluacion extends Model
      * @var array
      */
     protected $guarded = ['PK_DOA_Id', 'created_at', 'updated_at'];
+
+    public function archivo()
+    {
+        return $this->belongsTo(Archivo::class, 'FK_DOA_Archivo', 'PK_ACV_Id');
+    }
+
+    public function proceso()
+    {
+       return $this->belongsTo(Proceso::class, 'FK_DOA_Proceso', 'PK_PCS_Id');
+    }
+
+    public function indicadorDocumental()
+    {
+        return $this->belongsTo(IndicadorDocumental::class, 'FK_DOA_IndicadorDocumental', 'PK_IDO_Id');
+    }
+
+    public function tipoDocumento()
+    {
+        return $this->belongsTo(TipoDocumento::class, 'FK_DOA_TipoDocumento', 'PK_TDO_Nombre');
+    }
+
+    public function dependencia()
+    {
+        return $this->belongsTo(Dependencia::class, 'FK_DOA_Dependencia', 'PK_DPC_Id');
+    }
 }

@@ -170,7 +170,7 @@ class IndicadorDocumentalController extends Controller
         $indicador->FK_IDO_Estado = $request->get('PK_ESD_Id');
 
 
-        $indicador->save();
+        $indicador->update();
 
 
         return response(['msg' => 'El Indicador documental ha sido modificado exitosamente.',

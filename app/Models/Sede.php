@@ -32,4 +32,9 @@ class Sede extends Model
     {
         return $this->hasMany(Proceso::class,'FK_PCS_Sede','PK_SDS_Id');
     }
+
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class, 'FK_SDS_Estado', 'PK_ESD_Id');
+    }
 }

@@ -4,7 +4,7 @@
 <ul class="nav child_menu"> 
         <li><a href="{{ route('documental.dependencia.index') }}"><i class="fa fa-suitcase"></i>Dependencias</a> 
         </li> 
-        <li><a href="#level2_1"><i class="fa fa-list"></i>Indicadores Documentales</a> 
+        <li><a href="{{ route('documental.indicadores_documentales.index')}}"><i class="fa fa-list"></i>Indicadores Documentales</a> 
         </li> 
         <li><a><i class="fa fa-file"></i>Documentos<span class="fa fa-chevron-down"></span> </a> 
         <ul class="nav child_menu"> 

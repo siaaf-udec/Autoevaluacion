@@ -58,4 +58,8 @@ array('as' => 'admin.ambito.data', 'uses' => 'AmbitoController@data')
 Route::resource('aspectos', 'AspectoController', ['as' => 'admin']);
 Route::get('aspectos/data/data', array('as' => 'admin.aspectos.data', 'uses' => 'AspectoController@data'));
 
+//Sedes
+Route::resource('sedes', 'SedeController', ['as' => 'admin']);
+Route::get('sedes/data/data', array('as' => 'admin.sedes.data', 'uses' => 'SedeController@data'));
+
 Route::resource('procesos', 'ProcesosController', ['as' => 'admin']);
