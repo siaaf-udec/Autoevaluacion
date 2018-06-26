@@ -9,14 +9,18 @@ use Illuminate\Support\Facades\Storage;
 Route::resource('dependencia', 'DependenciaController', ['as' => 'documental'])->except([
     'show', 'edit'
 ]);;
-Route::get('dependencia/data', 
-array('as' => 'documental.dependencia.data', 'uses' => 'DependenciaController@data'));
+Route::get(
+    'dependencia/data',
+array('as' => 'documental.dependencia.data', 'uses' => 'DependenciaController@data')
+);
 
 Route::resource('grupodocumentos', 'DocumentGroupController', ['as' => 'documental'])->except([
     'show', 'edit'
 ]);;
-Route::get('grupodocumentos/data', 
-array('as' => 'documental.grupodocumentos.data', 'uses' => 'DocumentGroupController@data'));
+Route::get(
+    'grupodocumentos/data',
+array('as' => 'documental.grupodocumentos.data', 'uses' => 'DocumentGroupController@data')
+);
 
 Route::resource('tipodocumento', 'tipoDocumentoController', ['as' => 'documental'])->except([
     'show', 'edit'
@@ -38,3 +42,9 @@ Route::get('download/{archivo}', function ($archivo) {
       return response()->download($url);
     }
 });
+
+Route::resource('indicadores_documentales', 'IndicadorDocumentalController', ['as' => 'documental']);
+Route::get(
+    'indicadores_documentales/data/data',
+array('as' => 'documental.indicadores_documentales.data', 'uses' => 'IndicadorDocumentalController@data')
+);

@@ -44,7 +44,11 @@ class RoleTableSeeder extends Seeder
             'CREAR_TIPO_DOCUMENTO',
             'MODIFICAR_TIPO_DOCUMENTO',
             'ELIMINAR_TIPO_DOCUMENTO',
-
+            'ACCEDER_INDICADORES_DOCUMENTALES',
+            'VER_INDICADORES_DOCUMENTALES',
+            'CREAR_INDICADORES_DOCUMENTALES',
+            'MODIFICAR_INDICADORES_DOCUMENTALES',
+            'ELIMINAR_INDICADORES_DOCUMENTALES',
         ]);
     }
 }

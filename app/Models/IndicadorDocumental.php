@@ -26,4 +26,12 @@ class IndicadorDocumental extends Model
      * @var array
      */
     protected $guarded = ['PK_IDO_Id', 'created_at', 'updated_at'];
+
+    public function caracteristica(){
+        return $this->belongsTo(Caracteristica::class, 'FK_IDO_Caracteristica', 'PK_CRT_Id');
+    }
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class,'FK_IDO_Estado','PK_ESD_Id');
+    }
 }

@@ -1,20 +1,20 @@
 @extends('admin.layouts.app')
 @section('content')
     @component('admin.components.panel')
-            @slot('title', 'Crear Aspectos')
+            @slot('title', 'Crear Indicadores Documentales')
             {!! Form::open([
-                'route' => 'admin.aspectos.store',
+                'route' => 'documental.indicadores_documentales.store',
                 'method' => 'POST', 
-                'id' => 'form_crear_aspectos',
+                'id' => 'form_crear_indicadores_documentales',
                 'class' => 'form-horizontal form-label-lef',
                 'novalidate'
             ])!!}
-            @include('autoevaluacion.SuperAdministrador.Aspectos._form')
+            @include('autoevaluacion.FuentesSecundarias.IndicadoresDocumentales._form')
             <div class="ln_solid"></div>
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-3">
-                    {{ link_to_route('admin.aspectos.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
-                    {!! Form::submit('Crear Aspecto', ['class' => 'btn btn-success']) !!}
+                    {{ link_to_route('documental.indicadores_documentales.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
+                    {!! Form::submit('Crear Indicador Documental', ['class' => 'btn btn-success']) !!}
                 </div>
             </div>
         {!! Form::close() !!}
@@ -47,9 +47,11 @@
             $('#lineamiento').select2();
             $('#factor').select2();
             $('#caracteristica').select2();
-            selectDinamico("#lineamiento","#factor","{{url('admin/factores')}}",['#caracteristica']);
+            $('#estado').select2();
+            selectDinamico("#lineamiento","#factor","{{url('admin/factores')}}", ['#caracteristica']);
             selectDinamico("#factor","#caracteristica","{{url('admin/caracteristicas')}}");
-            var form = $('#form_crear_aspectos');
+
+            var form = $('#form_crear_indicadores_documentales');
             $(form).parsley({
                 trigger: 'change',
                 successClass: "has-success",
@@ -75,8 +77,8 @@
                         $("#factor").html('').select2();
                         $('#factor').prop('disabled', true);
                         $('#caracteristica').prop('disabled', true);
-                        $("#lineamiento").select2('data', {}); // clear out values selected 
                         $("#lineamiento").select2({ allowClear: true });
+                        $("#estado").select2({ allowClear: true });
                         new PNotify({
                             title: response.title,
                             text: response.msg,

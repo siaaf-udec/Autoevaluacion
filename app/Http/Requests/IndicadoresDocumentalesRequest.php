@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LineamientosRequest extends FormRequest
+class IndicadoresDocumentalesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +23,12 @@ class LineamientosRequest extends FormRequest
      */
     public function rules()
     {
-        $archivo = "";
-        if($this->hasFile('archivo')){
-            $archivo = 'file|mimes:xlsx';
-        }
         return [
-            'LNM_Nombre' => 'required',
-            'LNM_Descripcion' => 'required',
-            'archivo' => $archivo
+            'IDO_Nombre' => 'required|string',
+            'IDO_Identificador' => 'required|numeric',
+            'IDO_Descripcion' => 'required',
+            'PK_ESD_Id' => 'exists:tbl_estados',
+            'PK_CRT_Id' => 'exists:tbl_caracteristicas'
         ];
     }
 }

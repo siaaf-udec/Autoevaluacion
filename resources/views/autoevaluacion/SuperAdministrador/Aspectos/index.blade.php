@@ -62,11 +62,11 @@
             "ajax": "{{ route('admin.aspectos.data') }}",
             "columns": [
                 {data: 'PK_ASP_Id', name: 'id', "visible":false},
-                {data: 'caracteristica.factor.lineamiento.LNM_Nombre', name: 'Lineamiento'},
-                {data: 'caracteristica.factor.FCT_Nombre', name: 'Caracteristica'},
-                {data: 'caracteristica.CRT_Nombre', name: 'Caracteristica'},
-                {data: 'ASP_Identificador', name: 'Caracteristica'},
-                {data: 'ASP_Nombre', name: 'Aspecto'},
+                {data: 'caracteristica.factor.lineamiento.LNM_Nombre', name: 'Lineamiento', className:"all"},
+                {data: 'caracteristica.factor.FCT_Nombre', name: 'Caracteristica', className:"min-phone-l"},
+                {data: 'caracteristica.CRT_Nombre', name: 'Caracteristica', className:"min-tablet"},
+                {data: 'ASP_Identificador', name: 'Caracteristica', className:"desktop"},
+                {data: 'ASP_Nombre', name: 'Aspecto', className:"desktop"},
                  {
                     defaultContent: 
                     '@can('ELIMINAR_ASPECTOS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +

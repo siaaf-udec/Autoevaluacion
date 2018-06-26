@@ -16,30 +16,31 @@ class PermissionTableSeeder extends Seeder
         app()['cache']->forget('spatie.permission.cache');
 
         // Permisos Superadmin
+        //Permisos para usuarios
         Permission::create(['name' => 'ACCEDER_USUARIOS']);
         Permission::create(['name' => 'VER_USUARIOS']);
         Permission::create(['name' => 'CREAR_USUARIOS']);
         Permission::create(['name' => 'MODIFICAR_USUARIOS']);
         Permission::create(['name' => 'ELIMINAR_USUARIOS']);
-
+        //Permisos para roles
         Permission::create(['name' => 'ACCEDER_ROLES']);
         Permission::create(['name' => 'VER_ROLES']);
         Permission::create(['name' => 'CREAR_ROLES']);
         Permission::create(['name' => 'MODIFICAR_ROLES']);
         Permission::create(['name' => 'ELIMINAR_ROLES']);
-
+        //Permisos para permisos
         Permission::create(['name' => 'ACCEDER_PERMISOS']);
         Permission::create(['name' => 'VER_PERMISOS']);
         Permission::create(['name' => 'CREAR_PERMISOS']);
         Permission::create(['name' => 'MODIFICAR_PERMISOS']);
         Permission::create(['name' => 'ELIMINAR_PERMISOS']);
-
+        //Permisos para lineamientos
         Permission::create(['name' => 'ACCEDER_LINEAMIENTOS']);
         Permission::create(['name' => 'VER_LINEAMIENTOS']);
         Permission::create(['name' => 'CREAR_LINEAMIENTOS']);
         Permission::create(['name' => 'MODIFICAR_LINEAMIENTOS']);
         Permission::create(['name' => 'ELIMINAR_LINEAMIENTOS']);
-
+        //Permisos para aspectos
         Permission::create(['name' => 'ACCEDER_ASPECTOS']);
         Permission::create(['name' => 'VER_ASPECTOS']);
         Permission::create(['name' => 'CREAR_ASPECTOS']);
@@ -86,6 +87,13 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'CREAR_AMBITOS']);
         Permission::create(['name' => 'MODIFICAR_AMBITOS']);
         Permission::create(['name' => 'ELIMINAR_AMBITOS']);
+        //Permisos para indicadores documentales
+        Permission::create(['name' => 'ACCEDER_INDICADORES_DOCUMENTALES']);
+        Permission::create(['name' => 'VER_INDICADORES_DOCUMENTALES']);
+        Permission::create(['name' => 'CREAR_INDICADORES_DOCUMENTALES']);
+        Permission::create(['name' => 'MODIFICAR_INDICADORES_DOCUMENTALES']);
+        Permission::create(['name' => 'ELIMINAR_INDICADORES_DOCUMENTALES']);
+
 
     }
 }

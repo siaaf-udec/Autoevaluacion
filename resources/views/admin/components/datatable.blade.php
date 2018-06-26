@@ -1,4 +1,5 @@
-<table class="table table-striped table-bordered table-hover dt-responsive" width="100%" id="{{ $id }}">
+<table id="{{ $id }}" class="table table-striped table-bordered dt-responsive"
+    role="grid" aria-describedby="datatable-responsive_info" style="width: 100%;" width="100%" cellspacing="0">
     <thead>
         <tr>
             @forelse($columns as $key => $column) @php $props = ''; $col = ''; 

@@ -38,7 +38,7 @@
        $('#lineamiento').select2();
             $('#factor').select2();
             $('#caracteristica').select2();
-            selectDinamico("#lineamiento","#factor","{{url('admin/factores')}}");
+            selectDinamico("#lineamiento","#factor","{{url('admin/factores')}}",['#caracteristica']);
             selectDinamico("#factor","#caracteristica","{{url('admin/caracteristicas')}}");
 
             $('#factor').prop('disabled', false);

@@ -49,7 +49,7 @@ function parsleyInit(form) {
         errorTemplate: '<span></span>',
     });
 }
-function selectDinamico(Id_select_1, Id_select_2, ruta) {
+function selectDinamico(Id_select_1, Id_select_2, ruta, dependientes = []) {
     // Bloqueamos el SELECT de los select2
     $(Id_select_2).prop('disabled', true);
 
@@ -78,11 +78,16 @@ function selectDinamico(Id_select_1, Id_select_2, ruta) {
                         select2.append('<option value="' + key + '">' + data + '</option>');
                     })
 
+                    for (let i = 0; i < dependientes.length; i++) {
+                        $(dependientes[i]).find('option').remove();
+                        $(dependientes[i]).prop('disabled', true);
+                    }
+
                     select2.prop('disabled', false);
                 },
                 error: function () {
                     alert('Ocurrio un error en el servidor ..');
-                    select.prop('disabled', false);
+                    select2.prop('disabled', false);
                 }
             });
         } else {
