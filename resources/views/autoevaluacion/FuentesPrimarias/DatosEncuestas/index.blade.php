@@ -2,6 +2,7 @@
 @section('content')
 @component('admin.components.panel') 
 @slot('title', 'Datos Encuestas')
+@can('CREAR_ENCUESTAS')
 <div class="col-md-12">
     <div class="actions">
         <a href="{{ route('fuentesP.datosEncuestas.create') }}" class="btn btn-info">
@@ -10,12 +11,15 @@
 <br>
 <br>
 <br>
+@endcan
+@can('VER_ENCUESTAS')
 <div class="col-md-12">
     @component('admin.components.datatable', ['id' => 'datosEncuesta-table-ajax']) @slot('columns', [ 'id', 'Titulo', 'Descripcion', 'Grupo de Interes',
     'Acciones' => ['style' => 'width:85px;'] ]) @endcomponent
 
 </div>
 @endcomponent
+@endcan
 @endsection
  @push('scripts')
 <!-- Datatables -->
@@ -67,8 +71,8 @@
                 {data: 'grupos.nombre', name: 'Grupos de Interes'},
                  {
                     defaultContent: 
-                    '<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>' +
-                    '<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>',
+                    '@can('ELIMINAR_ENCUESTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
+                    '@can('MODIFICAR_ENCUESTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
                     data: 'action',
                     name: 'action',
                     title: 'Acciones',
