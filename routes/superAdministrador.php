@@ -61,5 +61,8 @@ Route::get('aspectos/data/data', array('as' => 'admin.aspectos.data', 'uses' => 
 //Sedes
 Route::resource('sedes', 'SedeController', ['as' => 'admin']);
 Route::get('sedes/data/data', array('as' => 'admin.sedes.data', 'uses' => 'SedeController@data'));
+//Facultades
+Route::resource('facultades', 'FacultadController', ['as' => 'admin']);
+Route::get('facultades/data/data', array('as' => 'admin.facultades.data', 'uses' => 'FacultadController@data'));
 
 Route::resource('procesos', 'ProcesosController', ['as' => 'admin']);

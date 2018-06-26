@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 
-class SedesRequest extends FormRequest
+class FacultadesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,16 +26,16 @@ class SedesRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->route()->parameter('sede');
-        $sede = 'required|string|max:60|unique:tbl_sedes';
+        $id = $this->route()->parameter('facultade');
+        $sede = 'required|string|max:60|unique:tbl_facultades';
 
         if ($this->method() == 'PUT') {
-            $sede = 'required|max:60|'.Rule::unique('tbl_sedes')->ignore($id, 'PK_SDS_Id');
+            $sede = 'required|max:60|' . Rule::unique('tbl_facultades')->ignore($id, 'PK_FCD_Id');
         }
 
         return [
-            'SDS_Nombre' => $sede,
-            'SDS_Descripcion' => 'required',
+            'FCD_Nombre' => $sede,
+            'FCD_Descripcion' => 'required',
             'PK_ESD_Id' => 'exists:tbl_estados|numeric'
         ];
     }
@@ -47,11 +47,12 @@ class SedesRequest extends FormRequest
     public function messages()
     {
         return [
-            'SDS_Nombre.unique' => 'Esta sede ya ha sido registrada.',
-            'SDS_Nombre.required' => 'Nombre requerido.',
+            'FCD_Nombre.unique' => 'Esta facultad ya ha sido registrada.',
+            'FCD_Nombre.required' => 'Nombre requerido.',
+            'FCD_Descripcion.required' => 'Una descripcion es requerida',
             'PK_ESD_Id.required' => 'El estado es requerido',
             'PK_ESD_Id.numeric' => 'Estado invalido.',
             'PK_ESD_Id.exists' => 'Este estado no existe en nuestros registros.',
         ];
-    }
+    }   
 }

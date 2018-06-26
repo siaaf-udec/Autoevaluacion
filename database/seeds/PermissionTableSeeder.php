@@ -52,6 +52,12 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'CREAR_SEDES']);
         Permission::create(['name' => 'MODIFICAR_SEDES']);
         Permission::create(['name' => 'ELIMINAR_SEDES']);
+        //Permisos para facultades
+        Permission::create(['name' => 'ACCEDER_FACULTADES']);
+        Permission::create(['name' => 'VER_FACULTADES']);
+        Permission::create(['name' => 'CREAR_FACULTADES']);
+        Permission::create(['name' => 'MODIFICAR_FACULTADES']);
+        Permission::create(['name' => 'ELIMINAR_FACULTADES']);
         // Permisos Fuentes primarias
         Permission::create(['name' => 'VER_ENCUESTAS']);
         Permission::create(['name' => 'CREAR_ENCUESTAS']);

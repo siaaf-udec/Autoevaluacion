@@ -26,4 +26,9 @@ class Facultad extends Model
      * @var array
      */
     protected $guarded = ['PK_FCD_Id', 'created_at', 'updated_at'];
+
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class, 'FK_FCD_Estado', 'PK_ESD_Id');
+    }
 }

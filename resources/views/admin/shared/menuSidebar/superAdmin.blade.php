@@ -25,6 +25,11 @@
         <a href="{{ route('admin.sedes.index')}}"><i class="fa fa-university"></i> Sedes</a>
     </li>
     @endcan
+    @can('ACCEDER_FACULTADES')
+    <li>
+        <a href="{{ route('admin.facultades.index')}}"><i class="fa fa-university"></i> Facultades</a>
+    </li>
+    @endcan
         <li><a><i class="fa fa-file"></i>CNA<span class="fa fa-chevron-down"></span> </a>
         <ul class="nav child_menu">
             @can('ACCEDER_LINEAMIENTOS')
