@@ -22,7 +22,11 @@ class DatosEspecificosController extends Controller
     public function __construct()
     {
         $this->middleware([
-            'permission:CONSTRUIR_ENCUESTAS',
+            'permission:VER_DATOS',
+            'permission:MODIFICAR_DATOS',
+            'permission:ELIMINAR_DATOS',
+            'permission:CREAR_DATOS'
+            
             ]);
 
     }
@@ -111,13 +115,13 @@ class DatosEspecificosController extends Controller
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         $grupos =  GrupoInteres::where('FK_GIT_Estado','=','1')->pluck('GIT_Nombre', 'PK_GIT_Id');
         $sedes = Sede::where('FK_SDS_Estado','=','1')->pluck('SDS_Nombre', 'PK_SDS_Id');
-
+        
         $proceso = new Proceso();
-        $id_proceso = $encuesta->sede->proceso()->pluck('PK_SDS_Id')[0];
+        $id_proceso = $encuesta->proceso->sede()->pluck('PK_SDS_Id')[0];
         $procesos = $proceso->where('FK_PCS_Sede', $id_proceso)->get()->pluck('PCS_Nombre', 'PK_PCS_Id');
  
         $descrip = new DatosEncuesta();
-        $id_descripcion = $encuesta->datos()->pluck('PK_GIT_Id')[0];
+        $id_descripcion = $encuesta->datos->grupos()->pluck('PK_GIT_Id')[0];
         $descripcion = $descrip->where('FK_DAE_GruposInteres', $id_descripcion)->get()->pluck('DAE_Titulo', 'PK_DAE_Id');
 
          return view(
@@ -135,7 +139,16 @@ class DatosEspecificosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $encuesta = Encuesta::find($id);
+        $encuesta->fill($request->only(['ECT_FechaPublicacion', 'ECT_FechaFinalizacion', 'FK_ECT_Estado','FK_ECT_Proceso','FK_ECT_DatosEncuesta']));
+
+        $encuesta->save();
+
+
+        return response(['msg' => 'El Aspecto ha sido modificado exitosamente.',
+                'title' => '¡Usuario Modificado!'
+            ], 200) // 200 Status Code: Standard response for successful HTTP request
+                ->header('Content-Type', 'application/json');
     }
 
     /**
@@ -146,6 +159,10 @@ class DatosEspecificosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Encuesta::destroy($id);
+        return response(['msg' => 'Los datos han sido eliminados exitosamente.',
+                'title' => 'Datos Eliminados!'
+            ], 200) // 200 Status Code: Standard response for successful HTTP request
+                ->header('Content-Type', 'application/json');
     }
 }

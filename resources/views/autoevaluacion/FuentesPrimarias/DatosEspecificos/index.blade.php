@@ -51,7 +51,6 @@
                                 });
 
         }
-        
         table = $('#datosEspecificos-table-ajax').DataTable({
             processing: true, 
             serverSide: false,
@@ -112,10 +111,10 @@
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/fuentesPrimarias/datosEncuestas/') }}' + '/' + dataTable.PK_DAE_Id;
+                var route = '{{ url('admin/fuentesPrimarias/datosEspecificos/') }}' + '/' + dataTable.PK_ECT_Id;
                 var type = 'DELETE';
                 dataType: "JSON", 
-                SwalDelete(dataTable.PK_DAE_Id, route);
+                SwalDelete(dataTable.PK_ECT_Id, route);
 
             });
              table.on('click', '.edit', function (e) {

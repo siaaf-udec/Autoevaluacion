@@ -4,8 +4,13 @@
         <ul class="nav child_menu">
             <li class="sub_menu"><a href="{{ route('fuentesP.datosEncuestas.index') }}"><i class="fa fa-plus-square-o"></i>Datos generales sobre encuestas</a>
             </li>
-            <li><a href="{{ route('fuentesP.datosEspecificos.index') }}"><i class="fa fa-cog"></i>Datos especificos sobre encuestas</a>
-            </li>
+            <li><a><i class="fa fa-file"></i>Construccion de Encuestas<span class="fa fa-chevron-down"></span> </a>
+            <ul class="nav child_menu">
+                <li><a href="{{ route('fuentesP.datosEspecificos.index') }}"><i class="fa fa-cog"></i>Datos especificos sobre encuestas</a>
+                </li>
+                <li><a href="#level2_2"><i class="fa fa-check-square-o"></i>Cargar Preguntas</a>
+                </li>
+            </ul>
             <li><a href="#level2_2"><i class="fa fa-check-square-o"></i>Publicar encuestas</a>
             </li>
             <li><a href="#level2_2"><i class="fa fa-paste"></i>Importar encuestas</a>

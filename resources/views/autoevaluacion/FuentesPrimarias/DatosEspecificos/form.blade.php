@@ -58,7 +58,8 @@
 <div class="item form-group">
     {!! Form::label('grupo','Grupo de Interes', [ 'class'=>'control-label col-md-4 col-sm-3 col-xs-12']) !!}
     <div class="col-md-5 col-sm-9 col-xs-9">
-        {!! Form::select('PK_GIT_Id', $grupos, old('PK_GIT_Id'), [
+        {!! Form::select('PK_GIT_Id', $grupos, old('PK_GIT_Id', isset($encuesta)?
+        $encuesta->datos->grupos()->pluck('PK_GIT_Id', 'GIT_Nombre'): '' ), [
             'class' => 'select2_user form-control',
             'placeholder' => 'Seleccione un grupo de interes',
             'id' => 'grupo',

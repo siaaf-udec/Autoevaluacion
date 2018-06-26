@@ -31,8 +31,6 @@ class Caracteristica extends Model
     public function aspecto(){
         return $this->hasMany(Aspecto::class, 'FK_ASP_Caracteristica', 'PK_CRT_Id');
     }
-
-
     public function factor(){
         return $this->hasOne(Factor::class, 'PK_FCT_Id', 'FK_CRT_Factor');
     }

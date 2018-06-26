@@ -6,7 +6,7 @@
 <div class="ln_solid"></div>
 <div class="form-group">
     <div class="col-md-6 col-md-offset-3">
-        {{ link_to_route('admin.usuarios.index',"Cancelar", [], ['class' => 'btn btn-info']) }} {!! Form::submit('Modificar Aspecto',
+        {{ link_to_route('fuentesP.datosEspecificos.index',"Cancelar", [], ['class' => 'btn btn-info']) }} {!! Form::submit('Modificar Encuesta',
         ['class' => 'btn btn-success']) !!}
     </div>
 </div>
@@ -67,9 +67,9 @@
                     dataType: 'json',
                     Accept: 'application/json',
                     success: function (response, NULL, jqXHR) {
-                        sessionStorage.setItem('update', 'El Aspecto se ha modificado exitosamente.');
+                        sessionStorage.setItem('update', 'Los datos se han modificado exitosamente.');
                         
-                        window.location.replace(" {{ route('admin.aspectos.index')}} ");
+                        window.location.replace(" {{ route('fuentesP.datosEspecificos.index')}} ");
                     },
                     error: function (data) {
                         console.log(data);
