@@ -13,3 +13,7 @@ Route::resource('datosEspecificos', 'DatosEspecificosController', ['as' => 'fuen
 Route::get('datosEspecificos/data', array('as' => 'fuentesP.datosEspecificos.data', 'uses' => 'DatosEspecificosController@data'));
 
 Route::resource('encuestas', 'EncuestasController', ['as' => 'fuentesP']);
+
+Route::resource('establecerPreguntas', 'EstablecerPreguntasController', ['as' => 'fuentesP'])->except([
+    'show'
+]);;

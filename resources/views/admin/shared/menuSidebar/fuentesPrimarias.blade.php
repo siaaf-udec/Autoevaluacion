@@ -8,7 +8,7 @@
             <ul class="nav child_menu">
                 <li><a href="{{ route('fuentesP.datosEspecificos.index') }}"><i class="fa fa-cog"></i>Datos especificos sobre encuestas</a>
                 </li>
-                <li><a href="#level2_2"><i class="fa fa-check-square-o"></i>Cargar Preguntas</a>
+                <li><a href="{{ route('fuentesP.establecerPreguntas.index') }}"><i class="fa fa-check-square-o"></i>Establecer Preguntas</a>
                 </li>
             </ul>
             <li><a href="#level2_2"><i class="fa fa-check-square-o"></i>Publicar encuestas</a>
