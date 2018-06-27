@@ -32,4 +32,17 @@ class ProgramaAcademico extends Model
     {
         return $this->hasMany(Proceso::class,'FK_PCS_Programa','PK_PAC_Id');
     }
+
+    public function facultad()
+    {
+        return $this->belongsTo(Facultad::class, 'FK_PAC_Facultad', 'PK_FCD_Id');
+    }
+    public function sede()
+    {
+        return $this->belongsTo(Sede::class, 'FK_PAC_Sede', 'PK_SDS_Id');
+    }
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class, 'FK_PAC_Estado', 'PK_ESD_Id');
+    }
 }

@@ -64,5 +64,9 @@ Route::get('sedes/data/data', array('as' => 'admin.sedes.data', 'uses' => 'SedeC
 //Facultades
 Route::resource('facultades', 'FacultadController', ['as' => 'admin']);
 Route::get('facultades/data/data', array('as' => 'admin.facultades.data', 'uses' => 'FacultadController@data'));
+//Programas académicos
+Route::resource('programas_academicos', 'ProgramaAcademicoController', ['as' => 'admin']);
+Route::get('programas_academicos/data/data', array('as' => 'admin.programas_academicos.data',
+ 'uses' => 'ProgramaAcademicoController@data'));
 
 Route::resource('procesos', 'ProcesosController', ['as' => 'admin']);

@@ -30,6 +30,11 @@
         <a href="{{ route('admin.facultades.index')}}"><i class="fa fa-university"></i> Facultades</a>
     </li>
     @endcan
+    @can('ACCEDER_PROGRAMAS_ACADEMICOS')
+    <li>
+        <a href="{{ route('admin.programas_academicos.index')}}"><i class="fa fa-university"></i> Programas Academicos</a>
+    </li>
+    @endcan
         <li><a><i class="fa fa-file"></i>CNA<span class="fa fa-chevron-down"></span> </a>
         <ul class="nav child_menu">
             @can('ACCEDER_LINEAMIENTOS')
