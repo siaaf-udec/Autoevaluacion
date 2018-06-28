@@ -1,27 +1,29 @@
 @extends('admin.layouts.app') 
 @section('content') @component('admin.components.panel') 
-@slot('title', 'Tipo Respuestas')
+@slot('title', 'Ponderacion de Respuestas')
 <div class="col-md-12">
-    @can('CREAR_TIPO_RESPUESTAS')
+    @can('CREAR_PONDERACION_RESPUESTAS')
     <div class="actions">
-        <a id="crear_tipo_respuesta" href="#" class="btn btn-info" data-toggle="modal" data-target="#modal_tipo_respuesta">
-        <i class="fa fa-plus"></i> Agregar Tipo Respuesta</a></div>
+        <a id="crear_ponderacion_respuesta" href="#" class="btn btn-info" data-toggle="modal" data-target="#modal_ponderacion_respuesta">
+        <i class="fa fa-plus"></i> Agregar ponderacion</a>
+        {{ link_to_route('fuentesP.tipoRespuesta.index'," Volver ", [], ['class' => 'fa fa-hand-o-left btn btn-warning']) }}
+    </div> 
     @endcan
     <!-- Modal-->
-    <div class="modal fade" id="modal_tipo_respuesta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="modal_ponderacion_respuesta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="modal_titulo">Crear Tipo Respuesta</h4>
+                    <h4 class="modal-title" id="modal_titulo">Crear Ponderacion a Respuesta</h4>
                 </div>
                 <div class="modal-body">
 
-                {!! Form::open([ 'route' => 'fuentesP.tipoRespuesta.store', 
-                'method' => 'POST', 'id' => 'form_tipoRespuestas', 'class' => 'form-horizontal
+                {!! Form::open([ 'route' => 'fuentesP.ponderacionRespuesta.store', 
+                'method' => 'POST', 'id' => 'form_ponderacionRespuestas', 'class' => 'form-horizontal
                     form-label-lef', 'novalidate' ])!!}
-                @include('autoevaluacion.FuentesPrimarias.TipoRespuestas.form')
+                @include('autoevaluacion.FuentesPrimarias.PonderacionRespuestas.form')
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
@@ -36,14 +38,14 @@
     <!--FIN Modal CREAR-->
 
 </div>
-@can('VER_TIPO_RESPUESTAS')
+@can('VER_PONDERACION_RESPUESTAS')
 <br>
 <br>
 <br>
 <div class="col-md-12">
     @component('admin.components.datatable', 
-    ['id' => 'tipoRespuesta_table_ajax']) 
-    @slot('columns', [ 'id', 'Total Ponderacion', 'Cantidad Respuestas','Descripcion','Estado', 'Acciones' =>
+    ['id' => 'ponderacionRespuesta_table_ajax']) 
+    @slot('columns', [ 'id', 'Descripcion', 'Ponderacion','Acciones' =>
     ['style' => 'width:85px;'] ]) 
     @endcomponent
 
@@ -82,27 +84,23 @@
 @push('functions')
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#estado').select2();
-        var formCreate = $('#form_tipoRespuestas');
-        $('#crear_tipo_respuesta').click(function(){
+        var formCreate = $('#form_ponderacionRespuestas');
+        $('#crear_ponderacion_respuesta').click(function(){
             $(formCreate)[0].reset();
-            $('.modal-title').text("Crear Tipo Respuesta");
+            $('.modal-title').text("Crear Ponderacion Respuesta");
             $('#accion').val("Crear");
             $('#accion').removeClass('modificar')
         });
-        
+
         var data, routeDatatable;
         data =  [
-                {data: 'PK_TRP_Id', name: 'id', "visible":false},
-                {data: 'TRP_TotalPonderacion', name: 'Total Ponderacion', className:"min-table-p"},
-                {data: 'TRP_CantidadRespuestas', name: 'Cantidad Respuestas', className:"min-table-p"},
-                {data: 'TRP_Descripcion', name: 'Descripcion', className:"desktop"},
-                {data: 'estado.ESD_Nombre', name: 'Estado', className:"all"},
+                {data: 'PK_PRT_Id', name: 'id', "visible":false},
+                {data: 'PRT_Titulo', name: 'Descripcion', className:"min-table-p"},
+                {data: 'PRT_Ponderacion', name: 'Ponderacion', className:"min-table-p"},
                 {
                     defaultContent: 
-                    '@can('ELIMINAR_TIPO_RESPUESTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
-                    '@can('MODIFICAR_TIPO_RESPUESTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan'+ 
-                    '<a href="javascript:;" class="btn btn-simple btn-success btn-sm ver" data-toggle="confirmation"><i class="fa fa-eye"></i></a>',
+                    '@can('ELIMINAR_PONDERACION_RESPUESTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
+                    '@can('MODIFICAR_PONDERACION_RESPUESTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
                     data: 'action',
                     name: 'action',
                     title: 'Acciones',
@@ -115,8 +113,8 @@
                     responsivePriority: 2
                 }
         ];
-        routeDatatable = "{{ route('fuentesP.tipoRespuesta.data') }}";
-        table = $('#tipoRespuesta_table_ajax').DataTable({
+        routeDatatable = "{{ route('fuentesP.ponderacionRespuesta.data') }}";
+        table = $('#ponderacionRespuesta_table_ajax').DataTable({
             processing: true,
             serverSide: false,
             stateSave: true,
@@ -161,13 +159,13 @@
             errorTemplate: '<span></span>',
         });
 
-        $(document).on('submit', '#form_tipoRespuestas', function(e){
+        $(document).on('submit', '#form_ponderacionRespuestas', function(e){
             e.preventDefault();
             let route = formCreate.attr('action');
             let method = formCreate.attr('method');
             let data = formCreate.serialize();
             if($('#accion').hasClass('modificar')){
-                route = '{{ url('admin/fuentesPrimarias/tipoRespuesta') }}' + '/' + $('#PK_TRP_Id').val();
+                route = '{{ url('admin/fuentesPrimarias/ponderacionRespuesta') }}' + '/' + $('#PK_PRT_Id').val();
                 method = "PUT";
             }
             $.ajax({
@@ -179,7 +177,7 @@
                         
                         $(formCreate)[0].reset();
                         $(formCreate).parsley().reset();
-                        $('#modal_tipo_respuesta').modal('hide');
+                        $('#modal_ponderacion_respuesta').modal('hide');
                         new PNotify({
                             title: response.title,
                             text: response.msg,
@@ -208,20 +206,18 @@
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/fuentesPrimarias/tipoRespuesta') }}' + '/' + dataTable.PK_TRP_Id;
+                var route = '{{ url('admin/fuentesPrimarias/ponderacionRespuesta') }}' + '/' + dataTable.PK_PRT_Id;
                 var type = 'DELETE';
                 dataType: "JSON", 
-                SwalDelete(dataTable.PK_TRP_Id, route);
+                SwalDelete(dataTable.PK_PRT_Id, route);
         });
         table.on('click', '.edit', function (e) {
             $tr = $(this).closest('tr');
             var dataTable = table.row($tr).data();
-            $('#TRP_TotalPonderacion').val(dataTable.TRP_TotalPonderacion);
-            $('#TRP_CantidadRespuestas').val(dataTable.TRP_CantidadRespuestas); 
-            $('#TRP_Descripcion').val(dataTable.TRP_Descripcion);
-            $('#PK_TRP_Id').val(dataTable.PK_TRP_Id);
-            $("#estado").val(dataTable.estado.PK_ESD_Id).change();
-            $('#modal_tipo_respuesta').modal('show');
+            $('#PRT_Titulo').val(dataTable.PRT_Titulo);
+            $('#PRT_Ponderacion').val(dataTable.PRT_Ponderacion); 
+            $('#PK_PRT_Id').val(dataTable.PK_PRT_Id);
+            $('#modal_ponderacion_respuesta').modal('show');
             $('.modal-title').text("Modificar Tipo respuesta");
             $('#accion').val("Modificar");
             $('#accion').addClass('modificar');
@@ -231,7 +227,7 @@
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/fuentesPrimarias/ponderacion/') }}' + '/' + dataTable.PK_TRP_Id;
+                var route = '{{ url('admin/fuentesPrimarias/ponderacionRespuesta/') }}' + '/' + dataTable.PK_PRT_Id + '/edit';
                 window.location.replace(route);
             });
 
@@ -240,7 +236,7 @@
    function SwalDelete(id, route){
 		swal({
 			title: 'Esta seguro?',
-			text: "El tipo de respuesta sera eliminado permanentemente!",
+			text: "La ponderacion sera eliminada permanentemente!",
 			type: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: '#3085d6',
@@ -268,7 +264,7 @@
                             }
                 })
 			     .done(function(response){
-			     	swal('Eliminado exitosamente!', response.message, response.status);
+			     	swal('Eliminada exitosamente!', response.message, response.status);
 			     })
 			     .fail(function(){
 			     	swal('Oops...', 'Algo salio mal !', 'error');

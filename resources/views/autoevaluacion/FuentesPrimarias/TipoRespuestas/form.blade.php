@@ -3,7 +3,8 @@
     {!! Form::label('TRP_TotalPonderacion','Ponderacion Total', ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
         {!! Form::text('TRP_TotalPonderacion', old('TRP_TotalPonderacion'),[ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 'required' => 'required',
-        'data-parsley-length'=>'[2, 60]', 'data-parsley-trigger'=>"change" ] ) !!}
+        'data-parsley-length'=>'[1, 60]', 'data-parsley-pattern' => '^[0-9]*$',
+        'data-parsley-pattern-message' => 'Error, digite solo numeros','data-parsley-trigger'=>"change" ] ) !!}
     </div>
 </div>
 
@@ -12,7 +13,8 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
         {!! Form::text('TRP_CantidadRespuestas', old('TRP_CantidadRespuestas'),
         [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 'required'
-        => 'required', 'data-parsley-trigger'=>"change" ] ) !!}
+        => 'required','data-parsley-length'=>'[1, 60]','data-parsley-pattern' => '^[0-9]*$',
+        'data-parsley-pattern-message' => 'Error, digite solo numeros','data-parsley-trigger'=>"change" ] ) !!}
     </div>
 </div>
 
@@ -21,7 +23,8 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
         {!! Form::textarea('TRP_Descripcion', old('TRP_Descripcion'),
         [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 'required'
-        => 'required', 'data-parsley-trigger'=>"change" ] ) !!}
+        => 'required','data-parsley-length'=>'[1, 5000]',
+         'data-parsley-trigger'=>"change" ] ) !!}
     </div>
 </div>
 

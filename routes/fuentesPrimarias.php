@@ -20,3 +20,10 @@ Route::resource('establecerPreguntas', 'EstablecerPreguntasController', ['as' =>
 
 Route::resource('tipoRespuesta', 'TipoRespuestaController', ['as' => 'fuentesP']);
 Route::get('tipoRespuesta/data/data', array('as' => 'fuentesP.tipoRespuesta.data', 'uses' => 'TipoRespuestaController@data'));
+
+
+Route::resource('ponderacionRespuesta', 'PonderacionRespuestasController', ['as' => 'fuentesP']);
+
+Route::get('ponderacion/{id}', array('as' => 'fuentesP.ponderacionRespuesta.datos', 'uses' => 'PonderacionRespuestasController@create'));
+
+Route::get('ponderacionRespuesta/data/data', array('as' => 'fuentesP.ponderacionRespuesta.data', 'uses' => 'PonderacionRespuestasController@data'));

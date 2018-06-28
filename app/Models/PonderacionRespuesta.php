@@ -26,4 +26,9 @@ class PonderacionRespuesta extends Model
      * @var array
      */
     protected $guarded = ['PK_PRT_Id', 'created_at', 'updated_at'];
+
+    public function tipo()
+    {
+        return $this->belongsTo(TipoRespuesta::class, 'FK_PRT_TipoRespuestas', 'PK_TRP_Id');
+    }
 }

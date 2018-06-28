@@ -32,7 +32,7 @@
                 </li>
             </ul>
         </li>
-        <li><a href ="{{ route('fuentesP.tipoRespuesta.index') }}" ><i class="fa fa-pencil-square-o"></i>Gestionar Respuestas </a>
+        <li><a href ="{{ route('fuentesP.tipoRespuesta.index') }}" ><i class="fa fa-pencil-square-o"></i>Gestionar Tipo de Respuestas </a>
         </li>
         <li><a><i class="fa fa-spinner"></i>Proceso de autoevaluacion<span class="fa fa-chevron-down"></span> </a>
             <ul class="nav child_menu">
