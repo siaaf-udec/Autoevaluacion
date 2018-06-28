@@ -5,7 +5,8 @@
 <!-- NProgress -->
 <link href="{{ asset('gentella/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
 <!-- jQuery custom content scroller -->
-<link href="{{ asset('gentella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}" rel="stylesheet"/>
+<link href="{{ asset('gentella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}"
+      rel="stylesheet"/>
 <!-- Styles for content-->
 @stack('styles')
 <!-- Custom Theme Style -->

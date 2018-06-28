@@ -9,8 +9,9 @@
 <!-- jQuery custom content scroller -->
 <script src="{{ asset('gentella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
 <!-- Scripts for content -->
-    @stack('scripts')
+@stack('scripts')
 <!-- Custom Theme Scripts -->
 <script src="{{ asset('gentella/build/js/custom.min.js') }}"></script>
+<script src="{{ asset('js/admin.js') }}"></script>
 
 

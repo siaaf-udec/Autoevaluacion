@@ -98,7 +98,7 @@ function selectDinamico(Id_select_1, Id_select_2, ruta, dependientes = []) {
     })
 }
 
-function selectMultiplesParametros(selects ,id_selects, select_objetivo, ruta, dependientes = []) {
+function selectMultiplesParametros(selects, id_selects, select_objetivo, ruta, dependientes = []) {
     // Bloqueamos el SELECT de los select2
     $(select_objetivo).prop('disabled', true);
     ruta = ruta + '/';
@@ -106,7 +106,7 @@ function selectMultiplesParametros(selects ,id_selects, select_objetivo, ruta, d
         $(dependientes[i]).find('option').remove();
         $(dependientes[i]).prop('disabled', true);
     }
-    for(let i = 0; i < id_selects.length; i++){
+    for (let i = 0; i < id_selects.length; i++) {
         ruta = ruta + id_selects[i] + '/';
     }
     for (let i = 0; i < selects.length; i++) {
@@ -121,14 +121,14 @@ function selectMultiplesParametros(selects ,id_selects, select_objetivo, ruta, d
             $(select_objetivo).prop('disabled', false);
             // Limpiamos el select
             $(select_objetivo).find('option').remove();
-            if(r.length == 0){
+            if (r.length == 0) {
                 $(select_objetivo).prop('disabled', true);
                 $(select_objetivo).append('<option value="">No se ha encontrado ningún registro</option>');
             }
             for (let i = 0; i < selects.length; i++) {
                 $(selects[i]).prop('disabled', false);
             }
-            
+
             $.each(r, function (key, data) { // indice, valor
                 $(select_objetivo).append('<option value="' + key + '">' + data + '</option>');
             })
@@ -192,4 +192,46 @@ function fecha(nombre) {
         "drops": "up"
 
     });
+}
+
+function mostrarProcesos(ruta) {
+    var form = $('#form_mostrar_proceso');
+    $('#procesos_usuario').find('option').remove();
+    $.ajax({
+        
+        url: ruta,
+        type: 'GET',
+        dataType: 'json',
+        success: function (r) {
+            console.log(r);
+
+            $.each(r, function (key, data) { // indice, valor
+                $("#procesos_usuario").append('<option value="' + key + '">' + data + '</option>');
+            })
+            $('#modal_mostrar_procesos').modal('toggle');
+        },
+        error: function () {
+            alert('Ocurrio un error en el servidor ..');
+        }
+    });
+
+    form.submit(function (e) {
+
+        e.preventDefault();
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            data: form.serialize(),
+            dataType: 'json',
+            success: function (r) {
+                $('#valor_proceso small').text(r);
+                $('#modal_mostrar_procesos').modal('hide');
+            },
+            error: function (data) {
+
+                
+            }
+        });
+    });
+
 }

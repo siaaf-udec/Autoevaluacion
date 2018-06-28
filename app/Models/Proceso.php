@@ -59,4 +59,9 @@ class Proceso extends Model
     {
         return $this->belongsTo(Lineamiento::class, 'FK_PCS_Lineamiento', 'PK_LNM_Id');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'tbl_procesos_usuarios', 'FK_PCU_Proceso', ' FK_PCU_Usuario');
+    }
 }

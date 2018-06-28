@@ -1,34 +1,34 @@
 <div class="item form-group">
-{!! Form::label('ECT_FechaPublicacion','Fecha de Publicacion Año-Mes-Día', ['class'=>'control-label col-md-4 col-sm-3 col-xs-12']) !!}
+    {!! Form::label('ECT_FechaPublicacion','Fecha de Publicacion Año-Mes-Día', ['class'=>'control-label col-md-4 col-sm-3 col-xs-12']) !!}
     <div class="col-md-5 col-sm-9 col-xs-9">
-    {!! Form::text('ECT_FechaPublicacion', old('ECT_FechaPublicacion'), [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12',
-         'required' => 'required',
-         'data-inputmask' => "'mask': '9999-99-99'",
-        'data-parsley-trigger'=>"change" ] ) !!}
-    <span class="fa fa-calendar form-control-feedback right" aria-hidden="true"></span>
+        {!! Form::text('ECT_FechaPublicacion', old('ECT_FechaPublicacion'), [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12',
+             'required' => 'required',
+             'data-inputmask' => "'mask': '9999-99-99'",
+            'data-parsley-trigger'=>"change" ] ) !!}
+        <span class="fa fa-calendar form-control-feedback right" aria-hidden="true"></span>
     </div>
 </div>
 
 <div class="item form-group">
-{!! Form::label('ECT_FechaFinalizacion','Fecha de Finalizacion Año-Mes-Día', ['class'=>'control-label col-md-4 col-sm-3 col-xs-12']) !!}
+    {!! Form::label('ECT_FechaFinalizacion','Fecha de Finalizacion Año-Mes-Día', ['class'=>'control-label col-md-4 col-sm-3 col-xs-12']) !!}
     <div class="col-md-5 col-sm-9 col-xs-9">
-    {!! Form::text('ECT_FechaFinalizacion', old('ECT_FechaFinalizacion'), [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12',
-         'required' => 'required',
-         'data-inputmask' => "'mask': '9999-99-99'",
-        'data-parsley-trigger'=>"change" ] ) !!}
-    <span class="fa fa-calendar form-control-feedback right" aria-hidden="true"></span>
+        {!! Form::text('ECT_FechaFinalizacion', old('ECT_FechaFinalizacion'), [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12',
+             'required' => 'required',
+             'data-inputmask' => "'mask': '9999-99-99'",
+            'data-parsley-trigger'=>"change" ] ) !!}
+        <span class="fa fa-calendar form-control-feedback right" aria-hidden="true"></span>
     </div>
 </div>
 
 <div class="item form-group">
-{!! Form::label('FK_ECT_Estado','Estado', [ 'class'=>'control-label col-md-4 col-sm-3 col-xs-12']) !!}
-        <div class="col-md-5 col-sm-9 col-xs-9">
+    {!! Form::label('FK_ECT_Estado','Estado', [ 'class'=>'control-label col-md-4 col-sm-3 col-xs-12']) !!}
+    <div class="col-md-5 col-sm-9 col-xs-9">
         {!! Form::select('FK_ECT_Estado',$estados, old('FK_ECT_Estado'), [
             'placeholder' => 'Seleccione un estado',
             'class' => 'select2 form-control',
             'id' => 'estado', 
             'required' => 'required' ]) !!}
-        </div>
+    </div>
 </div>
 
 

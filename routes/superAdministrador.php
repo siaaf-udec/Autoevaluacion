@@ -8,6 +8,11 @@
 //  });
 
 Route::get('/', array('as' => 'admin.home', 'uses' => 'pageController@index'));
+Route::get('mostrar_procesos', array('as' => 'admin.mostrar_procesos', 'uses' => 'pageController@mostrarProcesos'));
+Route::post('seleccionar_proceso', array('as' => 'admin.mostrar_procesos.seleccionar_proceso', 'uses' => 'pageController@seleccionarProceso'));
+
+
+
 
 Route::resource('usuarios', 'userController', ['as' => 'admin'])->except([
     'show'

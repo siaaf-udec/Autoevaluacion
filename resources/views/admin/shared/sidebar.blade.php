@@ -1,11 +1,12 @@
 <div class="col-md-3 left_col menu_fixed">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-            <a href="{{route('admin.home')}}" class="site_title"><i class="fa fa-book"></i> <span>{{ config('app.name') }}</span></a>
+            <a href="{{route('admin.home')}}" class="site_title"><i class="fa fa-book"></i>
+                <span>{{ config('app.name') }}</span></a>
         </div>
         <!-- menu profile quick info -->
     @include('admin.shared.menuProfile')
-        <!-- /menu profile quick info -->
+    <!-- /menu profile quick info -->
 
         <br/>
 
@@ -26,10 +27,10 @@
                     @hasanyrole('SUPERADMIN|FUENTES_SECUNDARIAS')
                     @include('admin.shared.menuSidebar.fuentesSecundarias')
                     @endhasanyrole
-                    
+
                 </ul>
             </div>
-            
+
 
         </div>
     </div>

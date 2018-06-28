@@ -509,7 +509,7 @@ body {
     padding: 10px 0
 }
 .page-title .title_left {
-    width: 45%;
+    width: 55%;
     float: left;
     display: block
 }
@@ -517,8 +517,8 @@ body {
     margin: 9px 0
 }
 .page-title .title_right {
-    width: 55%;
-    float: left;
+    width: 45%;
+    float: right;
     display: block
 }
 .page-title .title_right .pull-right {
@@ -4254,4 +4254,7 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
 
 .swal2-popup {
     font-size: 1.6rem !important;
+}
+.fa-refresh:hover {
+    color: #39aa1d;
 }

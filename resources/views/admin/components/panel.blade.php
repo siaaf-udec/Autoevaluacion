@@ -8,9 +8,9 @@
 <div class="x_panel {{ $class or '' }}">
     <div class="x_title">
         @if (isset($title))
-        <h2>
-            {{ $title }}
-        </h2>
+            <h2>
+                {{ $title }}
+            </h2>
         @endif
         <ul class="nav navbar-right panel_toolbox">
             @if(isset($settings)) {{ $settings }} @endif

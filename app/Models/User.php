@@ -61,4 +61,9 @@ class User extends Authenticatable
         return $this->belongsTo(Estado::class, 'id_estado', 'PK_ESD_Id');
     }
 
+    public function procesos()
+    {
+        return $this->belongsToMany(Proceso::class, 'tbl_procesos_usuarios', 'FK_PCU_Usuario', 'FK_PCU_Proceso');
+    }
+
 }

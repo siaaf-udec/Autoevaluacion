@@ -2,51 +2,51 @@
 
 @section('content')
     @component('admin.components.panel')
-            @slot('title', 'Crear Rol')
-            {!! Form::open([
-                'route' => 'admin.roles.store',
-                'method' => 'POST', 
-                'id' => 'form_crear_rol',
-                'class' => 'form-horizontal form-label-lef',
-                'novalidate'
-            ])!!}
-            @include('autoevaluacion.SuperAdministrador.Roles._form')
-            <div class="ln_solid"></div>
-            <div class="form-group">
-                <div class="col-md-6 col-md-offset-3">
-            
-                    {{ link_to_route('admin.roles.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
-                    {!! Form::submit('Crear Rol', ['class' => 'btn btn-success']) !!}
-                </div>
+        @slot('title', 'Crear Rol')
+        {!! Form::open([
+            'route' => 'admin.roles.store',
+            'method' => 'POST',
+            'id' => 'form_crear_rol',
+            'class' => 'form-horizontal form-label-lef',
+            'novalidate'
+        ])!!}
+        @include('autoevaluacion.SuperAdministrador.Roles._form')
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-md-offset-3">
+
+                {{ link_to_route('admin.roles.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
+                {!! Form::submit('Crear Rol', ['class' => 'btn btn-success']) !!}
             </div>
+        </div>
         {!! Form::close() !!}
     @endcomponent
 @endsection
 
 @push('styles')
-<!-- PNotify -->
-<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
-<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
-<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
-<!-- Select2 -->
-<link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
+    <!-- PNotify -->
+    <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
+    <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
+    <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @endpush
 
 @push('scripts')
-<!-- validator -->
-<script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
-<script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
-<!-- PNotify -->
-<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
-<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
-<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
-<!-- Select2 -->
-<script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
+    <!-- validator -->
+    <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
+    <script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
+    <!-- PNotify -->
+    <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
+    <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
+    <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
 @endpush
 @push('functions')
-<script type="text/javascript">
-    
-        $(document).ready(function() {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
             $('.select2_permisos').select2();
             var form = $('#form_crear_rol');
             $(form).parsley({
@@ -54,25 +54,25 @@
                 successClass: "has-success",
                 errorClass: "has-error",
                 classHandler: function (el) {
-                return el.$element.closest('.form-group');
+                    return el.$element.closest('.form-group');
                 },
                 errorsWrapper: '<p class="help-block help-block-error"></p>',
                 errorTemplate: '<span></span>',
             });
-           
- 
-            form.submit(function(e) {
-        
+
+
+            form.submit(function (e) {
+
                 e.preventDefault();
                 $.ajax({
-                    url     : form.attr('action'),
-                    type    : form.attr('method'),
-                    data    : form.serialize(),
+                    url: form.attr('action'),
+                    type: form.attr('method'),
+                    data: form.serialize(),
                     dataType: 'json',
                     success: function (response, NULL, jqXHR) {
                         $(form)[0].reset();
                         $(".select2_permisos").select2('data', {}); // clear out values selected 
-                        $(".select2_permisos").select2({ allowClear: true });
+                        $(".select2_permisos").select2({allowClear: true});
                         // re-init to show default status
                         $(form).parsley().reset();
                         new PNotify({
@@ -83,11 +83,11 @@
                         });
                     },
                     error: function (data) {
-                        
+
                         var errores = data.responseJSON.errors;
                         var msg = '';
-                        $.each(errores, function(name, val) {
-                             msg += val + '<br>'; 
+                        $.each(errores, function (name, val) {
+                            msg += val + '<br>';
                         });
                         new PNotify({
                             title: "Error!",
@@ -99,7 +99,7 @@
                 });
             });
         });
-    
 
-</script>
+
+    </script>
 @endpush

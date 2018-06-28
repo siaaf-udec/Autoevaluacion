@@ -9,25 +9,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{{ config('app.name') }} - @yield('title')</title>
-    @include('admin.shared.head')
-    <!-- Syles for content-->
+@include('admin.shared.head')
+<!-- Syles for content-->
     @stack('styles')
 </head>
 
 <body class="login">
-    <div>
-        <a class="hiddenanchor" id="signup"></a>
-        <a class="hiddenanchor" id="signin"></a>
+<div>
+    <a class="hiddenanchor" id="signup"></a>
+    <a class="hiddenanchor" id="signin"></a>
 
-        <div class="login_wrapper">
+    <div class="login_wrapper">
 
 
-            @yield('content')
-        </div>
+        @yield('content')
     </div>
-    @include('admin.shared.scripts')
-    <!-- Syles for content-->
-    @stack('scripts')
+</div>
+@include('admin.shared.scripts')
+<!-- Syles for content-->
+@stack('scripts')
 </body>
 
 </html>
