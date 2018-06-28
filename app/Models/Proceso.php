@@ -31,10 +31,14 @@ class Proceso extends Model
      */
     protected $guarded = ['PK_PCS_Id', 'created_at', 'updated_at'];
 
-    public function sede()
-    {
-        return $this->hasOne(Sede::class,'PK_SDS_Id','FK_PCS_Sede');
-    }
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['PCS_FechaInicio', 'PCS_FechaFin'];
+
+
 
     public function programa()
     {
@@ -49,5 +53,10 @@ class Proceso extends Model
     public function encuesta()
     {
         return $this->hasMany(Encuesta::class,'FK_ECT_Proceso','PK_PCS_Id');
+    }
+
+    public function lineamiento()
+    {
+        return $this->belongsTo(Lineamiento::class, 'FK_PCS_Lineamiento', 'PK_LNM_Id');
     }
 }

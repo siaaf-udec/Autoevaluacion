@@ -45,34 +45,14 @@ class IndicadorDocumentalController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            // $indicadores_documentales = IndicadorDocumental::with(['caracteristica'=>
-            // function ($query) {
-            //     return $query->select('PK_CRT_Id', 'CRT_Nombre');
-            // }])
-            // ->with(['caracteristica.factor'=>
-            // function ($query) {
-            //     return $query->select('PK_FCT_Id', 'FCT_Nombre');
-            // }])
-            // ->with(['caracteristica.factor.lineamiento'=>
-            // function ($query) {
-            //     return $query->select('PK_LNM_Id', 'LNM_Nombre');
-            // }])
-            // ->with(['estado' => function ($query) {
-            //     return $query->select('PK_ESD_Id', 'ESD_Nombre');
-            // }])
+            // $indicadores_documentales = IndicadorDocumental::join('tbl_caracteristicas', 'tbl_indicadores_documentales.PK_IDO_Id','=','tbl_caracteristicas.PK_CRT_Id')
+            // ->join('tbl_factores', 'tbl_caracteristicas.FK_CRT_Factor','=', 'tbl_factores.PK_FCT_Id')
+            // ->join('tbl_lineamientos', 'tbl_factores.FK_FCT_Lineamiento','=', 'tbl_lineamientos.PK_LNM_Id')
+            // ->select('tbl_indicadores_documentales.IDO_Nombre',  'tbl_caracteristicas.CRT_Nombre', 
+            // 'tbl_factores.FCT_Nombre', 'tbl_lineamientos.LNM_Nombre')
             // ->get();
+            
 
-            // $indicadores_documentales = IndicadorDocumental::with(['caracteristica' =>
-            // function ($query) {
-            //     return $query->select(['PK_CRT_Id', 'CRT_Nombre']);
-            // },'caracteristica.factor' => function ($query) {
-            //     return $query->select(['PK_FCT_Id', 'FCT_Nombre']);
-            // }, 'caracteristica.factor.lineamiento' => function ($query) {
-            //     return $query->select(['PK_LNM_Id', 'LNM_Nombre']);
-            // }, 'estado' => function ($query) {
-            //     return $query->select(['PK_ESD_Id', 'ESD_Nombre']);
-            // }])
-            // ->get();
             $indicadores_documentales = IndicadorDocumental::with('caracteristica.factor.lineamiento')
             ->with(['estado' => function ($query) {
                 return $query->select('PK_ESD_Id', 'ESD_Nombre');

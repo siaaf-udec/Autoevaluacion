@@ -32,7 +32,12 @@
     @endcan
     @can('ACCEDER_PROGRAMAS_ACADEMICOS')
     <li>
-        <a href="{{ route('admin.programas_academicos.index')}}"><i class="fa fa-university"></i> Programas Academicos</a>
+        <a href="{{ route('admin.programas_academicos.index')}}"><i class="fa fa-university"></i> Programas Académicos</a>
+    </li>
+    @endcan
+    @can('ACCEDER_PROCESOS_PROGRAMAS')
+    <li>
+        <a href="{{ route('admin.procesos_programas.index')}}"><i class="fa fa-university"></i> Procesos programas</a>
     </li>
     @endcan
         <li><a><i class="fa fa-file"></i>CNA<span class="fa fa-chevron-down"></span> </a>

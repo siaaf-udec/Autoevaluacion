@@ -44,6 +44,7 @@
 @endpush
 @push('functions')
 <script type="text/javascript">
+$(document).ready(function() {
             $('#lineamiento').select2();
             $('#factor').select2();
             $('#caracteristica').select2();
@@ -100,6 +101,7 @@
                     }
                 });
             });
+});
 </script>
 
 @endpush

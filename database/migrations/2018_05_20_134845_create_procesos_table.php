@@ -18,15 +18,15 @@ class CreateProcesosTable extends Migration
             $table->string("PCS_Nombre");
             $table->date("PCS_FechaInicio");
             $table->date("PCS_FechaFin");
-            $table->integer("FK_PCS_Sede")->unsigned();
+            $table->boolean('PCS_Institucional')->default(false);
             $table->integer("FK_PCS_Programa")->unsigned()->nullable();
             $table->integer("FK_PCS_Fase")->unsigned();
-
+            $table->integer('FK_PCS_Lineamiento')->unsigned();
             $table->timestamps();
 
-            $table->foreign("FK_PCS_Sede")->references("PK_SDS_Id")->on("TBL_Sedes")->onDelete("cascade");
             $table->foreign("FK_PCS_Programa")->references("PK_PAC_Id")->on("TBL_Programas_Academicos")->onDelete("cascade");
             $table->foreign("FK_PCS_Fase")->references("PK_FSS_Id")->on("TBL_Fases")->onDelete("cascade");
+            $table->foreign("FK_PCS_Lineamiento")->references("PK_LNM_Id")->on("TBL_Lineamientos")->onDelete("cascade");
         });
     }
 
