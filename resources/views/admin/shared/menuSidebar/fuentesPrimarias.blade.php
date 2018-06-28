@@ -29,19 +29,7 @@
             </li>
             </ul>
         </li>
-        <li><a><i class="fa fa-pencil-square-o"></i>Gestionar Respuestas<span class="fa fa-chevron-down"></span> </a>
-        <ul class="nav child_menu">
-            <li class="sub_menu"><a href="level2.html"><i class="fa fa-plus-square-o"></i>Crear tipo de respuesta</a>
-            </li>
-            <li><a href="#level2_1"><i class="fa fa-refresh"></i>Modificar tipos de respuesta</a>
-            </li>
-            <li><a href="#level2_2"><i class="fa fa-refresh"></i>Eliminar tipos de respuesta</a>
-            </li>
-            <li><a href="#level2_2"><i class="fa fa-eye-slash"></i>Deshabilitar tipos de respuesta</a>
-            </li>
-            <li><a href="#level2_2"><i class="fa fa-search"></i>Consultar tipos de respuesta</a>
-            </li>
-            </ul>
+        <li><a href ="{{ route('fuentesP.tipoRespuesta.index') }}" ><i class="fa fa-pencil-square-o"></i>Gestionar Respuestas </a>
         </li>
         <li><a><i class="fa fa-spinner"></i>Proceso de autoevaluacion<span class="fa fa-chevron-down"></span> </a>
         <ul class="nav child_menu">

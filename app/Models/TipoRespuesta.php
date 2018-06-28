@@ -26,4 +26,9 @@ class TipoRespuesta extends Model
      * @var array
      */
     protected $guarded = ['PK_TRP_Id', 'created_at', 'updated_at'];
+
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class, 'FK_TRP_Estado', 'PK_ESD_Id');
+    }
 }

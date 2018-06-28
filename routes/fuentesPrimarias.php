@@ -17,3 +17,6 @@ Route::resource('encuestas', 'EncuestasController', ['as' => 'fuentesP']);
 Route::resource('establecerPreguntas', 'EstablecerPreguntasController', ['as' => 'fuentesP'])->except([
     'show'
 ]);;
+
+Route::resource('tipoRespuesta', 'TipoRespuestaController', ['as' => 'fuentesP']);
+Route::get('tipoRespuesta/data/data', array('as' => 'fuentesP.tipoRespuesta.data', 'uses' => 'TipoRespuestaController@data'));

@@ -1,40 +1,33 @@
 <?php
 
-namespace App\Http\Controllers\SuperAdministrador;
+namespace App\Http\Controllers\FuentesPrimarias;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\FacultadesRequest;
-use App\Models\Estado;;
-use App\Models\Facultad;
+use App\Models\Estado;
+use App\Models\TipoRespuesta;
 use DataTables;
 
-
-class FacultadController extends Controller
+class TipoRespuestaController extends Controller
 {
-    /**
-     * Instantiate a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('permission:ACCEDER_FACULTADES');
-        $this->middleware(['permission:MODIFICAR_FACULTADES', 'permission:VER_FACULTADES'], ['only' => ['edit', 'update']]);
-        $this->middleware('permission:CREAR_FACULTADES', ['only' => ['create', 'store']]);
-        $this->middleware('permission:ELIMINAR_FACULTADES', ['only' => ['destroy']]);
-    }
-
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('permission:ACCEDER_TIPO_RESPUESTAS');
+        $this->middleware(['permission:MODIFICAR_TIPO_RESPUESTAS', 'permission:VER_TIPO_RESPUESTAS'], ['only' => ['edit', 'update']]);
+        $this->middleware('permission:CREAR_TIPO_RESPUESTAS', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ELIMINAR_TIPO_RESPUESTAS', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        return view('autoevaluacion.SuperAdministrador.Facultades.index', compact('estados'));
+        return view('autoevaluacion.FuentesPrimarias.TipoRespuestas.index', compact('estados'));
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -43,37 +36,31 @@ class FacultadController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $facultades = Facultad::with('estado')->get();
-            return Datatables::of($facultades)
+            $tipoRespuestas = TipoRespuesta::with('estado')->get();
+            return Datatables::of($tipoRespuestas)
                 ->make(true);
-
         }
     }
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
+        //
     }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(FacultadesRequest $request)
+    public function store(Request $request)
     {
-        $facultad = new Facultad();
-        $facultad->fill($request->only(['FCD_Nombre', 'FCD_Descripcion']));
-        $facultad->FK_FCD_Estado = $request->get('PK_ESD_Id');
-        $facultad->save();
+        $tipoRespuestas = new TipoRespuesta();
+        $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_CantidadRespuestas','TRP_Descripcion']));
+        $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
+        $tipoRespuestas->save();
 
         return response([
-            'msg' => 'Facultad registrada correctamente.',
+            'msg' => 'Tipo de respuesta registrada correctamente.',
             'title' => '¡Registro exitoso!'
         ], 200) // 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
@@ -87,6 +74,7 @@ class FacultadController extends Controller
      */
     public function show($id)
     {
+        //
     }
 
     /**
@@ -97,7 +85,7 @@ class FacultadController extends Controller
      */
     public function edit($id)
     {
-
+        //
     }
 
     /**
@@ -107,17 +95,16 @@ class FacultadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(FacultadesRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $facultad = Facultad::findOrFail($id);
-        $facultad->fill($request->only(['FCD_Nombre', 'FCD_Descripcion']));
-        $facultad->FK_FCD_Estado = $request->get('PK_ESD_Id');
-        $facultad->update();
-
+        $tipoRespuestas = TipoRespuesta::findOrFail($id);
+        $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_CantidadRespuestas','TRP_Descripcion']));
+        $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
+        $tipoRespuestas->update();
 
         return response([
-            'msg' => 'La facultad ha sido modificado exitosamente.',
-            'title' => 'Facultad Modificada!'
+            'msg' => 'El tipo de respuesta ha sido modificado exitosamente.',
+            'title' => 'Tipo de respuesta Modificado!'
         ], 200) // 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
     }
@@ -130,13 +117,12 @@ class FacultadController extends Controller
      */
     public function destroy($id)
     {
-        $facultad = Facultad::findOrFail($id);
-        $facultad->delete();
-
+        $tipoRespuestas = TipoRespuesta::findOrFail($id);
+        $tipoRespuestas->delete();
 
         return response([
-            'msg' => 'La Facultad ha sido eliminada exitosamente.',
-            'title' => '¡Facultad Eliminada!'
+            'msg' => 'El tipo de respuesta ha sido eliminado exitosamente.',
+            'title' => '¡Tipo de respuesta Eliminado!'
         ], 200) // 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
     }

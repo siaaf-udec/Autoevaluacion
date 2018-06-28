@@ -44,7 +44,6 @@ class Estado extends Model
     {
         return $this->hasMany(Caracteristica::class,'FK_CRT_Estado','PK_ESD_Id');
     }
-
     public function encuesta()
     {
         return $this->hasMany(Encuesta::class,'FK_ECT_Estado','PK_ESD_Id');
