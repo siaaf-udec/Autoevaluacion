@@ -53,11 +53,16 @@ function parsleyInit(form) {
 function selectDinamico(Id_select_1, Id_select_2, ruta, dependientes = []) {
     // Bloqueamos el SELECT de los select2
     $(Id_select_2).prop('disabled', true);
+    
 
     // Hacemos la lógica que cuando nuestro SELECT cambia de valor haga algo
     $(Id_select_1).change(function () {
         // Guardamos el select de select2
         var select2 = $(Id_select_2);
+        for (let i = 0; i < dependientes.length; i++) {
+            $(dependientes[i]).find('option').remove();
+            $(dependientes[i]).prop('disabled', true);
+        }
 
         // Guardamos el select de select2
         var select1 = $(this);
@@ -75,14 +80,11 @@ function selectDinamico(Id_select_1, Id_select_2, ruta, dependientes = []) {
 
                     // Limpiamos el select
                     select2.find('option').remove();
+                    select2.append('<option value="">--Seleccione--</option>');
                     $.each(r, function (key, data) { // indice, valor
                         select2.append('<option value="' + key + '">' + data + '</option>');
                     })
 
-                    for (let i = 0; i < dependientes.length; i++) {
-                        $(dependientes[i]).find('option').remove();
-                        $(dependientes[i]).prop('disabled', true);
-                    }
 
                     select2.prop('disabled', false);
                 },
@@ -214,24 +216,4 @@ function mostrarProcesos(ruta) {
             alert('Ocurrio un error en el servidor ..');
         }
     });
-
-    form.submit(function (e) {
-
-        e.preventDefault();
-        $.ajax({
-            url: form.attr('action'),
-            type: form.attr('method'),
-            data: form.serialize(),
-            dataType: 'json',
-            success: function (r) {
-                $('#valor_proceso small').text(r);
-                $('#modal_mostrar_procesos').modal('hide');
-            },
-            error: function (data) {
-
-                
-            }
-        });
-    });
-
 }

@@ -37,7 +37,7 @@ class pageController extends Controller
         $procesoSede = $sede . ' ' . $proceso->PCS_Nombre;
         session(['proceso' => $procesoSede]);
         session(['id_proceso' => $request->get('PK_PCS_Id')]);
-        return json_encode($procesoSede);
+        return redirect()->back();
     }
     
 }

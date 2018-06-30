@@ -107,6 +107,9 @@ class IndicadorDocumentalController extends Controller
      */
     public function show($id)
     {
+        $indicadores_documentales = IndicadorDocumental::where('FK_IDO_Caracteristica', $id)
+        ->pluck('IDO_Nombre', 'PK_IDO_Id');
+        return json_encode($indicadores_documentales);
     }
 
     /**

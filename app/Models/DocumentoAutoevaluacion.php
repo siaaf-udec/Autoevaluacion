@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Container\Autoevaluation\src\Dependencia;
+
 
 class DocumentoAutoevaluacion extends Model
 {
@@ -45,7 +45,7 @@ class DocumentoAutoevaluacion extends Model
 
     public function tipoDocumento()
     {
-        return $this->belongsTo(TipoDocumento::class, 'FK_DOA_TipoDocumento', 'PK_TDO_Nombre');
+        return $this->belongsTo(TipoDocumento::class, 'FK_DOA_TipoDocumento', 'PK_TDO_Id');
     }
 
     public function dependencia()

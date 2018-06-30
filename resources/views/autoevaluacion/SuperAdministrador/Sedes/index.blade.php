@@ -62,7 +62,6 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
     <!-- Select2 -->
     <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
-    <script src="{{ asset('js/admin.js') }}"></script>
 
 
 

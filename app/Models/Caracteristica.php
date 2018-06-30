@@ -40,6 +40,11 @@ class Caracteristica extends Model
     public function ambitoResponsabilidad(){
         return $this->belongsTo(AmbitoResponsabilidad::class, 'FK_CRT_Ambito', 'PK_AMB_Id');
     }
+
+    public function indicadores_documentales()
+    {
+        return $this->hasMany(IndicadorDocumental::class, 'FK_IDO_Caracteristica', 'PK_CRT_Id');
+    }
   
 
 }

@@ -1,18 +1,19 @@
 @extends('admin.layouts.app')
 @section('content')
     @component('admin.components.panel')
-        @slot('title', 'Modificar Indicador documental')
-        {!! Form::model($indicador, [ 'route' => ['documental.indicadores_documentales.update', $indicador],
-        'method' => 'PUT', 'id' => 'form_modificar_indicador_documental',
-        'class' => 'form-horizontal form-label-lef', 'novalidate' ])
+        @slot('title', 'Modificar Doncumento autoevaluacion')
+        {!! Form::model($documento, [ 'route' => ['documental.documentos_autoevaluacion.update', $documento],
+        'method' => 'PUT', 'id' => 'form_modificar_documento',
+        'class' => 'form-horizontal form-label-left', 'novalidate' ])
         !!}
-        @include('autoevaluacion.FuentesSecundarias.IndicadoresDocumentales._form')
+        @include('autoevaluacion.FuentesSecundarias.DocumentosAutoevaluacion._form')
         <div class="ln_solid"></div>
         <div class="form-group">
             <div class="col-md-6 col-md-offset-3">
 
-                {{ link_to_route('documental.indicadores_documentales.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
-                {!! Form::submit('Modificar Indicador Documental',
+                {{ link_to_route('documental.documentos_autoevaluacion.index',"Cancelar", [], 
+                ['class' => 'btn btn-info']) }}
+                {!! Form::submit('Modificar Documento',
                 ['class' => 'btn btn-success']) !!}
             </div>
         </div>
@@ -25,6 +26,14 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
     <!-- Select2 -->
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
+    <!-- Dropzone.js -->
+    <link href="{{ asset('gentella/vendors/dropzone/dist/min/dropzone.min.css') }}" rel="stylesheet">
+    <style>
+        .dropzone {
+            height: 40%;
+            min-height: 0px !important;
+        }
+    </style>
 @endpush @push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
@@ -35,20 +44,35 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
     <!-- Select2 -->
     <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
+    <!-- Dropzone.js -->
+    <script src="{{ asset('gentella/vendors/dropzone/dist/min/dropzone.min.js') }}"></script>
 
 @endpush @push('functions')
     <script type="text/javascript">
+     Dropzone.options.myDropzone = {
+            url: $('#form_modificar_documento').attr('action'),
+            autoProcessQueue: false,
+            uploadMultiple: false,
+            parallelUploads: 1,
+            maxFiles: 1,
+            maxFilesize: 4,
+            addRemoveLinks: true,
+        }
         $(document).ready(function () {
-            $('#lineamiento').select2();
+
             $('#factor').select2();
             $('#caracteristica').select2();
-            $('#estado').select2();
-            selectDinamico("#lineamiento", "#factor", "{{url('admin/factores')}}", ['#caracteristica']);
-            selectDinamico("#factor", "#caracteristica", "{{url('admin/caracteristicas')}}");
+            $('#indicador').select2();
+            $('#dependencia').select2();
+            $('#tipo_documento').select2();
+        
+            selectDinamico("#factor", "#caracteristica", "{{url('admin/documental/documentos_autoevaluacion/caracteristicas')}}", ['#indicador']);
+            selectDinamico("#caracteristica", "#indicador", "{{url('admin/documental/indicadores_documentales')}}");
 
-            $('#factor').prop('disabled', false);
+
+            $('#indicador').prop('disabled', false);
             $('#caracteristica').prop('disabled', false);
-            var form = $('#form_modificar_indicador_documental');
+            var form = $('#form_modificar_documento');
             $(form).parsley({
                 trigger: 'change',
                 successClass: "has-success",
@@ -62,17 +86,19 @@
 
 
             form.submit(function (e) {
+                var formData = new FormData(this);
+                formData.append('archivo', $('#myDropzone')[0].dropzone.getQueuedFiles()[0]);
 
                 e.preventDefault();
                 $.ajax({
                     url: form.attr('action'),
                     type: form.attr('method'),
-                    data: form.serialize(),
-                    dataType: 'json',
-                    Accept: 'application/json',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function (response, NULL, jqXHR) {
-                        sessionStorage.setItem('update', 'El Indicador documental se ha modificado exitosamente.');
-                        window.location.replace(" {{ route('documental.indicadores_documentales.index')}} ");
+                        sessionStorage.setItem('update', 'El documento de autoevaluacion ha sido modificado exitosamente.');
+                        window.location.replace(" {{ route('documental.documentos_autoevaluacion.index')}} ");
                     },
                     error: function (data) {
                         console.log(data);

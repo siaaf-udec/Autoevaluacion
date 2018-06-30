@@ -4258,3 +4258,6 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
 .fa-refresh:hover {
     color: #39aa1d;
 }
+.select2 {
+    width: 100% !important;
+}
