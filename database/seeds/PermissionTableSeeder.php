@@ -86,12 +86,18 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'MODIFICAR_TIPO_RESPUESTAS']);
         Permission::create(['name' => 'ELIMINAR_TIPO_RESPUESTAS']);
         Permission::create(['name' => 'CREAR_TIPO_RESPUESTAS']);
-         // Permisos para ponderacion de respuestas
-         Permission::create(['name' => 'ACCEDER_PONDERACION_RESPUESTAS']);
-         Permission::create(['name' => 'VER_PONDERACION_RESPUESTAS']);
-         Permission::create(['name' => 'MODIFICAR_PONDERACION_RESPUESTAS']);
-         Permission::create(['name' => 'ELIMINAR_PONDERACION_RESPUESTAS']);
-         Permission::create(['name' => 'CREAR_PONDERACION_RESPUESTAS']);
+        // Permisos para ponderacion de respuestas
+        Permission::create(['name' => 'ACCEDER_PONDERACION_RESPUESTAS']);
+        Permission::create(['name' => 'VER_PONDERACION_RESPUESTAS']);
+        Permission::create(['name' => 'MODIFICAR_PONDERACION_RESPUESTAS']);
+        Permission::create(['name' => 'ELIMINAR_PONDERACION_RESPUESTAS']);
+        Permission::create(['name' => 'CREAR_PONDERACION_RESPUESTAS']);
+        // Permisos para preguntas
+        Permission::create(['name' => 'ACCEDER_PREGUNTAS']);
+        Permission::create(['name' => 'VER_PREGUNTAS']);
+        Permission::create(['name' => 'MODIFICAR_PREGUNTAS']);
+        Permission::create(['name' => 'ELIMINAR_PREGUNTAS']);
+        Permission::create(['name' => 'CREAR_PREGUNTAS']);
 
         // Permisos Fuentes secundarias
         Permission::create(['name' => 'VER_DEPENDENCIAS']);

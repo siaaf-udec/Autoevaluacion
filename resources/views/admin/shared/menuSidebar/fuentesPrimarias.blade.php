@@ -20,17 +20,7 @@
                 </li>
             </ul>
         </li>
-        <li><a><i class="fa fa-question-circle"></i>Gestionar Preguntas<span class="fa fa-chevron-down"></span> </a>
-            <ul class="nav child_menu">
-                <li class="sub_menu"><a href="level2.html"><i class="fa fa-plus-square-o"></i>Crear pregunta</a>
-                </li>
-                <li><a href="#level2_1"><i class="fa fa-refresh"></i>Modificar pregunta</a>
-                </li>
-                <li><a href="#level2_2"><i class="fa fa-remove"></i>Eliminar pregunta</a>
-                </li>
-                <li><a href="#level2_2"><i class="fa fa-search"></i>Consultar preguntas</a>
-                </li>
-            </ul>
+        <li><a href ="{{ route('fuentesP.preguntas.index') }}" ><i class="fa fa-question-circle"></i>Gestionar Preguntas</a>
         </li>
         <li><a href ="{{ route('fuentesP.tipoRespuesta.index') }}" ><i class="fa fa-pencil-square-o"></i>Gestionar Tipo de Respuestas </a>
         </li>
