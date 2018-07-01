@@ -78,7 +78,7 @@ class PreguntasController extends Controller
             $respuestas = new RespuestaPregunta();
             $respuestas->RPG_Texto = $request->get('Respuesta_'.$i);
             $respuestas->FK_RPG_Pregunta = $insertedId;
-            $respuestas->FK_RPG_PonderacionRespuesta = 1;
+            $respuestas->FK_RPG_PonderacionRespuesta = 3;
             $respuestas->save();
         }
 
@@ -169,4 +169,9 @@ class PreguntasController extends Controller
             ], 200) // 200 Status Code: Standard response for successful HTTP request
                 ->header('Content-Type', 'application/json');
     }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
 }

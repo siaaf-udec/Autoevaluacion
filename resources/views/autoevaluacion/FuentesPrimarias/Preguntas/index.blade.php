@@ -4,7 +4,9 @@
     <div class="col-md-12">
         <div class="actions">
             <a href="{{ route('fuentesP.preguntas.create') }}" class="btn btn-info">
-                <i class="fa fa-plus"></i> Agregar Pregunta</a></div>
+                <i class="fa fa-plus"></i> Agregar Pregunta</a>
+            <a href="{{ route('fuentesP.Importarpreguntas.create') }}" class="btn btn-info">
+                <i class="fa fa-plus"></i> Importar Preguntas </a></div>
     </div>
     <br>
     <br>
