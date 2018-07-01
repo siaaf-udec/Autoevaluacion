@@ -26,4 +26,14 @@ class RespuestaPregunta extends Model
      * @var array
      */
     protected $guarded = ['PK_RPG_Id', 'created_at', 'updated_at'];
+
+    public function pregunta()
+    {
+        return $this->belongsTo(Pregunta::class, 'FK_RPG_Pregunta', 'PK_PGT_Id');
+    }
+
+    public function ponderacion()
+    {
+        return $this->belongsTo(PonderacionRespuesta::class, 'FK_RPG_PonderacionRespuesta', 'PK_PRT_Id');
+    }
 }

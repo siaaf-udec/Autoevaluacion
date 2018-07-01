@@ -67,7 +67,8 @@
                     {
                         defaultContent:
                             '@can('ELIMINAR_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
-                            '@can('MODIFICAR_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
+                            '@can('MODIFICAR_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan'+ 
+                            '<a href="javascript:;" class="btn btn-simple btn-success btn-sm ver" data-toggle="confirmation"><i class="fa fa-eye"></i></a>',
                         data: 'action',
                         name: 'action',
                         title: 'Acciones',
@@ -125,6 +126,14 @@
                 window.location.replace(route);
 
 
+            });
+            
+            table.on('click', '.ver', function (e) {
+                e.preventDefault();
+                $tr = $(this).closest('tr');
+                var dataTable = table.row($tr).data();
+                var route = '{{ url('admin/fuentesPrimarias/respuestas/') }}' + '/' + dataTable.PK_PGT_Id;
+                window.location.replace(route);
             });
 
         });

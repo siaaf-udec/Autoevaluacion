@@ -1,20 +1,20 @@
 @extends('admin.layouts.app')
 @section('content')
     @component('admin.components.panel')
-        @slot('title', 'Crear Preguntas')
+        @slot('title', 'Crear Tipo de Respuesta')
         {!! Form::open([
-            'route' => 'fuentesP.preguntas.store',
+            'route' => 'fuentesP.tipoRespuesta.store',
             'method' => 'POST',
-            'id' => 'form_crear_preguntas',
+            'id' => 'form_crear_tipoRespuestas',
             'class' => 'form-horizontal form-label-lef',
             'novalidate'
         ])!!}
-        @include('autoevaluacion.FuentesPrimarias.Preguntas.form')
+        @include('autoevaluacion.FuentesPrimarias.TipoRespuestas.form')
         <div class="ln_solid"></div>
         <div class="form-group">
             <div class="col-md-6 col-md-offset-3">
-                {{ link_to_route('fuentesP.preguntas.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
-                {!! Form::submit('Crear Pregunta', ['class' => 'btn btn-success']) !!}
+                {{ link_to_route('fuentesP.tipoRespuesta.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
+                {!! Form::submit('Crear Tipo de Respuestas', ['class' => 'btn btn-success']) !!}
             </div>
         </div>
         {!! Form::close() !!}
@@ -45,39 +45,28 @@
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#factor').select2();
-            $('#caracteristica').select2();
-            $('#tipo').select2();
             $('#estado').select2();
-            selectDinamico("#factor", "#caracteristica", "{{url('admin/caracteristicas')}}");
-            $('#tipo').change(function (e) {
+            $('#ponderacion').change(function (e) {
                 e.preventDefault();
-                var number = $("#tipo option:selected").text()
+                var number = document.getElementById('cantidad').value;
                 var container = document.getElementById("container");
                 while (container.hasChildNodes()) {
                     container.removeChild(container.lastChild);
                 }
                 for (i=1;i<=number;i++){
-                container.appendChild(document.createTextNode("Respuesta " + (i)));
+                container.appendChild(document.createTextNode("Ponderacion " + (i)));
                 var input = document.createElement("input");
                 input.type = "text";
-                input.name = "Respuesta_" + i;
-                input.maxLength = 5000;
+                input.name = "Ponderacion_" + i;
+                input.maxLength = 3;
                 input.required = true;
                 input.size = 67;
-                input.pattern = "^[a-zA-Z ][a-zA-Z0-9-_\. ]{1,5000}$";
-                var selectList = document.createElement("select");
-                selectList.name = "Ponderacion_" + i;
-                var option = document.createElement("option");
-                option.text = "Kiwi";
-                selectList.add(option);
-                input.size = 37;
+                input.pattern = "^[0-9.]*$";
                 container.appendChild(input);
-                container.appendChild(selectList);
                 container.appendChild(document.createElement("br"));
             }
             });
-            var form = $('#form_crear_preguntas');
+            var form = $('#form_crear_tipoRespuestas');
             $(form).parsley({
                 trigger: 'change',
                 successClass: "has-success",
@@ -89,7 +78,6 @@
                 errorTemplate: '<span></span>',
             });
             form.submit(function (e) {
-
                 e.preventDefault();
                 $.ajax({
                     url: form.attr('action'),
@@ -99,10 +87,6 @@
                     success: function (response, NULL, jqXHR) {
                         $(form)[0].reset();
                         $(form).parsley().reset();
-                        $("#caracteristica").html('').select2();
-                        $("#factor").html('').select2();
-                        $('#factor').prop('disabled', true);
-                        $('#caracteristica').prop('disabled', true);
                         new PNotify({
                             title: response.title,
                             text: response.msg,
@@ -111,7 +95,6 @@
                         });
                     },
                     error: function (data) {
-
                         var errores = data.responseJSON.errors;
                         var msg = '';
                         $.each(errores, function (name, val) {

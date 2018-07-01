@@ -112,13 +112,14 @@ class PreguntasController extends Controller
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         $factores = Factor::pluck('FCT_Nombre', 'PK_FCT_Id');
         $tipos = TipoRespuesta::pluck('TRP_CantidadRespuestas','PK_TRP_Id');
-
+        $respuestas = RespuestaPregunta::where('FK_RPG_Pregunta', $id)->get();
+    
         $caracteristica = new Caracteristica();
         $id_caracteristica = $pregunta->caracteristica->factor()->pluck('PK_FCT_Id')[0];
         $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('CRT_Nombre', 'PK_CRT_Id');
 
         return view('autoevaluacion.FuentesPrimarias.Preguntas.edit',
-            compact('pregunta', 'estados', 'factores', 'caracteristicas','tipos')
+            compact('pregunta', 'estados', 'factores', 'caracteristicas','tipos','respuestas')
             );
     }
 
@@ -137,18 +138,16 @@ class PreguntasController extends Controller
         $pregunta->FK_PGT_TipoRespuesta = $request->get('PK_TRP_Id');
         $pregunta->FK_PGT_Caracteristica = $request->get('PK_CRT_Id');
         $pregunta->save();
-        /*$insertedId = $pregunta->PK_PGT_Id;
-        $tipos = TipoRespuesta::select('TRP_CantidadRespuestas')->where('PK_TRP_Id', $request->get('PK_TRP_Id'))->first();
-        $cantidad =  $tipos->TRP_CantidadRespuestas;
-        for($i=1;$i<=$cantidad;$i++){
-            $respuestas = new RespuestaPregunta();
-            $respuestas->RPG_Texto = $request->get('Respuesta_'.$i);
-            $respuestas->FK_RPG_Pregunta = $insertedId;
-            $respuestas->FK_RPG_PonderacionRespuesta = 1;
-            $respuestas->save();
-        }*/
-
-
+        
+        $respuestas = RespuestaPregunta::where('FK_RPG_Pregunta', $id)->get();
+        foreach ($respuestas as $respuesta){
+            $rpta = RespuestaPregunta::find($respuesta->PK_RPG_Id);
+            $rpta->RPG_Texto = $request->get($respuesta->PK_RPG_Id);
+            $rpta->FK_RPG_Pregunta = $id;
+            $rpta->FK_RPG_PonderacionRespuesta = $respuesta->FK_RPG_PonderacionRespuesta;
+            $rpta->save();
+        }
+        
         return response(['msg' => 'La pregunta ha sido modificada exitosamente.',
                 'title' => '¡Pregunta Modificada!'
             ], 200) // 200 Status Code: Standard response for successful HTTP request

@@ -1,12 +1,4 @@
-{!! Form::hidden('PK_TRP_Id', old('PK_TRP_Id'), ['id' => 'PK_TRP_Id']) !!}
-<div class="item form-group">
-    {!! Form::label('TRP_TotalPonderacion','Ponderacion Total', ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::text('TRP_TotalPonderacion', old('TRP_TotalPonderacion'),[ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 'required' => 'required',
-        'data-parsley-length'=>'[1, 60]', 'data-parsley-pattern' => '^[0-9]*$',
-        'data-parsley-pattern-message' => 'Error, digite solo numeros','data-parsley-trigger'=>"change" ] ) !!}
-    </div>
-</div>
+@include('autoevaluacion.FuentesPrimarias.TipoRespuestas.form_general')
 
 <div class="form-group">
     {!! Form::label('TRP_CantidadRespuestas','Cantidad Respuestas', ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
@@ -14,27 +6,16 @@
         {!! Form::text('TRP_CantidadRespuestas', old('TRP_CantidadRespuestas'),
         [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 'required'
         => 'required','data-parsley-length'=>'[1, 60]','data-parsley-pattern' => '^[0-9]*$',
-        'data-parsley-pattern-message' => 'Error, digite solo numeros','data-parsley-trigger'=>"change" ] ) !!}
+        'data-parsley-pattern-message' => 'Error, digite solo numeros','data-parsley-trigger'=>"change",
+        'id' => 'cantidad'  ] ) !!}
+        <br></br>
+        <input type="checkbox" id="ponderacion" name="ponderacion" value="1">Agregar Ponderaciones</br>
+    
     </div>
 </div>
 
 <div class="form-group">
-    {!! Form::label('TRP_Descripcion','Descripcion', ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::textarea('TRP_Descripcion', old('TRP_Descripcion'),
-        [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 'required'
-        => 'required','data-parsley-length'=>'[1, 5000]',
-         'data-parsley-trigger'=>"change" ] ) !!}
-    </div>
-</div>
-
-<div class="form-group">
-    {!! Form::label('PK_ESD_Id', 'Estado', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::select('PK_ESD_Id', $estados, old('PK_ESD_Id'), ['class' => 'select2 form-control',
-        'required' => '', 'id' => 'estado',
-        'style' => 'width:100%'
-        ])
-        !!}
+    {!! Form::label('PK_PRT_Id', 'Ponderaciones', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
+    <div class="col-md-6 col-sm-6 col-xs-12" id="container">
     </div>
 </div>

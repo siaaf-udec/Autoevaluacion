@@ -4,56 +4,51 @@ namespace App\Http\Controllers\FuentesPrimarias;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\PonderacionRespuesta;
 use DataTables;
 use Session;
+use App\Models\RespuestaPregunta;
 
-class PonderacionRespuestasController extends Controller
+class RespuestasController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return void \Illuminate\Http\Response
      */
-
     public function __construct()
     {
-        $this->middleware('permission:ACCEDER_PONDERACION_RESPUESTAS');
-        $this->middleware(['permission:MODIFICAR_PONDERACION_RESPUESTAS', 'permission:VER_PONDERACION_RESPUESTAS'], ['only' => ['edit', 'update']]);
-        $this->middleware('permission:CREAR_PONDERACION_RESPUESTAS', ['only' => ['create', 'store']]);
-        $this->middleware('permission:ELIMINAR_PONDERACION_RESPUESTAS', ['only' => ['destroy']]);
+        $this->middleware('permission:ACCEDER_RESPUESTAS');
+        $this->middleware(['permission:MODIFICAR_RESPUESTAS', 'permission:VER_RESPUESTAS'], ['only' => ['edit', 'update']]);
+        $this->middleware('permission:CREAR_RESPUESTAS', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ELIMINAR_RESPUESTAS', ['only' => ['destroy']]);
     }
-      /**
-     * Show the form for editing the specified resource.
-     *
-     * 
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        
+        //
     }
 
     /**
      * Show the form for creating a new resource.
+     *
      * @return \Illuminate\Http\Response
      */
     public function create($id)
     {
         session()->put('id', $id);
-        return view('autoevaluacion.FuentesPrimarias.PonderacionRespuestas.index');
+        return view('autoevaluacion.FuentesPrimarias.Respuestas.index');
     }
+
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $ponderacionRespuestas = PonderacionRespuesta::whereHas('tipo', function($query){
-                return $query->where('FK_PRT_TipoRespuestas',session()->get('id'));
-            })->get();
-            return Datatables::of($ponderacionRespuestas)
-                ->addIndexColumn()
+            $respuestas = RespuestaPregunta::whereHas('pregunta', function($query){
+                return $query->where('FK_RPG_Pregunta',session()->get('id'));
+            })->with('ponderacion')->get();
+            return Datatables::of($respuestas)
                 ->make(true);
         }
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -62,7 +57,7 @@ class PonderacionRespuestasController extends Controller
      */
     public function store(Request $request)
     {
-
+        //
     }
 
     /**
@@ -96,7 +91,7 @@ class PonderacionRespuestasController extends Controller
      */
     public function update(Request $request, $id)
     {
-       
+        //
     }
 
     /**
@@ -107,7 +102,6 @@ class PonderacionRespuestasController extends Controller
      */
     public function destroy($id)
     {
-       
+        //
     }
-    
 }

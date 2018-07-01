@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Estado;
 use App\Models\TipoRespuesta;
+use App\Models\PonderacionRespuesta;
 use DataTables;
 
 class TipoRespuestaController extends Controller
@@ -24,8 +25,7 @@ class TipoRespuestaController extends Controller
     }
     public function index()
     {
-        $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        return view('autoevaluacion.FuentesPrimarias.TipoRespuestas.index', compact('estados'));
+        return view('autoevaluacion.FuentesPrimarias.TipoRespuestas.index');
     }
 
     /**
@@ -43,7 +43,9 @@ class TipoRespuestaController extends Controller
     }
     public function create()
     {
-        //
+        $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+
+        return view('autoevaluacion.FuentesPrimarias.TipoRespuestas.create', compact('estados'));
     }
 
     /**
@@ -58,12 +60,22 @@ class TipoRespuestaController extends Controller
         $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_CantidadRespuestas','TRP_Descripcion']));
         $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
         $tipoRespuestas->save();
+        $insertedId = $tipoRespuestas->PK_TRP_Id;
+        $cantidad = $request->TRP_CantidadRespuestas;
+        for($i=1;$i<=$cantidad;$i++)
+        {
+            $ponderacion = new PonderacionRespuesta();
+            $ponderacion->PRT_Ponderacion = $request->get('Ponderacion_'.$i);
+            $ponderacion->FK_PRT_TipoRespuestas = $insertedId;
+            $ponderacion->save();
 
+        }
         return response([
             'msg' => 'Tipo de respuesta registrada correctamente.',
             'title' => '¡Registro exitoso!'
         ], 200) // 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
+
     }
 
     /**
@@ -85,7 +97,15 @@ class TipoRespuestaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $respuesta = TipoRespuesta::findOrFail($id);
+
+        $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+
+        $ponderaciones = PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)->get();
+    
+        return view('autoevaluacion.FuentesPrimarias.TipoRespuestas.edit',
+            compact('respuesta','estados', 'ponderaciones')
+            );
     }
 
     /**
@@ -98,10 +118,17 @@ class TipoRespuestaController extends Controller
     public function update(Request $request, $id)
     {
         $tipoRespuestas = TipoRespuesta::findOrFail($id);
-        $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_CantidadRespuestas','TRP_Descripcion']));
+        $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion','TRP_Descripcion']));
         $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
         $tipoRespuestas->update();
 
+        $ponderaciones = PonderacionRespuesta::where('FK_PRT_TipoRespuestas',$id)->get();
+        foreach($ponderaciones as $ponderacion){
+            $prt = PonderacionRespuesta::find($ponderacion->PK_PRT_Id);
+            $prt->PRT_Ponderacion = $request->get($ponderacion->PK_PRT_Id);
+            $prt->FK_PRT_TipoRespuestas = $id;
+            $prt->save(); 
+        }
         return response([
             'msg' => 'El tipo de respuesta ha sido modificado exitosamente.',
             'title' => 'Tipo de respuesta Modificado!'

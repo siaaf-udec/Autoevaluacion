@@ -28,5 +28,11 @@ Route::get('ponderacion/{id}', array('as' => 'fuentesP.ponderacionRespuesta.dato
 
 Route::get('ponderacionRespuesta/data/data', array('as' => 'fuentesP.ponderacionRespuesta.data', 'uses' => 'PonderacionRespuestasController@data'));
 //preguntas
+
 Route::resource('preguntas', 'PreguntasController', ['as' => 'fuentesP']);
 Route::get('preguntas/data/data', array('as' => 'fuentesP.preguntas.data', 'uses' => 'PreguntasController@data'));
+
+//respuestas
+Route::get('respuestas/{id}', array('as' => 'fuentesP.respuestas.datos', 'uses' => 'RespuestasController@create'));
+Route::get('respuestas/data/data', array('as' => 'fuentesP.respuestas.data', 'uses' => 'RespuestasController@data'));
+

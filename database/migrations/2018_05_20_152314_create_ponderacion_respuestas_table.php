@@ -15,7 +15,6 @@ class CreatePonderacionRespuestasTable extends Migration
     {
         Schema::create('TBL_Ponderacion_Respuestas', function (Blueprint $table) {
             $table->increments('PK_PRT_Id');
-            $table->string("PRT_Titulo");
             $table->float("PRT_Ponderacion");
             $table->integer("FK_PRT_TipoRespuestas")->unsigned();
             $table->timestamps();

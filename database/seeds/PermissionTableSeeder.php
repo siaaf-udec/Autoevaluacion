@@ -98,7 +98,12 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'MODIFICAR_PREGUNTAS']);
         Permission::create(['name' => 'ELIMINAR_PREGUNTAS']);
         Permission::create(['name' => 'CREAR_PREGUNTAS']);
-
+        // Permisos para respuestas
+        Permission::create(['name' => 'ACCEDER_RESPUESTAS']);
+        Permission::create(['name' => 'VER_RESPUESTAS']);
+        Permission::create(['name' => 'MODIFICAR_RESPUESTAS']);
+        Permission::create(['name' => 'ELIMINAR_RESPUESTAS']);
+        Permission::create(['name' => 'CREAR_RESPUESTAS']);
         // Permisos Fuentes secundarias
         Permission::create(['name' => 'VER_DEPENDENCIAS']);
         Permission::create(['name' => 'CREAR_DEPENDENCIAS']);

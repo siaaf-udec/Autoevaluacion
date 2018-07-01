@@ -44,7 +44,11 @@ class RoleTableSeeder extends Seeder
             'MODIFICAR_PREGUNTAS',
             'ELIMINAR_PREGUNTAS',
             'CREAR_PREGUNTAS',
-
+            'ACCEDER_RESPUESTAS',
+            'VER_RESPUESTAS',
+            'MODIFICAR_RESPUESTAS',
+            'ELIMINAR_RESPUESTAS',
+            'CREAR_RESPUESTAS',
         ]);
 
         //Crear y asignar permisos fuentes secundarias
