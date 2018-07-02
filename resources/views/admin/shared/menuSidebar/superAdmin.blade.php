@@ -42,6 +42,12 @@
                     programas</a>
             </li>
         @endcan
+        @can('ACCEDER_GRUPOS_INTERES')
+            <li>
+                <a href="{{ route('admin.grupos_interes.index')}}"><i class="fa fa-university"></i> Grupos
+                    de Interes</a>
+            </li>
+        @endcan
         <li><a><i class="fa fa-file"></i>CNA<span class="fa fa-chevron-down"></span> </a>
             <ul class="nav child_menu">
                 @can('ACCEDER_LINEAMIENTOS')

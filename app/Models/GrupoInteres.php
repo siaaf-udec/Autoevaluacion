@@ -32,4 +32,8 @@ class GrupoInteres extends Model
     {
         return $this->hasMany(DatosEncuesta::class,'FK_DAE_GruposInteres','PK_GIT_Id');
     }
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class, 'FK_GIT_Estado', 'PK_ESD_Id');
+    }
 }

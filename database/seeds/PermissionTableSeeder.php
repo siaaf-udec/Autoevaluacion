@@ -70,6 +70,12 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'CREAR_PROCESOS_PROGRAMAS']);
         Permission::create(['name' => 'MODIFICAR_PROCESOS_PROGRAMAS']);
         Permission::create(['name' => 'ELIMINAR_PROCESOS_PROGRAMAS']);
+        //Permisos para grupos de interes
+        Permission::create(['name' => 'ACCEDER_GRUPOS_INTERES']);
+        Permission::create(['name' => 'VER_GRUPOS_INTERES']);
+        Permission::create(['name' => 'CREAR_GRUPOS_INTERES']);
+        Permission::create(['name' => 'MODIFICAR_GRUPOS_INTERES']);
+        Permission::create(['name' => 'ELIMINAR_GRUPOS_INTERES']);
         // Permisos Fuentes primarias
         Permission::create(['name' => 'VER_ENCUESTAS']);
         Permission::create(['name' => 'CREAR_ENCUESTAS']);

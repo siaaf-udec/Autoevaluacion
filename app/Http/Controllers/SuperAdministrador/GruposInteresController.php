@@ -5,35 +5,28 @@ namespace App\Http\Controllers\SuperAdministrador;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DataTables;
-use App\Models\Sede;
+use App\Models\GrupoInteres;
 use App\Models\Estado;
-use App\Http\Requests\SedesRequest;
+use App\Http\Requests\GruposInteresRequest;
 
-
-class SedeController extends Controller
+class GruposInteresController extends Controller
 {
-    /**
-     * Instantiate a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('permission:ACCEDER_SEDES');
-        $this->middleware(['permission:MODIFICAR_SEDES', 'permission:VER_SEDES'], ['only' => ['edit', 'update']]);
-        $this->middleware('permission:CREAR_SEDES', ['only' => ['create', 'store']]);
-        $this->middleware('permission:ELIMINAR_SEDES', ['only' => ['destroy']]);
-    }
-
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('permission:ACCEDER_GRUPOS_INTERES');
+        $this->middleware(['permission:MODIFICAR_GRUPOS_INTERES', 'permission:VER_GRUPOS_INTERES'], ['only' => ['edit', 'update']]);
+        $this->middleware('permission:CREAR_GRUPOS_INTERES', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ELIMINAR_GRUPOS_INTERES', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        return view('autoevaluacion.SuperAdministrador.Sedes.index', compact('estados'));
+        return view('autoevaluacion.SuperAdministrador.GruposInteres.index', compact('estados'));
     }
     /**
      * Process datatables ajax request.
@@ -43,14 +36,11 @@ class SedeController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $sedes = Sede::with('estado')->get();
-            return Datatables::of($sedes)
+            $grupos_interes = GrupoInteres::with('estado')->get();
+            return Datatables::of($grupos_interes)
                 ->make(true);
-
         }
     }
-
-
     /**
      * Show the form for creating a new resource.
      *
@@ -58,24 +48,23 @@ class SedeController extends Controller
      */
     public function create()
     {
+        //
     }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SedesRequest $request)
+    public function store(GruposInteresRequest $request)
     {
-       $sede = new Sede();
-       $sede->fill($request->only(['SDS_Nombre', 'SDS_Descripcion']));
-       $sede->FK_SDS_Estado = $request->get('PK_ESD_Id');
-       $sede->save();
-    
-
-
+        $grupos_interes = new GrupoInteres();
+        $grupos_interes->fill($request->only(['GIT_Nombre']));
+        $grupos_interes->FK_GIT_Estado = $request->get('PK_ESD_Id');
+        $grupos_interes->save();
         return response([
-            'msg' => 'Sede registrada correctamente.',
+            'msg' => 'Grupo de interes registrado correctamente.',
             'title' => '¡Registro exitoso!'
         ], 200) // 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
@@ -89,6 +78,7 @@ class SedeController extends Controller
      */
     public function show($id)
     {
+        //
     }
 
     /**
@@ -99,7 +89,7 @@ class SedeController extends Controller
      */
     public function edit($id)
     {
-
+        //
     }
 
     /**
@@ -109,15 +99,15 @@ class SedeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SedesRequest $request, $id)
+    public function update(GruposInteresRequest $request, $id)
     {
-        $sede = Sede::findOrFail($id);
-        $sede->fill($request->only(['SDS_Nombre', 'SDS_Descripcion']));
-        $sede->FK_SDS_Estado = $request->get('PK_ESD_Id');
-        $sede->update();
+        $grupos_interes = GrupoInteres::findOrFail($id);
+        $grupos_interes->fill($request->only(['GIT_Nombre']));
+        $grupos_interes->FK_GIT_Estado = $request->get('PK_ESD_Id');
+        $grupos_interes->update();
         return response([
-            'msg' => 'La sede ha sido modificada exitosamente.',
-            'title' => 'Sede Modificada!'
+            'msg' => 'El grupo de interes ha sido modificado exitosamente.',
+            'title' => 'Grupo de Interes Modificado!'
         ], 200) // 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
     }
@@ -130,13 +120,11 @@ class SedeController extends Controller
      */
     public function destroy($id)
     {
-        $sede = Sede::findOrFail($id);
-        $sede->delete();
-
-
+        $grupos_interes = GrupoInteres::findOrFail($id);
+        $grupos_interes->delete();
         return response([
-            'msg' => 'La sede ha sido eliminada exitosamente.',
-            'title' => '¡Sede Eliminada!'
+            'msg' => 'El grupo de interes ha sido eliminado exitosamente.',
+            'title' => '¡Grupo de Interes Eliminado!'
         ], 200) // 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
     }

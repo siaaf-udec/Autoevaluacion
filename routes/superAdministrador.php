@@ -84,4 +84,6 @@ Route::get('procesos_programas/{id_sede}/{id_facultad}', array(
     'uses' => 'ProcesoProgramaController@ObtenerProgramas'
 ));
 
-
+//GruposInteres
+Route::resource('grupos_interes', 'GruposInteresController', ['as' => 'admin']);
+Route::get('grupos_interes/data/data', array('as' => 'admin.grupos_interes.data', 'uses' => 'GruposInteresController@data'));
