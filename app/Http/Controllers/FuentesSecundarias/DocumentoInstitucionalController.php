@@ -33,17 +33,26 @@ class DocumentoInstitucionalController extends Controller
         }])
         ->with(['archivo' => function ($query) {
             return $query->select('PK_ACV_Id',
-                'ACV_Nombre as nombre_archivo');
+                'ACV_Nombre','ruta');
         }])
         ->get();
             return Datatables::of($docinstitucional)
+            ->addColumn('archivo', function ($docinstitucional) {
+                if (!$docinstitucional->archivo) {          
+                    return  $docinstitucional->link;    
+                }
+                else{
+                    
+                    return $docinstitucional->archivo->ruta;
+
+                }
+            })
+                ->rawColumns(['archivo'])
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
-                ->addIndexColumn()
-                ->make(true);
+                 ->make(true);
         }
     }
-
 
 
     /**
@@ -64,12 +73,12 @@ class DocumentoInstitucionalController extends Controller
      */
     public function store(DocumentoInstitucionalRequest $request)
     {
-       if($request->file('archivo')){
+       if($request->hasFile('archivo')){
            $file= $request->file('archivo');
            $archivo = new Archivo;
            $archivo->ACV_Nombre = $file->getClientOriginalName();
            $archivo->ACV_Extension = $file->extension();
-           $archivo->ruta = $file->store('DocumentosInstitucionales');
+           $archivo->ruta = Storage::url($file->store('public/DocumentosInstitucionales'));
            $archivo->save();
 
            $docinstitucional= new DocumentoInstitucional;
@@ -83,6 +92,7 @@ class DocumentoInstitucionalController extends Controller
        else{
         DocumentoInstitucional::create($request->except('archivo'));
        }
+       
        return response(['msg' => 'El documento ha sido almacenado exitosamente.',
                 'title' => '¡Registro realizado exitosamente!'
             ], 200) // 200 Status Code: Standard response for successful HTTP request
@@ -121,14 +131,53 @@ class DocumentoInstitucionalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DocumentoInstitucionalRequest $request, $id)
     {
-        $docinstitucional = DocumentoInstitucional::findOrFail($id);
-        $docinstitucional->update($request->all());
-        
+        $documento = DocumentoInstitucional::findOrFail($id);
+        if ($request->hasFile('archivo')) {
+            $archivo = $request->file('archivo');
+            $nombre = pathinfo($archivo->getClientOriginalName(), PATHINFO_FILENAME);
+            $extension = $archivo->getClientOriginalExtension();
+            $url = Storage::url($archivo->store('public/DocumentosInstitucionales'));
 
-        return response(['msg' => 'El Lineamiento ha sido modificado exitosamente.',
-                'title' => 'Lineamiento Modificado!'
+            if ($documento->archivo) {
+                $ruta = str_replace('storage', 'public', $documento->archivo->ruta);
+                Storage::delete($ruta);
+                $archivos = Archivo::findOrfail($documento->FK_DOI_Archivo);
+                $archivos->ACV_Nombre = $nombre;
+                $archivos->ACV_Extension = $extension;
+                $archivos->ruta = $url;
+                $archivos->update();
+                $id_archivo = $archivos->PK_ACV_Id;
+
+
+            }
+            else{
+                $archivos = new Archivo();
+                $archivos->ACV_Nombre = $nombre;
+                $archivos->ACV_Extension = $extension;
+                $archivos->ruta = $url;
+                $archivos->save();
+
+                $id_archivo = $archivos->PK_ACV_Id; 
+                
+            }
+            
+        }
+        $documento->fill($request->only([
+            'DOI_Nombre',
+            'DOI_Descripcion',
+            'link',
+        ]));
+
+        $documento->FK_DOI_Archivo = isset($id_archivo) ? $id_archivo : null;
+        $documento->FK_DOI_GrupoDocumento= $request->FK_DOI_GrupoDocumento;
+        $documento->update();
+
+
+
+        return response(['msg' => 'El Documento ha sido modificado exitosamente.',
+                'title' => 'Documento Modificado!'
             ], 200) // 200 Status Code: Standard response for successful HTTP request
                 ->header('Content-Type', 'application/json');
     }
@@ -141,13 +190,10 @@ class DocumentoInstitucionalController extends Controller
      */
     public function destroy($id)
     {
-        $docinstitucional = DocumentoInstitucional::findOrFail($id);
-     /*   $id_doc= $docinstitucional->FK_DOI_Archivo;
-        $archivo = Archivo::with(['documentoinstitucional'=> function($query)use($id_doc){
-            return $query->where ('PK_ACV_Id',$id_doc);
-        }])->get();
-        Storage::delete($archivo->ruta);*/
-        $docinstitucional->delete();
+        $documento = DocumentoInstitucional::findOrfail($id);
+        $ruta = str_replace('storage', 'public', $documento->archivo->ruta);
+        Storage::delete($ruta);
+        $documento->archivo()->delete();
        
         return response(['msg' => 'El Documento ha sido eliminado exitosamente.',
                 'title' => '¡Registro Eliminado!'

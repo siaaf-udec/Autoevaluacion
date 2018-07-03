@@ -47,6 +47,7 @@
 @endpush
 
 @push('scripts')
+    <script src="{{ asset('js/admin.js') }}"></script>
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
     <script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
@@ -66,12 +67,12 @@
             parallelUploads: 1,
             maxFiles: 1,
             maxFilesize: 4,
-            acceptedFiles: '.txt',
             addRemoveLinks: true,
         }
 
         $(document).ready(function () {
 
+            
             var form = $('#form_crear_documento');
             $(form).parsley({
                 trigger: 'change',

@@ -62,7 +62,6 @@
             parallelUploads: 1,
             maxFiles: 1,
             maxFilesize: 4,
-            acceptedFiles: '.txt',
             addRemoveLinks: true,
         }
         $(document).ready(function () {
@@ -80,11 +79,10 @@
 
             // Variable to store your files
 
-            form.submit(function (e) {
-
-                console.log($('#myDropzone')[0].dropzone.getAcceptedFiles()[0]);
+             form.submit(function (e) {
                 var formData = new FormData(this);
-                formData.append('archivo', $('#myDropzone')[0].dropzone.getAcceptedFiles()[0]);
+                formData.append('archivo', $('#myDropzone')[0].dropzone.getQueuedFiles()[0]);
+
                 e.preventDefault();
                 $.ajax({
                     url: form.attr('action'),
@@ -93,18 +91,11 @@
                     processData: false,
                     contentType: false,
                     success: function (response, NULL, jqXHR) {
-                        $('#myDropzone')[0].dropzone.removeAllFiles();
-                        $(form)[0].reset();
-                        $(form).parsley().reset();
-                        new PNotify({
-                            title: response.title,
-                            text: response.msg,
-                            type: 'success',
-                            styling: 'bootstrap3'
-                        });
+                        sessionStorage.setItem('update', 'El documento de autoevaluacion ha sido modificado exitosamente.');
+                        window.location.replace(" {{ route('documental.documentos_autoevaluacion.index')}} ");
                     },
                     error: function (data) {
-
+                        console.log(data);
                         var errores = data.responseJSON.errors;
                         var msg = '';
                         $.each(errores, function (name, val) {
@@ -120,7 +111,6 @@
                 });
             });
         });
-
 
     </script>
 @endpush

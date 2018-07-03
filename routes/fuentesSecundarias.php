@@ -41,9 +41,10 @@ array('as' => 'documental.documentoinstitucional.data', 'uses' => 'DocumentoInst
 
 Route::get('download/{archivo}', function ($archivo) {
     $public_path = public_path();
-    $url = $public_path.'/storage/DocumentosInstitucionales/'.$archivo;
-    if (Storage::exists($archivo)) {
-        return response()->download($url);
+    $url = $public_path.'/storage/App/DocumentosInstitucionales/'.$archivo;
+    if (Storage::exists($archivo))
+    {
+      Storage::download($url);
     }
 });
 
