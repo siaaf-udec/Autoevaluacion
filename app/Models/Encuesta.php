@@ -32,16 +32,16 @@ class Encuesta extends Model
 
     public function estado()
     {
-        return $this->hasOne(Estado::class,'PK_ESD_Id','FK_ECT_Estado');
+        return $this->belongsTo(Estado::class, 'FK_ECT_Estado', 'PK_ESD_Id');
     }
 
     public function proceso()
     {
-        return $this->hasOne(Proceso::class,'PK_PCS_Id','FK_ECT_Proceso');
+        return $this->belongsTo(Proceso::class, 'FK_ECT_Proceso', 'PK_PCS_Id');
     }
 
     public function datos()
     {
-        return $this->hasOne(DatosEncuesta::class,'PK_DAE_Id','FK_ECT_DatosEncuesta');
+        return $this->belongsTo(DatosEncuesta::class, 'FK_ECT_DatosEncuesta', 'PK_DAE_Id');
     }
 }

@@ -31,11 +31,7 @@ class DatosEncuesta extends Model
 
     public function grupos()
     {
-        return $this->hasOne(GrupoInteres::class,'PK_GIT_Id','FK_DAE_GruposInteres');
+        return $this->belongsTo(GrupoInteres::class, 'FK_DAE_GruposInteres', 'PK_GIT_Id');
     }
 
-    public function encuesta()
-    {
-        return $this->hasMany(Encuesta::class,'FK_ECT_DatosEncuesta','PK_DAE_Id');
-    }
 }

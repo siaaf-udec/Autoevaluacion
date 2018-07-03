@@ -1,7 +1,6 @@
 @extends('admin.layouts.app')
 @section('content') @component('admin.components.panel') @slot('title', 'Modificar Proceso')
-{!! Form::model($proceso, [ 'route' => ['admin.procesos_programas.update', $proceso], 
-'method' => 'PUT', 'id' => 'form_modificar_proceso',
+{!! Form::model($proceso, [ 'route' => ['admin.procesos_programas.update', $proceso], 'method' => 'PUT', 'id' => 'form_modificar_proceso',
 'class' => 'form-horizontal form-label-lef', 'novalidate' ]) !!}
 @include('autoevaluacion.SuperAdministrador.ProcesosProgramas._form')
 <div class="ln_solid"></div>

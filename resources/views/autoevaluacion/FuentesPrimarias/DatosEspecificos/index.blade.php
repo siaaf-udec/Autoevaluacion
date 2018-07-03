@@ -65,11 +65,11 @@
                 "ajax": "{{ route('fuentesP.datosEspecificos.data') }}",
                 "columns": [
                     {data: 'PK_ECT_Id', name: 'id', "visible": false},
-                    {data: 'ECT_FechaPublicacion', name: 'Fecha Publicacion'},
-                    {data: 'ECT_FechaFinalizacion', name: 'Fecha Finalizacion'},
-                    {data: 'estado.estado', name: 'Estado'},
-                    {data: 'proceso.proceso', name: 'Proceso'},
-                    {data: 'datos.datos', name: 'Descripcion'},
+                    {data: 'ECT_FechaPublicacion', name: 'Fecha Publicacion', className: "desktop"},
+                    {data: 'ECT_FechaFinalizacion', name: 'Fecha Finalizacion', className: "desktop"},
+                    {data: 'estado.ESD_Nombre', name: 'Estado', className: "min-phone-l"},
+                    {data: 'proceso.PCS_Nombre', name: 'Proceso', className: "min-tablet-l"},
+                    {data: 'datos.DAE_Descripcion', name: 'Descripcion', className: "min-tablet-l"},
                     {
                         defaultContent:
                             '@can('ELIMINAR_DATOS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +

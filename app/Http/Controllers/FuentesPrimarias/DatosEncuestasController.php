@@ -5,7 +5,7 @@ namespace App\Http\Controllers\FuentesPrimarias;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\Datatables\Datatables;
-
+use App\Http\Requests\DatosEncuestasRequest;
 use App\Models\DatosEncuesta;
 use App\Models\GrupoInteres;
 
@@ -18,13 +18,10 @@ class DatosEncuestasController extends Controller
      */
     public function __construct()
     {
-        $this->middleware([
-            'permission:CREAR_ENCUESTAS',
-            'permission:VER_ENCUESTAS',
-            'permission:MODIFICAR_ENCUESTAS',
-            'permission:ELIMINAR_ENCUESTAS'
-            ]);
-
+        $this->middleware('permission:ACCEDER_ENCUESTAS');
+        $this->middleware(['permission:MODIFICAR_ENCUESTAS', 'permission:VER_ENCUESTAS'], ['only' => ['edit', 'update']]);
+        $this->middleware('permission:CREAR_ENCUESTAS', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ELIMINAR_ENCUESTAS', ['only' => ['destroy']]);
     }
     public function index()
     {
@@ -39,11 +36,7 @@ class DatosEncuestasController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $datosEncuesta = DatosEncuesta::select('PK_DAE_Id','DAE_Titulo','DAE_Descripcion',
-            'FK_DAE_GruposInteres')->with(['grupos' => function($query){
-                return $query->select('PK_GIT_Id','GIT_Nombre as nombre');
-            }
-        ])->get();
+            $datosEncuesta = DatosEncuesta::with('grupos')->get();
             return Datatables::of($datosEncuesta)
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
@@ -52,15 +45,17 @@ class DatosEncuestasController extends Controller
         }
         dd($datosEncuesta);
         return AjaxResponse::fail(
-            '¡Lo sentimos mmmm!',
+            '¡Lo sentimos!',
             'No se pudo completar tu solicitud.'
         );
 
     }
     public function create()
     {
-        $items = GrupoInteres::where('FK_GIT_Estado','=','1')->pluck('GIT_Nombre', 'PK_GIT_Id');
-        return view('autoevaluacion.FuentesPrimarias.DatosEncuestas.create', compact('items'));
+        $grupos = GrupoInteres::whereHas('estado', function($query){
+            return $query->where('ESD_Valor','1');
+        })->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
+        return view('autoevaluacion.FuentesPrimarias.DatosEncuestas.create', compact('grupos'));
     }
 
     /**
@@ -69,9 +64,12 @@ class DatosEncuestasController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DatosEncuestasRequest $request)
     {
-        DatosEncuesta::create($request->all());
+        $datos_encuesta = new DatosEncuesta();
+        $datos_encuesta->fill($request->only(['DAE_Titulo', 'DAE_Descripcion']));
+        $datos_encuesta->FK_DAE_GruposInteres = $request->get('PK_GIT_Id');
+        $datos_encuesta->save();
         return response(['msg' => 'Datos registrados correctamente.',
         'title' => '¡Registro exitoso!'
     ], 200) // 200 Status Code: Standard response for successful HTTP request
@@ -97,11 +95,11 @@ class DatosEncuestasController extends Controller
      */
     public function edit($id)
     {
-        $items = GrupoInteres::where('FK_GIT_Estado','=','1')->pluck('GIT_Nombre', 'PK_GIT_Id');
-        return view('autoevaluacion.FuentesPrimarias.DatosEncuestas.edit', [
-            'user' => DatosEncuesta::findOrFail($id),
-            'edit' => true,
-        ], compact('items'));
+        $datos = DatosEncuesta::findOrFail($id);
+        $grupos = GrupoInteres::whereHas('estado', function($query){
+            return $query->where('ESD_Valor','1');
+        })->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
+        return view('autoevaluacion.FuentesPrimarias.DatosEncuestas.edit',compact('datos','grupos'));
     }
 
     /**
@@ -111,11 +109,12 @@ class DatosEncuestasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DatosEncuestasRequest $request, $id)
     {
-        $user = DatosEncuesta::find($id);
-        $user->fill($request->all());
-        $user->save();
+        $datos_encuesta = DatosEncuesta::findOrFail($id);
+        $datos_encuesta->fill($request->only(['DAE_Titulo', 'DAE_Descripcion']));
+        $datos_encuesta->FK_DAE_GruposInteres = $request->get('PK_GIT_Id');
+        $datos_encuesta->update();
         return response(['msg' => 'Los datos han sido modificado exitosamente.',
                 'title' => 'Datos Modificados!'
             ], 200) // 200 Status Code: Standard response for successful HTTP request
@@ -131,8 +130,8 @@ class DatosEncuestasController extends Controller
      */
     public function destroy($id)
     {
-        DatosEncuesta::destroy($id);
-
+        $datos_encuesta = DatosEncuesta::findOrFail($id);
+        $datos_encuesta->delete();
             return response(['msg' => 'Los datos han sido eliminados exitosamente.',
                 'title' => 'Datos Eliminados!'
             ], 200) // 200 Status Code: Standard response for successful HTTP request

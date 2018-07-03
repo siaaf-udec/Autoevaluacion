@@ -17,6 +17,8 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="{{ asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
     <!-- Select2 -->
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @endpush @push('scripts')
@@ -30,18 +32,19 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
     <!-- Select2 -->
     <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="{{asset('gentella/vendors/moment/min/moment.min.js')}}"></script>
+    <script src="{{asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 
 @endpush @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
             $('#estado').select2();
-            $('#sede').select2();
-            $('#proceso').select2();
             $('#grupo').select2();
             $('#descripcion').select2();
-            selectDinamico("#sede", "#proceso", "{{url('admin/procesos')}}");
             selectDinamico("#grupo", "#descripcion", "{{url('admin/fuentesPrimarias/encuestas')}}");
-
+            fecha('#fecha_fin');
+            fecha('#fecha_inicio');
             $('#proceso').prop('disabled', false);
             $('#descripcion').prop('disabled', false)
             var form = $('#form_modificar_encuesta');

@@ -21,10 +21,12 @@ class RoleTableSeeder extends Seeder
         $role = Role::create(['name' => 'FUENTES_PRIMARIAS']);
 
         $role->givePermissionTo([
+            'ACCEDER_ENCUESTAS',
             'VER_ENCUESTAS',
             'CREAR_ENCUESTAS',
             'MODIFICAR_ENCUESTAS',
             'ELIMINAR_ENCUESTAS',
+            'ACCEDER_DATOS',
             'VER_DATOS',
             'MODIFICAR_DATOS',
             'ELIMINAR_DATOS',

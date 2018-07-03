@@ -28,10 +28,6 @@ class GrupoInteres extends Model
      */
     protected $guarded = ['PK_GIT_Id', 'created_at', 'updated_at'];
 
-    public function datos()
-    {
-        return $this->hasMany(DatosEncuesta::class,'FK_DAE_GruposInteres','PK_GIT_Id');
-    }
     public function estado()
     {
         return $this->belongsTo(Estado::class, 'FK_GIT_Estado', 'PK_ESD_Id');

@@ -45,7 +45,7 @@
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
-            $('.select2_user').select2();
+            $('#grupos').select2();
             var form = $('#form_crear_datosEncuesta');
             $(form).parsley({
                 trigger: 'change',
@@ -67,6 +67,8 @@
                     success: function (response, NULL, jqXHR) {
                         $(form)[0].reset();
                         $(form).parsley().reset();
+                        $("#grupos").select2('data', {}); // clear out values selected 
+                        $("#grupos").select2({allowClear: true});
                         new PNotify({
                             title: response.title,
                             text: response.msg,

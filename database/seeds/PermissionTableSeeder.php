@@ -77,11 +77,13 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'MODIFICAR_GRUPOS_INTERES']);
         Permission::create(['name' => 'ELIMINAR_GRUPOS_INTERES']);
         // Permisos Fuentes primarias
+        Permission::create(['name' => 'ACCEDER_ENCUESTAS']);
         Permission::create(['name' => 'VER_ENCUESTAS']);
         Permission::create(['name' => 'CREAR_ENCUESTAS']);
         Permission::create(['name' => 'MODIFICAR_ENCUESTAS']);
         Permission::create(['name' => 'ELIMINAR_ENCUESTAS']);
         // Permisos para datos especificos encuestas
+        Permission::create(['name' => 'ACCEDER_DATOS']);
         Permission::create(['name' => 'VER_DATOS']);
         Permission::create(['name' => 'MODIFICAR_DATOS']);
         Permission::create(['name' => 'ELIMINAR_DATOS']);

@@ -66,7 +66,6 @@
             fecha('#fecha_inicio');
             fecha('#fecha_fin');
 
-
             var form = $('#form_crear_procesos_programas');
             $(form).parsley({
                 trigger: 'change',

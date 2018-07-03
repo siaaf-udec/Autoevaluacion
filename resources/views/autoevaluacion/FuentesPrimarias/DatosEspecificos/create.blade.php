@@ -32,6 +32,8 @@
     <link href="{{ asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css') }}"
           rel="stylesheet">
+
+    <link href="{{ asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
 @endpush
 
 @push('scripts')
@@ -47,15 +49,17 @@
     <!-- Select2 -->
     <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{asset('gentella/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js') }}"></script>
+    <script src="{{asset('gentella/vendors/moment/min/moment.min.js')}}"></script>
+    <script src="{{asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+
 @endpush
 @push('functions')
     <script type="text/javascript">
         $('#estado').select2();
-        $('#sede').select2();
-        $('#proceso').select2();
         $('#grupo').select2();
         $('#descripcion').select2();
-        selectDinamico("#sede", "#proceso", "{{url('admin/procesos')}}");
+        fecha('#fecha_inicio');
+        fecha('#fecha_fin');
         selectDinamico("#grupo", "#descripcion", "{{url('admin/fuentesPrimarias/encuestas')}}");
         var form = $('#form_crear_datosEspecificos');
         $(form).parsley({

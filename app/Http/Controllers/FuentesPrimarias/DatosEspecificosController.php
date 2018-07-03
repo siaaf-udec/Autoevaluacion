@@ -4,13 +4,13 @@ namespace App\Http\Controllers\FuentesPrimarias;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Yajra\Datatables\Datatables;
+use DataTables;
 use App\Models\Encuesta;
 use App\Models\Estado;
-use App\Models\Sede;
 use App\Models\GrupoInteres;
-use App\Models\Proceso;
 use App\Models\DatosEncuesta;
+use Carbon\Carbon;
+use App\Http\Requests\EncuestaRequest;
 
 class DatosEspecificosController extends Controller
 {
@@ -21,14 +21,10 @@ class DatosEspecificosController extends Controller
      */
     public function __construct()
     {
-        $this->middleware([
-            'permission:VER_DATOS',
-            'permission:MODIFICAR_DATOS',
-            'permission:ELIMINAR_DATOS',
-            'permission:CREAR_DATOS'
-            
-            ]);
-
+        $this->middleware('permission:ACCEDER_DATOS');
+        $this->middleware(['permission:MODIFICAR_DATOS', 'permission:VER_DATOS'], ['only' => ['edit', 'update']]);
+        $this->middleware('permission:CREAR_DATOS', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ELIMINAR_DATOS', ['only' => ['destroy']]);
     }
     public function index()
     {
@@ -43,24 +39,20 @@ class DatosEspecificosController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $encuesta = Encuesta::with(['estado' => function($query){
-                return $query->select('PK_ESD_Id','ESD_Nombre as estado');
-            }
-            ])->with(['proceso' => function($query){
-            return $query->select('PK_PCS_Id','PCS_Nombre as proceso');
-            }
-            ])->with(['datos' => function($query){
-                return $query->select('PK_DAE_Id','DAE_Descripcion as datos');
-                }
-            ])->get();
+            $encuesta = Encuesta::with('estado','proceso','datos')->get();
             return Datatables::of($encuesta)
+            ->editColumn('ECT_FechaPublicacion', function ($encuesta) {
+                return $encuesta->ECT_FechaPublicacion ? with(new Carbon($encuesta->ECT_FechaPublicacion))->format('d/m/Y') : '';
+            })
+            ->editColumn('ECT_FechaFinalizacion', function ($encuesta) {
+                return $encuesta->ECT_FechaFinalizacion ? with(new Carbon($encuesta->ECT_FechaFinalizacion))->format('d/m/Y') : '';
+            })
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
-                ->addIndexColumn()
                 ->make(true);
         }
         return AjaxResponse::fail(
-            '¡Lo sentimos mmmm!',
+            '¡Lo sentimos!',
             'No se pudo completar tu solicitud.'
         );
 
@@ -68,9 +60,10 @@ class DatosEspecificosController extends Controller
     public function create()
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        $grupos =  GrupoInteres::where('FK_GIT_Estado','=','1')->pluck('GIT_Nombre', 'PK_GIT_Id');
-        $sedes = Sede::where('FK_SDS_Estado','=','1')->pluck('SDS_Nombre', 'PK_SDS_Id');
-        return view('autoevaluacion.FuentesPrimarias.DatosEspecificos.create', compact('estados','sedes','grupos'));
+        $grupos = GrupoInteres::whereHas('estado', function($query){
+            return $query->where('ESD_Valor','1');
+        })->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
+        return view('autoevaluacion.FuentesPrimarias.DatosEspecificos.create', compact('estados','grupos'));
     }
 
     /**
@@ -79,17 +72,44 @@ class DatosEspecificosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EncuestaRequest $request)
     {
-        $encuesta = new Encuesta();
-        $encuesta->fill($request->only(['ECT_FechaPublicacion', 'ECT_FechaFinalizacion', 'FK_ECT_Estado','FK_ECT_Proceso','FK_ECT_DatosEncuesta']));
-        //$encuesta->FK_ECT_Proceso = $request->get('PK_PCS_Id');
-        //$encuesta->FK_ECT_DatosEncuesta = $request->get('PK_DAE_Id');
-        $encuesta->save();
-        return response(['msg' => 'Datos Especificos registrados correctamente.',
-        'title' => '¡Registro exitoso!'
-    ], 200) // 200 Status Code: Standard response for successful HTTP request
-          ->header('Content-Type', 'application/json');
+        $id_proceso = session()->get('id_proceso');
+        if ( empty($id_proceso ) ) {
+            return response([
+                'errors' => ['No ha seleccionado ningun proceso de autoevaluación'],
+                'title' => '¡Error!'
+            ], 422) // 200 Status Code: Standard response for successful HTTP request
+                ->header('Content-Type', 'application/json');     
+        }
+        else
+        {
+            $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaPublicacion'));
+            $fechaFin = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaFinalizacion'));
+
+        if ($fechaInicio < $fechaFin) {
+            $encuesta = new Encuesta();
+            $encuesta->ECT_FechaPublicacion = $fechaInicio;
+            $encuesta->ECT_FechaFinalizacion = $fechaFin;
+            $encuesta->FK_ECT_Estado = $request->get('PK_ESD_Id');
+            $encuesta->FK_ECT_Proceso = $id_proceso;
+            $encuesta->FK_ECT_DatosEncuesta = $request->get('PK_DAE_Id');
+            $encuesta->save();
+
+            return response([
+            'msg' => 'Datos especificos resgistrados correctamente.',
+            'title' => '¡Registro exitoso!'
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
+            ->header('Content-Type', 'application/json');
+        }
+        else{
+            return response([
+                'errors' => ['La fecha de publicacion tiene que ser menor que la fecha de finalizacion de la fase de captura de datos.'],
+                'title' => '¡Error!'
+            ], 422) // 200 Status Code: Standard response for successful HTTP request
+                ->header('Content-Type', 'application/json');
+        }
+    }
     }
 
     /**
@@ -113,12 +133,9 @@ class DatosEspecificosController extends Controller
         $encuesta = Encuesta::findOrFail($id);
 
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        $grupos =  GrupoInteres::where('FK_GIT_Estado','=','1')->pluck('GIT_Nombre', 'PK_GIT_Id');
-        $sedes = Sede::where('FK_SDS_Estado','=','1')->pluck('SDS_Nombre', 'PK_SDS_Id');
-        
-        $proceso = new Proceso();
-        $id_proceso = $encuesta->proceso->sede()->pluck('PK_SDS_Id')[0];
-        $procesos = $proceso->where('FK_PCS_Sede', $id_proceso)->get()->pluck('PCS_Nombre', 'PK_PCS_Id');
+        $grupos = GrupoInteres::whereHas('estado', function($query){
+            return $query->where('ESD_Valor','1');
+        })->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
  
         $descrip = new DatosEncuesta();
         $id_descripcion = $encuesta->datos->grupos()->pluck('PK_GIT_Id')[0];
@@ -126,7 +143,7 @@ class DatosEspecificosController extends Controller
 
          return view(
              'autoevaluacion.FuentesPrimarias.DatosEspecificos.edit',
-             compact('encuesta', 'estados', 'grupos', 'sedes', 'procesos','descripcion')
+             compact('encuesta', 'estados', 'grupos','descripcion')
              );
     }
 

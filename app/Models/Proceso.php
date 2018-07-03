@@ -50,11 +50,6 @@ class Proceso extends Model
         return $this->hasOne(Fase::class,'PK_FSS_Id','FK_PCS_Fase');
     }
 
-    public function encuesta()
-    {
-        return $this->hasMany(Encuesta::class,'FK_ECT_Proceso','PK_PCS_Id');
-    }
-
     public function lineamiento()
     {
         return $this->belongsTo(Lineamiento::class, 'FK_PCS_Lineamiento', 'PK_LNM_Id');

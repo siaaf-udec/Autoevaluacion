@@ -68,7 +68,7 @@
                     {data: 'PK_DAE_Id', name: 'id', "visible": false},
                     {data: 'DAE_Titulo', name: 'Titulo'},
                     {data: 'DAE_Descripcion', name: 'Descripcion'},
-                    {data: 'grupos.nombre', name: 'Grupos de Interes'},
+                    {data: 'grupos.GIT_Nombre', name: 'Grupos de Interes'},
                     {
                         defaultContent:
                             '@can('ELIMINAR_ENCUESTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +

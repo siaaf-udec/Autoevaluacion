@@ -3,8 +3,8 @@
 @section('content')
     @component('admin.components.panel')
         @slot('title', 'Modificar Datos')
-        {!! Form::model($user, [
-            'route' => ['fuentesP.datosEncuestas.update', $user],
+        {!! Form::model($datos, [
+            'route' => ['fuentesP.datosEncuestas.update', $datos],
             'method' => 'PUT',
             'id' => 'form_modificar_datos',
             'class' => 'form-horizontal form-label-lef',
@@ -45,7 +45,7 @@
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
-            $('.select2_user').select2();
+            $('#grupos').select2();
             var form = $('#form_modificar_datos');
             $(form).parsley({
                 trigger: 'change',
