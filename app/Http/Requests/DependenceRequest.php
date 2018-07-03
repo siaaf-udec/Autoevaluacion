@@ -15,14 +15,21 @@ class DependenceRequest extends FormRequest
  
     public function rules()
     {
-        $name = 'required|min:5';
+      
         $id = $this->route()->parameter('dependencia');
-        
+        $dependencia = 'required|string|max:80|unique:tbl_dependencias';
+
         if ($this->method() == 'PUT') {
-            $name = '';
+            $dependencia = 'required|max:80|'.Rule::unique('tbl_dependencias')->ignore($id, 'PK_DPC_Id');
         }
+
         return [
-            'DPC_Nombre' => $name
+            'DPC_Nombre' => $dependencia,
         ];
+    }
+    public function messages(){
+        return[
+            'DPC_Nombre.unique'=> 'Esta dependencia ya ha sido registrada',
+              ];
     }
 }

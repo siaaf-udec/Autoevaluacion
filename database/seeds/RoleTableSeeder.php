@@ -56,6 +56,7 @@ class RoleTableSeeder extends Seeder
         //Crear y asignar permisos fuentes secundarias
         $role = Role::create(['name' => 'FUENTES_SECUNDARIAS']);
         $role->givePermissionTo([
+            'ACCEDER_DEPENDENCIAS',
             'VER_DEPENDENCIAS',
             'CREAR_DEPENDENCIAS',
             'MODIFICAR_DEPENDENCIAS',

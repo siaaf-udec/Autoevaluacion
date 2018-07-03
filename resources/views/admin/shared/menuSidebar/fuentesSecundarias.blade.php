@@ -1,8 +1,10 @@
 <li><a><i class="fa fa-file-text-o"></i> Fuentes Secundarias <span class="fa fa-chevron-down"></span></a>
 
     <ul class="nav child_menu">
+        @can('ACCEDER_DEPENDENCIAS')
         <li><a href="{{ route('documental.dependencia.index') }}"><i class="fa fa-suitcase"></i>Dependencias</a>
         </li>
+        @endcan
         <li><a href="{{ route('documental.indicadores_documentales.index')}}"><i class="fa fa-list"></i>Indicadores
                 Documentales</a>
         </li>

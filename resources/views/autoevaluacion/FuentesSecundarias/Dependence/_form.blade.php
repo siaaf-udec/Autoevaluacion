@@ -6,9 +6,9 @@
         {!! Form::text('DPC_Nombre', old('DPC_Nombre'),
         [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12',
             'required' => 'required',
-            'data-parsley-pattern' => '^[a-zA-Z\s]*$',
-            'data-parsley-pattern-message' => 'Por favor escriba solo letras',
-            'data-parsley-length' => "[5, 50]",
+            'data-parsley-pattern' => '^[a-zA-Z ][a-zA-Z0-9-_\. ]{1,500}$',
+            'data-parsley-pattern-message' => 'Formato erroneo',
+            'data-parsley-length' => "[5, 80]",
             'data-parsley-length-message' => 'ingrese minimo 5 caracteres',
             'data-parsley-trigger'=>"change" ]) !!}
 

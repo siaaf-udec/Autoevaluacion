@@ -1,9 +1,11 @@
 @extends('admin.layouts.app')
 @section('content') @component('admin.components.panel') @slot('title', 'Dependencias')
 <div class="col-md-12">
+@can('CREAR_DEPENDENCIAS')
     <div class="actions">
         <a id="crear_dependencia" href="#" class="btn btn-info" data-toggle="modal" data-target="#modal_dependencia">
             <i class="fa fa-plus"></i> Agregar Dependencia</a></div>
+@endcan
     <!-- Modal-->
     <div class="modal fade" id="modal_dependencia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="dependencia">
@@ -83,8 +85,8 @@
                 {data: 'DPC_Nombre', name: 'Nombre'},
                 {
                     defaultContent:
-                        '<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>' +
-                        '<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>',
+                        '@can('ELIMINAR_DEPENDENCIAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
+                        '@can('MODIFICAR_DEPENDENCIAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
                     data: 'action',
                     name: 'action',
                     title: 'Acciones',
