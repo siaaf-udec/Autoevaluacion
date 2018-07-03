@@ -1,9 +1,11 @@
 @extends('admin.layouts.app')
 @section('content') @component('admin.components.panel') @slot('title', 'Ambito')
 <div class="col-md-12">
+@can('CREAR_AMBITOS')
     <div class="actions">
         <a id="crear_ambito" href="#" class="btn btn-info" data-toggle="modal" data-target="#modal_ambito">
             <i class="fa fa-plus"></i> Agregar Ambito</a></div>
+@endcan   
     <!-- Modal-->
     <div class="modal fade" id="modal_ambito" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="ambito">
@@ -35,6 +37,7 @@
     <!--FIN Modal CREAR-->
 
 </div>
+@can('VER_AMBITOS')
 <br>
 <br>
 <br>
@@ -44,6 +47,7 @@
 
 </div>
 @endcomponent
+@endcan
 @endsection
 
 @push('scripts')
@@ -83,8 +87,8 @@
                 {data: 'AMB_Nombre', name: 'Nombre'},
                 {
                     defaultContent:
-                        '<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>' +
-                        '<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>',
+                        '@can('ELIMINAR_AMBITOS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
+                        '@can('MODIFICAR_AMBITOS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
                     data: 'action',
                     name: 'action',
                     title: 'Acciones',

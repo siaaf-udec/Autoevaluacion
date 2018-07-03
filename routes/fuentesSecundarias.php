@@ -39,14 +39,6 @@ Route::get(
 array('as' => 'documental.documentoinstitucional.data', 'uses' => 'DocumentoInstitucionalController@data')
 );
 
-Route::get('download/{archivo}', function ($archivo) {
-    $public_path = public_path();
-    $url = $public_path.'/storage/App/DocumentosInstitucionales/'.$archivo;
-    if (Storage::exists($archivo))
-    {
-      Storage::download($url);
-    }
-});
 
 Route::resource('indicadores_documentales', 'IndicadorDocumentalController', ['as' => 'documental']);
 Route::get(

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AmbitoRequest extends FormRequest
 {
@@ -23,8 +25,20 @@ class AmbitoRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route()->parameter('ambito');
+        $ambito = 'required|string|max:60|unique:tbl_ambitos_responsabilidad';
+
+        if ($this->method() == 'PUT') {
+            $ambito = 'required|max:60|'.Rule::unique('tbl_ambitos_responsabilidad')->ignore($id, 'PK_AMB_Id');
+        }
+
         return [
-            'AMB_Nombre' => 'required'
+            'AMB_Nombre' => $ambito,
         ];
+    }
+    public function messages(){
+        return[
+            'AMB_Nombre.unique'=> 'Este ambito ya ha sido registrado',
+              ];
     }
 }

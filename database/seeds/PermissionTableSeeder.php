@@ -113,11 +113,13 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'ELIMINAR_RESPUESTAS']);
         Permission::create(['name' => 'CREAR_RESPUESTAS']);
         // Permisos Fuentes secundarias
+        Permission::create(['name' => 'ACCEDER_DEPENDENCIAS']);
         Permission::create(['name' => 'VER_DEPENDENCIAS']);
         Permission::create(['name' => 'CREAR_DEPENDENCIAS']);
         Permission::create(['name' => 'MODIFICAR_DEPENDENCIAS']);
         Permission::create(['name' => 'ELIMINAR_DEPENDENCIAS']);
         //permisos para grupos de documentos
+        Permission::create(['name' => 'ACCEDER_GRUPO_DOCUMENTOS']);
         Permission::create(['name' => 'VER_GRUPO_DOCUMENTOS']);
         Permission::create(['name' => 'CREAR_GRUPO_DOCUMENTOS']);
         Permission::create(['name' => 'MODIFICAR_GRUPO_DOCUMENTOS']);
@@ -139,6 +141,7 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'MODIFICAR_CARACTERISTICAS']);
         Permission::create(['name' => 'ELIMINAR_CARACTERISTICAS']);
         //permisos ambitos
+        Permission::create(['name' => 'ACCEDER_AMBITOS']);
         Permission::create(['name' => 'VER_AMBITOS']);
         Permission::create(['name' => 'CREAR_AMBITOS']);
         Permission::create(['name' => 'MODIFICAR_AMBITOS']);
@@ -155,6 +158,12 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'CREAR_DOCUMENTOS_AUTOEVALUACION']);
         Permission::create(['name' => 'MODIFICAR_DOCUMENTOS_AUTOEVALUACION']);
         Permission::create(['name' => 'ELIMINAR_DOCUMENTOS_AUTOEVALUACION']);
+        //Permisos para documentos institucionales
+        Permission::create(['name' => 'ACCEDER_DOCUMENTOS_INSTITUCIONALES']);
+        Permission::create(['name' => 'VER_DOCUMENTOS_INSTITUCIONALES']);
+        Permission::create(['name' => 'CREAR_DOCUMENTOS_INSTITUCIONALES']);
+        Permission::create(['name' => 'MODIFICAR_DOCUMENTOS_INSTITUCIONALES']);
+        Permission::create(['name' => 'ELIMINAR_DOCUMENTOS_INSTITUCIONALES']);
 
 
     }
