@@ -15,17 +15,28 @@ class DocumentGroupRequest extends FormRequest
  
     public function rules()
     {
-        $description = 'required|min:5';
-        $name = 'required|min:5';
-        $id = $this->route()->parameter('grupodocumentos');
-        
+        $id = $this->route()->parameter('grupodocumento');
+        $grupodocumento = 'required|string|max:60|unique:tbl_grupos_documentos';
+
         if ($this->method() == 'PUT') {
-            $description = '';
-            $name = '';
+            $grupodocumento = 'required|max:60|'.Rule::unique('tbl_grupos_documentos')->ignore($id, 'PK_GRD_Id');
         }
+
         return [
-            'GRD_Descripcion' => $description,
-            'GRD_Nombre' => $name
+            'GRD_Nombre' => $grupodocumento,
+            'GRD_Descripcion' => 'required',
+        ];
+    }
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'GRD_Nombre.unique' => 'Este grupo ya ha sido registrado.',
+            'GRD_Nombre.required' => 'Nombre requerido.',
         ];
     }
 }

@@ -16,7 +16,7 @@ class DependenceRequest extends FormRequest
     public function rules()
     {
       
-        $id = $this->route()->parameter('dependencia');
+        $id = $this->route()->parameter('dependencium');
         $dependencia = 'required|string|max:80|unique:tbl_dependencias';
 
         if ($this->method() == 'PUT') {

@@ -14,6 +14,7 @@
         <div class="form-group">
             {!! Form::label('archivo','Agregar Archivos', ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
             <div class="col-md-6 col-sm-6 col-xs-12 dropzone" id="myDropzone">
+            
             </div>
         </div>
         <div class="ln_solid"></div>
@@ -65,7 +66,7 @@
             addRemoveLinks: true,
         }
         $(document).ready(function () {
-            var form = $('#form_modificar_dato');
+            var form = $('#form_modificar_datos');
             $(form).parsley({
                 trigger: 'change',
                 successClass: "has-success",
@@ -91,8 +92,8 @@
                     processData: false,
                     contentType: false,
                     success: function (response, NULL, jqXHR) {
-                        sessionStorage.setItem('update', 'El documento de autoevaluacion ha sido modificado exitosamente.');
-                        window.location.replace(" {{ route('documental.documentos_autoevaluacion.index')}} ");
+                        sessionStorage.setItem('update', 'El documento institucional ha sido modificado exitosamente.');
+                        window.location.replace(" {{ route('documental.documentoinstitucional.index')}} ");
                     },
                     error: function (data) {
                         console.log(data);

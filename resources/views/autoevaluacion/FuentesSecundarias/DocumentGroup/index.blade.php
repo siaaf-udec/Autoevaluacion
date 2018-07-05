@@ -1,9 +1,11 @@
 @extends('admin.layouts.app')
 @section('content') @component('admin.components.panel') @slot('title', 'Grupo de documentos')
 <div class="col-md-12">
+   @can('CREAR_GRUPO_DOCUMENTOS')
     <div class="actions">
         <a id="crear_grupo" href="#" class="btn btn-info" data-toggle="modal" data-target="#modal_grupo">
             <i class="fa fa-plus"></i> Agregar Grupo de documentos</a></div>
+    @endcan
     <!-- Modal-->
     <div class="modal fade" id="modal_grupo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="grupodocumentos">
@@ -11,7 +13,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="modal_titulo">Crear Ambito</h4>
+                    <h4 class="modal-title" id="modal_titulo">Crear Grupo de Documentos</h4>
                 </div>
                 <div class="modal-body">
 
@@ -84,8 +86,8 @@
                 {data: 'GRD_Descripcion', name: 'Descripcion'},
                 {
                     defaultContent:
-                        '<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>' +
-                        '<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>',
+                        '@can('ELIMINAR_GRUPO_DOCUMENTOS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
+                        '@can('MODIFICAR_GRUPO_DOCUMENTOS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
                     data: 'action',
                     name: 'action',
                     title: 'Acciones',

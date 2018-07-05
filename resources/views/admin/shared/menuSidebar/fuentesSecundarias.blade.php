@@ -12,12 +12,16 @@
             <ul class="nav child_menu">
                 <li class="sub_menu"><a href="{{ route('documental.documentos_autoevaluacion.index') }}"><i class="fa fa-clipboard"></i>Documentos Autoevaluacion</a>
                 </li>
+                @can('ACCEDER_DOCUMENTOS_INSTITUCIONALES')
                 <li><a href="{{ route('documental.documentoinstitucional.index') }}"><i class="fa fa-file-text"></i>Documentos
                         Institucionales</a>
                 </li>
+                @endcan
+                @can('ACCEDER_GRUPO_DOCUMENTOS')
                 <li><a href="{{ route('documental.grupodocumentos.index') }}"><i class="fa fa-briefcase"></i>Grupos de
                         Documentos</a>
                 </li>
+                @endcan
                 @can('ACCEDER_TIPO_DOCUMENTO')
                     <li><a href="{{ route('documental.tipodocumento.index') }}"><i class="fa fa-cog"></i>Tipos de
                             Documentos</a>
