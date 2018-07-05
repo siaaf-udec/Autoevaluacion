@@ -40,8 +40,4 @@ class Encuesta extends Model
         return $this->belongsTo(Proceso::class, 'FK_ECT_Proceso', 'PK_PCS_Id');
     }
 
-    public function datos()
-    {
-        return $this->belongsTo(DatosEncuesta::class, 'FK_ECT_DatosEncuesta', 'PK_DAE_Id');
-    }
 }

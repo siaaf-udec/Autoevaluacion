@@ -4,19 +4,48 @@ namespace App\Http\Controllers\FuentesPrimarias;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Sede;
+use Yajra\Datatables\Datatables;
+use App\Models\PreguntaEncuesta;
+use App\Models\Pregunta;
+use App\Models\Factor;
+use App\Models\GrupoInteres;
+
 
 class EstablecerPreguntasController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void \Illuminate\Http\Response
      */
-    public function index()
+    public function __construct()
     {
-        $sedes = Sede::where('FK_SDS_Estado','=','1')->pluck('SDS_Nombre', 'PK_SDS_Id');
-        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.index',compact('sedes'));
+        $this->middleware('permission:ACCEDER_ESTABLECER_PREGUNTAS');
+        $this->middleware(['permission:MODIFICAR_ESTABLECER_PREGUNTAS', 'permission:VER_ESTABLECER_PREGUNTAS'], ['only' => ['edit', 'update']]);
+        $this->middleware('permission:CREAR_ESTABLECER_PREGUNTAS', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ELIMINAR_ESTABLECER_PREGUNTAS', ['only' => ['destroy']]);
+    }
+    public function index($id)
+    {
+        session()->put('id_encuesta', $id);
+        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.index');
+    }
+    public function data(Request $request)
+    {
+        if ($request->ajax() && $request->isMethod('GET')) {
+            $preguntas = PreguntaEncuesta::with('preguntas')
+            ->with('preguntas.estado')
+            ->with('preguntas.tipo')
+            ->with('preguntas.caracteristica')->get();
+            return DataTables::of($preguntas)
+            ->removeColumn('created_at')
+            ->removeColumn('updated_at')
+            ->make(true);
+        }
+        return AjaxResponse::fail(
+            '¡Lo sentimos!',
+            'No se pudo completar tu solicitud.'
+        );
     }
 
     /**
@@ -26,9 +55,12 @@ class EstablecerPreguntasController extends Controller
      */
     public function create()
     {
-        //
+        $factores = Factor::where('FK_FCT_Lineamiento',session()->get('id_proceso'))->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
+        $grupos = GrupoInteres::whereHas('estado', function($query){
+            return $query->where('ESD_Valor','1');
+        })->get();
+        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.create', compact('factores','grupos'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -37,26 +69,22 @@ class EstablecerPreguntasController extends Controller
      */
     public function store(Request $request)
     {
-        $request->get('PK_PCS_Id');
-        $encuesta = Encuesta::with(['estado' => function($query){
-            return $query->select('PK_ESD_Id','ESD_Nombre as estado');
-        }
-        ])->with(['proceso' => function($query){
-        return $query->select('PK_PCS_Id','PCS_Nombre as proceso');
-        }
-        ])->with(['datos' => function($query){
-            return $query->select('PK_DAE_Id','DAE_Descripcion as datos');
+        $checks = $request->input('check');
+        foreach ($checks as $key => $value)
+        {
+            if($value !==  0)
+            {
+                $preguntas_encuestas = new PreguntaEncuesta();
+                $preguntas_encuestas->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
+                $preguntas_encuestas->FK_PEN_Encuesta = session()->get('id_encuesta');
+                $preguntas_encuestas->FK_PEN_GrupoInteres = $value;
+                $preguntas_encuestas->save();
             }
-        ])->get();
-        return Datatables::of($encuesta)
-            ->removeColumn('created_at')
-            ->removeColumn('updated_at')
-            ->addIndexColumn()
-            ->make(true);
-    return AjaxResponse::fail(
-        '¡Lo sentimos mmmm!',
-        'No se pudo completar tu solicitud.'
-    );
+        }
+        return response(['msg' => 'Datos registrados correctamente.',
+        'title' => '¡Registro exitoso!'
+    ], 200) // 200 Status Code: Standard response for successful HTTP request
+          ->header('Content-Type', 'application/json');
     }
 
     /**
@@ -102,9 +130,5 @@ class EstablecerPreguntasController extends Controller
     public function destroy($id)
     {
         //
-    }
-    public function encuestas($id)
-    {
-
     }
 }

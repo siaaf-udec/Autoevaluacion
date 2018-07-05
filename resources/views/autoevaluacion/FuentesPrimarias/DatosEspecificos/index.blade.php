@@ -2,7 +2,7 @@
 @section('content')
     @component('admin.components.panel')
         @slot('title', 'Datos Especificos Encuestas')
-        @can('CREAR_DATOS')
+        @can('CREAR_ENCUESTAS')
             <div class="col-md-12">
                 <div class="actions">
                     <a href="{{ route('fuentesP.datosEspecificos.create') }}" class="btn btn-info">
@@ -12,9 +12,9 @@
             <br>
             <br>
         @endcan
-        @can('VER_DATOS')
+        @can('VER_ENCUESTAS')
             <div class="col-md-12">
-                @component('admin.components.datatable', ['id' => 'datosEspecificos-table-ajax']) @slot('columns', [ 'id', 'Fecha Publicacion', 'Fecha Finalizacion', 'Estado','Proceso','Descripcion',
+                @component('admin.components.datatable', ['id' => 'datosEspecificos-table-ajax']) @slot('columns', [ 'id', 'Fecha Publicacion', 'Fecha Finalizacion', 'Estado','Proceso',
     'Acciones' => ['style' => 'width:85px;'] ]) @endcomponent
 
             </div>
@@ -69,11 +69,11 @@
                     {data: 'ECT_FechaFinalizacion', name: 'Fecha Finalizacion', className: "desktop"},
                     {data: 'estado.ESD_Nombre', name: 'Estado', className: "min-phone-l"},
                     {data: 'proceso.PCS_Nombre', name: 'Proceso', className: "min-tablet-l"},
-                    {data: 'datos.DAE_Descripcion', name: 'Descripcion', className: "min-tablet-l"},
                     {
                         defaultContent:
-                            '@can('ELIMINAR_DATOS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
-                            '@can('MODIFICAR_DATOS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
+                            '@can('ELIMINAR_ENCUESTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
+                            '@can('MODIFICAR_ENCUESTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan'+ 
+                             '<a href="javascript:;" class="btn btn-simple btn-primary btn-sm ver" data-toggle="confirmation"><i class="fa fa-question-circle"></i></a>',
                         data: 'action',
                         name: 'action',
                         title: 'Acciones',
@@ -129,6 +129,14 @@
                 window.location.replace(route);
 
 
+            });
+
+            table.on('click', '.ver', function (e) {
+                e.preventDefault();
+                $tr = $(this).closest('tr');
+                var dataTable = table.row($tr).data();
+                var route = '{{ url('admin/fuentesPrimarias/establecerPreguntas/') }}' + '/' + dataTable.PK_ECT_Id;
+                window.location.replace(route);
             });
 
         });

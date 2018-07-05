@@ -18,10 +18,10 @@ class DatosEncuestasController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('permission:ACCEDER_ENCUESTAS');
-        $this->middleware(['permission:MODIFICAR_ENCUESTAS', 'permission:VER_ENCUESTAS'], ['only' => ['edit', 'update']]);
-        $this->middleware('permission:CREAR_ENCUESTAS', ['only' => ['create', 'store']]);
-        $this->middleware('permission:ELIMINAR_ENCUESTAS', ['only' => ['destroy']]);
+        $this->middleware('permission:ACCEDER_DATOS');
+        $this->middleware(['permission:MODIFICAR_DATOS', 'permission:VER_DATOS'], ['only' => ['edit', 'update']]);
+        $this->middleware('permission:CREAR_DATOS', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ELIMINAR_DATOS', ['only' => ['destroy']]);
     }
     public function index()
     {

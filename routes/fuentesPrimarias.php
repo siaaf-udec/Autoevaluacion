@@ -2,22 +2,25 @@
 /**
  * Fuentes primarias
  */
+//datos generales encuestas
 Route::resource('datosEncuestas', 'DatosEncuestasController', ['as' => 'fuentesP'])->except(['show']);
-
 Route::get('datosEncuestas/data', array('as' => 'fuentesP.datosEncuestas.data', 'uses' => 'DatosEncuestasController@data'));
 
+//construccion de encuestas
 Route::resource('datosEspecificos', 'DatosEspecificosController', ['as' => 'fuentesP'])->except([
     'show'
 ]);
-
 Route::get('datosEspecificos/data', array('as' => 'fuentesP.datosEspecificos.data', 'uses' => 'DatosEspecificosController@data'));
 
-Route::resource('encuestas', 'EncuestasController', ['as' => 'fuentesP']);
-
+//establecer preguntas
 Route::resource('establecerPreguntas', 'EstablecerPreguntasController', ['as' => 'fuentesP'])->except([
     'show'
 ]);
+Route::get('establecerPreguntas/{id}', array('as' => 'fuentesP.establecerPreguntas.datos', 'uses' => 'EstablecerPreguntasController@index'));
+Route::get('establecerPreguntas/data/data', array('as' => 'fuentesP.establecerPreguntas.data', 'uses' => 'EstablecerPreguntasController@data'));
 
+
+//Gestionar Tipo de respuesta
 Route::resource('tipoRespuesta', 'TipoRespuestaController', ['as' => 'fuentesP']);
 Route::get('tipoRespuesta/data/data', array('as' => 'fuentesP.tipoRespuesta.data', 'uses' => 'TipoRespuestaController@data'));
 

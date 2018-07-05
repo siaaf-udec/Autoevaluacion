@@ -25,11 +25,11 @@ class GruposInteresRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->route()->parameter('grupointeres');
+        $id = $this->route()->parameter('grupos_intere');
         $grupo_interes = 'required|string|max:60|unique:tbl_grupos_interes';
 
         if ($this->method() == 'PUT') {
-            $grupo_interes = 'required|max:60|'.Rule::unique('tbl_grupos_interes')->ignore($id, 'PK_GIT_Id');;
+            $grupo_interes = 'required|max:60|'.Rule::unique('tbl_grupos_interes')->ignore($id, 'PK_GIT_Id');
         }
         return [
             'GIT_Nombre' => $grupo_interes,

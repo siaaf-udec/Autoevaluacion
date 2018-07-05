@@ -78,7 +78,7 @@ class PreguntasController extends Controller
             $respuestas = new RespuestaPregunta();
             $respuestas->RPG_Texto = $request->get('Respuesta_'.$i);
             $respuestas->FK_RPG_Pregunta = $insertedId;
-            $respuestas->FK_RPG_PonderacionRespuesta = 3;
+            $respuestas->FK_RPG_PonderacionRespuesta = 1;
             $respuestas->save();
         }
 
@@ -96,7 +96,8 @@ class PreguntasController extends Controller
      */
     public function show($id)
     {
-        //
+        $pregunta = Pregunta::where('FK_PGT_Caracteristica',$id)->pluck('PGT_Texto','PK_PGT_Id');
+        return json_encode($pregunta);
     }
 
     /**
@@ -135,9 +136,8 @@ class PreguntasController extends Controller
         $pregunta = Pregunta::find($id);
         $pregunta->fill($request->only(['PGT_Texto']));
         $pregunta->FK_PGT_Estado = $request->get('PK_ESD_Id');
-        $pregunta->FK_PGT_TipoRespuesta = $request->get('PK_TRP_Id');
         $pregunta->FK_PGT_Caracteristica = $request->get('PK_CRT_Id');
-        $pregunta->save();
+        $pregunta->update();
         
         $respuestas = RespuestaPregunta::where('FK_RPG_Pregunta', $id)->get();
         foreach ($respuestas as $respuesta){
@@ -145,7 +145,7 @@ class PreguntasController extends Controller
             $rpta->RPG_Texto = $request->get($respuesta->PK_RPG_Id);
             $rpta->FK_RPG_Pregunta = $id;
             $rpta->FK_RPG_PonderacionRespuesta = $respuesta->FK_RPG_PonderacionRespuesta;
-            $rpta->save();
+            $rpta->update();
         }
         
         return response(['msg' => 'La pregunta ha sido modificada exitosamente.',

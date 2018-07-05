@@ -37,6 +37,12 @@ class RespuestasController extends Controller
         session()->put('id', $id);
         return view('autoevaluacion.FuentesPrimarias.Respuestas.index');
     }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
 
     public function data(Request $request)
     {

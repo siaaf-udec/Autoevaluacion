@@ -1,27 +1,36 @@
 @extends('admin.layouts.app')
-@section('content') @component('admin.components.panel') @slot('title', 'Modificar Datos Especificos Encuestas')
-{!! Form::model($encuesta, [ 'route' => ['fuentesP.datosEspecificos.update', $encuesta], 'method' => 'PUT', 'id' => 'form_modificar_encuesta',
-'class' => 'form-horizontal form-label-lef', 'novalidate' ])!!}
-@include('autoevaluacion.FuentesPrimarias.DatosEspecificos.form')
-<div class="ln_solid"></div>
-<div class="form-group">
-    <div class="col-md-6 col-md-offset-3">
-        {{ link_to_route('fuentesP.datosEspecificos.index',"Cancelar", [], ['class' => 'btn btn-info']) }} {!! Form::submit('Modificar Encuesta',
-        ['class' => 'btn btn-success']) !!}
-    </div>
-</div>
-{!! Form::close() !!} @endcomponent
+@section('content')
+    @component('admin.components.panel')
+        @slot('title', 'Agregar Preguntas')
+        {!! Form::open([
+            'route' => 'fuentesP.establecerPreguntas.store',
+            'method' => 'POST',
+            'id' => 'form_agregar_preguntas',
+            'class' => 'form-horizontal form-label-lef',
+            'novalidate'
+        ])!!}
+        @include('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.form')
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-md-offset-3">
+                {{ link_to_route('fuentesP.establecerPreguntas.datos',"Cancelar", [Session::has('id_encuesta')], ['class' => 'btn btn-info']) }}
+                {!! Form::submit('Agregar Pregunta', ['class' => 'btn btn-success']) !!}
+            </div>
+        </div>
+        {!! Form::close() !!}
+    @endcomponent
 @endsection
+
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
-    <!-- bootstrap-daterangepicker -->
-    <link href="{{ asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
-    <!-- Select2 -->
+
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
-@endpush @push('scripts')
+@endpush
+
+@push('scripts')
     <script src="{{ asset('js/admin.js') }}"></script>
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
@@ -32,19 +41,16 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
     <!-- Select2 -->
     <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="{{asset('gentella/vendors/moment/min/moment.min.js')}}"></script>
-    <script src="{{asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-
-@endpush @push('functions')
+@endpush
+@push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#estado').select2();
-            fecha('#fecha_fin');
-            fecha('#fecha_inicio');
-            $('#proceso').prop('disabled', false);
-            $('#descripcion').prop('disabled', false)
-            var form = $('#form_modificar_encuesta');
+            $('#factor').select2();
+            $('#caracteristica').select2();
+            $('#preguntas').select2();
+            selectDinamico("#factor", "#caracteristica", "{{url('admin/caracteristicas')}}");
+            selectDinamico("#caracteristica", "#preguntas", "{{url('admin/fuentesPrimarias/preguntas')}}");
+            var form = $('#form_agregar_preguntas');
             $(form).parsley({
                 trigger: 'change',
                 successClass: "has-success",
@@ -55,8 +61,6 @@
                 errorsWrapper: '<p class="help-block help-block-error"></p>',
                 errorTemplate: '<span></span>',
             });
-
-
             form.submit(function (e) {
 
                 e.preventDefault();
@@ -65,14 +69,22 @@
                     type: form.attr('method'),
                     data: form.serialize(),
                     dataType: 'json',
-                    Accept: 'application/json',
                     success: function (response, NULL, jqXHR) {
-                        sessionStorage.setItem('update', 'Los datos se han modificado exitosamente.');
-
-                        window.location.replace(" {{ route('fuentesP.datosEspecificos.index')}} ");
+                        $(form)[0].reset();
+                        $(form).parsley().reset();
+                        $("#caracteristica").html('').select2();
+                        $("#factor").html('').select2();
+                        $('#factor').prop('disabled', true);
+                        $('#caracteristica').prop('disabled', true);
+                        new PNotify({
+                            title: response.title,
+                            text: response.msg,
+                            type: 'success',
+                            styling: 'bootstrap3'
+                        });
                     },
                     error: function (data) {
-                        console.log(data);
+
                         var errores = data.responseJSON.errors;
                         var msg = '';
                         $.each(errores, function (name, val) {
@@ -88,8 +100,6 @@
                 });
             });
         });
-
     </script>
-
 
 @endpush

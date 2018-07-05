@@ -21,10 +21,10 @@ class DatosEspecificosController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('permission:ACCEDER_DATOS');
-        $this->middleware(['permission:MODIFICAR_DATOS', 'permission:VER_DATOS'], ['only' => ['edit', 'update']]);
-        $this->middleware('permission:CREAR_DATOS', ['only' => ['create', 'store']]);
-        $this->middleware('permission:ELIMINAR_DATOS', ['only' => ['destroy']]);
+        $this->middleware('permission:ACCEDER_ENCUESTAS');
+        $this->middleware(['permission:MODIFICAR_ENCUESTAS', 'permission:VER_ENCUESTAS'], ['only' => ['edit', 'update']]);
+        $this->middleware('permission:CREAR_ENCUESTAS', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ELIMINAR_ENCUESTAS', ['only' => ['destroy']]);
     }
     public function index()
     {
@@ -39,13 +39,13 @@ class DatosEspecificosController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $encuesta = Encuesta::with('estado','proceso','datos')->get();
+            $encuesta = Encuesta::with('estado','proceso')->get();
             return Datatables::of($encuesta)
-            ->editColumn('ECT_FechaPublicacion', function ($encuesta) {
-                return $encuesta->ECT_FechaPublicacion ? with(new Carbon($encuesta->ECT_FechaPublicacion))->format('d/m/Y') : '';
+            ->editColumn('ECT_FechaPublicacion', function ($encuestas) {
+                return $encuestas->ECT_FechaPublicacion ? with(new Carbon($encuestas->ECT_FechaPublicacion))->format('d/m/Y') : '';
             })
-            ->editColumn('ECT_FechaFinalizacion', function ($encuesta) {
-                return $encuesta->ECT_FechaFinalizacion ? with(new Carbon($encuesta->ECT_FechaFinalizacion))->format('d/m/Y') : '';
+            ->editColumn('ECT_FechaFinalizacion', function ($encuestas) {
+                return $encuestas->ECT_FechaFinalizacion ? with(new Carbon($encuestas->ECT_FechaFinalizacion))->format('d/m/Y') : '';
             })
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
@@ -60,10 +60,7 @@ class DatosEspecificosController extends Controller
     public function create()
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        $grupos = GrupoInteres::whereHas('estado', function($query){
-            return $query->where('ESD_Valor','1');
-        })->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
-        return view('autoevaluacion.FuentesPrimarias.DatosEspecificos.create', compact('estados','grupos'));
+        return view('autoevaluacion.FuentesPrimarias.DatosEspecificos.create', compact('estados'));
     }
 
     /**
@@ -93,7 +90,6 @@ class DatosEspecificosController extends Controller
             $encuesta->ECT_FechaFinalizacion = $fechaFin;
             $encuesta->FK_ECT_Estado = $request->get('PK_ESD_Id');
             $encuesta->FK_ECT_Proceso = $id_proceso;
-            $encuesta->FK_ECT_DatosEncuesta = $request->get('PK_DAE_Id');
             $encuesta->save();
 
             return response([
@@ -133,17 +129,10 @@ class DatosEspecificosController extends Controller
         $encuesta = Encuesta::findOrFail($id);
 
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        $grupos = GrupoInteres::whereHas('estado', function($query){
-            return $query->where('ESD_Valor','1');
-        })->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
- 
-        $descrip = new DatosEncuesta();
-        $id_descripcion = $encuesta->datos->grupos()->pluck('PK_GIT_Id')[0];
-        $descripcion = $descrip->where('FK_DAE_GruposInteres', $id_descripcion)->get()->pluck('DAE_Titulo', 'PK_DAE_Id');
-
+       
          return view(
              'autoevaluacion.FuentesPrimarias.DatosEspecificos.edit',
-             compact('encuesta', 'estados', 'grupos','descripcion')
+             compact('encuesta', 'estados')
              );
     }
 

@@ -2,7 +2,8 @@
 @section('content')
     @component('admin.components.panel')
         @slot('title', 'Datos Encuestas')
-        @can('CREAR_ENCUESTAS')
+        
+        @can('CREAR_DATOS')
             <div class="col-md-12">
                 <div class="actions">
                     <a href="{{ route('fuentesP.datosEncuestas.create') }}" class="btn btn-info">
@@ -12,7 +13,8 @@
             <br>
             <br>
         @endcan
-        @can('VER_ENCUESTAS')
+        
+        @can('VER_DATOS')
             <div class="col-md-12">
                 @component('admin.components.datatable', ['id' => 'datosEncuesta-table-ajax']) @slot('columns', [ 'id', 'Titulo', 'Descripcion', 'Grupo de Interes',
     'Acciones' => ['style' => 'width:85px;'] ]) @endcomponent
@@ -71,8 +73,8 @@
                     {data: 'grupos.GIT_Nombre', name: 'Grupos de Interes'},
                     {
                         defaultContent:
-                            '@can('ELIMINAR_ENCUESTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
-                            '@can('MODIFICAR_ENCUESTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
+                            '@can('ELIMINAR_DATOS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
+                            '@can('MODIFICAR_DATOS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
                         data: 'action',
                         name: 'action',
                         title: 'Acciones',

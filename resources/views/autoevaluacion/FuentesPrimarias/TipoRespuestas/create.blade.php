@@ -48,23 +48,45 @@
             $('#estado').select2();
             $('#ponderacion').change(function (e) {
                 e.preventDefault();
-                var number = document.getElementById('cantidad').value;
-                var container = document.getElementById("container");
-                while (container.hasChildNodes()) {
-                    container.removeChild(container.lastChild);
+                var status=$('#ponderacion')[0].checked;
+                if(status === true){
+                    var number = document.getElementById('cantidad').value;
+                    if(number)
+                    {
+                        var container = document.getElementById("container");
+                        while (container.hasChildNodes()) {
+                            container.removeChild(container.lastChild);
+                        }
+                        for (i=1;i<=number;i++){
+                            container.appendChild(document.createTextNode("Ponderacion " + (i)));
+                            var input = document.createElement("input");
+                            input.type = "text";
+                            input.name = "Ponderacion_" + i;
+                            input.maxLength = 3;
+                            input.required = true;
+                            input.size = 67;
+                            input.pattern = "^[0-9.]*$";
+                            container.appendChild(input);
+                            container.appendChild(document.createElement("br"));
+                        }
+                    }
+                    else
+                    {
+                        new PNotify({
+                            title: "Error",
+                            text: "El valor para cantidad de respuestas no es valido",
+                            type: 'error',
+                            styling: 'bootstrap3'}
+                        )
+                    
+                    }
                 }
-                for (i=1;i<=number;i++){
-                container.appendChild(document.createTextNode("Ponderacion " + (i)));
-                var input = document.createElement("input");
-                input.type = "text";
-                input.name = "Ponderacion_" + i;
-                input.maxLength = 3;
-                input.required = true;
-                input.size = 67;
-                input.pattern = "^[0-9.]*$";
-                container.appendChild(input);
-                container.appendChild(document.createElement("br"));
-            }
+                else{
+                    var container = document.getElementById("container");
+                    while (container.hasChildNodes()) {
+                        container.removeChild(container.lastChild);
+                    }
+                }
             });
             var form = $('#form_crear_tipoRespuestas');
             $(form).parsley({

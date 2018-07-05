@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use Illuminate\Validation\Rule;
+
 class DatosEncuestasRequest extends FormRequest
 {
     /**
@@ -23,10 +25,17 @@ class DatosEncuestasRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route()->parameter('datosEncuesta');
+        $datos = 'unique:tbl_datos_encuestas,fk_dae_gruposinteres';
+        
+        if ($this->method() == 'PUT') {
+            $datos = Rule::unique('tbl_datos_encuestas','fk_dae_gruposinteres')->ignore($id, 'PK_DAE_Id');
+        }
         return [
             'DAE_Titulo' => 'required|string',
             'DAE_Descripcion' => 'required',
-            'PK_GIT_Id' => 'required|exists:tbl_grupos_interes'
+            'PK_GIT_Id' => 'required|exists:tbl_grupos_interes',
+            'PK_GIT_Id' => $datos
         ];
     }
      /**
@@ -38,8 +47,8 @@ class DatosEncuestasRequest extends FormRequest
     {
         return [
         'PK_GIT_Id.required' => 'Debe seleccionar un grupo de interes.',
-        'PK_GIT_Id.exists' => 'El grupo de interes que selecciona no existe en nuestros registros.'
-
+        'PK_GIT_Id.exists' => 'El grupo de interes que selecciona no existe en nuestros registros.',
+        'PK_GIT_Id.unique' => 'Ya existen datos relacionados al grupo de interes seleccionado.',
         ];
     }
 }
