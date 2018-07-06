@@ -34,6 +34,9 @@
     </div>
 </div>
 
+<div class="form-group">
+    {!! Form::hidden('PK_PCS_Id',isset($encuesta)? $encuesta->FK_ECT_Proceso : Session::get('id_proceso')) !!}
+</div>
 
 
 

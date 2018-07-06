@@ -24,17 +24,19 @@ Route::get('establecerPreguntas/data/data', array('as' => 'fuentesP.establecerPr
 Route::resource('tipoRespuesta', 'TipoRespuestaController', ['as' => 'fuentesP']);
 Route::get('tipoRespuesta/data/data', array('as' => 'fuentesP.tipoRespuesta.data', 'uses' => 'TipoRespuestaController@data'));
 
-
+//Gestionar Ponderaciones
 Route::resource('ponderacionRespuesta', 'PonderacionRespuestasController', ['as' => 'fuentesP']);
 
 Route::get('ponderacion/{id}', array('as' => 'fuentesP.ponderacionRespuesta.datos', 'uses' => 'PonderacionRespuestasController@create'));
+
+Route::get('mostrarPonderaciones/{id}', array('as' => 'fuentesP.mostrarPonderaciones.datos', 'uses' => 'PonderacionRespuestasController@mostrarPonderaciones'));
 
 Route::get('ponderacionRespuesta/data/data', array('as' => 'fuentesP.ponderacionRespuesta.data', 'uses' => 'PonderacionRespuestasController@data'));
 
 //preguntas
 Route::resource('preguntas', 'PreguntasController', ['as' => 'fuentesP']);
 Route::get('preguntas/data/data', array('as' => 'fuentesP.preguntas.data', 'uses' => 'PreguntasController@data'));
-
+Route::resource('caracteristica', 'CaracteristicaController', ['as' => 'fuentesP']);
 //Importar preguntas
 Route::resource('Importarpreguntas', 'ImportarPreguntasController', ['as' => 'fuentesP']);
 

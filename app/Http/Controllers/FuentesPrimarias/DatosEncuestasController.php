@@ -43,7 +43,6 @@ class DatosEncuestasController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-        dd($datosEncuesta);
         return AjaxResponse::fail(
             '¡Lo sentimos!',
             'No se pudo completar tu solicitud.'

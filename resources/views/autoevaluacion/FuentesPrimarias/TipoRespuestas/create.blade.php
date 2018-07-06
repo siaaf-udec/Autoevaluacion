@@ -51,7 +51,7 @@
                 var status=$('#ponderacion')[0].checked;
                 if(status === true){
                     var number = document.getElementById('cantidad').value;
-                    if(number)
+                    if(number != 0)
                     {
                         var container = document.getElementById("container");
                         while (container.hasChildNodes()) {

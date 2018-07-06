@@ -174,4 +174,10 @@ class PreguntasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function caracteristicas($id)
+    {
+        $caracteristicas = Caracteristica::where('FK_CRT_Factor', $id)->pluck('CRT_Nombre', 'PK_CRT_Id');
+        return json_encode($caracteristicas);
+    }
+    
 }

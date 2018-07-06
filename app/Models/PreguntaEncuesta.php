@@ -31,4 +31,8 @@ class PreguntaEncuesta extends Model
     {
         return $this->belongsTo(Pregunta::class, 'FK_PEN_Pregunta', 'PK_PGT_Id');
     }
+    public function grupos()
+    {
+        return $this->belongsTo(GrupoInteres::class, 'FK_PEN_GrupoInteres', 'PK_GIT_Id');
+    }
 }

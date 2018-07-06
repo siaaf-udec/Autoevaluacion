@@ -8,6 +8,7 @@ use App\Models\Estado;
 use App\Models\TipoRespuesta;
 use App\Models\PonderacionRespuesta;
 use DataTables;
+use App\Http\Requests\TipoRespuestaRequest;
 
 class TipoRespuestaController extends Controller
 {
@@ -54,8 +55,25 @@ class TipoRespuestaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TipoRespuestaRequest $request)
     {
+        $sumatoria = 0;
+        $cantidadRespuestas = $request->TRP_CantidadRespuestas;
+        for($i=1;$i<=$cantidadRespuestas;$i++)
+        {
+            $valorPonderacion = $request->get('Ponderacion_'.$i);
+            $sumatoria = $sumatoria + $valorPonderacion;
+        }
+        $totalPonderacion = $request->TRP_TotalPonderacion;
+        if($sumatoria != $totalPonderacion )
+        {
+            return response([
+                'errors' => ['La suma de ponderaciones no corresponde con el total de ponderacion digitado'],
+                'title' => '¡Error!'
+            ], 422) // 200 Status Code: Standard response for successful HTTP request
+                ->header('Content-Type', 'application/json');  
+        }
+
         $tipoRespuestas = new TipoRespuesta();
         $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_CantidadRespuestas','TRP_Descripcion']));
         $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');

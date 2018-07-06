@@ -38,3 +38,7 @@
 @endforeach
 </div>
 </div>
+
+<div class="form-group">
+    {!! Form::hidden('PK_ECT_Id', Session::get('id_encuesta')) !!}
+</div>

@@ -29,6 +29,12 @@ class Encuesta extends Model
      * @var array
      */
     protected $guarded = ['PK_ECT_Id', 'created_at', 'updated_at'];
+     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['ECT_FechaPublicacion', 'ECT_FechaFinalizacion'];
 
     public function estado()
     {
@@ -37,7 +43,6 @@ class Encuesta extends Model
 
     public function proceso()
     {
-        return $this->belongsTo(Proceso::class, 'FK_ECT_Proceso', 'PK_PCS_Id');
+        return $this->belongsTo(Proceso::class, 'FK_ECT_Proceso', 'PK_PCS_Id'); 
     }
-
 }

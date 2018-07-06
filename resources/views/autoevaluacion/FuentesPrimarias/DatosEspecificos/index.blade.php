@@ -14,7 +14,8 @@
         @endcan
         @can('VER_ENCUESTAS')
             <div class="col-md-12">
-                @component('admin.components.datatable', ['id' => 'datosEspecificos-table-ajax']) @slot('columns', [ 'id', 'Fecha Publicacion', 'Fecha Finalizacion', 'Estado','Proceso',
+                
+            @component('admin.components.datatable', ['id' => 'datosEspecificos-table-ajax']) @slot('columns', [ 'id', 'Fecha Publicacion', 'Fecha Finalizacion', 'Estado','Proceso',  
     'Acciones' => ['style' => 'width:85px;'] ]) @endcomponent
 
             </div>
@@ -64,11 +65,12 @@
                 buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                 "ajax": "{{ route('fuentesP.datosEspecificos.data') }}",
                 "columns": [
-                    {data: 'PK_ECT_Id', name: 'id', "visible": false},
-                    {data: 'ECT_FechaPublicacion', name: 'Fecha Publicacion', className: "desktop"},
-                    {data: 'ECT_FechaFinalizacion', name: 'Fecha Finalizacion', className: "desktop"},
-                    {data: 'estado.ESD_Nombre', name: 'Estado', className: "min-phone-l"},
-                    {data: 'proceso.PCS_Nombre', name: 'Proceso', className: "min-tablet-l"},
+                    {data: 'PK_ECT_Id', name: 'id', "visible": false}, 
+                    {data: 'ECT_FechaPublicacion', name: 'Fecha Publicacion', className: "desktop"}, 
+                    {data: 'ECT_FechaFinalizacion', name: 'Fecha Finalizacion', className: "desktop"}, 
+                    {data: 'estado.ESD_Nombre', name: 'Estado', className: "min-phone-l"}, 
+                    {data: 'proceso.PCS_Nombre', name: 'Proceso', className: "min-tablet-l"}, 
+                    
                     {
                         defaultContent:
                             '@can('ELIMINAR_ENCUESTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +

@@ -52,7 +52,8 @@
             selectDinamico("#factor", "#caracteristica", "{{url('admin/caracteristicas')}}");
             $('#tipo').change(function (e) {
                 e.preventDefault();
-                var number = $("#tipo option:selected").text()
+                var number = $("#tipo option:selected").text();
+                var id = $("#tipo option:selected").val();
                 var container = document.getElementById("container");
                 while (container.hasChildNodes()) {
                     container.removeChild(container.lastChild);
@@ -68,10 +69,9 @@
                 input.pattern = "^[a-zA-Z ][a-zA-Z0-9-_\. ]{1,5000}$";
                 var selectList = document.createElement("select");
                 selectList.name = "Ponderacion_" + i;
-                var option = document.createElement("option");
-                option.text = "Kiwi";
-                selectList.add(option);
-                input.size = 37;
+                var nombre = "Ponderacion_" + i;
+                var route = '{{ url('admin/fuentesPrimarias/mostrarPonderaciones/') }}' + '/' + id;
+                mostrarPonderaciones(route,nombre);
                 container.appendChild(input);
                 container.appendChild(selectList);
                 container.appendChild(document.createElement("br"));
