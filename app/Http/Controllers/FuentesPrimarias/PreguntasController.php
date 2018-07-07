@@ -5,12 +5,14 @@ namespace App\Http\Controllers\FuentesPrimarias;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Factor;
+use App\Models\Lineamiento;
 use App\Models\Estado;
 use App\Models\Pregunta;
 use App\Models\Caracteristica;
 use App\Models\TipoRespuesta;
 use App\Models\RespuestaPregunta;
 use DataTables;
+use App\Http\Requests\PreguntasRequest;
 
 class PreguntasController extends Controller
 {
@@ -51,10 +53,9 @@ class PreguntasController extends Controller
     public function create()
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        $factores = Factor::pluck('FCT_Nombre', 'PK_FCT_Id');
+        $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
         $tipos = TipoRespuesta::pluck('TRP_CantidadRespuestas','PK_TRP_Id');
-
-        return view('autoevaluacion.FuentesPrimarias.Preguntas.create', compact('estados','factores','tipos'));
+        return view('autoevaluacion.FuentesPrimarias.Preguntas.create', compact('estados','lineamientos','tipos'));
     }
 
     /**
@@ -63,7 +64,7 @@ class PreguntasController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PreguntasRequest $request)
     {
         $pregunta = new Pregunta();
         $pregunta->fill($request->only(['PGT_Texto']));
@@ -78,11 +79,11 @@ class PreguntasController extends Controller
             $respuestas = new RespuestaPregunta();
             $respuestas->RPG_Texto = $request->get('Respuesta_'.$i);
             $respuestas->FK_RPG_Pregunta = $insertedId;
-            $respuestas->FK_RPG_PonderacionRespuesta = 1;
+            $respuestas->FK_RPG_PonderacionRespuesta = $request->get('Ponderacion_'.$i);
             $respuestas->save();
         }
 
-        return response(['msg' => 'Aspecto registrado correctamente.',
+        return response(['msg' => 'Pregunta registrada correctamente.',
         'title' => '¡Registro exitoso!'
     ], 200) // 200 Status Code: Standard response for successful HTTP request
           ->header('Content-Type', 'application/json');
@@ -111,16 +112,16 @@ class PreguntasController extends Controller
         $pregunta = Pregunta::findOrFail($id);
 
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        $factores = Factor::pluck('FCT_Nombre', 'PK_FCT_Id');
-        $tipos = TipoRespuesta::pluck('TRP_CantidadRespuestas','PK_TRP_Id');
+        $lineamientos =  Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
         $respuestas = RespuestaPregunta::where('FK_RPG_Pregunta', $id)->get();
-    
+        $factor = new Factor();
+        $id_factor = $pregunta->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
+        $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
         $caracteristica = new Caracteristica();
         $id_caracteristica = $pregunta->caracteristica->factor()->pluck('PK_FCT_Id')[0];
         $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('CRT_Nombre', 'PK_CRT_Id');
-
         return view('autoevaluacion.FuentesPrimarias.Preguntas.edit',
-            compact('pregunta', 'estados', 'factores', 'caracteristicas','tipos','respuestas')
+            compact('pregunta', 'estados', 'factores', 'caracteristicas','respuestas','lineamientos')
             );
     }
 
@@ -174,4 +175,10 @@ class PreguntasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function caracteristicas($id)
+    {
+        $caracteristicas = Caracteristica::where('FK_CRT_Factor', $id)->pluck('CRT_Nombre', 'PK_CRT_Id');
+        return json_encode($caracteristicas);
+    }
+    
 }

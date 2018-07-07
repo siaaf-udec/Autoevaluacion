@@ -11,20 +11,17 @@ use App\Models\Lineamiento;
 
 class FactorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
+     /**
+     * Instantiate a new controller instance.
      *
-     * @return void \Illuminate\Http\Response
+     * @return void
      */
     public function __construct()
     {
-        $this->middleware([
-            'permission:CREAR_FACTORES',
-            'permission:VER_FACTORES',
-            'permission:MODIFICAR_FACTORES',
-            'permission:ELIMINAR_FACTORES'
-            ]);
-
+        $this->middleware('permission:ACCEDER_FACTORES')->except('show');
+        $this->middleware(['permission:MODIFICAR_FACTORES', 'permission:VER_FACTORES'], ['only' => ['edit', 'update']]);
+        $this->middleware('permission:CREAR_FACTORES', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ELIMINAR_FACTORES', ['only' => ['destroy']]);
     }
     public function data(Request $request)
     {

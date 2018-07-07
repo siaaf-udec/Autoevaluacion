@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\Datatables\Datatables;
 use App\Models\PreguntaEncuesta;
+use App\Models\DatosEncuesta;
 use App\Models\Pregunta;
+use App\Models\Proceso;
+use App\Models\Encuesta;
 use App\Models\Factor;
 use App\Models\GrupoInteres;
-
+use App\Http\Requests\EstablecerPreguntasRequest;
 
 class EstablecerPreguntasController extends Controller
 {
@@ -33,10 +36,11 @@ class EstablecerPreguntasController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $preguntas = PreguntaEncuesta::with('preguntas')
+            $preguntas = PreguntaEncuesta::with('preguntas','grupos')
             ->with('preguntas.estado')
             ->with('preguntas.tipo')
-            ->with('preguntas.caracteristica')->get();
+            ->with('preguntas.caracteristica')->
+            where('FK_PEN_Encuesta',session()->get('id_encuesta'))->get();
             return DataTables::of($preguntas)
             ->removeColumn('created_at')
             ->removeColumn('updated_at')
@@ -55,7 +59,9 @@ class EstablecerPreguntasController extends Controller
      */
     public function create()
     {
-        $factores = Factor::where('FK_FCT_Lineamiento',session()->get('id_proceso'))->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
+        $id_proceso = Encuesta::where('PK_ECT_Id',session()->get('id_encuesta'))->first();
+        $id_lineamiento = Proceso::where('PK_PCS_Id',$id_proceso->FK_ECT_Proceso)->first();
+        $factores = Factor::where('FK_FCT_Lineamiento',$id_lineamiento->FK_PCS_Lineamiento)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
         $grupos = GrupoInteres::whereHas('estado', function($query){
             return $query->where('ESD_Valor','1');
         })->get();
@@ -67,24 +73,52 @@ class EstablecerPreguntasController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EstablecerPreguntasRequest $request)
     {
-        $checks = $request->input('check');
-        foreach ($checks as $key => $value)
-        {
-            if($value !==  0)
-            {
-                $preguntas_encuestas = new PreguntaEncuesta();
-                $preguntas_encuestas->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
-                $preguntas_encuestas->FK_PEN_Encuesta = session()->get('id_encuesta');
-                $preguntas_encuestas->FK_PEN_GrupoInteres = $value;
-                $preguntas_encuestas->save();
+        $gruposInteres = $request->input('gruposInteres');
+        if (is_array($gruposInteres)) {
+            foreach ($gruposInteres as $key => $valor)
+            {   
+                if($valor !==  0)
+                {
+                    $verificar = PreguntaEncuesta::where('FK_PEN_Pregunta',$request->get('PK_PGT_Id'))
+                    ->where('FK_PEN_Encuesta',$request->get('PK_ECT_Id'))
+                    ->where('FK_PEN_GrupoInteres',$valor)
+                    ->first();
+                    if(!$verificar)
+                    {
+                        $preguntas_encuestas = new PreguntaEncuesta();
+                        $preguntas_encuestas->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
+                        $preguntas_encuestas->FK_PEN_Encuesta = $request->get('PK_ECT_Id');
+                        $preguntas_encuestas->FK_PEN_GrupoInteres = $valor;
+                        $preguntas_encuestas->save();
+                    }
+                    else
+                    {
+                        $grupos = GrupoInteres::where('PK_GIT_Id',$valor)->first();
+                        return response([
+                            'errors' => ['La pregunta que selecciona ya existe para el grupo de interes de '.$grupos->GIT_Nombre],
+                            'title' => '¡Error!'
+                        ], 422) // 200 Status Code: Standard response for successful HTTP request
+                        ->header('Content-Type', 'application/json');
+                    }
+                   
+                }
             }
+            return response(['msg' => 'Datos registrados correctamente.',
+                'title' => '¡Registro exitoso!'
+            ], 200) // 200 Status Code: Standard response for successful HTTP request
+            ->header('Content-Type', 'application/json');
         }
-        return response(['msg' => 'Datos registrados correctamente.',
-        'title' => '¡Registro exitoso!'
-    ], 200) // 200 Status Code: Standard response for successful HTTP request
-          ->header('Content-Type', 'application/json');
+        else
+        {
+            return response([
+                'errors' => ['Seleccione como minimo un grupo de interes.'],
+                'title' => '¡Error!'
+            ], 422) // 200 Status Code: Standard response for successful HTTP request
+            ->header('Content-Type', 'application/json');
+        }
+    
     }
 
     /**
@@ -129,6 +163,10 @@ class EstablecerPreguntasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        PreguntaEncuesta::destroy($id);
+        return response(['msg' => 'Los datos han sido eliminados exitosamente.',
+                'title' => 'Datos Eliminados!'
+            ], 200) // 200 Status Code: Standard response for successful HTTP request
+                ->header('Content-Type', 'application/json');
     }
 }

@@ -35,10 +35,12 @@
 @endpush @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
+            $('#lineamiento').select2();
             $('#factor').select2();
             $('#caracteristica').select2();
             $('#tipo').select2();
             $('#estado').select2();
+            selectDinamico("#lineamiento", "#factor", "{{url('admin/factores')}}", ['#caracteristica']);
             selectDinamico("#factor", "#caracteristica", "{{url('admin/caracteristicas')}}");
             $('#tipo').change(function () {
                 var number = $("#tipo option:selected").text()

@@ -1,4 +1,4 @@
-<li><a><i class="fa fa-info-circle"></i> Fuentes primarias <span class="fa fa-chevron-down"></span></a>
+<li><a><i class="fa fa-info-circle"></i> Fuentes Primarias <span class="fa fa-chevron-down"></span></a>
 
     <ul class="nav child_menu">
         
@@ -15,12 +15,11 @@
                                 class="fa fa-plus-square-o"></i>Construccion de encuestas</a>
                 </li>
                 @endcan
-                <li>
-
-                <li><a href="#level2_2"><i class="fa fa-check-square-o"></i>Publicar encuestas</a>
+                <li class="sub_menu"><a href=""><i 
+                                class="fa fa-paste"></i>Exportar Encuestas</a>
                 </li>
-
-                <li><a href="#level2_2"><i class="fa fa-paste"></i>Importar encuestas</a>
+                <li class="sub_menu"><a href=""><i 
+                                class="fa fa-paste"></i>Importar Encuestas</a>
                 </li>
             </ul>
         </li>

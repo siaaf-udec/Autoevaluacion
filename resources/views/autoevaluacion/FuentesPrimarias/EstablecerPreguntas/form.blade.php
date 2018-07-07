@@ -34,7 +34,11 @@
 {!! Form::label('PK_GIT_Id', 'Grupos de Interes', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
 <div class="col-md-6 col-sm-6 col-xs-12">
         @foreach($grupos as $grupo)
-        {!! Form::checkbox('check[]',$grupo->PK_GIT_Id )!!}{{$grupo->GIT_Nombre}}<br>
+        {!! Form::checkbox('gruposInteres[]',$grupo->PK_GIT_Id, null )!!}{{$grupo->GIT_Nombre}}<br>
 @endforeach
 </div>
+</div>
+
+<div class="form-group">
+    {!! Form::hidden('PK_ECT_Id', Session::get('id_encuesta')) !!}
 </div>

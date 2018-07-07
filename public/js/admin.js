@@ -217,3 +217,26 @@ function mostrarProcesos(ruta) {
         }
     });
 }
+
+function mostrarPonderaciones(ruta,nombre) {
+    var form = $('#form_crear_preguntas');
+    console.log(nombre);
+    $(nombre).find('option').remove();
+    $.ajax({
+        
+        url: ruta,
+        type: 'GET',
+        dataType: 'json',
+        success: function (r) {
+            console.log(r);
+            console.log(ruta);
+            $.each(r, function (key, data) { // indice, valor
+                
+                $("select[name*='"+nombre+"']" ).append('<option value="' + key + '">' + data + '</option>');
+            })
+        },
+        error: function () {
+            alert('Ocurrio un error en el servidor ..');
+        }
+    });
+}

@@ -8,6 +8,7 @@ use App\Models\Estado;
 use App\Models\TipoRespuesta;
 use App\Models\PonderacionRespuesta;
 use DataTables;
+use App\Http\Requests\TipoRespuestaRequest;
 
 class TipoRespuestaController extends Controller
 {
@@ -54,27 +55,44 @@ class TipoRespuestaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TipoRespuestaRequest $request)
     {
-        $tipoRespuestas = new TipoRespuesta();
-        $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_CantidadRespuestas','TRP_Descripcion']));
-        $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
-        $tipoRespuestas->save();
-        $insertedId = $tipoRespuestas->PK_TRP_Id;
-        $cantidad = $request->TRP_CantidadRespuestas;
-        for($i=1;$i<=$cantidad;$i++)
+        $sumatoria = 0;
+        $cantidadRespuestas = $request->TRP_CantidadRespuestas;
+        for($i=1;$i<=$cantidadRespuestas;$i++)
         {
-            $ponderacion = new PonderacionRespuesta();
-            $ponderacion->PRT_Ponderacion = $request->get('Ponderacion_'.$i);
-            $ponderacion->FK_PRT_TipoRespuestas = $insertedId;
-            $ponderacion->save();
-
+            $valorPonderacion = $request->get('Ponderacion_'.$i);
+            $sumatoria = $sumatoria + $valorPonderacion;
         }
-        return response([
-            'msg' => 'Tipo de respuesta registrada correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
+        $totalPonderacion = $request->TRP_TotalPonderacion;
+        if($sumatoria != $totalPonderacion )
+        {
+            return response([
+                'errors' => ['La suma de ponderaciones no corresponde con el total de ponderacion digitado'],
+                'title' => '¡Error!'
+            ], 422) // 200 Status Code: Standard response for successful HTTP request
+                ->header('Content-Type', 'application/json');  
+        }
+        else{
+            $tipoRespuestas = new TipoRespuesta();
+            $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_CantidadRespuestas','TRP_Descripcion']));
+            $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
+            $tipoRespuestas->save();
+            $insertedId = $tipoRespuestas->PK_TRP_Id;
+            $cantidad = $request->TRP_CantidadRespuestas;
+            for($i=1;$i<=$cantidad;$i++)
+            {
+                $ponderacion = new PonderacionRespuesta();
+                $ponderacion->PRT_Ponderacion = $request->get('Ponderacion_'.$i);
+                $ponderacion->FK_PRT_TipoRespuestas = $insertedId;
+                $ponderacion->save();
+            }
+            return response([
+                'msg' => 'Tipo de respuesta registrada correctamente.',
+                'title' => '¡Registro exitoso!'
+            ], 200) // 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
+        }
 
     }
 

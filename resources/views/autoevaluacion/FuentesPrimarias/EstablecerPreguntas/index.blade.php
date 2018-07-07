@@ -6,7 +6,9 @@
             <div class="col-md-12">
                 <div class="actions">
                     <a href="{{ route('fuentesP.establecerPreguntas.create') }}" class="btn btn-info">
-                        <i class="fa fa-plus"></i> Agregar Pregunta</a></div>
+                        <i class="fa fa-plus"></i> Agregar Pregunta</a>
+                        {{ link_to_route('fuentesP.datosEspecificos.index'," Volver ", [], ['class' => 'fa fa-hand-o-left btn btn-warning']) }}
+                </div>
             </div>
             <br>
             <br>
@@ -16,6 +18,7 @@
         @can('VER_ESTABLECER_PREGUNTAS')
             <div class="col-md-12">
                 @component('admin.components.datatable', ['id' => 'establecerPreguntas-table-ajax']) @slot('columns', [ 'id', 'Pregunta','Estado','Tipo Respuesta','Caracteristica',
+                'Grupo de Interes',
     'Acciones' => ['style' => 'width:85px;'] ]) @endcomponent
 
             </div>
@@ -65,15 +68,15 @@
                 buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                 "ajax": "{{ route('fuentesP.establecerPreguntas.data') }}",
                 "columns": [
-                    {data: 'preguntas.PK_PGT_Id', name: 'id', "visible": false},
+                    {data: 'PK_PEN_Id', name: 'id', "visible": false},
                     {data: 'preguntas.PGT_Texto', name: 'Pregunta', className: "all"},
                     {data: 'preguntas.estado.ESD_Nombre', name: 'Estado', className: "all"},
                     {data: 'preguntas.tipo.TRP_Descripcion', name: 'Tipo Respuesta', className: "all"},
                     {data: 'preguntas.caracteristica.CRT_Nombre', name: 'Caracteristica', className: "all"},
+                    {data: 'grupos.GIT_Nombre', name: 'Grupo de Interes', className: "all"},
                     {
                         defaultContent:
-                            '@can('ELIMINAR_ESTABLECER_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
-                            '@can('MODIFICAR_ESTABLECER_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
+                            '@can('ELIMINAR_ESTABLECER_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' ,
                         data: 'action',
                         name: 'action',
                         title: 'Acciones',
@@ -115,22 +118,12 @@
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/fuentesPrimarias/datosEncuestas/') }}' + '/' + dataTable.PK_DAE_Id;
+                var route = '{{ url('admin/fuentesPrimarias/establecerPreguntas/') }}' + '/' + dataTable.PK_PEN_Id;
                 var type = 'DELETE';
                 dataType: "JSON",
-                    SwalDelete(dataTable.PK_DAE_Id, route);
+                    SwalDelete(dataTable.PK_PEN_Id, route);
 
             });
-            table.on('click', '.edit', function (e) {
-                e.preventDefault();
-                $tr = $(this).closest('tr');
-                var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/fuentesPrimarias/datosEncuestas/') }}' + '/' + dataTable.PK_DAE_Id + '/edit';
-                window.location.replace(route);
-
-
-            });
-
         });
 
         function SwalDelete(id, route) {

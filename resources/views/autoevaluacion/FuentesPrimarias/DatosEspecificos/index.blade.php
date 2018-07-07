@@ -14,7 +14,8 @@
         @endcan
         @can('VER_ENCUESTAS')
             <div class="col-md-12">
-                @component('admin.components.datatable', ['id' => 'datosEspecificos-table-ajax']) @slot('columns', [ 'id', 'Fecha Publicacion', 'Fecha Finalizacion', 'Estado','Proceso',
+                
+            @component('admin.components.datatable', ['id' => 'datosEspecificos-table-ajax']) @slot('columns', [ 'id', 'Fecha Publicacion', 'Fecha Finalizacion', 'Estado','Proceso','Programa','Sede',  
     'Acciones' => ['style' => 'width:85px;'] ]) @endcomponent
 
             </div>
@@ -64,11 +65,14 @@
                 buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                 "ajax": "{{ route('fuentesP.datosEspecificos.data') }}",
                 "columns": [
-                    {data: 'PK_ECT_Id', name: 'id', "visible": false},
-                    {data: 'ECT_FechaPublicacion', name: 'Fecha Publicacion', className: "desktop"},
-                    {data: 'ECT_FechaFinalizacion', name: 'Fecha Finalizacion', className: "desktop"},
-                    {data: 'estado.ESD_Nombre', name: 'Estado', className: "min-phone-l"},
-                    {data: 'proceso.PCS_Nombre', name: 'Proceso', className: "min-tablet-l"},
+                    {data: 'encuestas.PK_ECT_Id', name: 'id', "visible": false}, 
+                    {data: 'encuestas.ECT_FechaPublicacion', name: 'Fecha Publicacion', className: "desktop"}, 
+                    {data: 'encuestas.ECT_FechaFinalizacion', name: 'Fecha Finalizacion', className: "desktop"},
+                    {data: 'encuestas.estado.ESD_Nombre', name: 'Estado', className: "min-phone-l"}, 
+                    {data: 'PCS_Nombre', name: 'Proceso', className: "min-tablet-l"},
+                    {data: 'programa.PAC_Nombre', name: 'Programa', className: "min-tablet-l"},
+                    {data: 'programa.sede.SDS_Nombre', name: 'Sede', className: "min-tablet-l"},  
+                    
                     {
                         defaultContent:
                             '@can('ELIMINAR_ENCUESTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
@@ -115,17 +119,17 @@
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/fuentesPrimarias/datosEspecificos/') }}' + '/' + dataTable.PK_ECT_Id;
+                var route = '{{ url('admin/fuentesPrimarias/datosEspecificos/') }}' + '/' + dataTable.encuestas.PK_ECT_Id;
                 var type = 'DELETE';
                 dataType: "JSON",
-                    SwalDelete(dataTable.PK_ECT_Id, route);
+                    SwalDelete(dataTable.encuestas.PK_ECT_Id, route);
 
             });
             table.on('click', '.edit', function (e) {
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/fuentesPrimarias/datosEspecificos/') }}' + '/' + dataTable.PK_ECT_Id + '/edit';
+                var route = '{{ url('admin/fuentesPrimarias/datosEspecificos/') }}' + '/' + dataTable.encuestas.PK_ECT_Id + '/edit';
                 window.location.replace(route);
 
 
@@ -135,7 +139,7 @@
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/fuentesPrimarias/establecerPreguntas/') }}' + '/' + dataTable.PK_ECT_Id;
+                var route = '{{ url('admin/fuentesPrimarias/establecerPreguntas/') }}' + '/' + dataTable.encuestas.PK_ECT_Id;
                 window.location.replace(route);
             });
 

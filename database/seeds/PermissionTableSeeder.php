@@ -131,6 +131,7 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'MODIFICAR_GRUPO_DOCUMENTOS']);
         Permission::create(['name' => 'ELIMINAR_GRUPO_DOCUMENTOS']);
         //permisos para factores
+        Permission::create(['name' => 'ACCEDER_FACTORES']);
         Permission::create(['name' => 'VER_FACTORES']);
         Permission::create(['name' => 'CREAR_FACTORES']);
         Permission::create(['name' => 'MODIFICAR_FACTORES']);
@@ -142,6 +143,7 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'CREAR_TIPO_DOCUMENTO']);
         Permission::create(['name' => 'MODIFICAR_TIPO_DOCUMENTO']);
         //permisos caracteristicas
+        Permission::create(['name' => 'ACCEDER_CARACTERISTICAS']);
         Permission::create(['name' => 'VER_CARACTERISTICAS']);
         Permission::create(['name' => 'CREAR_CARACTERISTICAS']);
         Permission::create(['name' => 'MODIFICAR_CARACTERISTICAS']);

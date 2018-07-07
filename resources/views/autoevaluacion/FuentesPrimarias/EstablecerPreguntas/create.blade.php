@@ -13,7 +13,7 @@
         <div class="ln_solid"></div>
         <div class="form-group">
             <div class="col-md-6 col-md-offset-3">
-                {{ link_to_route('fuentesP.establecerPreguntas.datos',"Cancelar", [Session::has('id_encuesta')], ['class' => 'btn btn-info']) }}
+                {{ link_to_route('fuentesP.establecerPreguntas.datos',"Cancelar", [Session::get('id_encuesta')], ['class' => 'btn btn-info']) }}
                 {!! Form::submit('Agregar Pregunta', ['class' => 'btn btn-success']) !!}
             </div>
         </div>
@@ -73,9 +73,11 @@
                         $(form)[0].reset();
                         $(form).parsley().reset();
                         $("#caracteristica").html('').select2();
-                        $("#factor").html('').select2();
-                        $('#factor').prop('disabled', true);
+                        $("#factor").select2('data', {}); // clear out values selected 
+                        $("#factor").select2({allowClear: true});
                         $('#caracteristica').prop('disabled', true);
+                        $("#preguntas").html('').select2();
+                        $('#preguntas').prop('disabled', true);
                         new PNotify({
                             title: response.title,
                             text: response.msg,

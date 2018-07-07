@@ -45,34 +45,37 @@
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
+            $('#lineamiento').select2();
             $('#factor').select2();
             $('#caracteristica').select2();
             $('#tipo').select2();
             $('#estado').select2();
+            selectDinamico("#lineamiento", "#factor", "{{url('admin/factores')}}", ['#caracteristica']);
             selectDinamico("#factor", "#caracteristica", "{{url('admin/caracteristicas')}}");
             $('#tipo').change(function (e) {
                 e.preventDefault();
-                var number = $("#tipo option:selected").text()
+                var number = $("#tipo option:selected").text();
+                var id = $("#tipo option:selected").val();
                 var container = document.getElementById("container");
                 while (container.hasChildNodes()) {
                     container.removeChild(container.lastChild);
                 }
                 for (i=1;i<=number;i++){
                 container.appendChild(document.createTextNode("Respuesta " + (i)));
-                var input = document.createElement("input");
-                input.type = "text";
+                container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
+                var input = document.createElement("TEXTAREA");
                 input.name = "Respuesta_" + i;
-                input.maxLength = 5000;
+                input.maxLength = 50000;
                 input.required = true;
-                input.size = 67;
-                input.pattern = "^[a-zA-Z ][a-zA-Z0-9-_\. ]{1,5000}$";
+                container.appendChild(input);
+                container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
+                container.appendChild(document.createTextNode("Ponderacion"));
+                container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
                 var selectList = document.createElement("select");
                 selectList.name = "Ponderacion_" + i;
-                var option = document.createElement("option");
-                option.text = "Kiwi";
-                selectList.add(option);
-                input.size = 37;
-                container.appendChild(input);
+                var nombre = "Ponderacion_" + i;
+                var route = '{{ url('admin/fuentesPrimarias/mostrarPonderaciones/') }}' + '/' + id;
+                mostrarPonderaciones(route,nombre);
                 container.appendChild(selectList);
                 container.appendChild(document.createElement("br"));
             }
@@ -103,6 +106,8 @@
                         $("#factor").html('').select2();
                         $('#factor').prop('disabled', true);
                         $('#caracteristica').prop('disabled', true);
+                        $("#lineamiento").select2('data', {});  
+                        $("#lineamiento").select2({allowClear: true});
                         new PNotify({
                             title: response.title,
                             text: response.msg,
