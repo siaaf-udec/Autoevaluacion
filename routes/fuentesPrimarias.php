@@ -23,6 +23,7 @@ Route::get('establecerPreguntas/data/data', array('as' => 'fuentesP.establecerPr
 //Gestionar Tipo de respuesta
 Route::resource('tipoRespuesta', 'TipoRespuestaController', ['as' => 'fuentesP']);
 Route::get('tipoRespuesta/data/data', array('as' => 'fuentesP.tipoRespuesta.data', 'uses' => 'TipoRespuestaController@data'));
+
 //Gestionar Ponderaciones
 Route::resource('ponderacionRespuesta', 'PonderacionRespuestasController', ['as' => 'fuentesP']);
 Route::get('ponderacion/{id}', array('as' => 'fuentesP.ponderacionRespuesta.datos', 'uses' => 'PonderacionRespuestasController@create'));
@@ -38,3 +39,6 @@ Route::resource('Importarpreguntas', 'ImportarPreguntasController', ['as' => 'fu
 //respuestas
 Route::get('respuestas/{id}', array('as' => 'fuentesP.respuestas.datos', 'uses' => 'RespuestasController@create'));
 Route::get('respuestas/data/data', array('as' => 'fuentesP.respuestas.data', 'uses' => 'RespuestasController@data'));
+
+//importar encuestas
+Route::resource('importarEncuestas', 'ImportarEncuestasController', ['as' => 'fuentesP']);
