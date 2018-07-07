@@ -75,27 +75,29 @@ class EstablecerPreguntasController extends Controller
      */
     public function store(EstablecerPreguntasRequest $request)
     {
-        $checks = $request->input('check');
-            foreach ($checks as $key => $value)
+        $gruposInteres = $request->input('gruposInteres');
+        if (is_array($gruposInteres)) {
+            foreach ($gruposInteres as $key => $valor)
             {   
-                if($value !==  0)
+                if($valor !==  0)
                 {
                     $verificar = PreguntaEncuesta::where('FK_PEN_Pregunta',$request->get('PK_PGT_Id'))
                     ->where('FK_PEN_Encuesta',$request->get('PK_ECT_Id'))
-                    ->where('FK_PEN_GrupoInteres',$value)
+                    ->where('FK_PEN_GrupoInteres',$valor)
                     ->first();
                     if(!$verificar)
                     {
                         $preguntas_encuestas = new PreguntaEncuesta();
                         $preguntas_encuestas->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
                         $preguntas_encuestas->FK_PEN_Encuesta = $request->get('PK_ECT_Id');
-                        $preguntas_encuestas->FK_PEN_GrupoInteres = $value;
+                        $preguntas_encuestas->FK_PEN_GrupoInteres = $valor;
                         $preguntas_encuestas->save();
                     }
                     else
                     {
+                        $grupos = GrupoInteres::where('PK_GIT_Id',$valor)->first();
                         return response([
-                            'errors' => ['Debe seleccionar como mínimo un grupo de interes'],
+                            'errors' => ['La pregunta que selecciona ya existe para el grupo de interes de '.$grupos->GIT_Nombre],
                             'title' => '¡Error!'
                         ], 422) // 200 Status Code: Standard response for successful HTTP request
                         ->header('Content-Type', 'application/json');
@@ -107,6 +109,15 @@ class EstablecerPreguntasController extends Controller
                 'title' => '¡Registro exitoso!'
             ], 200) // 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
+        }
+        else
+        {
+            return response([
+                'errors' => ['Seleccione como minimo un grupo de interes.'],
+                'title' => '¡Error!'
+            ], 422) // 200 Status Code: Standard response for successful HTTP request
+            ->header('Content-Type', 'application/json');
+        }
     
     }
 

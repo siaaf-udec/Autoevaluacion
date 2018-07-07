@@ -24,11 +24,17 @@ class EstablecerPreguntasRequest extends FormRequest
     public function rules()
     {
         return [
+            'PK_PGT_Id' => 'required|exists:tbl_preguntas',
+            'PK_ECT_Id' => 'required|exists:tbl_encuestas',
         ];
     }
     public function messages()
     {
         return [
+            'PK_PGT_Id.required' => 'Pregunta requerida',
+            'PK_ECT_Id.required' => 'Encuesta requerida',
+            'PK_PGT_Id.exists' => 'La pregunta que selecciono no se encuentra en nuestros registros',
+            'PK_ECT_Id.exists' => 'La encuesta que selecciono no se encuentra en nuestros registros',
             
         ];
     }

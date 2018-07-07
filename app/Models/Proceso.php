@@ -60,4 +60,9 @@ class Proceso extends Model
         return $this->belongsToMany(User::class, 'tbl_procesos_usuarios', 'FK_PCU_Proceso', ' FK_PCU_Usuario');
     }
 
+    public function encuestas()
+    {
+        return $this->hasOne(Encuesta::class,'FK_ECT_Proceso','PK_PCS_Id');
+    }
+
 }

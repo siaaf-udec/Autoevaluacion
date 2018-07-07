@@ -76,8 +76,7 @@
                     {data: 'grupos.GIT_Nombre', name: 'Grupo de Interes', className: "all"},
                     {
                         defaultContent:
-                            '@can('ELIMINAR_ESTABLECER_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
-                            '@can('MODIFICAR_ESTABLECER_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
+                            '@can('ELIMINAR_ESTABLECER_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' ,
                         data: 'action',
                         name: 'action',
                         title: 'Acciones',
@@ -125,16 +124,6 @@
                     SwalDelete(dataTable.PK_PEN_Id, route);
 
             });
-            table.on('click', '.edit', function (e) {
-                e.preventDefault();
-                $tr = $(this).closest('tr');
-                var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/fuentesPrimarias/establecerPreguntas/') }}' + '/' + dataTable.PK_PEN_Id + '/edit';
-                window.location.replace(route);
-
-
-            });
-
         });
 
         function SwalDelete(id, route) {

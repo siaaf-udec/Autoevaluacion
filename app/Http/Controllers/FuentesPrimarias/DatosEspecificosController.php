@@ -40,13 +40,13 @@ class DatosEspecificosController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $encuesta = Encuesta::with('estado','proceso')->get();
+            $encuesta = Auth::user()->procesos()->with('programa.sede','encuestas.estado')->get();
             return Datatables::of($encuesta)
-            ->editColumn('ECT_FechaPublicacion', function ($encuestas) {
-                return $encuestas->ECT_FechaPublicacion ? with(new Carbon($encuestas->ECT_FechaPublicacion))->format('d/m/Y') : '';
+            ->editColumn('encuestas.ECT_FechaPublicacion', function ($encuestas) {
+                return $encuestas->encuestas->ECT_FechaPublicacion ? with(new Carbon($encuestas->encuestas->ECT_FechaPublicacion))->format('d/m/Y') : '';
             })
-            ->editColumn('ECT_FechaFinalizacion', function ($encuestas) {
-                return $encuestas->ECT_FechaFinalizacion ? with(new Carbon($encuestas->ECT_FechaFinalizacion))->format('d/m/Y') : '';
+            ->editColumn('encuestas.ECT_FechaFinalizacion', function ($encuestas) {
+                return $encuestas->encuestas->ECT_FechaFinalizacion ? with(new Carbon($encuestas->encuestas->ECT_FechaFinalizacion))->format('d/m/Y') : '';
             })
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')

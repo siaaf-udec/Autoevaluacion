@@ -14,17 +14,16 @@ use Yajra\Datatables\Datatables;
 class CaracteristicasController extends Controller
 {
    /**
-     * Display a listing of the resource.
+     * Instantiate a new controller instance.
      *
-     * @return void \Illuminate\Http\Response
+     * @return void
      */
     public function __construct()
     {
-        $this->middleware([
-            'permission:CREAR_CARACTERISTICAS',
-            'permission:VER_CARACTERISTICAS' 
-            ]);
-
+        $this->middleware('permission:ACCEDER_CARACTERISTICAS')->except('show');
+        $this->middleware(['permission:MODIFICAR_CARACTERISTICAS', 'permission:VER_CARACTERISTICAS'], ['only' => ['edit', 'update']]);
+        $this->middleware('permission:CREAR_CARACTERISTICAS', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ELIMINAR_CARACTERISTICAS', ['only' => ['destroy']]);
     }
     public function index()
     {

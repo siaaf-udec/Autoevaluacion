@@ -1,20 +1,25 @@
 @extends('admin.layouts.app')
 @section('content')
     @component('admin.components.panel')
-        @slot('title', 'Agregar Preguntas')
+        @slot('title', 'Importar Encuestas')
         {!! Form::open([
-            'route' => 'fuentesP.establecerPreguntas.store',
+            'route' => 'fuentesP.importarEncuestas.store',
             'method' => 'POST',
-            'id' => 'form_agregar_preguntas',
-            'class' => 'form-horizontal form-label-lef',
-            'novalidate'
+            'files' => true,
+            'id' => 'form_importar_encuestas',
+            'class' => 'form-horizontal form-label-left'
+
         ])!!}
-        @include('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.form')
+        <div class="form-group">
+            {!! Form::label('archivo','Importar encuestas desde excel', ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
+            <div class="col-md-6 col-sm-6 col-xs-12 dropzone" id="myDropzone">
+            </div>
+        </div>
+
         <div class="ln_solid"></div>
         <div class="form-group">
             <div class="col-md-6 col-md-offset-3">
-                {{ link_to_route('fuentesP.establecerPreguntas.datos',"Cancelar", [Session::get('id_encuesta')], ['class' => 'btn btn-info']) }}
-                {!! Form::submit('Agregar Pregunta', ['class' => 'btn btn-success']) !!}
+                {!! Form::submit('Importar Encuestas', ['class' => 'btn btn-success', 'id'=>'importarEncuestas']) !!}
             </div>
         </div>
         {!! Form::close() !!}
@@ -26,12 +31,17 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
-
-    <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
+    <!-- Dropzone.js -->
+    <link href="{{ asset('gentella/vendors/dropzone/dist/min/dropzone.min.css') }}" rel="stylesheet">
+    <style>
+        .dropzone {
+            height: 40%;
+            min-height: 0px !important;
+        }
+    </style>
 @endpush
 
 @push('scripts')
-    <script src="{{ asset('js/admin.js') }}"></script>
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
     <script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
@@ -39,18 +49,23 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
-    <!-- Select2 -->
-    <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
+    <!-- Dropzone.js -->
+    <script src="{{ asset('gentella/vendors/dropzone/dist/min/dropzone.min.js') }}"></script>
 @endpush
 @push('functions')
     <script type="text/javascript">
+        Dropzone.options.myDropzone = {
+            url: $('#form_importar_encuestas').attr('action'),
+            autoProcessQueue: false,
+            uploadMultiple: false,
+            parallelUploads: 1,
+            maxFiles: 1,
+            maxFilesize: 4,
+            acceptedFiles: '.xlsx',
+            addRemoveLinks: true,
+        }
         $(document).ready(function () {
-            $('#factor').select2();
-            $('#caracteristica').select2();
-            $('#preguntas').select2();
-            selectDinamico("#factor", "#caracteristica", "{{url('admin/caracteristicas')}}");
-            selectDinamico("#caracteristica", "#preguntas", "{{url('admin/fuentesPrimarias/preguntas')}}");
-            var form = $('#form_agregar_preguntas');
+            var form = $('#form_importar_encuestas');
             $(form).parsley({
                 trigger: 'change',
                 successClass: "has-success",
@@ -61,23 +76,23 @@
                 errorsWrapper: '<p class="help-block help-block-error"></p>',
                 errorTemplate: '<span></span>',
             });
+
             form.submit(function (e) {
 
+                console.log($('#myDropzone')[0].dropzone.getAcceptedFiles()[0]);
+                var formData = new FormData(this);
+                formData.append('archivo', $('#myDropzone')[0].dropzone.getAcceptedFiles()[0]);
                 e.preventDefault();
                 $.ajax({
                     url: form.attr('action'),
                     type: form.attr('method'),
-                    data: form.serialize(),
-                    dataType: 'json',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function (response, NULL, jqXHR) {
+                        $('#myDropzone')[0].dropzone.removeAllFiles();
                         $(form)[0].reset();
                         $(form).parsley().reset();
-                        $("#caracteristica").html('').select2();
-                        $("#factor").select2('data', {}); // clear out values selected 
-                        $("#factor").select2({allowClear: true});
-                        $('#caracteristica').prop('disabled', true);
-                        $("#preguntas").html('').select2();
-                        $('#preguntas').prop('disabled', true);
                         new PNotify({
                             title: response.title,
                             text: response.msg,
@@ -102,6 +117,7 @@
                 });
             });
         });
-    </script>
 
+
+    </script>
 @endpush
