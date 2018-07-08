@@ -7,12 +7,12 @@ use App\Models\Caracteristica;
 use App\Models\Estado;
 use App\Models\Factor;
 use App\Models\Lineamiento;
-use App\Models\Estado;
 use App\Models\Pregunta;
 use App\Models\RespuestaPregunta;
 use App\Models\TipoRespuesta;
 use DataTables;
 use App\Http\Requests\PreguntasRequest;
+use Illuminate\Http\Request;
 
 class PreguntasController extends Controller
 {
@@ -40,6 +40,17 @@ class PreguntasController extends Controller
         if ($request->ajax() && $request->isMethod('GET')) {
             $preguntas = Pregunta::with('estado', 'tipo', 'caracteristica')->get();
             return DataTables::of($preguntas)
+            ->addColumn('estado', function ($preguntas) {
+                if (!$preguntas->estado) {
+                    return '';
+                } elseif (!strcmp($preguntas->estado->ESD_Nombre, 'HABILITADO')) {
+                    return "<span class='label label-sm label-success'>".$preguntas->estado->ESD_Nombre. "</span>";
+                } else {
+                    return "<span class='label label-sm label-danger'>".$preguntas->estado->ESD_Nombre . "</span>";
+                }
+                return "<span class='label label-sm label-primary'>".$preguntas->estado->ESD_Nombre . "</span>";
+            })
+            ->rawColumns(['estado'])
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
                 ->make(true);

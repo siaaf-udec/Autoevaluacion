@@ -7,6 +7,7 @@ use App\Models\Estado;
 use App\Models\PonderacionRespuesta;
 use App\Models\TipoRespuesta;
 use DataTables;
+use Illuminate\Http\Request;
 use App\Http\Requests\TipoRespuestaRequest;
 
 class TipoRespuestaController extends Controller
@@ -18,7 +19,7 @@ class TipoRespuestaController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('permission:ACCEDER_TIPO_RESPUESTAS');
+        $this->middleware('permission:ACCEDER_TIPO_RESPUESTAS')->except('show');
         $this->middleware(['permission:MODIFICAR_TIPO_RESPUESTAS', 'permission:VER_TIPO_RESPUESTAS'], ['only' => ['edit', 'update']]);
         $this->middleware('permission:CREAR_TIPO_RESPUESTAS', ['only' => ['create', 'store']]);
         $this->middleware('permission:ELIMINAR_TIPO_RESPUESTAS', ['only' => ['destroy']]);

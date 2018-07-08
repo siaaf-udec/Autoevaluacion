@@ -79,7 +79,7 @@
                     {data: 'encuestas.PK_ECT_Id', name: 'id', "visible": false}, 
                     {data: 'encuestas.ECT_FechaPublicacion', name: 'Fecha Publicacion', className: "desktop"}, 
                     {data: 'encuestas.ECT_FechaFinalizacion', name: 'Fecha Finalizacion', className: "desktop"},
-                    {data: 'encuestas.estado.ESD_Nombre', name: 'Estado', className: "min-phone-l"}, 
+                    {data: 'estado', name: 'Estado', className: "min-phone-l"}, 
                     {data: 'PCS_Nombre', name: 'Proceso', className: "min-tablet-l"},
                     {data: 'programa.PAC_Nombre', name: 'Programa', className: "min-tablet-l"},
                     {data: 'programa.sede.SDS_Nombre', name: 'Sede', className: "min-tablet-l"},  

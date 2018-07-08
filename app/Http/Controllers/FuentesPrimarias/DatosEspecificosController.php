@@ -10,10 +10,8 @@ use App\Models\Encuesta;
 use App\Models\Estado;
 use App\Models\GrupoInteres;
 use App\Models\Proceso;
-use App\Models\DatosEncuesta;
 use Carbon\Carbon;
 use DataTables;
-use Illuminate\Http\Request;
 
 class DatosEspecificosController extends Controller
 {
@@ -51,6 +49,17 @@ class DatosEspecificosController extends Controller
             ->editColumn('encuestas.ECT_FechaFinalizacion', function ($encuestas) {
                 return $encuestas->encuestas->ECT_FechaFinalizacion ? with(new Carbon($encuestas->encuestas->ECT_FechaFinalizacion))->format('d/m/Y') : '';
             })
+            ->addColumn('estado', function ($encuesta) {
+                if (!$encuesta->encuestas->estado) {
+                    return '';
+                } elseif (!strcmp($encuesta->encuestas->estado->ESD_Nombre, 'HABILITADO')) {
+                    return "<span class='label label-sm label-success'>".$encuesta->encuestas->estado->ESD_Nombre. "</span>";
+                } else {
+                    return "<span class='label label-sm label-danger'>".$encuesta->encuestas->estado->ESD_Nombre . "</span>";
+                }
+                return "<span class='label label-sm label-primary'>".$encuesta->encuestas->estado->ESD_Nombre . "</span>";
+            })
+            ->rawColumns(['estado'])
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
                 ->make(true);
@@ -88,38 +97,31 @@ class DatosEspecificosController extends Controller
             ], 422) // 200 Status Code: Standard response for successful HTTP request
                 ->header('Content-Type', 'application/json');
             }     
-        } 
-        $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaPublicacion'));
-        $fechaFin = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaFinalizacion'));
-
-        if ($fechaInicio < $fechaFin) {
-            $encuesta = new Encuesta();
-            $encuesta->ECT_FechaPublicacion = $fechaInicio;
-            $encuesta->ECT_FechaFinalizacion = $fechaFin;
-            $encuesta->FK_ECT_Estado = $request->get('PK_ESD_Id');
-            $encuesta->FK_ECT_Proceso = $request->get('PK_PCS_Id');
-            $encuesta->save();
-
-            return response([
-            'msg' => 'Datos especificos resgistrados correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
         }
-        else{
-            return response([
-                'errors' => ['La fecha de publicacion tiene que ser menor que la fecha de finalizacion.'],
-                'title' => '¡Error!'
-            ], 422) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
-            } else {
+        else{ 
+            $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaPublicacion'));
+            $fechaFin = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaFinalizacion'));
+            if ($fechaInicio < $fechaFin) {
+                $encuesta = new Encuesta();
+                $encuesta->ECT_FechaPublicacion = $fechaInicio;
+                $encuesta->ECT_FechaFinalizacion = $fechaFin;
+                $encuesta->FK_ECT_Estado = $request->get('PK_ESD_Id');
+                $encuesta->FK_ECT_Proceso = $request->get('PK_PCS_Id');
+                $encuesta->save();
                 return response([
-                    'errors' => ['La fecha de publicacion tiene que ser menor que la fecha de finalizacion de la fase de captura de datos.'],
-                    'title' => '¡Error!'
-                ], 422)// 200 Status Code: Standard response for successful HTTP request
+                'msg' => 'Datos especificos resgistrados correctamente.',
+                'title' => '¡Registro exitoso!'
+                ], 200) // 200 Status Code: Standard response for successful HTTP request
                 ->header('Content-Type', 'application/json');
             }
-        }
+            else{
+                return response([
+                    'errors' => ['La fecha de publicacion tiene que ser menor que la fecha de finalizacion.'],
+                    'title' => '¡Error!'
+                ], 422) // 200 Status Code: Standard response for successful HTTP request
+                    ->header('Content-Type', 'application/json');
+                } 
+            }
     }
 
     /**

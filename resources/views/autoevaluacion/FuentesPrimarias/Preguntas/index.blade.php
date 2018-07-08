@@ -75,7 +75,7 @@
                 "columns": [
                     {data: 'PK_PGT_Id', name: 'id', "visible": false},
                     {data: 'PGT_Texto', name: 'Pregunta', className: "all"},
-                    {data: 'estado.ESD_Nombre', name: 'Estado', className: "min-phone-l"},
+                    {data: 'estado', name: 'estado', className: "min-phone-l"},
                     {data: 'tipo.TRP_Descripcion', name: 'Descripcion', className: "min-tablet"},
                     {data: 'caracteristica.CRT_Nombre', name: 'Caracteristica', className: "desktop"},
                     {
