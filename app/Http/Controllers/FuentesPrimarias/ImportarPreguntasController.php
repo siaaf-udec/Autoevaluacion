@@ -5,12 +5,14 @@ namespace App\Http\Controllers\FuentesPrimarias;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportarPreguntasRequest;
 use App\Models\Caracteristica;
+use App\Models\Factor;
 use App\Models\PonderacionRespuesta;
 use App\Models\Pregunta;
 use App\Models\RespuestaPregunta;
 use App\Models\TipoRespuesta;
 use Excel;
 use Illuminate\Http\Request;
+use App\Models\Proceso;
 
 class ImportarPreguntasController extends Controller
 {
@@ -75,6 +77,18 @@ class ImportarPreguntasController extends Controller
                         $ponderaciones[$row['numero_ponderacion']] = $ponderacion->PK_PRT_Id;
                     }
                 }
+                $lineamiento = Proceso::select('FK_PCS_Lineamiento')
+                ->where('PK_PCS_Id', '=', session()
+                ->get('id_proceso'))
+                ->first();
+
+                $caracteristicas = Caracteristica::with(['factor' => function ($query) use($lineamiento) {
+                return $query
+                ->where('FK_FCT_Lineamiento',$lineamiento->FK_PCS_Lineamiento);
+                }])
+                ->select('PK_CRT_Id', 'CRT_Identificador')
+                ->get();
+
                 if ($count <= 4 and $count > 3) {
                     //Preguntas
                     $preguntas = [];
@@ -83,8 +97,10 @@ class ImportarPreguntasController extends Controller
                         $pregunta->PGT_Texto = $row['pregunta'];
                         $pregunta->FK_PGT_Estado = 1;
                         $pregunta->FK_PGT_TipoRespuesta = $tipo_respuesta[$row['tipo_respuesta']];
-                        $id = Caracteristica::select('PK_CRT_Id')->where('CRT_Identificador', $row['numero_caracteristica'])->first();
+                        $id = $caracteristicas->where('CRT_Identificador',  $row['numero_caracteristica'])->first();
+                        
                         $pregunta->FK_PGT_Caracteristica = $id->PK_CRT_Id;
+
                         $pregunta->save();
                         $preguntas[$row['numero_pregunta']] = $pregunta->PK_PGT_Id;
                     }

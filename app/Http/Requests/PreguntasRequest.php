@@ -49,4 +49,18 @@ class PreguntasRequest extends FormRequest
 
         ];
     }
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (session()->get('id_proceso')) {
+                $validator->errors()->add('field', 'Something is wrong with this field!');
+            }
+        });
+    }
 }

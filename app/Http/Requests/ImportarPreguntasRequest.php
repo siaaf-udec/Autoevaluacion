@@ -31,4 +31,19 @@ class ImportarPreguntasRequest extends FormRequest
             'archivo' => $archivo
         ];
     }
+     /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $id = session()->get('id_proceso');
+            if ($id == null) {
+                $validator->errors()->add('Seleccione un proceso', 'Por favor seleccione un proceso!');
+            }
+        });
+    }
 }

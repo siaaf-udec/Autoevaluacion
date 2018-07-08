@@ -19,8 +19,8 @@ class CreateEncuestadosTable extends Migration
             $table->dateTime("ECD_FechaSolucion");
             $table->integer("FK_ECD_Encuesta")->unsigned();
             $table->integer("FK_ECD_GrupoInteres")->unsigned();
-            $table->integer("FK_ECD_AlcanceAdministrativo")->nullable();
-            $table->integer("FK_ECD_AlcanceCargo")->nullable();
+            $table->integer("FK_ECD_AlcanceAdministrativo")->unsigned()->nullable();
+            $table->integer("FK_ECD_AlcanceCargo")->unsigned()->nullable();
 
             $table->timestamps();
 
