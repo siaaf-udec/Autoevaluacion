@@ -36,11 +36,6 @@
 <div class="item form-group">
     {!! Form::label('FK_FCT_Lineamiento','Lineamiento', [ 'class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {{-- <select id= "lineamiento" class="select2_user form-control" name="lineamientos" >
-            @foreach($lineamientos as $lineamiento)
-        <option selected="{{ isset($user)?  }}" value="{{ $lineamiento->PK_LNM_Id }}">{{ $lineamiento->LNM_Nombre }}</option>
-            @endforeach                                          
-        </select> --}}
         <script>var ruta = "{{url('admin/caracteristicas/factor/')}}";
             var id_one = "#lineamiento";
             var id_two = "#factores";</script>
@@ -54,11 +49,6 @@
 <div class="item form-group">
     {!! Form::label('FK_CRT_Factor','Factor', [ 'class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {{-- <select id= "factores" class="select2_user form-control" name="factor">
-            @foreach($factores as $factor)
-        <option selected="{{ isset($user)?  }}" value="{{ $factor->PK_FCT_Id }}">{{ $factor->FCT_Nombre }}</option>
-            @endforeach                                          
-        </select> --}}
         {!! Form::select('FK_CRT_Factor', [] , old('FK_CRT_Factor', isset($user)? $user->factor:''), [
             'placeholder' => 'Seleccione un Factor',
             'class' => 'select2_user form-control',
@@ -69,11 +59,6 @@
 <div class="item form-group">
     {!! Form::label('estado','Estado', [ 'class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {{-- <select id= "estado" class="select2_user form-control" name="estado" >
-            @foreach($estados as $estado)
-        <option selected="{{ isset($user)?  }}" value="{{ $estado->PK_ESD_Id }}">{{ $estado->ESD_Nombre }}</option>
-            @endforeach                                          
-        </select> --}}
         {!! Form::select('FK_CRT_Estado',$estados, old('FK_CRT_Estado'), [
             'placeholder' => 'Seleccione un estado',
             'class' => 'select2_user form-control',
@@ -84,11 +69,6 @@
 <div class="item form-group">
     {!! Form::label('ambito','Ambito de Responsabilidad', [ 'class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {{-- <select id= "ambito" class="select2_user form-control" name="ambito" >
-            @foreach($ambitos as $ambito)
-        <option selected="{{ isset($user)?  }}" value="{{ $ambito->PK_AMB_Id }}">{{ $ambito->AMB_Nombre }}</option>
-            @endforeach                                          
-        </select> --}}
         {!! Form::select('FK_CRT_Ambito',$ambitos, old('FK_CRT_Ambito'), [
             'placeholder' => 'Seleccione un Ambito de Responsabilidad',
             'class' => 'select2_user form-control',

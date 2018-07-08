@@ -15,26 +15,21 @@ class UserRequest extends FormRequest
  
     public function rules()
     {
-        $email = 'required|email|unique:users';
+       
         $password = 'required|min:3';
         $id = $this->route()->parameter('usuario');
-        $cedula = "required|numeric|max:9999999999|unique:users";
-        $roles = 'required';
         
         if ($this->method() == 'PUT') {
-            $email = 'required|email|'.Rule::unique('users')->ignore($id);
-            $cedula = 'required|numeric|'.Rule::unique('users')->ignore($id);
             $password = '';
-            $roles = '';
         }
         return [
-            'email' => $email,
+            'email' => 'required|email|' . Rule::unique('users')->ignore($id),
             'password' => $password,
             'name' => 'required|string|max:50',
             'lastname' => 'required|string|max:50',
-            'cedula' => $cedula,
+            'cedula' => 'required|numeric|max:9999999999|' . Rule::unique('users')->ignore($id),
             'PK_ESD_Id' => 'required|numeric|exists:tbl_estados',
-            'roles' => $roles
+            'roles' => 'required'
         ];
     }
     /**
@@ -49,6 +44,13 @@ class UserRequest extends FormRequest
         'PK_ESD_Id.required'  => 'El estado es requerido',
         'PK_ESD_Id.numeric'  => 'Estado invalido.',
         'PK_ESD_Id.exists'  => 'Este estado no existe en nuestros registros.',
+        'name.required' => 'El campo nombre es requerido.',
+        'name.string' => 'El nombre debe ser un nombre valido.',
+        'name.max' => 'El nombre debe ser de máximo 50 caracteres.',
+        'lastname.required' => 'El campo apellido es requerido.',
+        'lastname.string' => 'El apellido debe ser un apellido valido.',
+        'lastname.max' => 'El apellido debe ser de máximo 50 caracteres.'
+
         ];
     }
 }

@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\SuperAdministrador;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use App\Http\Requests\RolRequest;
 use DataTables;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 
 class RolController extends Controller
@@ -35,6 +34,7 @@ class RolController extends Controller
     {
         return view('autoevaluacion.SuperAdministrador.Roles.index');
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -58,14 +58,15 @@ class RolController extends Controller
      */
     public function create()
     {
-       $permisos = Permission::get()->pluck('name', 'name');
+        $permisos = Permission::pluck('name', 'name');
 
         return view('autoevaluacion.SuperAdministrador.Roles.create', compact('permisos'));
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(RolRequest $request)
@@ -76,15 +77,15 @@ class RolController extends Controller
 
 
         return response(['msg' => 'Rol registrado correctamente.',
-        'title' => '¡Registro exitoso!'
-    ], 200) // 200 Status Code: Standard response for successful HTTP request
-          ->header('Content-Type', 'application/json');
+            'title' => '¡Registro exitoso!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -94,26 +95,26 @@ class RolController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $permisos = Permission::get()->pluck('name', 'name');
+        $permisos = Permission::pluck('name', 'name');
 
         $rol = Role::findOrFail($id);
 
         $edit = true;
 
         return view('autoevaluacion.SuperAdministrador.Roles.edit',
-        compact('rol', 'permisos', 'edit'));
+            compact('rol', 'permisos', 'edit'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(RolRequest $request, $id)
@@ -125,15 +126,15 @@ class RolController extends Controller
 
 
         return response(['msg' => 'El Rol ha sido modificado exitosamente.',
-                'title' => 'Rol Modificado!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => 'Rol Modificado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -142,8 +143,8 @@ class RolController extends Controller
         $rol->delete();
 
         return response(['msg' => 'El Rol ha sido eliminado exitosamente.',
-                'title' => '¡Rol Eliminado!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => '¡Rol Eliminado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 }

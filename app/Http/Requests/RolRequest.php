@@ -27,14 +27,9 @@ class RolRequest extends FormRequest
     public function rules()
     {
         $id = $this->route()->parameter('role');
-        $roles = 'required|string|max:50|unique:roles';
-        
-        if ($this->method() == 'PUT') {
-            $roles = 'required|string|max:50|'.Rule::unique('roles')->ignore($id);
-        }
 
         return [
-            'name' => $roles,
+            'name' => 'required|string|max:50|' . Rule::unique('roles')->ignore($id),
             'permission' => 'required'
         ];
     }

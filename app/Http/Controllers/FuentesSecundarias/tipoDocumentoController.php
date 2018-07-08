@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\FuentesSecundarias;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Yajra\Datatables\Datatables;
-use app\Models;
-use App\Models\TipoDocumento;
 use App\Http\Requests\TipoDocumentalRequest;
+use App\Models\TipoDocumento;
+use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 
 class tipoDocumentoController extends Controller
 {
@@ -21,7 +20,7 @@ class tipoDocumentoController extends Controller
         $this->middleware([
             'permission:CREAR_TIPO_DOCUMENTO',
             'permission:VER_TIPO_DOCUMENTO'
-            ]);
+        ]);
     }
 
     /**
@@ -33,6 +32,7 @@ class tipoDocumentoController extends Controller
     {
         return view('autoevaluacion.FuentesSecundarias.TipoDocumento.index');
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -68,7 +68,7 @@ class tipoDocumentoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(TipoDocumentalRequest $request)
@@ -77,14 +77,14 @@ class tipoDocumentoController extends Controller
         return response([
             'msg' => 'Tipo de documento registrado correctamente.',
             'title' => '¡Registro exitoso!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -95,7 +95,7 @@ class tipoDocumentoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -106,8 +106,8 @@ class tipoDocumentoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(TipoDocumentalRequest $request, $id)
@@ -118,14 +118,14 @@ class tipoDocumentoController extends Controller
         return response([
             'msg' => 'El tipo de documento ha sido modificado exitosamente.',
             'title' => '¡Tipo de documento Modificado!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)
@@ -136,8 +136,8 @@ class tipoDocumentoController extends Controller
         return response([
             'msg' => 'El tipo de documento ha sido eliminado exitosamente.',
             'title' => '¡Tipo de documento Eliminado!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
 
 
     }

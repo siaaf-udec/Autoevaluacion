@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\SuperAdministrador;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DataTables;
-use App\Models\Sede;
-use App\Models\Estado;
 use App\Http\Requests\SedesRequest;
+use App\Models\Estado;
+use App\Models\Sede;
+use DataTables;
+use Illuminate\Http\Request;
 
 
 class SedeController extends Controller
@@ -35,6 +35,7 @@ class SedeController extends Controller
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         return view('autoevaluacion.SuperAdministrador.Sedes.index', compact('estados'));
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -59,32 +60,32 @@ class SedeController extends Controller
     public function create()
     {
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(SedesRequest $request)
     {
-       $sede = new Sede();
-       $sede->fill($request->only(['SDS_Nombre', 'SDS_Descripcion']));
-       $sede->FK_SDS_Estado = $request->get('PK_ESD_Id');
-       $sede->save();
-    
+        $sede = new Sede();
+        $sede->fill($request->only(['SDS_Nombre', 'SDS_Descripcion']));
+        $sede->FK_SDS_Estado = $request->get('PK_ESD_Id');
+        $sede->save();
 
 
         return response([
             'msg' => 'Sede registrada correctamente.',
             'title' => '¡Registro exitoso!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -94,7 +95,7 @@ class SedeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -105,8 +106,8 @@ class SedeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(SedesRequest $request, $id)
@@ -118,14 +119,14 @@ class SedeController extends Controller
         return response([
             'msg' => 'La sede ha sido modificada exitosamente.',
             'title' => 'Sede Modificada!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -137,7 +138,7 @@ class SedeController extends Controller
         return response([
             'msg' => 'La sede ha sido eliminada exitosamente.',
             'title' => '¡Sede Eliminada!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 }

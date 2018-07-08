@@ -1,3 +1,7 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'datos específicos')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
 @section('content') @component('admin.components.panel') @slot('title', 'Modificar Datos Especificos Encuestas')
 {!! Form::model($encuesta, [ 'route' => ['fuentesP.datosEspecificos.update', $encuesta], 'method' => 'PUT', 'id' => 'form_modificar_encuesta',
@@ -12,6 +16,8 @@
 </div>
 {!! Form::close() !!} @endcomponent
 @endsection
+
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -21,7 +27,10 @@
     <link href="{{ asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
     <!-- Select2 -->
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
-@endpush @push('scripts')
+@endpush 
+
+{{-- Scripts necesarios para el formulario --}} 
+@push('scripts')
     <script src="{{ asset('js/admin.js') }}"></script>
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
@@ -36,7 +45,10 @@
     <script src="{{asset('gentella/vendors/moment/min/moment.min.js')}}"></script>
     <script src="{{asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 
-@endpush @push('functions')
+@endpush 
+
+{{-- Funciones necesarias por el formulario --}} 
+@push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
             $('#estado').select2();

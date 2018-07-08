@@ -1,3 +1,7 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Aspectos')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
 @section('content') @component('admin.components.panel') @slot('title', 'Aspectos')
 @can('CREAR_ASPECTOS')
@@ -20,6 +24,7 @@
     @endcomponent
 @endcan
 @endsection
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
     <!-- Datatables -->
     <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
@@ -29,7 +34,9 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 
-@endpush @push('styles')
+@endpush 
+{{-- Estilos necesarios para el formulario --}} 
+@push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
     <!-- PNotify -->
@@ -37,12 +44,14 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
 
-@endpush @push('functions')
+@endpush 
+{{-- Funciones necesarias por el formulario --}} 
+@push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
 
             let sesion = sessionStorage.getItem("update");
-            console.log(sesion);
+
             if (sesion != null) {
                 sessionStorage.clear();
                 new PNotify({
@@ -63,9 +72,9 @@
                 "columns": [
                     {data: 'PK_ASP_Id', name: 'id', "visible": false},
                     {data: 'caracteristica.factor.lineamiento.LNM_Nombre', name: 'Lineamiento', className: "all"},
-                    {data: 'caracteristica.factor.FCT_Nombre', name: 'Caracteristica', className: "min-phone-l"},
+                    {data: 'caracteristica.factor.FCT_Nombre', name: 'Factor', className: "min-phone-l"},
                     {data: 'caracteristica.CRT_Nombre', name: 'Caracteristica', className: "min-tablet"},
-                    {data: 'ASP_Identificador', name: 'Caracteristica', className: "desktop"},
+                    {data: 'ASP_Identificador', name: 'Identificador', className: "desktop"},
                     {data: 'ASP_Nombre', name: 'Aspecto', className: "desktop"},
                     {
                         defaultContent:
@@ -106,6 +115,26 @@
                         "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
                         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                     }
+                },
+                initComplete: function () {
+                    this.api().columns([1, 2, 3]).every(function () {
+                        var column = this;
+                        var select = $('<select style="width: 100px;"><option value=""></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>');
+                        });
+                    });
                 }
             });
 

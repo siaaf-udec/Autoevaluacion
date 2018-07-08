@@ -1,4 +1,9 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Documentos Autoevaluación')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
+
 @section('content')
     @component('admin.components.panel')
         @slot('title', 'Documentos autoevaluación')
@@ -23,6 +28,7 @@
                     'Indicador',
                     'Dependencia',
                     'Tipo',
+                    'Nombre',
                     'Archivo',
                     'Acciones' => ['style' => 'width:85px;']])
                 @endcomponent
@@ -32,6 +38,8 @@
         @endcan
 
 @endsection
+
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
     <!-- Datatables -->
     <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
@@ -42,6 +50,7 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 @endpush
 
+{{-- Estilos necesarios para el formulario --}} 
 @push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
@@ -50,6 +59,7 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
 @endpush
+{{-- Funciones necesarias por el formulario --}} 
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
@@ -76,11 +86,16 @@
                 "columns": [
                     {data: 'PK_DOA_Id', name: 'id', "visible": false},
                     {data: 'indicador_documental.caracteristica.factor.FCT_Nombre', name: 'Factor', className: "all"},
-                    {data: 'indicador_documental.caracteristica.CRT_Nombre', name: 'Caracteristica', className: "min-tablet-l"},
+                    {
+                        data: 'indicador_documental.caracteristica.CRT_Nombre',
+                        name: 'Caracteristica',
+                        className: "min-tablet-l"
+                    },
                     {data: 'indicador_documental.IDO_Nombre', name: 'Indicador', className: "desktop"},
                     {data: 'dependencia.DPC_Nombre', name: 'Aspecto', className: "desktop"},
                     {data: 'tipo_documento.TDO_Nombre', name: 'Estado', className: "desktop"},
-                    {data: 'archivo', name: 'Archivo', className: "desktop"},
+                    { data: 'nombre', name: 'Caracteristica', className: "min-phone-l" },
+                    {data: 'file', name: 'Archivo', className: "desktop"},
                     {
                         defaultContent:
                             '@can('ELIMINAR_DOCUMENTOS_AUTOEVALUACION')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\FuentesSecundarias;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Yajra\Datatables\Datatables;
-
-use App\Models\Dependencia;
 use App\Http\Requests\DependenceRequest;
+use App\Models\Dependencia;
+use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 
 
 class DependenciaController extends Controller
@@ -16,10 +15,11 @@ class DependenciaController extends Controller
     {
         $this->middleware([
             'permission:CREAR_DEPENDENCIAS',
-            'permission:VER_DEPENDENCIAS' 
-            ]);
+            'permission:VER_DEPENDENCIAS'
+        ]);
 
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -29,6 +29,7 @@ class DependenciaController extends Controller
     {
         return view('autoevaluacion.FuentesSecundarias.Dependence.index');
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -59,43 +60,43 @@ class DependenciaController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        
+
         Dependencia::create($request->except('_token'));
         return response(['msg' => 'Dependencia registrada correctamente.',
-        'title' => '¡Registro exitoso!'
-    ], 200) // 200 Status Code: Standard response for successful HTTP request
-          ->header('Content-Type', 'application/json');
+            'title' => '¡Registro exitoso!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
 
-        
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        
+
 
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -110,8 +111,8 @@ class DependenciaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(DependenceRequest $request, $id)
@@ -120,29 +121,29 @@ class DependenciaController extends Controller
         $dependencia->fill($request->all());
         $dependencia->save();
         return response(['msg' => 'La dependencia ha sido modificada exitosamente.',
-                'title' => '¡Dependencia Modificada!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => '¡Dependencia Modificada!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)
     {
-       
-            Dependencia::destroy($id);
 
-            return response(['msg' => 'El Registro ha sido eliminado exitosamente.',
-                'title' => '¡Dependencia Eliminada!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+        Dependencia::destroy($id);
 
-        
+        return response(['msg' => 'El Registro ha sido eliminado exitosamente.',
+            'title' => '¡Dependencia Eliminada!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
+
+
     }
 }
 

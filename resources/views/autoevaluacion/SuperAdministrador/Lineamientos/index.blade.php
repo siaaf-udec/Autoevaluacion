@@ -1,3 +1,7 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Lineamientos')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
 @section('content')
     @component('admin.components.panel') @slot('title', 'Lineamientos')
@@ -18,6 +22,7 @@
         </div>
     @endcan @endcomponent
 @endsection
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
     <!-- Datatables -->
     <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
@@ -29,14 +34,18 @@
 
 
 
-@endpush @push('styles')
+@endpush 
+{{-- Estilos necesarios para el formulario --}} 
+@push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
-@endpush @push('functions')
+@endpush 
+{{-- Funciones necesarias por el formulario --}} 
+@push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
 

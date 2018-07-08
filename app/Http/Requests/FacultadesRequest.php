@@ -27,14 +27,8 @@ class FacultadesRequest extends FormRequest
     public function rules()
     {
         $id = $this->route()->parameter('facultade');
-        $sede = 'required|string|max:60|unique:tbl_facultades';
-
-        if ($this->method() == 'PUT') {
-            $sede = 'required|max:60|' . Rule::unique('tbl_facultades')->ignore($id, 'PK_FCD_Id');
-        }
-
         return [
-            'FCD_Nombre' => $sede,
+            'FCD_Nombre' => 'required|max:60|' . Rule::unique('tbl_facultades')->ignore($id, 'PK_FCD_Id'),
             'FCD_Descripcion' => 'required',
             'PK_ESD_Id' => 'exists:tbl_estados|numeric'
         ];

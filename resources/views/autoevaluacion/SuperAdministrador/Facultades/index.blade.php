@@ -1,4 +1,8 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Facultades')
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
+
 @section('content') @component('admin.components.panel')
     @slot('title', 'Facultades')
     <div class="col-md-12">
@@ -52,6 +56,7 @@
         @endcomponent
     @endcan
 @endsection
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
@@ -70,6 +75,7 @@
 
 
 @endpush
+{{-- Estilos necesarios para el formulario --}} 
 @push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
@@ -80,6 +86,7 @@
 
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @endpush
+{{-- Funciones necesarias por el formulario --}} 
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
@@ -221,6 +228,7 @@
                 $('#accion').addClass('modificar');
             });
         });
+
         function SwalDelete(id, route) {
             swal({
                 title: 'Esta seguro?',

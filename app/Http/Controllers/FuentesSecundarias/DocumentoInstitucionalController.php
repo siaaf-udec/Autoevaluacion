@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\FuentesSecundarias;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\GrupoDocumento;
-use App\Models\DocumentoInstitucional;
-use App\Models\Archivo;
-use Yajra\Datatables\Datatables;
 use App\Http\Requests\DocumentoInstitucionalRequest;
-use Illuminate\Support\Facades\File;
+use App\Models\Archivo;
+use App\Models\DocumentoInstitucional;
+use App\Models\GrupoDocumento;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Yajra\Datatables\Datatables;
 
 
 class DocumentoInstitucionalController extends Controller
@@ -20,6 +19,7 @@ class DocumentoInstitucionalController extends Controller
     {
         return view('autoevaluacion.FuentesSecundarias.DocumentoInstitucional.index');
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -47,7 +47,7 @@ class DocumentoInstitucionalController extends Controller
                 ->rawColumns(['archivo'])
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
-                 ->make(true);
+                ->make(true);
         }
     }
 
@@ -60,46 +60,46 @@ class DocumentoInstitucionalController extends Controller
     public function create()
     {
         $grupodocumentos = GrupoDocumento::pluck('GRD_Nombre', 'PK_GRD_Id');
-        return view('autoevaluacion.FuentesSecundarias.DocumentoInstitucional.create',compact('grupodocumentos'));
+        return view('autoevaluacion.FuentesSecundarias.DocumentoInstitucional.create', compact('grupodocumentos'));
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(DocumentoInstitucionalRequest $request)
     {
-       if($request->hasFile('archivo')){
-           $file= $request->file('archivo');
-           $archivo = new Archivo;
-           $archivo->ACV_Nombre = $file->getClientOriginalName();
-           $archivo->ACV_Extension = $file->extension();
-           $archivo->ruta = Storage::url($file->store('public/DocumentosInstitucionales'));
-           $archivo->save();
+        if ($request->hasFile('archivo')) {
+            $file = $request->file('archivo');
+            $archivo = new Archivo;
+            $archivo->ACV_Nombre = $file->getClientOriginalName();
+            $archivo->ACV_Extension = $file->extension();
+            $archivo->ruta = Storage::url($file->store('public/DocumentosInstitucionales'));
+            $archivo->save();
 
-           $docinstitucional= new DocumentoInstitucional;
-           $docinstitucional->DOI_Nombre = $request->DOI_Nombre;
-           $docinstitucional->DOI_Descripcion = $request->DOI_Descripcion;
-           $docinstitucional->link = $request->link;
-           $docinstitucional->FK_DOI_Archivo = $archivo->PK_ACV_Id;
-           $docinstitucional->FK_DOI_GrupoDocumento = $request->FK_DOI_GrupoDocumento;
-           $docinstitucional->save();
-       }
-       else{
-        DocumentoInstitucional::create($request->except('archivo'));
-       }
-       
-       return response(['msg' => 'El documento ha sido almacenado exitosamente.',
-                'title' => '¡Registro realizado exitosamente!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            $docinstitucional = new DocumentoInstitucional;
+            $docinstitucional->DOI_Nombre = $request->DOI_Nombre;
+            $docinstitucional->DOI_Descripcion = $request->DOI_Descripcion;
+            $docinstitucional->link = $request->link;
+            $docinstitucional->FK_DOI_Archivo = $archivo->PK_ACV_Id;
+            $docinstitucional->FK_DOI_GrupoDocumento = $request->FK_DOI_GrupoDocumento;
+            $docinstitucional->save();
+        } else {
+            DocumentoInstitucional::create($request->except('archivo'));
+        }
+
+        return response(['msg' => 'El documento ha sido almacenado exitosamente.',
+            'title' => '¡Registro realizado exitosamente!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -109,7 +109,7 @@ class DocumentoInstitucionalController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -125,8 +125,8 @@ class DocumentoInstitucionalController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(DocumentoInstitucionalRequest $request, $id)
@@ -176,15 +176,15 @@ class DocumentoInstitucionalController extends Controller
         
         
         return response(['msg' => 'El Documento ha sido modificado exitosamente.',
-                'title' => 'Documento Modificado!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => 'Documento Modificado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -198,9 +198,9 @@ class DocumentoInstitucionalController extends Controller
             $documento->delete();
         }
         return response(['msg' => 'El Documento ha sido eliminado exitosamente.',
-                'title' => '¡Registro Eliminado!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => '¡Registro Eliminado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
     
 }

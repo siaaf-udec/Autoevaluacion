@@ -1,4 +1,8 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Preguntas')
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
+
 @section('content') @component('admin.components.panel') @slot('title', 'Preguntas')
 @can('CREAR_PREGUNTAS')
     <div class="col-md-12">
@@ -21,6 +25,8 @@
     @endcomponent
 @endcan
 @endsection
+
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
     <!-- Datatables -->
     <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
@@ -30,7 +36,10 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 
-@endpush @push('styles')
+@endpush 
+
+{{-- Estilos necesarios para el formulario --}} 
+@push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
     <!-- PNotify -->
@@ -38,7 +47,10 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
 
-@endpush @push('functions')
+@endpush 
+
+{{-- Funciones necesarias por el formulario --}} 
+@push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
             let sesion = sessionStorage.getItem("update");
@@ -69,7 +81,7 @@
                     {
                         defaultContent:
                             '@can('ELIMINAR_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
-                            '@can('MODIFICAR_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan'+ 
+                            '@can('MODIFICAR_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan' +
                             '<a href="javascript:;" class="btn btn-simple btn-success btn-sm ver" data-toggle="confirmation"><i class="fa fa-eye"></i></a>',
                         data: 'action',
                         name: 'action',
@@ -129,7 +141,7 @@
 
 
             });
-            
+
             table.on('click', '.ver', function (e) {
                 e.preventDefault();
                 $tr = $(this).closest('tr');

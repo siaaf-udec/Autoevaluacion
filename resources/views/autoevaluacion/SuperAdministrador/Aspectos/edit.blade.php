@@ -1,4 +1,9 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Aspectos')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
+
 @section('content') @component('admin.components.panel') @slot('title', 'Modificar Aspecto')
 {!! Form::model($aspecto, [ 'route' => ['admin.aspectos.update', $aspecto], 'method' => 'PUT', 'id' => 'form_modificar_aspecto',
 'class' => 'form-horizontal form-label-lef', 'novalidate' ])!!}
@@ -13,6 +18,7 @@
 </div>
 {!! Form::close() !!} @endcomponent
 @endsection
+{{-- Estilos necesarios para el formulario --}} 
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -20,7 +26,9 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
     <!-- Select2 -->
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
-@endpush @push('scripts')
+@endpush 
+{{-- Scripts necesarios para el formulario --}} 
+@push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
     <script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
@@ -31,7 +39,7 @@
     <!-- Select2 -->
     <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
 
-@endpush @push('functions')
+@endpush {{-- Funciones necesarias por el formulario --}} @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
             $('#lineamiento').select2();

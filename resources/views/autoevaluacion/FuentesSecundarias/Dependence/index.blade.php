@@ -1,12 +1,17 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Dependencias')
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
+
 @section('content') @component('admin.components.panel') @slot('title', 'Dependencias')
 <div class="col-md-12">
-@can('CREAR_DEPENDENCIAS')
-    <div class="actions">
-        <a id="crear_dependencia" href="#" class="btn btn-info" data-toggle="modal" data-target="#modal_dependencia">
-            <i class="fa fa-plus"></i> Agregar Dependencia</a></div>
+    @can('CREAR_DEPENDENCIAS')
+        <div class="actions">
+            <a id="crear_dependencia" href="#" class="btn btn-info" data-toggle="modal"
+               data-target="#modal_dependencia">
+                <i class="fa fa-plus"></i> Agregar Dependencia</a></div>
 @endcan
-    <!-- Modal-->
+<!-- Modal-->
     <div class="modal fade" id="modal_dependencia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="dependencia">
             <div class="modal-content">
@@ -48,6 +53,7 @@
 @endcomponent
 @endsection
 
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
@@ -61,14 +67,21 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
     <script src="{{ asset('js/admin.js') }}"></script>
 
-@endpush @push('styles')
+@endpush 
+
+{{-- Estilos necesarios para el formulario --}} 
+@push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
-@endpush @push('functions')
+@endpush 
+
+
+{{-- Funciones necesarias por el formulario --}} 
+@push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
             var formCreate = $('#form_dependencia');

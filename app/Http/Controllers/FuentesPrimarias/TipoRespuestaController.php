@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\FuentesPrimarias;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Estado;
-use App\Models\TipoRespuesta;
 use App\Models\PonderacionRespuesta;
+use App\Models\TipoRespuesta;
 use DataTables;
 use App\Http\Requests\TipoRespuestaRequest;
 
@@ -24,6 +23,7 @@ class TipoRespuestaController extends Controller
         $this->middleware('permission:CREAR_TIPO_RESPUESTAS', ['only' => ['create', 'store']]);
         $this->middleware('permission:ELIMINAR_TIPO_RESPUESTAS', ['only' => ['destroy']]);
     }
+
     public function index()
     {
         return view('autoevaluacion.FuentesPrimarias.TipoRespuestas.index');
@@ -42,6 +42,7 @@ class TipoRespuestaController extends Controller
                 ->make(true);
         }
     }
+
     public function create()
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
@@ -52,7 +53,7 @@ class TipoRespuestaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(TipoRespuestaRequest $request)
@@ -99,7 +100,7 @@ class TipoRespuestaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -110,7 +111,7 @@ class TipoRespuestaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -120,44 +121,44 @@ class TipoRespuestaController extends Controller
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
 
         $ponderaciones = PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)->get();
-    
+
         return view('autoevaluacion.FuentesPrimarias.TipoRespuestas.edit',
-            compact('respuesta','estados', 'ponderaciones')
-            );
+            compact('respuesta', 'estados', 'ponderaciones')
+        );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $tipoRespuestas = TipoRespuesta::findOrFail($id);
-        $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion','TRP_Descripcion']));
+        $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_Descripcion']));
         $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
         $tipoRespuestas->update();
 
-        $ponderaciones = PonderacionRespuesta::where('FK_PRT_TipoRespuestas',$id)->get();
-        foreach($ponderaciones as $ponderacion){
+        $ponderaciones = PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)->get();
+        foreach ($ponderaciones as $ponderacion) {
             $prt = PonderacionRespuesta::find($ponderacion->PK_PRT_Id);
             $prt->PRT_Ponderacion = $request->get($ponderacion->PK_PRT_Id);
             $prt->FK_PRT_TipoRespuestas = $id;
-            $prt->save(); 
+            $prt->save();
         }
         return response([
             'msg' => 'El tipo de respuesta ha sido modificado exitosamente.',
             'title' => 'Tipo de respuesta Modificado!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -168,7 +169,7 @@ class TipoRespuestaController extends Controller
         return response([
             'msg' => 'El tipo de respuesta ha sido eliminado exitosamente.',
             'title' => '¡Tipo de respuesta Eliminado!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 }

@@ -37,7 +37,7 @@
                     </div>
                     <div class="title_right">
                         <h3 id="valor_proceso"><i class="fa fa-refresh" aria-hidden="true"
-                               onclick="mostrarProcesos('{{route('admin.mostrar_procesos')}}')"></i>
+                                                  onclick="mostrarProcesos('{{route('admin.mostrar_procesos')}}')"></i>
                             Proceso:
                             <small>{{ session()->has('proceso')? session()->get('proceso'):'Ningún proceso seleccionado.' }}</small>
                         </h3>

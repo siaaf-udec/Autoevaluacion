@@ -1,7 +1,11 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Documentos Autoevaluación')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
 @section('content')
     @component('admin.components.panel')
-        @slot('title', 'Modificar Doncumento autoevaluacion')
+        @slot('title', 'Modificar Documento autoevaluación')
         {!! Form::model($documento, [ 'route' => ['documental.documentos_autoevaluacion.update', $documento],
         'method' => 'PUT', 'id' => 'form_modificar_documento',
         'class' => 'form-horizontal form-label-left', 'novalidate' ])
@@ -19,6 +23,8 @@
         </div>
         {!! Form::close() !!} @endcomponent
 @endsection
+
+{{-- Estilos necesarios para el formulario --}} 
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -34,7 +40,10 @@
             min-height: 0px !important;
         }
     </style>
-@endpush @push('scripts')
+@endpush 
+
+{{-- Scripts necesarios para el formulario --}} 
+@push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
     <script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
@@ -47,9 +56,12 @@
     <!-- Dropzone.js -->
     <script src="{{ asset('gentella/vendors/dropzone/dist/min/dropzone.min.js') }}"></script>
 
-@endpush @push('functions')
-    <script type="text/javascript">
-     Dropzone.options.myDropzone = {
+@endpush 
+
+{{-- Funciones necesarias por el formulario --}} 
+@push('functions')
+    <script type="text/javascript">            
+        Dropzone.options.myDropzone = {
             url: $('#form_modificar_documento').attr('action'),
             autoProcessQueue: false,
             uploadMultiple: false,
@@ -57,7 +69,23 @@
             maxFiles: 1,
             maxFilesize: 4,
             addRemoveLinks: true,
-        }
+            @if($documento->archivo)
+            // The setting up of the dropzone
+            init:function() {
+
+                // Add server images
+                var myDropzone = this;
+
+                    var file = {name: '{{ $documento->archivo->ACV_Nombre .'.'. $documento->archivo->ACV_Extension}}', 
+                    size: "{{ $size }}" };
+                    myDropzone.options.addedfile.call(myDropzone, file);
+                    myDropzone.options.thumbnail.call(myDropzone, file, 
+                    '{{ url('public.layouts.index') . $documento->archivo->ruta }}');
+                    myDropzone.emit("complete", file);
+                    
+                }
+            @endif
+        };
         $(document).ready(function () {
 
             $('#factor').select2();
@@ -65,7 +93,7 @@
             $('#indicador').select2();
             $('#dependencia').select2();
             $('#tipo_documento').select2();
-        
+
             selectDinamico("#factor", "#caracteristica", "{{url('admin/documental/documentos_autoevaluacion/caracteristicas')}}", ['#indicador']);
             selectDinamico("#caracteristica", "#indicador", "{{url('admin/documental/indicadores_documentales')}}");
 
@@ -88,6 +116,7 @@
             form.submit(function (e) {
                 var formData = new FormData(this);
                 formData.append('archivo', $('#myDropzone')[0].dropzone.getQueuedFiles()[0]);
+                console.log($('#myDropzone')[0].dropzone);
 
                 e.preventDefault();
                 $.ajax({
@@ -101,7 +130,6 @@
                         window.location.replace(" {{ route('documental.documentos_autoevaluacion.index')}} ");
                     },
                     error: function (data) {
-                        console.log(data);
                         var errores = data.responseJSON.errors;
                         var msg = '';
                         $.each(errores, function (name, val) {

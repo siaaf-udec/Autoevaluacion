@@ -42,7 +42,7 @@ class Proceso extends Model
 
     public function programa()
     {
-        return $this->hasOne(ProgramaAcademico::class,'PK_PAC_Id','FK_PCS_Programa');
+        return $this->belongsTo(ProgramaAcademico::class,'FK_PCS_Programa', 'PK_PAC_Id');
     }
 
     public function fase()

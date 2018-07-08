@@ -1,12 +1,17 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Ámbitos')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
+
 @section('content') @component('admin.components.panel') @slot('title', 'Ambito')
 <div class="col-md-12">
-@can('CREAR_AMBITOS')
-    <div class="actions">
-        <a id="crear_ambito" href="#" class="btn btn-info" data-toggle="modal" data-target="#modal_ambito">
-            <i class="fa fa-plus"></i> Agregar Ambito</a></div>
-@endcan   
-    <!-- Modal-->
+    @can('CREAR_AMBITOS')
+        <div class="actions">
+            <a id="crear_ambito" href="#" class="btn btn-info" data-toggle="modal" data-target="#modal_ambito">
+                <i class="fa fa-plus"></i> Agregar Ambito</a></div>
+@endcan
+<!-- Modal-->
     <div class="modal fade" id="modal_ambito" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="ambito">
             <div class="modal-content">
@@ -38,18 +43,19 @@
 
 </div>
 @can('VER_AMBITOS')
-<br>
-<br>
-<br>
-<div class="col-md-12">
-    @component('admin.components.datatable', ['id' => 'ambito_table_ajax']) @slot('columns', [ 'id', 'Nombre', 'Acciones'
+    <br>
+    <br>
+    <br>
+    <div class="col-md-12">
+        @component('admin.components.datatable', ['id' => 'ambito_table_ajax']) @slot('columns', [ 'id', 'Nombre', 'Acciones'
     => ['style' => 'width:85px;'] ]) @endcomponent
 
-</div>
-@endcomponent
+    </div>
+    @endcomponent
 @endcan
 @endsection
 
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
@@ -63,14 +69,18 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
     <script src="{{ asset('js/admin.js') }}"></script>
 
-@endpush @push('styles')
+@endpush 
+{{-- Estilos necesarios para el formulario --}} 
+@push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
-@endpush @push('functions')
+@endpush 
+{{-- Funciones necesarias por el formulario --}} 
+@push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
             var formCreate = $('#form_ambito');

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class LineamientosRequest extends FormRequest
 {
@@ -23,14 +24,28 @@ class LineamientosRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route()->parameter('lineamiento');
         $archivo = "";
         if($this->hasFile('archivo')){
             $archivo = 'file|mimes:xlsx';
         }
         return [
-            'LNM_Nombre' => 'required',
+            'LNM_Nombre' => 'required|unique:tbl_lineamientos' . Rule::unique('tbl_lineamientos')->ignore($id, 'PK_LNM_Id'),
             'LNM_Descripcion' => 'required',
             'archivo' => $archivo
+        ];
+    }
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'LNM_Nombre.required' => 'el campo nombre requerido.',
+            'LNM_Nombre.unique' => 'Este nombre ya se encuentra en nuestros registros',
+            'LNM_Descripcion.required' => 'el campo descripción es requerido.',
         ];
     }
 }

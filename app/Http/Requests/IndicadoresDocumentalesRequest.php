@@ -31,4 +31,20 @@ class IndicadoresDocumentalesRequest extends FormRequest
             'PK_CRT_Id' => 'exists:tbl_caracteristicas'
         ];
     }
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'IDO_Nombre.required' => 'el campo nombre requerido.',
+            'IDO_Nombre.string' => 'el campo nombre debe ser un nombre valido.',
+            'IDO_Identificador.required' => 'el campo identificador es requerido.',
+            'IDO_Identificador.numeric' => 'el campo identificador deber ser numérico.',
+            'PK_ESD_Id.exists' => 'El estado que selecciono no se encuentra en nuestros registros',
+            'PK_CRT_Id.exists' => 'La característica que selecciono no se encuentra en nuestros registros'
+        ];
+    }
 }

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\SuperAdministrador;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FacultadesRequest;
-use App\Models\Estado;;
+use App\Models\Estado;
 use App\Models\Facultad;
 use DataTables;
+use Illuminate\Http\Request;
+
+;
 
 
 class FacultadController extends Controller
@@ -35,6 +37,7 @@ class FacultadController extends Controller
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         return view('autoevaluacion.SuperAdministrador.Facultades.index', compact('estados'));
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -59,10 +62,11 @@ class FacultadController extends Controller
     public function create()
     {
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(FacultadesRequest $request)
@@ -75,14 +79,14 @@ class FacultadController extends Controller
         return response([
             'msg' => 'Facultad registrada correctamente.',
             'title' => '¡Registro exitoso!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -92,7 +96,7 @@ class FacultadController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -103,8 +107,8 @@ class FacultadController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(FacultadesRequest $request, $id)
@@ -119,14 +123,14 @@ class FacultadController extends Controller
         return response([
             'msg' => 'La facultad ha sido modificado exitosamente.',
             'title' => 'Facultad Modificada!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -138,7 +142,7 @@ class FacultadController extends Controller
         return response([
             'msg' => 'La Facultad ha sido eliminada exitosamente.',
             'title' => '¡Facultad Eliminada!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 }

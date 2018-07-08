@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\FuentesSecundarias;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Yajra\Datatables\Datatables;
-
-use App\Models\GrupoDocumento;
 use App\Http\Requests\DocumentGroupRequest;
+use App\Models\GrupoDocumento;
+use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 
 class DocumentGroupController extends Controller
 {
@@ -16,9 +15,10 @@ class DocumentGroupController extends Controller
         $this->middleware([
             'permission:CREAR_GRUPO_DOCUMENTOS',
             'permission:VER_GRUPO_DOCUMENTOS'
-            ]);
+        ]);
 
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,6 +28,7 @@ class DocumentGroupController extends Controller
     {
         return view('autoevaluacion.FuentesSecundarias.DocumentGroup.index');
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -64,37 +65,37 @@ class DocumentGroupController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(DocumentGroupRequest $request)
     {
-        
+
         GrupoDocumento::create($request->except('_token'));
         return response(['msg' => 'Grupo de documentos almacenado correctamente.',
-        'title' => '¡Registro exitoso!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-          ->header('Content-Type', 'application/json');
+            'title' => '¡Registro exitoso!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
 
-        
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        
+
 
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -109,8 +110,8 @@ class DocumentGroupController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(DocumentGroupRequest $request, $id)
@@ -119,28 +120,28 @@ class DocumentGroupController extends Controller
         $grupodocumento->fill($request->all());
         $grupodocumento->save();
         return response(['msg' => 'El grupo ha sido modificado exitosamente.',
-                'title' => 'Grupo Modificado!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => 'Grupo Modificado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)
     {
-       
+
         GrupoDocumento::destroy($id);
 
-            return response(['msg' => 'El Registro ha sido eliminado exitosamente.',
-                'title' => 'Grupo Eliminado!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+        return response(['msg' => 'El Registro ha sido eliminado exitosamente.',
+            'title' => 'Grupo Eliminado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
 
-        
+
     }
 }

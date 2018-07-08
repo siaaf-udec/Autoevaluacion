@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\DocumentoAutoevaluacion;
 
 class DocumentosAutoevaluacionRequest extends FormRequest
 {
@@ -25,6 +26,7 @@ class DocumentosAutoevaluacionRequest extends FormRequest
     {
         $archivo = "required";
         $link = "required";
+        $id = $this->route()->parameter('documentos_autoevaluacion');
         if ($this->hasFile('archivo') && $this->request->get('DOA_Link') !== null) {
             $archivo = 'file';
             $link = 'file';
@@ -35,6 +37,14 @@ class DocumentosAutoevaluacionRequest extends FormRequest
         }
         elseif ($this->request->get('DOA_Link') !== null) {
             $link = 'url';
+            $archivo = '';
+            if($this->method() == 'PUT'){
+                $documento = DocumentoAutoevaluacion::find($id);
+                $link = $documento->archivo?'file':$link;
+            }
+        }
+        elseif($this->method() == 'PUT'){
+            $link = '';
             $archivo = '';
 
         }

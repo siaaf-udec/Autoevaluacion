@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\SuperAdministrador;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DataTables;
-use App\Models\GrupoInteres;
-use App\Models\Estado;
 use App\Http\Requests\GruposInteresRequest;
+use App\Models\Estado;
+use App\Models\GrupoInteres;
+use DataTables;
+use Illuminate\Http\Request;
 
 class GruposInteresController extends Controller
 {
@@ -23,11 +23,13 @@ class GruposInteresController extends Controller
         $this->middleware('permission:CREAR_GRUPOS_INTERES', ['only' => ['create', 'store']]);
         $this->middleware('permission:ELIMINAR_GRUPOS_INTERES', ['only' => ['destroy']]);
     }
+
     public function index()
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         return view('autoevaluacion.SuperAdministrador.GruposInteres.index', compact('estados'));
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -41,6 +43,7 @@ class GruposInteresController extends Controller
                 ->make(true);
         }
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -54,7 +57,7 @@ class GruposInteresController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(GruposInteresRequest $request)
@@ -66,14 +69,14 @@ class GruposInteresController extends Controller
         return response([
             'msg' => 'Grupo de interes registrado correctamente.',
             'title' => '¡Registro exitoso!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -84,7 +87,7 @@ class GruposInteresController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -95,8 +98,8 @@ class GruposInteresController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(GruposInteresRequest $request, $id)
@@ -108,14 +111,14 @@ class GruposInteresController extends Controller
         return response([
             'msg' => 'El grupo de interes ha sido modificado exitosamente.',
             'title' => 'Grupo de Interes Modificado!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -125,7 +128,7 @@ class GruposInteresController extends Controller
         return response([
             'msg' => 'El grupo de interes ha sido eliminado exitosamente.',
             'title' => '¡Grupo de Interes Eliminado!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 }

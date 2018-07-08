@@ -1,3 +1,7 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'datos específicos')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
 @section('content')
     @component('admin.components.panel')
@@ -21,6 +25,7 @@
     @endcomponent
 @endsection
 
+{{-- Estilos necesarios para el formulario --}} 
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -36,6 +41,7 @@
     <link href="{{ asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
 @endpush
 
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
     <script src="{{ asset('js/admin.js') }}"></script>
     <!-- validator -->
@@ -53,6 +59,8 @@
     <script src="{{asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 
 @endpush
+
+{{-- Funciones necesarias por el formulario --}} 
 @push('functions')
     <script type="text/javascript">
         $('#estado').select2();

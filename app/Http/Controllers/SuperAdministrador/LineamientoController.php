@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\SuperAdministrador;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DataTables;
-use App\Models\Lineamiento;
 use App\Http\Requests\LineamientosRequest;
-use Excel;
-use App\Models\Factor;
-use App\Models\Caracteristica;
 use App\Models\Aspecto;
+use App\Models\Caracteristica;
+use App\Models\Factor;
+use App\Models\Lineamiento;
+use DataTables;
+use Excel;
+use Illuminate\Http\Request;
 
 class LineamientoController extends Controller
 {
@@ -36,6 +36,7 @@ class LineamientoController extends Controller
     {
         return view('autoevaluacion.SuperAdministrador.Lineamientos.index');
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -60,10 +61,11 @@ class LineamientoController extends Controller
     {
         return view('autoevaluacion.SuperAdministrador.Lineamientos.create');
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(LineamientosRequest $request)
@@ -72,7 +74,7 @@ class LineamientoController extends Controller
         $results = "";
         $id = Lineamiento::create($request->except('archivo'))->PK_LNM_Id;
         if ($archivo) {
-            try{
+            try {
                 Excel::selectSheets('FACTORES', 'CARACTERISTICAS', 'ASPECTOS')->load($archivo->getRealPath(), function ($reader) use ($id) {
                     // get all rows from the sheet
                     $sheets = $reader->all()->toArray();
@@ -119,25 +121,25 @@ class LineamientoController extends Controller
                         }
                     }
                 });
-            }catch (\Exception $e) {
+            } catch (\Exception $e) {
                 return response(['errors' => ['Error por favor verifique el documento e intentelo de nuevo.'],
                     'title' => '¡Error!'
-                ], 422) // 200 Status Code: Standard response for successful HTTP request
-                    ->header('Content-Type', 'application/json');
+                ], 422)// 200 Status Code: Standard response for successful HTTP request
+                ->header('Content-Type', 'application/json');
             }
         }
-        
+
 
         return response(['msg' => 'Lineamiento registrado correctamente.',
-        'title' => '¡Registro exitoso!'
-    ], 200) // 200 Status Code: Standard response for successful HTTP request
-          ->header('Content-Type', 'application/json');
+            'title' => '¡Registro exitoso!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -147,7 +149,7 @@ class LineamientoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -156,33 +158,33 @@ class LineamientoController extends Controller
 
         return view(
             'autoevaluacion.SuperAdministrador.Lineamientos.edit',
-        compact('lineamiento')
+            compact('lineamiento')
         );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(LineamientosRequest $request, $id)
     {
         $lineamiento = Lineamiento::findOrFail($id);
         $lineamiento->update($request->all());
-        
+
 
         return response(['msg' => 'El Lineamiento ha sido modificado exitosamente.',
-                'title' => 'Lineamiento Modificado!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => 'Lineamiento Modificado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -191,8 +193,8 @@ class LineamientoController extends Controller
         $lineamiento->delete();
 
         return response(['msg' => 'El Lineamiento ha sido eliminado exitosamente.',
-                'title' => '¡Rol Eliminado!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => '¡Rol Eliminado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 }

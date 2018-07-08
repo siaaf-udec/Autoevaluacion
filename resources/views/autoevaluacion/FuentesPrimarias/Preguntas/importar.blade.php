@@ -1,4 +1,9 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Importar')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
+
 @section('content')
     @component('admin.components.panel')
         @slot('title', 'Importar Preguntas')
@@ -27,6 +32,7 @@
     @endcomponent
 @endsection
 
+{{-- Estilos necesarios para el formulario --}} 
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -42,6 +48,7 @@
     </style>
 @endpush
 
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
@@ -53,6 +60,8 @@
     <!-- Dropzone.js -->
     <script src="{{ asset('gentella/vendors/dropzone/dist/min/dropzone.min.js') }}"></script>
 @endpush
+
+{{-- Funciones necesarias por el formulario --}} 
 @push('functions')
     <script type="text/javascript">
         Dropzone.options.myDropzone = {

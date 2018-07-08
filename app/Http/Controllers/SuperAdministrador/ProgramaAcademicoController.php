@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\SuperAdministrador;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DataTables;
+use App\Http\Requests\ProgramasAcademicosRequest;
+use App\Models\Estado;
+use App\Models\Facultad;
 use App\Models\ProgramaAcademico;
 use App\Models\Sede;
-use App\Models\Facultad;
-use App\Models\Estado;
-use App\Http\Requests\ProgramasAcademicosRequest;
+use DataTables;
+use Illuminate\Http\Request;
 
 
 class ProgramaAcademicoController extends Controller
@@ -36,6 +36,7 @@ class ProgramaAcademicoController extends Controller
     {
         return view('autoevaluacion.SuperAdministrador.ProgramasAcademicos.index');
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -44,17 +45,17 @@ class ProgramaAcademicoController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $programas_academicos = ProgramaAcademico::with(['facultad' => function($query){
+            $programas_academicos = ProgramaAcademico::with(['facultad' => function ($query) {
                 return $query->select('PK_FCD_Id', 'FCD_Nombre');
 
             }])
-            ->with(['sede' => function($query){
-                return $query->select('PK_SDS_Id', 'SDS_Nombre');
-            }])
-            ->with(['estado' => function ($query) {
-                return $query->select('PK_ESD_Id', 'ESD_Nombre');
-            }])
-            ->get();
+                ->with(['sede' => function ($query) {
+                    return $query->select('PK_SDS_Id', 'SDS_Nombre');
+                }])
+                ->with(['estado' => function ($query) {
+                    return $query->select('PK_ESD_Id', 'ESD_Nombre');
+                }])
+                ->get();
             return DataTables::of($programas_academicos)
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
@@ -79,10 +80,11 @@ class ProgramaAcademicoController extends Controller
             compact('sedes', 'facultades', 'estados')
         );
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(ProgramasAcademicosRequest $request)
@@ -97,14 +99,14 @@ class ProgramaAcademicoController extends Controller
         return response([
             'msg' => 'Programa academico registrado correctamente.',
             'title' => '¡Registro exitoso!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -114,7 +116,7 @@ class ProgramaAcademicoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -134,8 +136,8 @@ class ProgramaAcademicoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(ProgramasAcademicosRequest $request, $id)
@@ -152,14 +154,14 @@ class ProgramaAcademicoController extends Controller
         return response([
             'msg' => 'El Programa academico ha sido modificado exitosamente.',
             'title' => 'Programa academico Modificado!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -169,7 +171,7 @@ class ProgramaAcademicoController extends Controller
         return response([
             'msg' => 'El programa academico ha sido eliminado exitosamente.',
             'title' => 'Programa academico Eliminado!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 }

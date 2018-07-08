@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\SuperAdministrador;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Permission;
-use DataTables;
 use App\Http\Requests\PermisosRequest;
-
+use DataTables;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 
 
 class PermisosController extends Controller
@@ -20,7 +19,7 @@ class PermisosController extends Controller
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_PERMISOS');
-        $this->middleware(['permission:MODIFICAR_PERMISOS', 'permission:VER_USUARIOS'], ['only' => ['edit', 'update']]);
+        $this->middleware(['permission:MODIFICAR_PERMISOS', 'permission:VER_PERMISOS'], ['only' => ['edit', 'update']]);
         $this->middleware('permission:CREAR_PERMISOS', ['only' => ['create', 'store']]);
         $this->middleware('permission:ELIMINAR_PERMISOS', ['only' => ['destroy']]);
     }
@@ -34,6 +33,7 @@ class PermisosController extends Controller
     {
         return view('autoevaluacion.SuperAdministrador.Permisos.index');
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -58,10 +58,11 @@ class PermisosController extends Controller
     public function create()
     {
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(PermisosRequest $request)
@@ -70,15 +71,15 @@ class PermisosController extends Controller
 
 
         return response(['msg' => 'Permiso registrado correctamente.',
-        'title' => '¡Registro exitoso!'
-    ], 200) // 200 Status Code: Standard response for successful HTTP request
-          ->header('Content-Type', 'application/json');
+            'title' => '¡Registro exitoso!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -88,7 +89,7 @@ class PermisosController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -99,8 +100,8 @@ class PermisosController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(PermisosRequest $request, $id)
@@ -110,15 +111,15 @@ class PermisosController extends Controller
 
 
         return response(['msg' => 'El Permiso ha sido modificado exitosamente.',
-                'title' => 'Permiso Modificado!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => 'Permiso Modificado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -128,8 +129,8 @@ class PermisosController extends Controller
 
 
         return response(['msg' => 'El Permiso ha sido eliminado exitosamente.',
-                'title' => '¡Permiso Eliminado!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => '¡Permiso Eliminado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 }

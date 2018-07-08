@@ -1,3 +1,7 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Sedes')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
 @section('content') @component('admin.components.panel')
     @slot('title', 'Sedes')
@@ -49,6 +53,7 @@
         @endcomponent
     @endcan
 @endsection
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
@@ -62,10 +67,8 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
     <!-- Select2 -->
     <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
-
-
-
 @endpush
+{{-- Estilos necesarios para el formulario --}} 
 @push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
@@ -76,6 +79,7 @@
 
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @endpush
+{{-- Funciones necesarias por el formulario --}} 
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {

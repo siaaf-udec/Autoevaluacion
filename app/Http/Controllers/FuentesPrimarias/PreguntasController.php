@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\FuentesPrimarias;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Caracteristica;
+use App\Models\Estado;
 use App\Models\Factor;
 use App\Models\Lineamiento;
 use App\Models\Estado;
 use App\Models\Pregunta;
-use App\Models\Caracteristica;
-use App\Models\TipoRespuesta;
 use App\Models\RespuestaPregunta;
+use App\Models\TipoRespuesta;
 use DataTables;
 use App\Http\Requests\PreguntasRequest;
 
@@ -28,6 +28,7 @@ class PreguntasController extends Controller
         $this->middleware('permission:CREAR_PREGUNTAS', ['only' => ['create', 'store']]);
         $this->middleware('permission:ELIMINAR_PREGUNTAS', ['only' => ['destroy']]);
     }
+
     public function index()
     {
         return view('autoevaluacion.FuentesPrimarias.Preguntas.index');
@@ -37,11 +38,11 @@ class PreguntasController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $preguntas = Pregunta::with('estado','tipo','caracteristica')->get();
+            $preguntas = Pregunta::with('estado', 'tipo', 'caracteristica')->get();
             return DataTables::of($preguntas)
-            ->removeColumn('created_at')
-            ->removeColumn('updated_at')
-            ->make(true);
+                ->removeColumn('created_at')
+                ->removeColumn('updated_at')
+                ->make(true);
         }
     }
 
@@ -61,7 +62,7 @@ class PreguntasController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(PreguntasRequest $request)
@@ -74,10 +75,10 @@ class PreguntasController extends Controller
         $pregunta->save();
         $insertedId = $pregunta->PK_PGT_Id;
         $tipos = TipoRespuesta::select('TRP_CantidadRespuestas')->where('PK_TRP_Id', $request->get('PK_TRP_Id'))->first();
-        $cantidad =  $tipos->TRP_CantidadRespuestas;
-        for($i=1;$i<=$cantidad;$i++){
+        $cantidad = $tipos->TRP_CantidadRespuestas;
+        for ($i = 1; $i <= $cantidad; $i++) {
             $respuestas = new RespuestaPregunta();
-            $respuestas->RPG_Texto = $request->get('Respuesta_'.$i);
+            $respuestas->RPG_Texto = $request->get('Respuesta_' . $i);
             $respuestas->FK_RPG_Pregunta = $insertedId;
             $respuestas->FK_RPG_PonderacionRespuesta = $request->get('Ponderacion_'.$i);
             $respuestas->save();
@@ -92,7 +93,7 @@ class PreguntasController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -104,7 +105,7 @@ class PreguntasController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -128,8 +129,8 @@ class PreguntasController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -141,24 +142,24 @@ class PreguntasController extends Controller
         $pregunta->update();
         
         $respuestas = RespuestaPregunta::where('FK_RPG_Pregunta', $id)->get();
-        foreach ($respuestas as $respuesta){
+        foreach ($respuestas as $respuesta) {
             $rpta = RespuestaPregunta::find($respuesta->PK_RPG_Id);
             $rpta->RPG_Texto = $request->get($respuesta->PK_RPG_Id);
             $rpta->FK_RPG_Pregunta = $id;
             $rpta->FK_RPG_PonderacionRespuesta = $respuesta->FK_RPG_PonderacionRespuesta;
             $rpta->update();
         }
-        
+
         return response(['msg' => 'La pregunta ha sido modificada exitosamente.',
-                'title' => '¡Pregunta Modificada!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => '¡Pregunta Modificada!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -166,9 +167,9 @@ class PreguntasController extends Controller
         Pregunta::destroy($id);
 
         return response(['msg' => 'La pregunta ha sido eliminada exitosamente.',
-                'title' => '¡Pregunta Eliminada!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => '¡Pregunta Eliminada!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
     /**
      * Show the form for creating a new resource.

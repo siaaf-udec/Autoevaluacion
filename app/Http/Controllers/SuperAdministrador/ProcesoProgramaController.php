@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\SuperAdministrador;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Proceso;
-use DataTables;
-use Carbon\Carbon;
-use App\Models\Sede;
-use App\Models\Facultad;
-use App\Models\ProgramaAcademico;
-use App\Models\Lineamiento;
 use App\Http\Requests\ProcesosProgramasRequest;
+use App\Models\Facultad;
 use App\Models\Fase;
+use App\Models\Lineamiento;
+use App\Models\Proceso;
+use App\Models\ProgramaAcademico;
+use App\Models\Sede;
+use Carbon\Carbon;
+use DataTables;
+use Illuminate\Http\Request;
 
 class ProcesoProgramaController extends Controller
 {
@@ -38,6 +38,7 @@ class ProcesoProgramaController extends Controller
     {
         return view('autoevaluacion.SuperAdministrador.ProcesosProgramas.index');
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -56,13 +57,13 @@ class ProcesoProgramaController extends Controller
             $procesos_programas = Proceso::with(['fase' => function ($query) {
                 return $query->select('PK_FSS_Id', 'FSS_Nombre');
             }])
-            ->with(['lineamiento' => function ($query) {
-                return $query->select('PK_LNM_Id', 'LNM_Nombre');
-            }])
-            ->with('programa.sede')
-            ->with('programa.facultad')
-            ->where('PCS_Institucional', '=', '0')
-            ->get();
+                ->with(['lineamiento' => function ($query) {
+                    return $query->select('PK_LNM_Id', 'LNM_Nombre');
+                }])
+                ->with('programa.sede')
+                ->with('programa.facultad')
+                ->where('PCS_Institucional', '=', '0')
+                ->get();
 
             return DataTables::of($procesos_programas)
                 ->editColumn('PCS_FechaInicio', function ($proceso_programa) {
@@ -97,10 +98,11 @@ class ProcesoProgramaController extends Controller
             compact('sedes', 'facultades', 'lineamientos', 'fases')
         );
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(ProcesosProgramasRequest $request)
@@ -121,24 +123,22 @@ class ProcesoProgramaController extends Controller
             $proceso->save();
 
             return response([
-            'msg' => 'Proceso registrado correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
+                'msg' => 'Proceso registrado correctamente.',
+                'title' => '¡Registro exitoso!'
+            ], 200)// 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
         }
-        else{
-            return response([
+        return response([
                 'errors' => ['La fecha de inicio tiene que ser menor que la fecha de terminación del proceso.'],
                 'title' => '¡Error!'
-            ], 422) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
-        }
+            ], 422)// 200 Status Code: Standard response for successful HTTP request
+            ->header('Content-Type', 'application/json');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -148,7 +148,7 @@ class ProcesoProgramaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -161,8 +161,8 @@ class ProcesoProgramaController extends Controller
 
         $programas = new ProgramaAcademico();
         $programas = $programas::where('FK_PAC_Sede', '=', $proceso->programa->sede->PK_SDS_Id)
-        ->where('FK_PAC_Facultad', '=', $proceso->programa->facultad->PK_FCD_Id)
-        ->pluck('PAC_Nombre', 'PK_PAC_Id');
+            ->where('FK_PAC_Facultad', '=', $proceso->programa->facultad->PK_FCD_Id)
+            ->pluck('PAC_Nombre', 'PK_PAC_Id');
 
 
         return view(
@@ -174,8 +174,8 @@ class ProcesoProgramaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(ProcesosProgramasRequest $request, $id)
@@ -196,14 +196,14 @@ class ProcesoProgramaController extends Controller
         return response([
             'msg' => 'El proceso ha sido modificado exitosamente.',
             'title' => 'Proceso Modificado!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -213,17 +213,17 @@ class ProcesoProgramaController extends Controller
         return response([
             'msg' => 'El Proceso ha sido eliminado exitosamente.',
             'title' => 'Proceso Eliminado!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
 
     public function ObtenerProgramas($id_sede, $id_facultad)
     {
         $programas = ProgramaAcademico::where('FK_PAC_Sede', '=', $id_sede)
-        ->where('FK_PAC_Facultad', '=', $id_facultad)
-        ->where('FK_PAC_Estado', '=', '1')
-        ->pluck('PAC_Nombre', 'PK_PAC_Id');
+            ->where('FK_PAC_Facultad', '=', $id_facultad)
+            ->where('FK_PAC_Estado', '=', '1')
+            ->pluck('PAC_Nombre', 'PK_PAC_Id');
         return json_encode($programas);
     }
 }

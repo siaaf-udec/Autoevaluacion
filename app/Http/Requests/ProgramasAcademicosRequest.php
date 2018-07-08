@@ -40,6 +40,7 @@ class ProgramasAcademicosRequest extends FormRequest
     {
         return [
             'PAC_Nombre.required' => 'Nombre requerido.',
+            'PAC_Nombre.max' => 'El campo nombre debe tener máximo 50 caracteres.',
             'PAC_Descripcion' => 'Descripción requerida.',
             'PK_ESD_Id.required' => 'El estado es requerido.',
             'PK_ESD_Id.numeric' => 'Estado invalido.',

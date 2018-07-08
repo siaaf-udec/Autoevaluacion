@@ -1,3 +1,7 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Lineamientos')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
 @section('content')
     @component('admin.components.panel') @slot('title', 'Modificar Lineamiento') {!!
@@ -15,13 +19,16 @@ Form::model($lineamiento, [ 'route' => ['admin.lineamientos.update', $lineamient
     </div>
     {!! Form::close() !!} @endcomponent
 @endsection
+{{-- Estilos necesarios para el formulario --}} 
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
 
-@endpush @push('scripts')
+@endpush 
+{{-- Scripts necesarios para el formulario --}} 
+@push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
     <script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
@@ -31,7 +38,9 @@ Form::model($lineamiento, [ 'route' => ['admin.lineamientos.update', $lineamient
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 
 
-@endpush @push('functions')
+@endpush 
+{{-- Funciones necesarias por el formulario --}} 
+@push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
 

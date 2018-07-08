@@ -1,3 +1,7 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Características')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
 
 @section('content')
@@ -22,6 +26,7 @@
     @endcomponent
 @endsection
 
+{{-- Estilos necesarios para el formulario --}} 
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -31,6 +36,7 @@
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @endpush
 
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
     <script src="{{ asset('js/custom.js') }}"></script>
     <!-- validator -->
@@ -43,6 +49,7 @@
     <!-- Select2 -->
     <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
 @endpush
+{{-- Funciones necesarias por el formulario --}} 
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {

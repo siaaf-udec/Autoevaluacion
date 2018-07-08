@@ -1,3 +1,7 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Documentos institucionales')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
 
 @section('content')
@@ -31,6 +35,7 @@
     @endcomponent
 @endsection
 
+{{-- Estilos necesarios para el formulario --}} 
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -46,6 +51,7 @@
     </style>
 @endpush
 
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
     <script src="{{ asset('js/admin.js') }}"></script>
     <!-- validator -->
@@ -58,6 +64,8 @@
     <!-- Dropzone.js -->
     <script src="{{ asset('gentella/vendors/dropzone/dist/min/dropzone.min.js') }}"></script>
 @endpush
+
+{{-- Funciones necesarias por el formulario --}} 
 @push('functions')
     <script type="text/javascript">
         Dropzone.options.myDropzone = {
@@ -72,7 +80,7 @@
 
         $(document).ready(function () {
 
-            
+
             var form = $('#form_crear_documento');
             $(form).parsley({
                 trigger: 'change',

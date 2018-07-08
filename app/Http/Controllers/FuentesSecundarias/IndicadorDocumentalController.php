@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\FuentesSecundarias;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\IndicadorDocumental;
-use DataTables;
 use App\Http\Requests\IndicadoresDocumentalesRequest;
-use App\Models\Lineamiento;
+use App\Models\Caracteristica;
 use App\Models\Estado;
 use App\Models\Factor;
-use App\Models\Caracteristica;
+use App\Models\IndicadorDocumental;
+use App\Models\Lineamiento;
+use DataTables;
+use Illuminate\Http\Request;
 
 
 class IndicadorDocumentalController extends Controller
 {
-     /**
+    /**
      * Instantiate a new controller instance.
      *
      * @return void
@@ -37,6 +37,7 @@ class IndicadorDocumentalController extends Controller
     {
         return view('autoevaluacion.FuentesSecundarias.IndicadoresDocumentales.index');
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -51,17 +52,17 @@ class IndicadorDocumentalController extends Controller
             // ->select('tbl_indicadores_documentales.IDO_Nombre',  'tbl_caracteristicas.CRT_Nombre', 
             // 'tbl_factores.FCT_Nombre', 'tbl_lineamientos.LNM_Nombre')
             // ->get();
-            
+
 
             $indicadores_documentales = IndicadorDocumental::with('caracteristica.factor.lineamiento')
-            ->with(['estado' => function ($query) {
-                return $query->select('PK_ESD_Id', 'ESD_Nombre');
-            }])
-            ->get();
+                ->with(['estado' => function ($query) {
+                    return $query->select('PK_ESD_Id', 'ESD_Nombre');
+                }])
+                ->get();
             return DataTables::of($indicadores_documentales)
-            ->removeColumn('created_at')
-            ->removeColumn('updated_at')
-            ->make(true);
+                ->removeColumn('created_at')
+                ->removeColumn('updated_at')
+                ->make(true);
         }
     }
 
@@ -76,13 +77,14 @@ class IndicadorDocumentalController extends Controller
         $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
 
-        return view('autoevaluacion.FuentesSecundarias.IndicadoresDocumentales.create', 
-        compact('lineamientos', 'estados'));
+        return view('autoevaluacion.FuentesSecundarias.IndicadoresDocumentales.create',
+            compact('lineamientos', 'estados'));
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(IndicadoresDocumentalesRequest $request)
@@ -94,34 +96,34 @@ class IndicadorDocumentalController extends Controller
         $indicador_documental->save();
 
         return response(['msg' => 'Indicador documental registrado correctamente.',
-        'title' => '¡Registro exitoso!'
-    ], 200) // 200 Status Code: Standard response for successful HTTP request
-          ->header('Content-Type', 'application/json');
+            'title' => '¡Registro exitoso!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $indicadores_documentales = IndicadorDocumental::where('FK_IDO_Caracteristica', $id)
-        ->pluck('IDO_Nombre', 'PK_IDO_Id');
+            ->pluck('IDO_Nombre', 'PK_IDO_Id');
         return json_encode($indicadores_documentales);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $indicador = IndicadorDocumental::findOrFail($id);
-        $lineamientos =  Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
+        $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
 
         $factor = new Factor();
         $id_factor = $indicador->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
@@ -135,14 +137,14 @@ class IndicadorDocumentalController extends Controller
         return view(
             'autoevaluacion.FuentesSecundarias.IndicadoresDocumentales.edit',
             compact('indicador', 'lineamientos', 'factores', 'caracteristicas', 'estados')
-            );
+        );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(IndicadoresDocumentalesRequest $request, $id)
@@ -157,15 +159,15 @@ class IndicadorDocumentalController extends Controller
 
 
         return response(['msg' => 'El Indicador documental ha sido modificado exitosamente.',
-                'title' => 'Indicador Modificado!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => 'Indicador Modificado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -173,8 +175,8 @@ class IndicadorDocumentalController extends Controller
         IndicadorDocumental::destroy($id);
 
         return response(['msg' => 'El Indicador documental ha sido eliminado exitosamente.',
-                'title' => 'Indicador documental Eliminado!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => 'Indicador documental Eliminado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 }

@@ -1,4 +1,9 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Documentos institucionales')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
+
 @section('content')
     @component('admin.components.panel') @slot('title', 'Documentos Institucionales')
 
@@ -24,6 +29,8 @@
     </div>
     @endcomponent
 @endsection
+
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
     <!-- Datatables -->
     <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
@@ -35,7 +42,10 @@
 
 
 
-@endpush @push('styles')
+@endpush 
+
+{{-- Estilos necesarios para el formulario --}} 
+@push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
     <!-- PNotify -->
@@ -133,7 +143,7 @@
                 }
 
             });
-            
+
             table.on('click', '.remove', function (e) {
                 e.preventDefault();
                 $tr = $(this).closest('tr');
@@ -196,7 +206,6 @@
 
         }
 
-     
 
     </script>
 

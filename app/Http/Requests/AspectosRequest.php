@@ -42,8 +42,11 @@ class AspectosRequest extends FormRequest
     public function messages()
     {
         return [
-        'PK_CRT_Id.required' => 'Debe seleccionar una caracteristica.',
-        'PK_CRT_Id.exists' => 'La caracteristica que selecciona no existe en nuestros registros.'
+        'PK_CRT_Id.required' => 'Debe seleccionar una característica.',
+        'PK_CRT_Id.exists' => 'La característica que selecciona no existe en nuestros registros.',
+        'ASP_Nombre.required' => 'El campo nombre es requerido',
+        'ASP_Descripcion' => 'El campo descripción es requerido',
+        'PK_CRT_Id' => 'La característica que selecciono no se encuentra en nuestros registros.'
 
         ];
     }

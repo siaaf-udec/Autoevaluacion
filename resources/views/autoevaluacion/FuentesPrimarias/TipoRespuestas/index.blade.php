@@ -1,3 +1,7 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Tipo repuestas')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
 @section('content') @component('admin.components.panel') @slot('title', 'Tipo de Respuestas')
 @can('CREAR_TIPO_RESPUESTAS')
@@ -12,15 +16,17 @@
 @endcan
 @can('VER_TIPO_RESPUESTAS')
     <div class="col-md-12">
-    @component('admin.components.datatable', 
-    ['id' => 'tipoRespuesta_table_ajax']) 
-    @slot('columns', [ 'id', 'Total Ponderacion', 'Cantidad Respuestas','Descripcion','Estado', 'Acciones' =>
-    ['style' => 'width:85px;'] ]) 
-    @endcomponent
+        @component('admin.components.datatable',
+        ['id' => 'tipoRespuesta_table_ajax'])
+            @slot('columns', [ 'id', 'Total Ponderacion', 'Cantidad Respuestas','Descripcion','Estado', 'Acciones' =>
+            ['style' => 'width:85px;'] ])
+        @endcomponent
     </div>
     @endcomponent
 @endcan
 @endsection
+
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
     <!-- Datatables -->
     <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
@@ -30,7 +36,10 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 
-@endpush @push('styles')
+@endpush 
+
+{{-- Estilos necesarios para el formulario --}} 
+@push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
     <!-- PNotify -->
@@ -38,9 +47,11 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
 
-@endpush 
+@endpush
+
+{{-- Funciones necesarias por el formulario --}} 
 @push('functions')
-<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             let sesion = sessionStorage.getItem("update");
             console.log(sesion);
@@ -62,11 +73,11 @@
                 buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                 "ajax": "{{ route('fuentesP.tipoRespuesta.data') }}",
                 "columns": [
-                    {data: 'PK_TRP_Id', name: 'id', "visible":false},
-                    {data: 'TRP_TotalPonderacion', name: 'Total Ponderacion', className:"min-table-p"},
-                    {data: 'TRP_CantidadRespuestas', name: 'Cantidad Respuestas', className:"min-table-p"},
-                    {data: 'TRP_Descripcion', name: 'Descripcion', className:"desktop"},
-                    {data: 'estado.ESD_Nombre', name: 'Estado', className:"all"},
+                    {data: 'PK_TRP_Id', name: 'id', "visible": false},
+                    {data: 'TRP_TotalPonderacion', name: 'Total Ponderacion', className: "min-table-p"},
+                    {data: 'TRP_CantidadRespuestas', name: 'Cantidad Respuestas', className: "min-table-p"},
+                    {data: 'TRP_Descripcion', name: 'Descripcion', className: "desktop"},
+                    {data: 'estado.ESD_Nombre', name: 'Estado', className: "all"},
                     {
                         defaultContent: 
                         '@can('ELIMINAR_TIPO_RESPUESTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +

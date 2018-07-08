@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\FuentesPrimarias;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DataTables;
-use Session;
 use App\Models\RespuestaPregunta;
+use DataTables;
+use Illuminate\Http\Request;
+use Session;
 
 class RespuestasController extends Controller
 {
@@ -22,6 +22,7 @@ class RespuestasController extends Controller
         $this->middleware('permission:CREAR_RESPUESTAS', ['only' => ['create', 'store']]);
         $this->middleware('permission:ELIMINAR_RESPUESTAS', ['only' => ['destroy']]);
     }
+
     public function index()
     {
         //
@@ -47,8 +48,8 @@ class RespuestasController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $respuestas = RespuestaPregunta::whereHas('pregunta', function($query){
-                return $query->where('FK_RPG_Pregunta',session()->get('id'));
+            $respuestas = RespuestaPregunta::whereHas('pregunta', function ($query) {
+                return $query->where('FK_RPG_Pregunta', session()->get('id'));
             })->with('ponderacion')->get();
             return Datatables::of($respuestas)
                 ->make(true);
@@ -58,7 +59,7 @@ class RespuestasController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -69,7 +70,7 @@ class RespuestasController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -80,7 +81,7 @@ class RespuestasController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -91,8 +92,8 @@ class RespuestasController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -103,7 +104,7 @@ class RespuestasController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

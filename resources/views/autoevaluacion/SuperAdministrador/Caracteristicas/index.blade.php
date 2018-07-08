@@ -1,4 +1,9 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Características')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
+
 @section('content') @component('admin.components.panel') @slot('title', 'Caracteristicas')
 <div class="col-md-12">
     <div class="actions">
@@ -16,6 +21,7 @@
 </div>
 @endcomponent
 @endsection
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
     <!-- Datatables -->
     <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
@@ -25,7 +31,10 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 
-@endpush @push('styles')
+@endpush 
+
+{{-- Estilos necesarios para el formulario --}} 
+@push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
     <!-- PNotify -->
@@ -33,7 +42,10 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
 
-@endpush @push('functions')
+@endpush 
+
+{{-- Funciones necesarias por el formulario --}} 
+@push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
             let sesion = sessionStorage.getItem("update");
@@ -64,7 +76,7 @@
                     {data: 'CRT_Identificador', name: 'Identificador'},
                     {data: 'factor.nombre_factor', name: 'Factor'},
                     {data: 'estado.nombre_estado', name: 'Estado'},
-                    {data: 'ambitoresponsabilidad.nombre', name: 'Ambito'},
+                    {data: 'ambito', name: 'Ambito'},
 
                     {
                         defaultContent:

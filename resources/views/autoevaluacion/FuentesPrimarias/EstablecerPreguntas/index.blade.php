@@ -1,4 +1,9 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Preguntas')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
+
 @section('content')
     @component('admin.components.panel')
         @slot('title', 'Establecer Preguntas')

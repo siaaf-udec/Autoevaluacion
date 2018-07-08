@@ -1,3 +1,7 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Documentos Autoevaluación')
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
 @section('content')
     @component('admin.components.panel')
@@ -23,6 +27,7 @@
     @endcomponent
 @endsection
 
+{{-- Estilos necesarios para el formulario --}} 
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -40,6 +45,7 @@
     </style>
 @endpush
 
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
@@ -52,11 +58,13 @@
     <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
     <!-- Dropzone.js -->
     <script src="{{ asset('gentella/vendors/dropzone/dist/min/dropzone.min.js') }}"></script>
-    
+
 @endpush
+
+{{-- Funciones necesarias por el formulario --}} 
 @push('functions')
     <script type="text/javascript">
-     Dropzone.options.myDropzone = {
+        Dropzone.options.myDropzone = {
             url: $('#form_guardar_documento_autoevaluacion').attr('action'),
             autoProcessQueue: false,
             uploadMultiple: false,
@@ -65,28 +73,28 @@
             maxFilesize: 4,
             addRemoveLinks: true,
         }
-    $(document).ready(function () {
-        $('#factor').select2();
-        $('#caracteristica').select2();
-        $('#indicador').select2();
-        $('#dependencia').select2();
-        $('#tipo_documento').select2();
-       
-        selectDinamico("#factor", "#caracteristica", "{{url('admin/documental/documentos_autoevaluacion/caracteristicas')}}", ['#indicador']);
-        selectDinamico("#caracteristica", "#indicador", "{{url('admin/documental/indicadores_documentales')}}");
+        $(document).ready(function () {
+            $('#factor').select2();
+            $('#caracteristica').select2();
+            $('#indicador').select2();
+            $('#dependencia').select2();
+            $('#tipo_documento').select2();
 
-        var form = $('#form_guardar_documento_autoevaluacion');
-        $(form).parsley({
-            trigger: 'change',
-            successClass: "has-success",
-            errorClass: "has-error",
-            classHandler: function (el) {
-                return el.$element.closest('.form-group');
-            },
-            errorsWrapper: '<p class="help-block help-block-error"></p>',
-            errorTemplate: '<span></span>',
-        });
-        form.submit(function (e) {
+            selectDinamico("#factor", "#caracteristica", "{{url('admin/documental/documentos_autoevaluacion/caracteristicas')}}", ['#indicador']);
+            selectDinamico("#caracteristica", "#indicador", "{{url('admin/documental/indicadores_documentales')}}");
+
+            var form = $('#form_guardar_documento_autoevaluacion');
+            $(form).parsley({
+                trigger: 'change',
+                successClass: "has-success",
+                errorClass: "has-error",
+                classHandler: function (el) {
+                    return el.$element.closest('.form-group');
+                },
+                errorsWrapper: '<p class="help-block help-block-error"></p>',
+                errorTemplate: '<span></span>',
+            });
+            form.submit(function (e) {
 
                 console.log($('#myDropzone')[0].dropzone.getQueuedFiles()[0]);
                 var formData = new FormData(this);
@@ -109,7 +117,6 @@
                         $("#factor").select2({allowClear: true});
                         $("#dependencia").select2({allowClear: true});
                         $("#tipo_documento").select2({allowClear: true});
-
 
 
                         new PNotify({

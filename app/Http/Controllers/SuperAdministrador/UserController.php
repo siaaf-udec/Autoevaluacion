@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\SuperAdministrador;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DataTables;
-
-use App\Models\User;
-use Spatie\Permission\Models\Role;
-
 use App\Http\Requests\UserRequest;
 use App\Models\Estado;
-use Illuminate\Support\Facades\Gate;
+use App\Models\User;
+use DataTables;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -37,6 +34,7 @@ class UserController extends Controller
     {
         return view('autoevaluacion.SuperAdministrador.Users.index');
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -44,25 +42,22 @@ class UserController extends Controller
      */
     public function data(Request $request)
     {
-        
+
         if ($request->ajax() && $request->isMethod('GET')) {
             $users = User::with('estado', 'roles')->get();
-            //dd($users->with('profile')->get());
             return DataTables::of($users)
                 ->addColumn('estado', function ($users) {
-                    // Ensure the user has a profile. Just a check (Optional)
-                    if (! $users->estado) {
+                    if (!$users->estado) {
                         return '';
                     } elseif (!strcmp($users->estado->ESD_Nombre, 'HABILITADO')) {
-                        return "<span class='label label-sm label-success'>" . $users->estado->ESD_Nombre. "</span>";
+                        return "<span class='label label-sm label-success'>" . $users->estado->ESD_Nombre . "</span>";
                     } else {
                         return "<span class='label label-sm label-danger'>" . $users->estado->ESD_Nombre . "</span>";
                     }
                     return "<span class='label label-sm label-primary'>" . $users->estado->ESD_Nombre . "</span>";
                 })
                 ->addColumn('roles', function ($users) {
-                    // Ensure the user has a profile. Just a check (Optional)
-                    if (! $users->roles) {
+                    if (!$users->roles) {
                         return '';
                     }
                     return $users->roles->map(function ($rol) {
@@ -76,7 +71,7 @@ class UserController extends Controller
                 ->removeColumn('id_estado')
                 ->make(true);
         }
-        
+
     }
 
 
@@ -88,13 +83,14 @@ class UserController extends Controller
     public function create()
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        $roles = Role::get()->pluck('name', 'name');
+        $roles = Role::pluck('name', 'name');
         return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados', 'roles'));
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
@@ -108,15 +104,15 @@ class UserController extends Controller
         $user->assignRole($roles);
 
         return response(['msg' => 'Usuario registrado correctamente.',
-        'title' => '¡Registro exitoso!'
-    ], 200) // 200 Status Code: Standard response for successful HTTP request
-          ->header('Content-Type', 'application/json');
+            'title' => '¡Registro exitoso!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -126,26 +122,26 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        $roles = Role::get()->pluck('name', 'name');
+        $roles = Role::pluck('name', 'name');
         $user = User::findOrFail($id);
         $edit = true;
         return view(
             'autoevaluacion.SuperAdministrador.Users.edit',
             compact('user', 'estados', 'roles', 'edit')
-            );
+        );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(UserRequest $request, $id)
@@ -154,21 +150,21 @@ class UserController extends Controller
         $user->fill($request->all());
         $user->id_estado = $request->get('PK_ESD_Id');
 
-        $user->save();
+        $user->update();
 
         $roles = $request->input('roles') ? $request->input('roles') : [];
         $user->syncRoles($roles);
 
         return response(['msg' => 'El usuario ha sido modificado exitosamente.',
-                'title' => '¡Usuario Modificado!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => '¡Usuario Modificado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -176,8 +172,8 @@ class UserController extends Controller
         User::destroy($id);
 
         return response(['msg' => 'El usuario ha sido eliminado exitosamente.',
-                'title' => '¡Usuario Eliminado!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            'title' => '¡Usuario Eliminado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 }

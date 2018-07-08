@@ -1,9 +1,9 @@
 <li><a><i class="fa fa-info-circle"></i> Fuentes Primarias <span class="fa fa-chevron-down"></span></a>
 
     <ul class="nav child_menu">
-        
+
         <li><a><i class="fa fa-file"></i>Gestionar Encuestas<span class="fa fa-chevron-down"></span> </a>
-            
+
             <ul class="nav child_menu">
                 @can('ACCEDER_DATOS')
                 <li class="sub_menu"><a href="{{ route('fuentesP.datosEncuestas.index') }}"><i
@@ -25,13 +25,15 @@
         </li>
 
         @can('ACCEDER_PREGUNTAS')
-        <li><a href ="{{ route('fuentesP.preguntas.index') }}" ><i class="fa fa-question-circle"></i>Gestionar Preguntas</a>
-        </li>
+            <li><a href="{{ route('fuentesP.preguntas.index') }}"><i class="fa fa-question-circle"></i>Gestionar
+                    Preguntas</a>
+            </li>
         @endcan
 
         @can('ACCEDER_TIPO_RESPUESTAS')
-        <li><a href ="{{ route('fuentesP.tipoRespuesta.index') }}" ><i class="fa fa-pencil-square-o"></i>Gestionar Tipo de Respuestas </a>
-        </li>
+            <li><a href="{{ route('fuentesP.tipoRespuesta.index') }}"><i class="fa fa-pencil-square-o"></i>Gestionar
+                    Tipo de Respuestas </a>
+            </li>
         @endcan
 
         <li><a><i class="fa fa-spinner"></i>Informes<span class="fa fa-chevron-down"></span> </a>

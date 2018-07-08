@@ -34,12 +34,17 @@
         </section>
     </div>
 @endsection
+
+{{-- Estilos necesarios para el formulario --}} 
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
-@endpush @push('scripts')
+@endpush 
+
+{{-- Scripts necesarios para el formulario --}} 
+@push('scripts')
     <!-- PNotify -->
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
