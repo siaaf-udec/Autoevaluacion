@@ -55,7 +55,9 @@ class PreguntasController extends Controller
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
-        $tipos = TipoRespuesta::pluck('TRP_CantidadRespuestas','PK_TRP_Id');
+        $tipos = TipoRespuesta::whereHas('estado',function($query){
+            return $query->where('ESD_Valor','1');
+        })->get()->pluck('TRP_CantidadRespuestas','PK_TRP_Id');
         return view('autoevaluacion.FuentesPrimarias.Preguntas.create', compact('estados','lineamientos','tipos'));
     }
 

@@ -15,7 +15,7 @@ class CreatePreguntasTable extends Migration
     {
         Schema::create('TBL_Preguntas', function (Blueprint $table) {
             $table->increments('PK_PGT_Id');
-            $table->string("PGT_Texto", 150);
+            $table->string("PGT_Texto", 10000);
             $table->integer("FK_PGT_Estado")->unsigned();
             $table->integer("FK_PGT_TipoRespuesta")->unsigned();
             $table->integer("FK_PGT_Caracteristica")->unsigned();

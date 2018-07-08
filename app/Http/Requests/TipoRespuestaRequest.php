@@ -25,7 +25,6 @@ class TipoRespuestaRequest extends FormRequest
     {
         return [
             'TRP_TotalPonderacion' => 'required',
-            'TRP_CantidadRespuestas' => 'required',
             'TRP_Descripcion' => 'required',
             'PK_ESD_Id' => 'required|exists:tbl_estados'
         ];
@@ -38,8 +37,11 @@ class TipoRespuestaRequest extends FormRequest
     public function messages()
     {
         return [
+        'TRP_TotalPonderacion.required' => 'El total de ponderacion es requerido',
+        'TRP_Descripcion.required' => 'La descripción es requerida',    
         'PK_ESD_Id.required' => 'Debe seleccionar un estado.',
         'PK_ESD_Id.exists' => 'El estado que seleccionó no existe en nuestros registros.'
+
 
         ];
     }

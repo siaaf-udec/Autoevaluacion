@@ -16,7 +16,7 @@ class CreateRespuestasPreguntasTable extends Migration
         Schema::create('TBL_Respuestas_Preguntas', function (Blueprint $table) {
             $table->increments('PK_RPG_Id');
 
-            $table->string("RPG_Texto", 300);
+            $table->string("RPG_Texto", 10000);
             $table->integer("FK_RPG_Pregunta")->unsigned();
             $table->integer("FK_RPG_PonderacionRespuesta")->unsigned();
             $table->timestamps();

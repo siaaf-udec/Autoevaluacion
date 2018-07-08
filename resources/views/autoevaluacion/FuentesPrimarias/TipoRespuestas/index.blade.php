@@ -73,11 +73,11 @@
                 buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                 "ajax": "{{ route('fuentesP.tipoRespuesta.data') }}",
                 "columns": [
-                    {data: 'PK_TRP_Id', name: 'id', "visible": false},
-                    {data: 'TRP_TotalPonderacion', name: 'Total Ponderacion', className: "min-table-p"},
-                    {data: 'TRP_CantidadRespuestas', name: 'Cantidad Respuestas', className: "min-table-p"},
-                    {data: 'TRP_Descripcion', name: 'Descripcion', className: "desktop"},
-                    {data: 'estado.ESD_Nombre', name: 'Estado', className: "all"},
+                    {data: 'PK_TRP_Id', name: 'id', "visible":false},
+                    {data: 'TRP_TotalPonderacion', name: 'Total Ponderacion', className:"min-table-p"},
+                    {data: 'TRP_CantidadRespuestas', name: 'Cantidad Respuestas', className:"min-table-p"},
+                    {data: 'TRP_Descripcion', name: 'Descripcion', className:"desktop"},
+                    {data: 'estado', name: 'estado', className: "desktop"},
                     {
                         defaultContent: 
                         '@can('ELIMINAR_TIPO_RESPUESTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
