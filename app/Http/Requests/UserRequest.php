@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UserRequest extends FormRequest
 {
@@ -17,7 +18,9 @@ class UserRequest extends FormRequest
     {
        
         $password = 'required|min:3';
+        $estado = 'required|numeric|exists:tbl_estados';
         $id = $this->route()->parameter('usuario');
+        $roles = 'required';
         
         if ($this->method() == 'PUT') {
             $password = '';
@@ -28,8 +31,8 @@ class UserRequest extends FormRequest
             'name' => 'required|string|max:50',
             'lastname' => 'required|string|max:50',
             'cedula' => 'required|numeric|max:9999999999|' . Rule::unique('users')->ignore($id),
-            'PK_ESD_Id' => 'required|numeric|exists:tbl_estados',
-            'roles' => 'required'
+            'PK_ESD_Id' => $estado,
+            'roles' => $roles
         ];
     }
     /**

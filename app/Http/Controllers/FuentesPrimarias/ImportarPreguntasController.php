@@ -95,7 +95,7 @@ class ImportarPreguntasController extends Controller
                         $pregunta->PGT_Texto = $row['pregunta'];
                         $pregunta->FK_PGT_Estado = 1;
                         $pregunta->FK_PGT_TipoRespuesta = $tipo_respuesta[$row['tipo_respuesta']];
-                        $id = $caracteristicas->where('CRT_Identificador',  $row['numero_caracteristica'])->first();
+                        $id = $caracteristicas->where('CRT_Identificador', $row['numero_caracteristica'])->first();
                         
                         $pregunta->FK_PGT_Caracteristica = $id->PK_CRT_Id;
 

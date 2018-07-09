@@ -34,15 +34,26 @@
 <div class="item form-group">
     {!! Form::label('password','Contraseña', [ 'class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::password('password',[ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', isset($edit) ? '' : 'required' =>
-        'required' ] ) !!}
+        {!! Form::password('password',[ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12',
+         isset($edit) ? '' : 'required' =>
+        'required',
+        'id' => 'password' ] ) !!}
+    </div>
+</div>
+<div class="item form-group">
+    {!! Form::label('password_confirmation','Repetir Contraseña', [ 'class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        {!! Form::password('password_confirmation',[ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', isset($edit) ? '' : 'required' =>
+        'required' ,
+        'data-parsley-equalto'=>"#password" ,
+        'id' => 'password_confimation'] ) !!}
     </div>
 </div>
 @can('ACCEDER_USUARIOS')
 <div class="item form-group">
     {!! Form::label('estado','Estado', [ 'class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::select('PK_ESD_Id', $estados, old('PK_ESD_Id', isset($user)? $user->id_estado:''), [ 'class' => 'select2_user form-control',
+        {!! Form::select('PK_ESD_Id', isset($estados)?$estados:[], old('PK_ESD_Id', isset($user)? $user->id_estado:''), [ 'class' => 'select2_user form-control',
         'required']) !!}
     </div>
 </div>
@@ -50,7 +61,7 @@
 <div class="item form-group">
     {!! Form::label('roles', 'Roles', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::select('roles[]', $roles, 
+        {!! Form::select('roles[]', isset($roles)?$roles:[], 
         old('roles', isset($roles, $user)? $user->roles()->pluck('name', 'name') : ''), 
         ['class' => 'select2_roles form-control', 'multiple' => 'multiple', 'required'
         => '', 'id'=>'select_rol']) !!}

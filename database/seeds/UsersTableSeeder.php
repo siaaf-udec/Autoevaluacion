@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
         $user1 = User::create([
             'name' => 'Claudia',
             'lastname' => 'admin',
-            'email' => 'claudia@app.com',
+            'email' => 'claudia@ucundinamarca.edu.co',
             'password' => '123456',
             'cedula' => '123',
             'id_estado' => '1'
@@ -28,7 +28,7 @@ class UsersTableSeeder extends Seeder
         $user1 = User::create([
             'name' => 'Alejandro',
             'lastname' => '2',
-            'email' => 'alejo@app.com',
+            'email' => 'alejo@ucundinamarca.edu.co',
             'password' => '123456',
             'cedula' => '12',
             'id_estado' => '1'
@@ -38,7 +38,7 @@ class UsersTableSeeder extends Seeder
         $user1 = User::create([
             'name' => 'Liz',
             'lastname' => 'Quintero',
-            'email' => 'liz@app.com',
+            'email' => 'liz@ucundinamarca.edu.co',
             'password' => '123456',
             'cedula' => '1221',
             'id_estado' => '1'

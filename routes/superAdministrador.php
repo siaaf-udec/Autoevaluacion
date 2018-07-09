@@ -14,6 +14,9 @@ Route::resource('usuarios', 'userController', ['as' => 'admin'])->except([
     'show'
 ]);
 Route::get('usuarios/data', array('as' => 'admin.usuarios.data', 'uses' => 'userController@data'));
+Route::get('usuario/perfil',  array('as' => 'admin.usuario.perfil', 'uses' => 'userController@perfil'));
+Route::post('usuario/perfil',  array('as' => 'admin.usuario.modificar_perfil', 
+'uses' => 'userController@modificarPerfil'));
 
 //Roles
 Route::resource('roles', 'RolController', ['as' => 'admin'])->except([
@@ -81,6 +84,14 @@ Route::get('procesos_programas/{id_sede}/{id_facultad}', array(
     'as' => 'admin.procesos_programas.obtener_programas',
     'uses' => 'ProcesoProgramaController@ObtenerProgramas'
 ));
+
+//Procesos institucionales
+Route::resource('procesos_institucionales', 'ProcesoInstitucionalController', ['as' => 'admin']);
+Route::get('procesos_institucionales/data/data', array(
+    'as' => 'admin.procesos_institucionales.data',
+    'uses' => 'ProcesoInstitucionalController@data'
+));
+
 
 //Grupos de Interes
 Route::resource('grupos_interes', 'GruposInteresController', ['as' => 'admin']);

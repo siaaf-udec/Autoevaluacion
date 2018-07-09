@@ -9,6 +9,8 @@ use App\Models\User;
 use DataTables;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\PerfilUsuarioRequest;
 
 class UserController extends Controller
 {
@@ -19,7 +21,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('permission:ACCEDER_USUARIOS');
+        $this->middleware('permission:ACCEDER_USUARIOS', ['except' => ['perfil', 'modificarPerfil']]);
         $this->middleware(['permission:MODIFICAR_USUARIOS', 'permission:VER_USUARIOS'], ['only' => ['edit', 'update']]);
         $this->middleware('permission:CREAR_USUARIOS', ['only' => ['create', 'store']]);
         $this->middleware('permission:ELIMINAR_USUARIOS', ['only' => ['destroy']]);
@@ -44,7 +46,8 @@ class UserController extends Controller
     {
 
         if ($request->ajax() && $request->isMethod('GET')) {
-            $users = User::with('estado', 'roles')->get();
+            $users = User::with('estado', 'roles')
+            ->where('id','!=',Auth::id())->get();
             return DataTables::of($users)
                 ->addColumn('estado', function ($users) {
                     if (!$users->estado) {
@@ -147,7 +150,12 @@ class UserController extends Controller
     public function update(UserRequest $request, $id)
     {
         $user = User::find($id);
-        $user->fill($request->all());
+        $user->fill($request->except('password'));
+
+        if ($request->get('password')) {
+            $user->password = $request->get('password');
+        }
+
         $user->id_estado = $request->get('PK_ESD_Id');
 
         $user->update();
@@ -171,9 +179,47 @@ class UserController extends Controller
     {
         User::destroy($id);
 
-        return response(['msg' => 'El usuario ha sido eliminado exitosamente.',
+        return response(['msg' => 'El usuario se ha sido eliminado exitosamente.',
             'title' => '¡Usuario Eliminado!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
+    }
+
+    public function perfil(){
+        $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+        $roles = Role::pluck('name', 'name');
+        $user = User::findOrFail(Auth::id());
+        $edit = true;
+        return view(
+            'autoevaluacion.SuperAdministrador.Users.perfil',
+            compact('user', 'estados', 'roles', 'edit')
+        );
+    }
+
+    public function modificarPerfil(PerfilUsuarioRequest $request)
+    {
+        $user = User::find(Auth::id());
+        $user->fill($request->except('password'));
+
+        if($request->get('password')){
+            $user->password = $request->get('password');
+        }
+
+        if($request->get('PK_ESD_Id')){
+            $user->id_estado = $request->get('PK_ESD_Id')?$request->get('PK_ESD_Id'):null;
+        }
+        $user->update();
+
+        if($request->input('roles')){
+            $roles = $request->input('roles') ? $request->input('roles') : [];
+            $user->syncRoles($roles);
+        }
+
+        return response(['msg' => 'El usuario se ha sido modificado exitosamente.',
+            'title' => '¡Usuario Modificado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
+
+        
     }
 }
