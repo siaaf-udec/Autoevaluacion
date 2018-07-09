@@ -57,9 +57,6 @@ class ProcesoProgramaController extends Controller
             $procesos_programas = Proceso::with(['fase' => function ($query) {
                 return $query->select('PK_FSS_Id', 'FSS_Nombre');
             }])
-                ->with(['lineamiento' => function ($query) {
-                    return $query->select('PK_LNM_Id', 'LNM_Nombre');
-                }])
                 ->with('programa.sede')
                 ->with('programa.facultad')
                 ->where('PCS_Institucional', '=', '0')

@@ -36,6 +36,12 @@
                     Académicos</a>
             </li>
         @endcan
+        @can('ACCEDER_PROCESOS_INSTITUCIONALES')
+        <li>
+            <a href="{{ route('admin.procesos_institucionales.index')}}"><i class="fa fa-university"></i> Procesos
+                            institucionales</a>
+        </li>
+        @endcan
         @can('ACCEDER_PROCESOS_PROGRAMAS')
             <li>
                 <a href="{{ route('admin.procesos_programas.index')}}"><i class="fa fa-university"></i> Procesos
