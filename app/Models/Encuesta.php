@@ -42,8 +42,5 @@ class Encuesta extends Model
         return $this->belongsTo(Estado::class, 'FK_ECT_Estado', 'PK_ESD_Id');
     }
 
-    public function proceso()
-    {
-        return $this->hasOne(Proceso::class,'PK_PCS_Id','FK_ECT_Proceso');
-    }
+    
 }

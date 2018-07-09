@@ -6,7 +6,7 @@
 
 @section('content')
     @component('admin.components.panel')
-        @slot('title', 'Datos Especificos Encuestas')
+        @slot('title', 'Construcción de Encuestas')
         @can('CREAR_ENCUESTAS')
             <div class="col-md-12">
                 <div class="actions">
@@ -82,7 +82,7 @@
                     {data: 'estado', name: 'Estado', className: "min-phone-l"}, 
                     {data: 'PCS_Nombre', name: 'Proceso', className: "min-tablet-l"},
                     {data: 'programa.PAC_Nombre', name: 'Programa', className: "min-tablet-l"},
-                    {data: 'programa.sede.SDS_Nombre', name: 'Sede', className: "min-tablet-l"},  
+                    {data: 'programa.sede.SDS_Nombre', name: 'Sede', className: "min-tablet-l"},
                     
                     {
                         defaultContent:

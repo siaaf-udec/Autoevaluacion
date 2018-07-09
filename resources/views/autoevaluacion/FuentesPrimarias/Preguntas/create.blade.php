@@ -70,12 +70,14 @@
                 }
                 for (i=1;i<=number;i++){
                 container.appendChild(document.createTextNode("Respuesta " + (i)));container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
+                container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
                 var input = document.createElement("TEXTAREA");
                 input.name = "Respuesta_" + i;
                 input.maxLength = 10000;
                 input.required = true;
-                container.appendChild(input);container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
+                container.appendChild(input);container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
                 container.appendChild(document.createTextNode("Ponderacion"));container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
+                container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
                 var selectList = document.createElement("select");
                 selectList.name = "Ponderacion_" + i;
                 var nombre = "Ponderacion_" + i;

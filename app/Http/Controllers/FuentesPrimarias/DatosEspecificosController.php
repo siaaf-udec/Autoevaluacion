@@ -41,7 +41,10 @@ class DatosEspecificosController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $encuesta = Auth::user()->procesos()->with('programa.sede','encuestas.estado')->get();
+            $encuesta = Auth::user()->procesos()
+            ->with('programa.sede','encuestas.estado')
+            ->whereHas('encuestas.estado')
+            ->get();
             return Datatables::of($encuesta)
             ->editColumn('encuestas.ECT_FechaPublicacion', function ($encuestas) {
                 return $encuestas->encuestas->ECT_FechaPublicacion ? with(new Carbon($encuestas->encuestas->ECT_FechaPublicacion))->format('d/m/Y') : '';
@@ -70,13 +73,11 @@ class DatosEspecificosController extends Controller
         );
 
     }
-
     public function create()
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         return view('autoevaluacion.FuentesPrimarias.DatosEspecificos.create', compact('estados'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -85,45 +86,18 @@ class DatosEspecificosController extends Controller
      */
     public function store(EncuestaRequest $request)
     {
-        $id_proceso = $request->PK_PCS_Id;
-        if ( !empty($id_proceso ) ) {
-            $proceso = Proceso::with('fase')->
-            where('PK_PCS_Id','=',$id_proceso)->first();
-            if($proceso->fase->FSS_Nombre != "construccion")
-            {
-            return response([
-                'errors' => ['El proceso seleccionado no se encuentra en fase de construccion'],
-                'title' => '¡Error!'
-            ], 422) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
-            }     
-        }
-        else{ 
-            $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaPublicacion'));
-            $fechaFin = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaFinalizacion'));
-            if ($fechaInicio < $fechaFin) {
-                $encuesta = new Encuesta();
-                $encuesta->ECT_FechaPublicacion = $fechaInicio;
-                $encuesta->ECT_FechaFinalizacion = $fechaFin;
-                $encuesta->FK_ECT_Estado = $request->get('PK_ESD_Id');
-                $encuesta->FK_ECT_Proceso = $request->get('PK_PCS_Id');
-                $encuesta->save();
-                return response([
-                'msg' => 'Datos especificos resgistrados correctamente.',
-                'title' => '¡Registro exitoso!'
-                ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
-            }
-            else{
-                return response([
-                    'errors' => ['La fecha de publicacion tiene que ser menor que la fecha de finalizacion.'],
-                    'title' => '¡Error!'
-                ], 422) // 200 Status Code: Standard response for successful HTTP request
-                    ->header('Content-Type', 'application/json');
-                } 
-            }
+        $encuesta = new Encuesta();
+        $encuesta->ECT_FechaPublicacion = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaPublicacion'));;
+        $encuesta->ECT_FechaFinalizacion = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaFinalizacion'));
+        $encuesta->FK_ECT_Estado = $request->get('PK_ESD_Id');
+        $encuesta->FK_ECT_Proceso = $request->get('PK_PCS_Id');
+        $encuesta->save();
+        return response([
+            'msg' => 'Datos especificos resgistrados correctamente.',
+            'title' => '¡Registro exitoso!'
+            ], 200) // 200 Status Code: Standard response for successful HTTP request
+            ->header('Content-Type', 'application/json');
     }
-
     /**
      * Display the specified resource.
      *
@@ -133,7 +107,6 @@ class DatosEspecificosController extends Controller
     public function show($id)
     {
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -149,7 +122,6 @@ class DatosEspecificosController extends Controller
              compact('encuesta', 'estados')
              );
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -159,45 +131,18 @@ class DatosEspecificosController extends Controller
      */
     public function update(EncuestaRequest $request, $id)
     {
-        $id_proceso = $request->PK_PCS_Id;
-        if ( !empty($id_proceso ) ) {
-            $proceso = Proceso::with('fase')->
-            where('PK_PCS_Id','=',$id_proceso)->first();
-            if($proceso->fase->FSS_Nombre != "construccion")
-            {
-            return response([
-                'errors' => ['El proceso seleccionado no se encuentra en fase de construccion'],
-                'title' => '¡Error!'
-            ], 422) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
-            }     
-        }
-        $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaPublicacion'));
-        $fechaFin = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaFinalizacion'));
-        
-        if ($fechaInicio < $fechaFin) {
-            $encuesta = Encuesta::find($id);
-            $encuesta->ECT_FechaPublicacion = $fechaInicio;
-            $encuesta->ECT_FechaFinalizacion = $fechaFin;
-            $encuesta->FK_ECT_Estado = $request->get('PK_ESD_Id');
-            $encuesta->FK_ECT_Proceso = $request->get('PK_PCS_Id');
-            $encuesta->update();
-        
+        $encuesta = Encuesta::find($id);
+        $encuesta->ECT_FechaPublicacion = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaPublicacion'));;
+        $encuesta->ECT_FechaFinalizacion = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaFinalizacion'));
+        $encuesta->FK_ECT_Estado = $request->get('PK_ESD_Id');
+        $encuesta->FK_ECT_Proceso = $request->get('PK_PCS_Id');
+        $encuesta->update();
             return response([
                 'msg' => 'Datos especificos resgistrados correctamente.',
                 'title' => '¡Registro exitoso!'
                 ], 200) // 200 Status Code: Standard response for successful HTTP request
                     ->header('Content-Type', 'application/json');
-        }
-        else{
-            return response([
-                'errors' => ['La fecha de publicacion tiene que ser menor que la fecha de finalizacion'],
-                'title' => '¡Error!'
-            ], 422) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
-        }
     }
-
     /**
      * Remove the specified resource from storage.
      *
