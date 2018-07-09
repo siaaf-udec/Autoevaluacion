@@ -36,9 +36,5 @@ Route::get('preguntas/data/data', array('as' => 'fuentesP.preguntas.data', 'uses
 //Importar preguntas
 Route::resource('Importarpreguntas', 'ImportarPreguntasController', ['as' => 'fuentesP']);
 
-//respuestas
-Route::get('respuestas/{id}', array('as' => 'fuentesP.respuestas.datos', 'uses' => 'RespuestasController@create'));
-Route::get('respuestas/data/data', array('as' => 'fuentesP.respuestas.data', 'uses' => 'RespuestasController@data'));
-
 //importar encuestas
 Route::resource('importarEncuestas', 'ImportarEncuestasController', ['as' => 'fuentesP']);

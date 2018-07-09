@@ -8,11 +8,11 @@ use App\Models\Caracteristica;
 use App\Models\Factor;
 use App\Models\PonderacionRespuesta;
 use App\Models\Pregunta;
+use App\Models\Proceso;
 use App\Models\RespuestaPregunta;
 use App\Models\TipoRespuesta;
 use Excel;
 use Illuminate\Http\Request;
-use App\Models\Proceso;
 
 class ImportarPreguntasController extends Controller
 {
@@ -47,7 +47,7 @@ class ImportarPreguntasController extends Controller
         $archivo = $request->file('archivo');
         $results = "";
         if ($archivo) {
-            //try{
+            try{
             Excel::selectSheets('TIPO', 'PONDERACION', 'PREGUNTA', 'RESPUESTA')->load($archivo->getRealPath(), function ($reader) {
                 $sheets = $reader->all()->toArray();
 
@@ -81,11 +81,9 @@ class ImportarPreguntasController extends Controller
                 ->where('PK_PCS_Id', '=', session()
                 ->get('id_proceso'))
                 ->first();
-
-                $caracteristicas = Caracteristica::with(['factor' => function ($query) use($lineamiento) {
-                return $query
-                ->where('FK_FCT_Lineamiento',$lineamiento->FK_PCS_Lineamiento);
-                }])
+                $caracteristicas = Caracteristica::whereHas('factor',function($query) use($lineamiento){
+                    return $query->where('FK_FCT_Lineamiento',$lineamiento->FK_PCS_Lineamiento);
+                })
                 ->select('PK_CRT_Id', 'CRT_Identificador')
                 ->get();
 
@@ -115,13 +113,13 @@ class ImportarPreguntasController extends Controller
                     }
                 }
             });
-            //}
-            /*catch (\Exception $e) {
+            }
+            catch (\Exception $e) {
                 return response(['errors' => [$e],
                     'title' => '¡Error!'
                 ], 422) // 200 Status Code: Standard response for successful HTTP request
                     ->header('Content-Type', 'application/json');
-            }*/
+            }
         }
 
 

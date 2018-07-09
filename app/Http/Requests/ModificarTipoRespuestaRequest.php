@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\PonderacionRespuesta;
 
-class TipoRespuestaRequest extends FormRequest
+class ModificarTipoRespuestaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -41,18 +42,16 @@ class TipoRespuestaRequest extends FormRequest
         'TRP_Descripcion.required' => 'La descripción es requerida',    
         'PK_ESD_Id.required' => 'Debe seleccionar un estado.',
         'PK_ESD_Id.exists' => 'El estado que seleccionó no existe en nuestros registros.'
-
-
         ];
     }
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
+            $id = $this->route()->parameter('tipoRespuestum');
             $sumatoria = 0;
-            for($i=1; $i<=$this->request->get('TRP_CantidadRespuestas');$i++)
+            foreach(PonderacionRespuesta::where('FK_PRT_TipoRespuestas',$id)->get() as $ponderacion)
             {
-                
-                $sumatoria = $sumatoria + $this->request->get('Ponderacion_'.$i);
+                $sumatoria = $sumatoria + $this->request->get($ponderacion->PK_PRT_Id);
             }
             if ($sumatoria != $this->request->get('TRP_TotalPonderacion')) {
                 $validator->errors()->add('Seleccione un proceso', 'La suma de ponderaciones no corresponde con el total de ponderacion digitado!');
@@ -60,3 +59,4 @@ class TipoRespuestaRequest extends FormRequest
         });
     }
 }
+

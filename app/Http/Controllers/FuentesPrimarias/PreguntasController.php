@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\FuentesPrimarias;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PreguntasRequest;
+use App\Http\Requests\ModificarPreguntasRequest;
+use Illuminate\Http\Request;
+use App\Models\PonderacionRespuesta;
 use App\Models\Caracteristica;
 use App\Models\Estado;
 use App\Models\Factor;
@@ -11,8 +15,6 @@ use App\Models\Pregunta;
 use App\Models\RespuestaPregunta;
 use App\Models\TipoRespuesta;
 use DataTables;
-use App\Http\Requests\PreguntasRequest;
-use Illuminate\Http\Request;
 
 class PreguntasController extends Controller
 {
@@ -28,17 +30,14 @@ class PreguntasController extends Controller
         $this->middleware('permission:CREAR_PREGUNTAS', ['only' => ['create', 'store']]);
         $this->middleware('permission:ELIMINAR_PREGUNTAS', ['only' => ['destroy']]);
     }
-
     public function index()
     {
         return view('autoevaluacion.FuentesPrimarias.Preguntas.index');
-
     }
-
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $preguntas = Pregunta::with('estado', 'tipo', 'caracteristica')->get();
+            $preguntas = Pregunta::with('estado', 'tipo', 'caracteristica','caracteristica.factor.lineamiento')->get();
             return DataTables::of($preguntas)
             ->addColumn('estado', function ($preguntas) {
                 if (!$preguntas->estado) {
@@ -56,7 +55,6 @@ class PreguntasController extends Controller
                 ->make(true);
         }
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -68,10 +66,10 @@ class PreguntasController extends Controller
         $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
         $tipos = TipoRespuesta::whereHas('estado',function($query){
             return $query->where('ESD_Valor','1');
-        })->get()->pluck('TRP_CantidadRespuestas','PK_TRP_Id');
+        })->get()
+        ->pluck('TRP_CantidadRespuestas','PK_TRP_Id');
         return view('autoevaluacion.FuentesPrimarias.Preguntas.create', compact('estados','lineamientos','tipos'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -86,17 +84,16 @@ class PreguntasController extends Controller
         $pregunta->FK_PGT_TipoRespuesta = $request->get('PK_TRP_Id');
         $pregunta->FK_PGT_Caracteristica = $request->get('PK_CRT_Id');
         $pregunta->save();
-        $insertedId = $pregunta->PK_PGT_Id;
-        $tipos = TipoRespuesta::select('TRP_CantidadRespuestas')->where('PK_TRP_Id', $request->get('PK_TRP_Id'))->first();
-        $cantidad = $tipos->TRP_CantidadRespuestas;
-        for ($i = 1; $i <= $cantidad; $i++) {
+        $tipos = TipoRespuesta::select('TRP_CantidadRespuestas')
+        ->where('PK_TRP_Id', $request->get('PK_TRP_Id'))
+        ->first();
+        for ($i = 1; $i <= $tipos->TRP_CantidadRespuestas; $i++) {
             $respuestas = new RespuestaPregunta();
             $respuestas->RPG_Texto = $request->get('Respuesta_' . $i);
-            $respuestas->FK_RPG_Pregunta = $insertedId;
+            $respuestas->FK_RPG_Pregunta = $pregunta->PK_PGT_Id;
             $respuestas->FK_RPG_PonderacionRespuesta = $request->get('Ponderacion_'.$i);
             $respuestas->save();
         }
-
         return response(['msg' => 'Pregunta registrada correctamente.',
         'title' => '¡Registro exitoso!'
     ], 200) // 200 Status Code: Standard response for successful HTTP request
@@ -114,7 +111,6 @@ class PreguntasController extends Controller
         $pregunta = Pregunta::where('FK_PGT_Caracteristica',$id)->pluck('PGT_Texto','PK_PGT_Id');
         return json_encode($pregunta);
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -124,10 +120,11 @@ class PreguntasController extends Controller
     public function edit($id)
     {
         $pregunta = Pregunta::findOrFail($id);
-
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         $lineamientos =  Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
         $respuestas = RespuestaPregunta::where('FK_RPG_Pregunta', $id)->get();
+        $ponderaciones = PonderacionRespuesta::where('FK_PRT_TipoRespuestas',$pregunta->FK_PGT_TipoRespuesta)->get()
+        ->pluck('PRT_Ponderacion','PK_PRT_Id');
         $factor = new Factor();
         $id_factor = $pregunta->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
         $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
@@ -135,10 +132,9 @@ class PreguntasController extends Controller
         $id_caracteristica = $pregunta->caracteristica->factor()->pluck('PK_FCT_Id')[0];
         $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('CRT_Nombre', 'PK_CRT_Id');
         return view('autoevaluacion.FuentesPrimarias.Preguntas.edit',
-            compact('pregunta', 'estados', 'factores', 'caracteristicas','respuestas','lineamientos')
+            compact('pregunta', 'estados', 'factores', 'caracteristicas','respuestas','lineamientos','ponderaciones')
             );
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -146,20 +142,19 @@ class PreguntasController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(ModificarPreguntasRequest $request, $id)
+    { 
         $pregunta = Pregunta::find($id);
         $pregunta->fill($request->only(['PGT_Texto']));
         $pregunta->FK_PGT_Estado = $request->get('PK_ESD_Id');
         $pregunta->FK_PGT_Caracteristica = $request->get('PK_CRT_Id');
         $pregunta->update();
-        
         $respuestas = RespuestaPregunta::where('FK_RPG_Pregunta', $id)->get();
-        foreach ($respuestas as $respuesta) {
+        foreach ($respuestas as $index => $respuesta) {
             $rpta = RespuestaPregunta::find($respuesta->PK_RPG_Id);
             $rpta->RPG_Texto = $request->get($respuesta->PK_RPG_Id);
             $rpta->FK_RPG_Pregunta = $id;
-            $rpta->FK_RPG_PonderacionRespuesta = $respuesta->FK_RPG_PonderacionRespuesta;
+            $rpta->FK_RPG_PonderacionRespuesta = $request->ponderaciones[$index];
             $rpta->update();
         }
 
@@ -168,7 +163,6 @@ class PreguntasController extends Controller
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -178,21 +172,9 @@ class PreguntasController extends Controller
     public function destroy($id)
     {
         Pregunta::destroy($id);
-
         return response(['msg' => 'La pregunta ha sido eliminada exitosamente.',
             'title' => '¡Pregunta Eliminada!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function caracteristicas($id)
-    {
-        $caracteristicas = Caracteristica::where('FK_CRT_Factor', $id)->pluck('CRT_Nombre', 'PK_CRT_Id');
-        return json_encode($caracteristicas);
-    }
-    
 }

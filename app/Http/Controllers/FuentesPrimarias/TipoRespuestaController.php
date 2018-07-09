@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\FuentesPrimarias;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Http\Requests\TipoRespuestaRequest;
+use App\Http\Requests\ModificarTipoRespuestaRequest;
 use App\Models\Estado;
 use App\Models\PonderacionRespuesta;
 use App\Models\TipoRespuesta;
 use DataTables;
-use Illuminate\Http\Request;
-use App\Http\Requests\TipoRespuestaRequest;
-
 class TipoRespuestaController extends Controller
 {
     /**
@@ -37,7 +37,8 @@ class TipoRespuestaController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $tipoRespuestas = TipoRespuesta::with('estado')->get();
+            $tipoRespuestas = TipoRespuesta::with('estado')
+            ->get();
             return Datatables::of($tipoRespuestas)
             ->addColumn('estado', function ($tipoRespuestas) {
                 if (!$tipoRespuestas->estado) {
@@ -67,37 +68,22 @@ class TipoRespuestaController extends Controller
      */
     public function store(TipoRespuestaRequest $request)
     {
-        $sumatoria = 0;
+        $tipoRespuestas = new TipoRespuesta();
+        $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_CantidadRespuestas','TRP_Descripcion']));
+        $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
+        $tipoRespuestas->save();
         for($i=1;$i<=$request->TRP_CantidadRespuestas;$i++)
         {
-            $sumatoria = $sumatoria + $request->get('Ponderacion_'.$i);
+            $ponderacion = new PonderacionRespuesta();
+            $ponderacion->PRT_Ponderacion = $request->get('Ponderacion_'.$i);
+            $ponderacion->FK_PRT_TipoRespuestas = $tipoRespuestas->PK_TRP_Id;
+            $ponderacion->save();
         }
-        if($sumatoria != $request->TRP_TotalPonderacion)
-        {
-            return response([
-                'errors' => ['La suma de ponderaciones no corresponde con el total de ponderacion digitado'],
-                'title' => '¡Error!'
-            ], 422) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');  
-        }
-        else{
-            $tipoRespuestas = new TipoRespuesta();
-            $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_CantidadRespuestas','TRP_Descripcion']));
-            $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
-            $tipoRespuestas->save();
-            for($i=1;$i<=$request->TRP_CantidadRespuestas;$i++)
-            {
-                $ponderacion = new PonderacionRespuesta();
-                $ponderacion->PRT_Ponderacion = $request->get('Ponderacion_'.$i);
-                $ponderacion->FK_PRT_TipoRespuestas = $tipoRespuestas->PK_TRP_Id;
-                $ponderacion->save();
-            }
-            return response([
-                'msg' => 'Tipo de respuesta registrada correctamente.',
-                'title' => '¡Registro exitoso!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
-        }
+        return response([
+            'msg' => 'Tipo de respuesta registrada correctamente.',
+            'title' => '¡Registro exitoso!'
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
     /**
      * Display the specified resource.
@@ -119,7 +105,8 @@ class TipoRespuestaController extends Controller
     {
         $respuesta = TipoRespuesta::findOrFail($id);
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        $ponderaciones = PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)->get();
+        $ponderaciones = PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)
+        ->get();
         return view('autoevaluacion.FuentesPrimarias.TipoRespuestas.edit',
             compact('respuesta', 'estados', 'ponderaciones')
         );
@@ -131,41 +118,26 @@ class TipoRespuestaController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TipoRespuestaRequest $request, $id)
+    public function update(ModificarTipoRespuestaRequest $request, $id)
     {
-        $sumatoria = 0;
+        $tipoRespuestas = TipoRespuesta::findOrFail($id);
+        $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion','TRP_Descripcion']));
+        $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
+        $tipoRespuestas->update();
         foreach(PonderacionRespuesta::where('FK_PRT_TipoRespuestas',$id)->get() as $ponderacion)
         {
-            $sumatoria = $sumatoria + $request->get($ponderacion->PK_PRT_Id);
+            $ponderacionRpt = PonderacionRespuesta::find($ponderacion->PK_PRT_Id);
+            $ponderacionRpt->PRT_Ponderacion = $request->get($ponderacion->PK_PRT_Id);
+            $ponderacionRpt->FK_PRT_TipoRespuestas = $id;
+            $ponderacionRpt->save(); 
         }
-        if($sumatoria != $request->TRP_TotalPonderacion )
-        {
-            return response([
-                'errors' => ['La suma de ponderaciones no corresponde con el total de ponderacion digitado'],
-                'title' => '¡Error!'
-            ], 422) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');  
-        }
-        else
-        {
-            $tipoRespuestas = TipoRespuesta::findOrFail($id);
-            $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion','TRP_Descripcion']));
-            $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
-            $tipoRespuestas->update();
-            foreach(PonderacionRespuesta::where('FK_PRT_TipoRespuestas',$id)->get() as $ponderacion){
-                $ponderacionRpt = PonderacionRespuesta::find($ponderacion->PK_PRT_Id);
-                $ponderacionRpt->PRT_Ponderacion = $request->get($ponderacion->PK_PRT_Id);
-                $ponderacionRpt->FK_PRT_TipoRespuestas = $id;
-                $ponderacionRpt->save(); 
-            }
-            return response([
-                'msg' => 'El tipo de respuesta ha sido modificado exitosamente.',
-                'title' => 'Tipo de respuesta Modificado!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
-        }
+        return response([
+            'msg' => 'El tipo de respuesta ha sido modificado exitosamente.',
+            'title' => 'Tipo de respuesta Modificado!'
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
+    
     }
-
     /**
      * Remove the specified resource from storage.
      *

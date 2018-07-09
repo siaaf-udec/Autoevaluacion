@@ -19,7 +19,7 @@
 @can('VER_PREGUNTAS')
     <div class="col-md-12">
         @component('admin.components.datatable', ['id' => 'preguntas_table_ajax']) @slot('columns', [
-        'id', 'Pregunta', 'Estado', 'Tipo Respuesta','Caracteristica',
+        'id', 'Pregunta', 'Estado', 'Tipo Respuesta','Caracteristica','Lineamiento',
     'Acciones' => ['style' => 'width:85px;']]) @endcomponent
     </div>
     @endcomponent
@@ -78,11 +78,11 @@
                     {data: 'estado', name: 'estado', className: "min-phone-l"},
                     {data: 'tipo.TRP_Descripcion', name: 'Descripcion', className: "min-tablet"},
                     {data: 'caracteristica.CRT_Nombre', name: 'Caracteristica', className: "desktop"},
+                    {data: 'caracteristica.factor.lineamiento.LNM_Nombre', name: 'Lineamiento', className: "desktop"},
                     {
                         defaultContent:
                             '@can('ELIMINAR_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
-                            '@can('MODIFICAR_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan' +
-                            '<a href="javascript:;" class="btn btn-simple btn-success btn-sm ver" data-toggle="confirmation"><i class="fa fa-eye"></i></a>',
+                            '@can('MODIFICAR_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
                         data: 'action',
                         name: 'action',
                         title: 'Acciones',
@@ -118,6 +118,24 @@
                         "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
                         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                     }
+                },
+                initComplete: function () {
+                    this.api().columns([5]).every(function () {
+                        var column = this;
+                        var select = $('<select style="width: 100px;"><option value=""></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>');
+                        });
+                    });
                 }
             });
 
@@ -137,16 +155,6 @@
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
                 var route = '{{ url('admin/fuentesPrimarias/preguntas/') }}' + '/' + dataTable.PK_PGT_Id + '/edit';
-                window.location.replace(route);
-
-
-            });
-
-            table.on('click', '.ver', function (e) {
-                e.preventDefault();
-                $tr = $(this).closest('tr');
-                var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/fuentesPrimarias/respuestas/') }}' + '/' + dataTable.PK_PGT_Id;
                 window.location.replace(route);
             });
 
