@@ -46,6 +46,20 @@ class DatosEspecificosController extends Controller
             ->whereHas('encuestas.estado')
             ->get();
             return Datatables::of($encuesta)
+            ->addColumn('programa', function ($encuesta) {
+                if ($encuesta->programa) {
+                    return $encuesta->programa->PAC_Nombre;
+                } else {
+                    return "Ningún Programa seleccionado";
+                }
+            })
+            ->addColumn('sede', function ($encuesta) {
+                if ($encuesta->programa->sede) {
+                    return $encuesta->programa->sede->SDS_Nombre;
+                } else {
+                    return "Ninguna sede seleccionada";
+                }
+            })
             ->editColumn('encuestas.ECT_FechaPublicacion', function ($encuestas) {
                 return $encuestas->encuestas->ECT_FechaPublicacion ? with(new Carbon($encuestas->encuestas->ECT_FechaPublicacion))->format('d/m/Y') : '';
             })

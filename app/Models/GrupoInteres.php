@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\DatosEncuesta;
+use App\Models\PreguntaEncuesta;
 
 class GrupoInteres extends Model
 {

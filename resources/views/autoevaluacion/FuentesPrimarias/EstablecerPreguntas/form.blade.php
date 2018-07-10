@@ -31,12 +31,12 @@
 </div>
 
 <div class="item form-group">
-{!! Form::label('PK_GIT_Id', 'Grupos de Interes', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
-<div class="col-md-6 col-sm-6 col-xs-12">
-        @foreach($grupos as $grupo)
-        {!! Form::checkbox('gruposInteres[]',$grupo->PK_GIT_Id, null )!!}{{$grupo->GIT_Nombre}}<br>
-@endforeach
-</div>
+    {!! Form::label('gruposInteres', 'Grupos de Interes', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        {!! Form::select('gruposInteres[]', $grupos, old('grupos', isset($preguntas, $permisos)? $preguntas->grupos()->pluck('GIT_Nombre', 'PK_GIT_Id') : ''), ['class'
+        => 'select2_grupos form-control', 'multiple' => 'multiple', 'required' => '',
+        'id' => 'grupoInteres']) !!}
+    </div>
 </div>
 
 <div class="form-group">

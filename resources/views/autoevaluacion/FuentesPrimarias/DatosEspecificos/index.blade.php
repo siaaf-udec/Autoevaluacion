@@ -81,8 +81,8 @@
                     {data: 'encuestas.ECT_FechaFinalizacion', name: 'Fecha Finalizacion', className: "desktop"},
                     {data: 'estado', name: 'Estado', className: "min-phone-l"}, 
                     {data: 'PCS_Nombre', name: 'Proceso', className: "min-tablet-l"},
-                    {data: 'programa.PAC_Nombre', name: 'Programa', className: "min-tablet-l"},
-                    {data: 'programa.sede.SDS_Nombre', name: 'Sede', className: "min-tablet-l"},
+                    {data: 'programa', name: 'Programa', className: "min-tablet-l"},
+                    {data: 'sede', name: 'Sede', className: "min-tablet-l"},
                     
                     {
                         defaultContent:

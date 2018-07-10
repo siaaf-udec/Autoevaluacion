@@ -1,11 +1,17 @@
+{{-- Titulo de la pagina --}}
+@section('title', 'Modificar Pregunta de Encuesta')
+
+
+{{-- Contenido principal --}}
 @extends('admin.layouts.app')
+
 @section('content')
     @component('admin.components.panel')
-        @slot('title', 'Agregar Preguntas')
-        {!! Form::open([
-            'route' => 'fuentesP.establecerPreguntas.store',
-            'method' => 'POST',
-            'id' => 'form_agregar_preguntas',
+        @slot('title', 'Modificar Pregunta')
+        {!! Form::model($user, [
+            'route' => ['fuentesP.establecerPreguntas.update', $pregunta],
+            'method' => 'PUT',
+            'id' => 'form_modificar_pregunta_encuesta',
             'class' => 'form-horizontal form-label-lef',
             'novalidate'
         ])!!}
@@ -13,25 +19,27 @@
         <div class="ln_solid"></div>
         <div class="form-group">
             <div class="col-md-6 col-md-offset-3">
-                {{ link_to_route('fuentesP.establecerPreguntas.datos',"Cancelar", [Session::get('id_encuesta')], ['class' => 'btn btn-info']) }}
-                {!! Form::submit('Agregar Pregunta', ['class' => 'btn btn-success']) !!}
+
+                {{ link_to_route('fuentesP.establecerPreguntas.datos',"Cancelar", [Session::get('id_encuesta')], ['class' => 'btn btn-info'])  }}
+                {!! Form::submit('Modificar Pregunta', ['class' => 'btn btn-success']) !!}
             </div>
         </div>
         {!! Form::close() !!}
     @endcomponent
 @endsection
 
+{{-- Estilos necesarios para el formulario --}} 
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
-
+    <!-- Select2 -->
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @endpush
 
+{{-- Scripts necesarios para el formulario --}} 
 @push('scripts')
-    <script src="{{ asset('js/admin.js') }}"></script>
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
     <script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
@@ -42,6 +50,7 @@
     <!-- Select2 -->
     <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
 @endpush
+{{-- Funciones necesarias por el formulario --}} 
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
@@ -51,7 +60,7 @@
             $('#grupoInteres').select2();
             selectDinamico("#factor", "#caracteristica", "{{url('admin/caracteristicas')}}");
             selectDinamico("#caracteristica", "#preguntas", "{{url('admin/fuentesPrimarias/preguntas')}}");
-            var form = $('#form_agregar_preguntas');
+            var form = $('#form_modificar_pregunta_encuesta');
             $(form).parsley({
                 trigger: 'change',
                 successClass: "has-success",
@@ -62,6 +71,7 @@
                 errorsWrapper: '<p class="help-block help-block-error"></p>',
                 errorTemplate: '<span></span>',
             });
+
             form.submit(function (e) {
 
                 e.preventDefault();
@@ -70,26 +80,13 @@
                     type: form.attr('method'),
                     data: form.serialize(),
                     dataType: 'json',
+                    Accept: 'application/json',
                     success: function (response, NULL, jqXHR) {
-                        $(form)[0].reset();
-                        $(form).parsley().reset();
-                        $("#caracteristica").html('').select2();
-                        $("#factor").select2('data', {}); // clear out values selected 
-                        $("#factor").select2({allowClear: true});
-                        $("#grupoInteres").select2('data', {}); // clear out values selected 
-                        $("#grupoInteres").select2({allowClear: true});
-                        $('#caracteristica').prop('disabled', true);
-                        $("#preguntas").html('').select2();
-                        $('#preguntas').prop('disabled', true);
-                        new PNotify({
-                            title: response.title,
-                            text: response.msg,
-                            type: 'success',
-                            styling: 'bootstrap3'
-                        });
+                        sessionStorage.setItem('update', 'La pregunta ha sido modificada exitosamente.');
+                        window.location.replace(" {{ route('fuentesP.establecerPreguntas.datos' + Session::get('id_encuesta'))}} ");
                     },
                     error: function (data) {
-
+                        console.log(data);
                         var errores = data.responseJSON.errors;
                         var msg = '';
                         $.each(errores, function (name, val) {
@@ -105,6 +102,7 @@
                 });
             });
         });
+
     </script>
 
 @endpush

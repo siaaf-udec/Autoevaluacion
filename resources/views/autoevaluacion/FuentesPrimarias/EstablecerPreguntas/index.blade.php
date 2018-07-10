@@ -75,13 +75,14 @@
                 "columns": [
                     {data: 'PK_PEN_Id', name: 'id', "visible": false},
                     {data: 'preguntas.PGT_Texto', name: 'Pregunta', className: "all"},
-                    {data: 'preguntas.estado.ESD_Nombre', name: 'Estado', className: "all"},
+                    {data: 'estado', name: 'estado', className: "all"},
                     {data: 'preguntas.tipo.TRP_Descripcion', name: 'Tipo Respuesta', className: "all"},
                     {data: 'preguntas.caracteristica.CRT_Nombre', name: 'Caracteristica', className: "all"},
-                    {data: 'grupos.GIT_Nombre', name: 'Grupo de Interes', className: "all"},
+                    {data: 'grupos', name: 'grupos.GIT_Nombre', className: "all"},
                     {
                         defaultContent:
-                            '@can('ELIMINAR_ESTABLECER_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' ,
+                            '@can('ELIMINAR_ESTABLECER_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan'+
+                            '@can('MODIFICAR_ESTABLECER_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
                         data: 'action',
                         name: 'action',
                         title: 'Acciones',
@@ -127,6 +128,14 @@
                 var type = 'DELETE';
                 dataType: "JSON",
                     SwalDelete(dataTable.PK_PEN_Id, route);
+
+            });
+            table.on('click', '.edit', function (e) {
+                e.preventDefault();
+                $tr = $(this).closest('tr');
+                var dataTable = table.row($tr).data();
+                var route = '{{ url('admin/fuentesPrimarias/establecerPreguntas/') }}' + '/' + dataTable.PK_PEN_Id + '/edit';
+                window.location.replace(route);
 
             });
         });

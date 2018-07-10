@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\FuentesPrimarias;
-
 use App\Http\Controllers\Controller;
-use Yajra\Datatables\Datatables;
+use App\Http\Requests\EstablecerPreguntasRequest;
+use Illuminate\Http\Request;
 use App\Models\PreguntaEncuesta;
 use App\Models\DatosEncuesta;
 use App\Models\Pregunta;
@@ -11,7 +11,7 @@ use App\Models\Proceso;
 use App\Models\Encuesta;
 use App\Models\Factor;
 use App\Models\GrupoInteres;
-use App\Http\Requests\EstablecerPreguntasRequest;
+use DataTables;
 
 class EstablecerPreguntasController extends Controller
 {
@@ -35,12 +35,31 @@ class EstablecerPreguntasController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $preguntas = PreguntaEncuesta::with('preguntas','grupos')
-            ->with('preguntas.estado')
+            $preguntas = PreguntaEncuesta::
+            with('preguntas','grupos')->
+            with('preguntas.estado')
             ->with('preguntas.tipo')
             ->with('preguntas.caracteristica')->
-            where('FK_PEN_Encuesta',session()->get('id_encuesta'))->get();
+            where('FK_PEN_Encuesta',session()->get('id_encuesta'))
+            ->groupBy('FK_PEN_Pregunta')
+            ->get();
             return DataTables::of($preguntas)
+            ->addColumn('grupos', function ($preguntas) {
+                return $preguntas->preguntas->count()?
+                implode(', ', $preguntas->grupos->pluck('GIT_Nombre')->toArray()):
+                trans('labels.general.none');
+            })
+            ->addColumn('estado', function ($preguntas) {
+                if (!$preguntas->preguntas->estado) {
+                    return '';
+                } elseif (!strcmp($preguntas->preguntas->estado->ESD_Nombre, 'HABILITADO')) {
+                    return "<span class='label label-sm label-success'>".$preguntas->preguntas->estado->ESD_Nombre. "</span>";
+                } else {
+                    return "<span class='label label-sm label-danger'>".$preguntas->preguntas->estado->ESD_Nombre . "</span>";
+                }
+                return "<span class='label label-sm label-primary'>".$preguntas->preguntas->estado->ESD_Nombre . "</span>";
+            })
+            ->rawColumns(['estado'])
             ->removeColumn('created_at')
             ->removeColumn('updated_at')
             ->make(true);
@@ -50,7 +69,6 @@ class EstablecerPreguntasController extends Controller
             'No se pudo completar tu solicitud.'
         );
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -60,10 +78,12 @@ class EstablecerPreguntasController extends Controller
     {
         $id_proceso = Encuesta::where('PK_ECT_Id',session()->get('id_encuesta'))->first();
         $id_lineamiento = Proceso::where('PK_PCS_Id',$id_proceso->FK_ECT_Proceso)->first();
-        $factores = Factor::where('FK_FCT_Lineamiento',$id_lineamiento->FK_PCS_Lineamiento)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
+        $factores = Factor::where('FK_FCT_Lineamiento',$id_lineamiento->FK_PCS_Lineamiento)->get()
+        ->pluck('FCT_Nombre', 'PK_FCT_Id');
         $grupos = GrupoInteres::whereHas('estado', function($query){
             return $query->where('ESD_Valor','1');
-        })->get();
+        })->get()
+        ->pluck('GIT_Nombre','PK_GIT_Id');
         return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.create', compact('factores','grupos'));
     }
     /**
@@ -74,50 +94,17 @@ class EstablecerPreguntasController extends Controller
      */
     public function store(EstablecerPreguntasRequest $request)
     {
-        $gruposInteres = $request->input('gruposInteres');
-        if (is_array($gruposInteres)) {
-            foreach ($gruposInteres as $key => $valor)
-            {   
-                if($valor !==  0)
-                {
-                    $verificar = PreguntaEncuesta::where('FK_PEN_Pregunta',$request->get('PK_PGT_Id'))
-                    ->where('FK_PEN_Encuesta',$request->get('PK_ECT_Id'))
-                    ->where('FK_PEN_GrupoInteres',$valor)
-                    ->first();
-                    if(!$verificar)
-                    {
-                        $preguntas_encuestas = new PreguntaEncuesta();
-                        $preguntas_encuestas->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
-                        $preguntas_encuestas->FK_PEN_Encuesta = $request->get('PK_ECT_Id');
-                        $preguntas_encuestas->FK_PEN_GrupoInteres = $valor;
-                        $preguntas_encuestas->save();
-                    }
-                    else
-                    {
-                        $grupos = GrupoInteres::where('PK_GIT_Id',$valor)->first();
-                        return response([
-                            'errors' => ['La pregunta que selecciona ya existe para el grupo de interes de '.$grupos->GIT_Nombre],
-                            'title' => '¡Error!'
-                        ], 422) // 200 Status Code: Standard response for successful HTTP request
-                        ->header('Content-Type', 'application/json');
-                    }
-                   
-                }
-            }
-            return response(['msg' => 'Datos registrados correctamente.',
-                'title' => '¡Registro exitoso!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
-        }
-        else
-        {
-            return response([
-                'errors' => ['Seleccione como minimo un grupo de interes.'],
-                'title' => '¡Error!'
-            ], 422) // 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
-        }
-    
+        foreach($request->get('gruposInteres') as $grupo => $valor){
+            $preguntas_encuestas = new PreguntaEncuesta();
+            $preguntas_encuestas->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
+            $preguntas_encuestas->FK_PEN_Encuesta = $request->get('PK_ECT_Id');
+            $preguntas_encuestas->FK_PEN_GrupoInteres = $valor;
+            $preguntas_encuestas->save();
+        }           
+        return response(['msg' => 'Datos registrados correctamente.',
+            'title' => '¡Registro exitoso!'
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
@@ -139,7 +126,20 @@ class EstablecerPreguntasController extends Controller
      */
     public function edit($id)
     {
-        //
+        $pregunta = PreguntaEncuesta::findOrFail($id);        
+        $grupos = GrupoInteres::whereHas('estado', function($query){
+            return $query->where('ESD_Valor','1');
+        })->get()
+        ->pluck('GIT_Nombre','PK_GIT_Id');
+
+        $factor = new Factor();
+        $id_factor = $pregunta->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
+        $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
+        $caracteristica = new Caracteristica();
+        $id_caracteristica = $pregunta->caracteristica->factor()->pluck('PK_FCT_Id')[0];
+        $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('CRT_Nombre', 'PK_CRT_Id');
+        
+        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.create', compact('factores','grupos','caracteristicas'));
     }
 
     /**
@@ -163,8 +163,8 @@ class EstablecerPreguntasController extends Controller
     public function destroy($id)
     {
         PreguntaEncuesta::destroy($id);
-        return response(['msg' => 'Los datos han sido eliminados exitosamente.',
-                'title' => 'Datos Eliminados!'
+        return response(['msg' => 'La pregunta ha sido eliminada exitosamente de la encuesta.',
+                'title' => 'Pregunta Eliminada!'
             ], 200) // 200 Status Code: Standard response for successful HTTP request
                 ->header('Content-Type', 'application/json');
     }
