@@ -3,12 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\PreguntaEncuesta;
 use App\Models\Encuesta;
 use App\Models\Proceso;
-use App\Models\GrupoInteres;
 
-class EstablecerPreguntasRequest extends FormRequest
+class ModificarEstablecerPreguntasRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -51,18 +49,6 @@ class EstablecerPreguntasRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            foreach($this->request->get('gruposInteres') as $grupo => $valor)
-            {
-                $verificar = PreguntaEncuesta::where('FK_PEN_Pregunta',$this->request->get('PK_PGT_Id'))
-                ->where('FK_PEN_Encuesta',$this->request->get('PK_ECT_Id'))
-                ->where('FK_PEN_GrupoInteres',$valor)
-                ->first();
-                if($verificar)
-                {
-                    $grupos = GrupoInteres::where('PK_GIT_Id',$valor)->first();
-                    $validator->errors()->add('Error', 'Ya existe la pregunta seleccionada para el grupo de interes de '.$grupos->GIT_Nombre);
-                }
-            }
             $id_proceso = Encuesta::where('PK_ECT_Id',session()->get('id_encuesta'))->first();
             $proceso = Proceso::with('fase')->
             where('PK_PCS_Id',$id_proceso->FK_ECT_Proceso)
@@ -73,4 +59,3 @@ class EstablecerPreguntasRequest extends FormRequest
         });
     }
 }
-

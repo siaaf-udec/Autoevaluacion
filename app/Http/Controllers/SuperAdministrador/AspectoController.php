@@ -92,6 +92,8 @@ class AspectoController extends Controller
      */
     public function show($id)
     {
+        $aspectos = Aspecto::where('FK_ASP_Caracteristica', $id)->pluck('ASP_Nombre', 'PK_ASP_Id');
+        return json_encode($aspectos);
     }
 
     /**

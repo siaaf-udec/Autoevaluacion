@@ -78,7 +78,7 @@
                     {data: 'estado', name: 'estado', className: "all"},
                     {data: 'preguntas.tipo.TRP_Descripcion', name: 'Tipo Respuesta', className: "all"},
                     {data: 'preguntas.caracteristica.CRT_Nombre', name: 'Caracteristica', className: "all"},
-                    {data: 'grupos', name: 'grupos.GIT_Nombre', className: "all"},
+                    {data: 'grupos.GIT_Nombre', name: 'Grupo de Interes', className: "all"},
                     {
                         defaultContent:
                             '@can('ELIMINAR_ESTABLECER_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan'+
@@ -118,6 +118,24 @@
                         "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
                         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                     }
+                },
+                initComplete: function () {
+                    this.api().columns([5]).every(function () {
+                        var column = this;
+                        var select = $('<select style="width: 100px;"><option value=""></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>');
+                        });
+                    });
                 }
             });
             table.on('click', '.remove', function (e) {

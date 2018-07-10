@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\FuentesPrimarias;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ModificarEstablecerPreguntasRequest;
 use App\Http\Requests\EstablecerPreguntasRequest;
 use Illuminate\Http\Request;
 use App\Models\PreguntaEncuesta;
@@ -11,6 +12,7 @@ use App\Models\Proceso;
 use App\Models\Encuesta;
 use App\Models\Factor;
 use App\Models\GrupoInteres;
+use App\Models\Caracteristica;
 use DataTables;
 
 class EstablecerPreguntasController extends Controller
@@ -41,14 +43,8 @@ class EstablecerPreguntasController extends Controller
             ->with('preguntas.tipo')
             ->with('preguntas.caracteristica')->
             where('FK_PEN_Encuesta',session()->get('id_encuesta'))
-            ->groupBy('FK_PEN_Pregunta')
             ->get();
             return DataTables::of($preguntas)
-            ->addColumn('grupos', function ($preguntas) {
-                return $preguntas->preguntas->count()?
-                implode(', ', $preguntas->grupos->pluck('GIT_Nombre')->toArray()):
-                trans('labels.general.none');
-            })
             ->addColumn('estado', function ($preguntas) {
                 if (!$preguntas->preguntas->estado) {
                     return '';
@@ -106,7 +102,6 @@ class EstablecerPreguntasController extends Controller
         ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
-
     /**
      * Display the specified resource.
      *
@@ -117,7 +112,6 @@ class EstablecerPreguntasController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -126,22 +120,22 @@ class EstablecerPreguntasController extends Controller
      */
     public function edit($id)
     {
-        $pregunta = PreguntaEncuesta::findOrFail($id);        
+        $preguntas = PreguntaEncuesta::findOrFail($id);
         $grupos = GrupoInteres::whereHas('estado', function($query){
             return $query->where('ESD_Valor','1');
         })->get()
         ->pluck('GIT_Nombre','PK_GIT_Id');
-
         $factor = new Factor();
-        $id_factor = $pregunta->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
+        $id_factor = $preguntas->preguntas->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
         $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
         $caracteristica = new Caracteristica();
-        $id_caracteristica = $pregunta->caracteristica->factor()->pluck('PK_FCT_Id')[0];
+        $id_caracteristica = $preguntas->preguntas->caracteristica->factor()->pluck('PK_FCT_Id')[0];
         $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('CRT_Nombre', 'PK_CRT_Id');
-        
-        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.create', compact('factores','grupos','caracteristicas'));
+        $pregunta_encuesta = new Pregunta();
+        $id_pregunta = $preguntas->preguntas->caracteristica()->pluck('PK_CRT_Id')[0];
+        $preguntas_encuesta = $pregunta_encuesta->where('FK_PGT_Caracteristica',$id_pregunta)->get()->pluck('PGT_Texto','PK_PGT_Id');
+        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.edit', compact('factores','grupos','caracteristicas','preguntas','preguntas_encuesta'));
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -149,11 +143,17 @@ class EstablecerPreguntasController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ModificarEstablecerPreguntasRequest $request, $id)
     {
-        //
+        $preguntas_encuestas = PreguntaEncuesta::find($id);
+        $preguntas_encuestas->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
+        $preguntas_encuestas->FK_PEN_Encuesta = $request->get('PK_ECT_Id');
+        $preguntas_encuestas->update();           
+        return response(['msg' => 'La pregunta se ha modificado correctamente.',
+            'title' => '¡Pregunta Modificada!'
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
-
     /**
      * Remove the specified resource from storage.
      *

@@ -1,15 +1,14 @@
 {{-- Titulo de la pagina --}}
 @section('title', 'Modificar Pregunta de Encuesta')
 
-
 {{-- Contenido principal --}}
 @extends('admin.layouts.app')
 
 @section('content')
     @component('admin.components.panel')
         @slot('title', 'Modificar Pregunta')
-        {!! Form::model($user, [
-            'route' => ['fuentesP.establecerPreguntas.update', $pregunta],
+        {!! Form::model($preguntas, [
+            'route' => ['fuentesP.establecerPreguntas.update', $preguntas],
             'method' => 'PUT',
             'id' => 'form_modificar_pregunta_encuesta',
             'class' => 'form-horizontal form-label-lef',
@@ -71,9 +70,11 @@
                 errorsWrapper: '<p class="help-block help-block-error"></p>',
                 errorTemplate: '<span></span>',
             });
-
+            $('#factor').prop('disabled', false);
+            $('#caracteristica').prop('disabled', false);
+            $('#preguntas').prop('disabled', false);
+            $('#grupoInteres').prop('disabled', true);
             form.submit(function (e) {
-
                 e.preventDefault();
                 $.ajax({
                     url: form.attr('action'),
@@ -83,7 +84,7 @@
                     Accept: 'application/json',
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'La pregunta ha sido modificada exitosamente.');
-                        window.location.replace(" {{ route('fuentesP.establecerPreguntas.datos' + Session::get('id_encuesta'))}} ");
+                        window.location.replace(" {{ route('fuentesP.establecerPreguntas.datos',Session::get('id_encuesta'))}} ");
                     },
                     error: function (data) {
                         console.log(data);

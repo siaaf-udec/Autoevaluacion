@@ -48,9 +48,11 @@
             $('#factor').select2();
             $('#caracteristica').select2();
             $('#preguntas').select2();
+            $('#aspecto').select2();
             $('#grupoInteres').select2();
             selectDinamico("#factor", "#caracteristica", "{{url('admin/caracteristicas')}}");
             selectDinamico("#caracteristica", "#preguntas", "{{url('admin/fuentesPrimarias/preguntas')}}");
+            selectDinamico("#caracteristica", "#aspecto", "{{url('admin/aspectos')}}");
             var form = $('#form_agregar_preguntas');
             $(form).parsley({
                 trigger: 'change',
@@ -79,6 +81,8 @@
                         $("#grupoInteres").select2('data', {}); // clear out values selected 
                         $("#grupoInteres").select2({allowClear: true});
                         $('#caracteristica').prop('disabled', true);
+                        $("#aspecto").html('').select2();
+                        $('#aspecto').prop('disabled', true);
                         $("#preguntas").html('').select2();
                         $('#preguntas').prop('disabled', true);
                         new PNotify({
