@@ -80,7 +80,7 @@
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'Los datos se han modificado exitosamente.');
 
-                        window.location.replace(" {{ route('admin.caracteristicas.index')}} ");
+                        window.location.href = " {{ route('admin.caracteristicas.index')}} ";
                     },
                     error: function (data) {
                         console.log(data);

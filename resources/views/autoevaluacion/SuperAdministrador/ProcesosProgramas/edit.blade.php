@@ -88,7 +88,7 @@
                     Accept: 'application/json',
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'El proceso se ha modificado correctamente.');
-                        window.location.replace(" {{ route('admin.procesos_programas.index')}} ");
+                        window.location.href = " {{ route('admin.procesos_programas.index')}} ";
                     },
                     error: function (data) {
                         console.log(data);

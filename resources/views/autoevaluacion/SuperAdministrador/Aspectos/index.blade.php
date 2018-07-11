@@ -154,7 +154,7 @@
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
                 var route = '{{ url('admin/aspectos/') }}' + '/' + dataTable.PK_ASP_Id + '/edit';
-                window.location.replace(route);
+                window.location.href = route;
 
 
             });

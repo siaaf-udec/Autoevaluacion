@@ -71,7 +71,7 @@
                     Accept: 'application/json',
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'El tipo de respuesta se ha modificado exitosamente.');
-                        window.location.replace(" {{ route('fuentesP.tipoRespuesta.index')}} ");
+                        window.location.href = " {{ route('fuentesP.tipoRespuesta.index')}} ";
                     },
                     error: function (data) {
                         console.log(data);

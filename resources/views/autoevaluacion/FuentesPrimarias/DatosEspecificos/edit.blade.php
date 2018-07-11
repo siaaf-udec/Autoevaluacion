@@ -81,7 +81,7 @@
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'Los datos se han modificado exitosamente.');
 
-                        window.location.replace(" {{ route('fuentesP.datosEspecificos.index')}} ");
+                        window.location.href = " {{ route('fuentesP.datosEspecificos.index')}} ";
                     },
                     error: function (data) {
                         console.log(data);

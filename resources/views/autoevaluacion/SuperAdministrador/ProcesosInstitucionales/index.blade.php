@@ -149,14 +149,14 @@
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
                 var route = '{{ url('admin/procesos_institucionales/') }}' + '/' + dataTable.PK_PCS_Id + '/edit';
-                window.location.replace(route);
+                window.location.href = route;
             });
             table.on('click', '.asignar', function (e) {
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
                 var route = '{{ url('admin/procesos_usuarios/proceso') }}' + '/' + dataTable.PK_PCS_Id;
-                window.location.replace(route);
+                window.location.href = route;
             });
 
         });

@@ -137,7 +137,7 @@
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
                 var route = '{{ url('admin/fuentesPrimarias/datosEncuestas/') }}' + '/' + dataTable.PK_DAE_Id + '/edit';
-                window.location.replace(route);
+                window.location.href = route;
 
 
             });

@@ -85,7 +85,7 @@
                     Accept: 'application/json',
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'El Indicador documental se ha modificado exitosamente.');
-                        window.location.replace(" {{ route('documental.indicadores_documentales.index')}} ");
+                        window.location.href = " {{ route('documental.indicadores_documentales.index')}} ";
                     },
                     error: function (data) {
                         console.log(data);

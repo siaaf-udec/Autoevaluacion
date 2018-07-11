@@ -78,7 +78,7 @@
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'El Factor se ha modificado exitosamente.');
 
-                        window.location.replace(" {{ route('admin.factores.index')}} ");
+                        window.location.href = " {{ route('admin.factores.index')}} ";
                     },
                     error: function (data) {
                         console.log(data);

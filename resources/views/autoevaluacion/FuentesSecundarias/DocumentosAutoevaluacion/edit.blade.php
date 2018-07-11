@@ -127,7 +127,7 @@
                     contentType: false,
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'El documento de autoevaluacion ha sido modificado exitosamente.');
-                        window.location.replace(" {{ route('documental.documentos_autoevaluacion.index')}} ");
+                        window.location.href = " {{ route('documental.documentos_autoevaluacion.index')}} ";
                     },
                     error: function (data) {
                         var errores = data.responseJSON.errors;

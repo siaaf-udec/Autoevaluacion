@@ -101,7 +101,7 @@
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'La pregunta se ha modificado exitosamente.');
 
-                        window.location.replace(" {{ route('fuentesP.preguntas.index')}} ");
+                        window.location.href = " {{ route('fuentesP.preguntas.index')}} ";
                     },
                     error: function (data) {
                         console.log(data);

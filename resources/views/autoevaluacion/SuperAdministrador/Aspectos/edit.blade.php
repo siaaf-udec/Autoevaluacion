@@ -75,7 +75,7 @@
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'El Aspecto se ha modificado exitosamente.');
 
-                        window.location.replace(" {{ route('admin.aspectos.index')}} ");
+                        window.location.href = " {{ route('admin.aspectos.index')}} ";
                     },
                     error: function (data) {
                         console.log(data);

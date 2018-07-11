@@ -84,7 +84,7 @@
                     Accept: 'application/json',
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'La pregunta ha sido modificada exitosamente.');
-                        window.location.replace(" {{ route('fuentesP.establecerPreguntas.datos',Session::get('id_encuesta'))}} ");
+                        window.location.href = " {{ route('fuentesP.establecerPreguntas.datos',Session::get('id_encuesta'))}} ";
                     },
                     error: function (data) {
                         console.log(data);

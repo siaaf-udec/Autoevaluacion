@@ -158,7 +158,7 @@
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
                 var route = '{{ url('admin/documental/documentoinstitucional/') }}' + '/' + dataTable.PK_DOI_Id + '/edit';
-                window.location.replace(route);
+                window.location.href = route;
             });
             
         });

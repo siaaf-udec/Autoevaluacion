@@ -76,7 +76,7 @@
                     Accept: 'application/json',
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'El Programa academico se ha modificado exitosamente.');
-                        window.location.replace(" {{ route('admin.programas_academicos.index')}} ");
+                        window.location.href = " {{ route('admin.programas_academicos.index')}} ";
                     },
                     error: function (data) {
                         console.log(data);
