@@ -71,7 +71,7 @@
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'El Rol se ha modificado exitosamente.');
 
-                        window.location.replace(" {{ route('admin.roles.index')}} ");
+                        window.location.href = " {{ route('admin.roles.index')}} ";
                     },
                     error: function (data) {
                         console.log(data);

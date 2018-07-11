@@ -28,7 +28,7 @@
                     'Inicio',
                     'Fin',
                     'Fase',
-                    'Acciones' => ['style' => 'width:85px;']])
+                    'Acciones' => ['style' => 'width:125px;']])
                 @endcomponent
 
             </div>
@@ -78,7 +78,12 @@
                 dom: 'lBfrtip',
                 responsive: true,
                 buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-                "ajax": "{{ route('admin.procesos_institucionales.data') }}",
+                "ajax": {
+                    "url":"{{ route('admin.procesos_institucionales.data') }}",
+                    complete: function() {
+                        $('[data-toggle="tooltip"]').tooltip();
+                    }
+                },
                 "columns": [
                     {data: 'PK_PCS_Id', name: 'id', "visible": false},
                     {data: 'lineamiento.LNM_Nombre', name: 'Proceso', className: "all"},
@@ -89,7 +94,8 @@
                     {
                         defaultContent:
                             '@can('ELIMINAR_PROCESOS_INSTITUCIONALES')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
-                            '@can('MODIFICAR_PROCESOS_INSTITUCIONALES')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
+                            '@can('MODIFICAR_PROCESOS_INSTITUCIONALES')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan'+
+                            '@can('ASIGNAR_PROCESOS_INSTITUCIONALES_USUARIOS')<a data-toggle="tooltip" title="Asignar usuarios" href="javascript:;" class="btn btn-simple btn-info btn-sm asignar"><i class="fa fa-plus"></i></a>@endcan',
                         data: 'action',
                         name: 'action',
                         title: 'Acciones',
@@ -143,7 +149,14 @@
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
                 var route = '{{ url('admin/procesos_institucionales/') }}' + '/' + dataTable.PK_PCS_Id + '/edit';
-                window.location.replace(route);
+                window.location.href = route;
+            });
+            table.on('click', '.asignar', function (e) {
+                e.preventDefault();
+                $tr = $(this).closest('tr');
+                var dataTable = table.row($tr).data();
+                var route = '{{ url('admin/procesos_usuarios/proceso') }}' + '/' + dataTable.PK_PCS_Id;
+                window.location.href = route;
             });
 
         });

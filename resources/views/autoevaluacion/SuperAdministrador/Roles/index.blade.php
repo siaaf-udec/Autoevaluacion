@@ -129,7 +129,7 @@
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
                 var route = '{{ url('admin/roles/') }}' + '/' + dataTable.id + '/edit';
-                window.location.replace(route);
+                window.location.href = route;
 
 
             });

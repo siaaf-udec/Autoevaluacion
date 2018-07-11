@@ -81,7 +81,7 @@
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'El Usuario se ha modificado exitosamente.');
 
-                        window.location.replace(" {{ route('admin.usuarios.index')}} ");
+                        window.location.href = " {{ route('admin.usuarios.index')}} ";
                     },
                     error: function (data) {
                         console.log(data);

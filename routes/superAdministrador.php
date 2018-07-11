@@ -92,6 +92,20 @@ Route::get('procesos_institucionales/data/data', array(
     'uses' => 'ProcesoInstitucionalController@data'
 ));
 
+//Procesos usuarios
+Route::get('procesos_usuarios/proceso/{id}', array(
+    'as' => 'admin.procesos_usuarios.show',
+    'uses' => 'ProcesoUsuarioController@show'
+));
+Route::post('procesos_usuarios/proceso/asignar_usuarios/{id}', array(
+    'as' => 'admin.procesos_usuarios.asignar',
+    'uses' => 'ProcesoUsuarioController@asignarUsuarios'
+));
+Route::get('procesos_usuarios/data/{id}', array(
+    'as' => 'admin.procesos_usuarios.data',
+    'uses' => 'ProcesoUsuarioController@data'
+));
+
 
 //Grupos de Interes
 Route::resource('grupos_interes', 'GruposInteresController', ['as' => 'admin']);

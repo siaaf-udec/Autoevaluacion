@@ -153,7 +153,7 @@
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
                 var route = '{{ url('admin/fuentesPrimarias/establecerPreguntas/') }}' + '/' + dataTable.PK_PEN_Id + '/edit';
-                window.location.replace(route);
+                window.location.href = route;
 
             });
         });

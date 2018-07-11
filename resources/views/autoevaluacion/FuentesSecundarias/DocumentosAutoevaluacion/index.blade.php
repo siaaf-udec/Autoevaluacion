@@ -174,7 +174,7 @@
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
                 var route = '{{ url('admin/documental/documentos_autoevaluacion') }}' + '/' + dataTable.PK_DOA_Id + '/edit';
-                window.location.replace(route);
+                window.location.href = route;
             });
 
         });

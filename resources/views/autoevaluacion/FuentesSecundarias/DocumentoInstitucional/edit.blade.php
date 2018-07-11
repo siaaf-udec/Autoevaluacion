@@ -102,7 +102,7 @@
                     contentType: false,
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'El documento institucional ha sido modificado exitosamente.');
-                        window.location.replace(" {{ route('documental.documentoinstitucional.index')}} ");
+                        window.location.href = " {{ route('documental.documentoinstitucional.index')}} ";
                     },
                     error: function (data) {
                         console.log(data);

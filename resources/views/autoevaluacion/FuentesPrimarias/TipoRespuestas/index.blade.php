@@ -136,7 +136,7 @@
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
                 var route = '{{ url('admin/fuentesPrimarias/tipoRespuesta/') }}' + '/' + dataTable.PK_TRP_Id + '/edit';
-                window.location.replace(route);
+                window.location.href = route;
 
 
             });

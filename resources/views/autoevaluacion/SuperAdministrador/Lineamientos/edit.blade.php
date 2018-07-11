@@ -69,7 +69,7 @@ Form::model($lineamiento, [ 'route' => ['admin.lineamientos.update', $lineamient
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'El Lineamiento se ha modificado exitosamente.');
 
-                        window.location.replace(" {{ route('admin.lineamientos.index')}} ");
+                        window.location.href = " {{ route('admin.lineamientos.index')}} ";
                     },
                     error: function (data) {
                         console.log(data);

@@ -16,7 +16,8 @@ use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Testing\File;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class DocumentoAutoevaluacionController extends Controller
 {
@@ -60,6 +61,7 @@ class DocumentoAutoevaluacionController extends Controller
                 ->with(['dependencia' => function($query){
                     return $query->select('PK_DPC_Id', 'DPC_Nombre');
                 }])
+                ->where('FK_DOA_Proceso', '=', session()->get('id_proceso'))
                 ->get();
 
             return DataTables::of($documentos_autoevaluacion)
@@ -159,7 +161,7 @@ class DocumentoAutoevaluacionController extends Controller
         $documento_auto->FK_DOA_Proceso = session()->get('id_proceso');
         $documento_auto->save();
 
-        return response(['msg' => 'Indicador documental registrado correctamente.',
+        return response(['msg' => 'El documento se ha registrado correctamente.',
             'title' => '¡Registro exitoso!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
@@ -184,6 +186,7 @@ class DocumentoAutoevaluacionController extends Controller
     public function edit($id)
     {
         $documento = DocumentoAutoevaluacion::findOrFail($id);
+        $this->authorize('autorizar', $documento->FK_DOA_Proceso);
         $factores = Factor::has('caracteristica.indicadores_documentales')
             ->where('FK_FCT_Lineamiento', '=', $documento->proceso->FK_PCS_Lineamiento)
             ->where('FK_FCT_estado', '=', '1')
@@ -218,6 +221,7 @@ class DocumentoAutoevaluacionController extends Controller
     public function update(DocumentosAutoevaluacionRequest $request, $id)
     {
         $documento = DocumentoAutoevaluacion::findOrFail($id);
+        $this->authorize('autorizar', $documento->FK_DOA_Proceso);
 
         if ($request->hasFile('archivo')) {
             $archivo = $request->file('archivo');
@@ -284,6 +288,7 @@ class DocumentoAutoevaluacionController extends Controller
     public function destroy($id)
     {
         $documento = DocumentoAutoevaluacion::findOrfail($id);
+        $this->authorize('autorizar', $documento->FK_DOA_Proceso);
         if ($documento->archivo) {
             $ruta = str_replace('storage', 'public', $documento->archivo->ruta);
             Storage::delete($ruta);
