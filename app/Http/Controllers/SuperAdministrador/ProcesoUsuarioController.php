@@ -27,16 +27,16 @@ class ProcesoUsuarioController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function data(Request $request)
+    public function data(Request $request, $id)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
             $usuarios = User::with('procesos')->get();
 
             return DataTables::of($usuarios)
-                ->addColumn('seleccion',function($usuario){
+                ->addColumn('seleccion',function($usuario) use($id){
                     $checked = '';
                     foreach ($usuario->procesos as $proceso) {
-                        if($proceso->PK_PCS_Id == session()->get('id_proceso')){
+                        if($proceso->PK_PCS_Id == $id){
                             $checked = 'checked';
                             break;
                         }
@@ -57,7 +57,16 @@ class ProcesoUsuarioController extends Controller
      */
     public function show($id)
     {
-        return view('autoevaluacion.SuperAdministrador.ProcesosUsuarios.index');
+        $proceso = Proceso::findOrFail($id);
+        $tipo = 'Programa ';
+        if($proceso->PCS_Institucional == 1){
+            $tipo = 'Institucion ';
+        }
+        $proceso = $tipo . $proceso->PCS_Nombre;
+        $proceso = str_limit($proceso, 45, '...');
+
+
+        return view('autoevaluacion.SuperAdministrador.ProcesosUsuarios.index', compact('proceso'));
     }
     /**
      * asignar usuarios a procesos

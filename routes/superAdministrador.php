@@ -101,7 +101,7 @@ Route::post('procesos_usuarios/proceso/asignar_usuarios/{id}', array(
     'as' => 'admin.procesos_usuarios.asignar',
     'uses' => 'ProcesoUsuarioController@asignarUsuarios'
 ));
-Route::get('procesos_usuarios/data', array(
+Route::get('procesos_usuarios/data/{id}', array(
     'as' => 'admin.procesos_usuarios.data',
     'uses' => 'ProcesoUsuarioController@data'
 ));

@@ -6,7 +6,7 @@
 @extends('admin.layouts.app')
 
 @section('content') 
-@component('admin.components.panel') @slot('title', 'Asignar usuarios a proceso')
+@component('admin.components.panel') @slot('title', 'Asignar Usuarios A Proceso '. $proceso )
     {{-- @can('ASIGNAR_USUARIOS_PROCESOS') --}}
     <div class="col-md-12">
         <div class="actions">
@@ -70,7 +70,7 @@
                 keys: true,
                 dom: 'lBfrtip',
                 buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-                "ajax": "{{ route('admin.procesos_usuarios.data') }}",
+                "ajax": "{{ route('admin.procesos_usuarios.data', request()->route()->parameter('id')) }}",
                 "columns": [
                     {data: 'id', name: 'id', "visible": false},
                     {data: 'seleccion', name: 'Seleccionar', className: "all"},
