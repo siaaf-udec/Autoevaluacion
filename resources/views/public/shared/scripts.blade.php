@@ -11,3 +11,5 @@
 <script src="{{ asset('titan/assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js') }}"></script>
 <script src="{{ asset('titan/assets/js/plugins.js') }}"></script>
 <script src="{{ asset('titan/assets/js/main.js') }}"></script>
+<script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
+@stack('scripts')

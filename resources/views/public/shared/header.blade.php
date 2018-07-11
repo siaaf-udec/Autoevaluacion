@@ -13,11 +13,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="tittle"><a href="{{route('home')}}">Home</a>
                 </li>
-                <li class="tittle"><a href="{{route('direccion')}}">Direccion de acreditación</a>
-                </li>
-                <li class="tittle"><a href="{{route('sistema')}}">Sistema de Autoevaluación</a>
-                </li>
-                <li class="dropdown"><a href="#" data-toggle="dropdown">Proceso de Autoevaluacion</a>
+                <li class="dropdown"><a href="{{route('public.encuestas.index')}}">Proceso de Autoevaluacion</a>
                 </li>
                 <li class="title"><a href="{{route('login')}}">login</a>
                 </li>

@@ -36,11 +36,6 @@ Route::get('/home', function () {
 })->name('admin.home');
 
 Route::get('/', function () {
-    return view('public.layouts.index');
+    return view('public.dashboard.index');
 })->name('home');
-Route::get('/direccion', function () {
-    return view('public.layouts.direccion');
-})->name('direccion');
-Route::get('/sistema', function () {
-    return view('public.layouts.sistema');
-})->name('sistema');
+Route::resource('encuestas', 'Publico\EncuestasController', ['as' => 'public']);

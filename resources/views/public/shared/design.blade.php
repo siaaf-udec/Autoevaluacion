@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html lang="en-US" dir="ltr">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('titan/assets/images/favicons/apple-icon-57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('titan/assets/images/favicons/apple-icon-60x60.png') }}">
     <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('titan/assets/images/favicons/apple-icon-72x72.png') }}">
@@ -30,3 +25,4 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="{{ asset('titan/assets/images/favicons/ms-icon-144x144.png') }}">
     <meta name="theme-color" content="#ffffff">
+   

@@ -6,7 +6,6 @@
 @section('content')
     @component('admin.components.panel')
         @slot('title', 'Datos Encuestas')
-        
         @can('CREAR_DATOS')
             <div class="col-md-12">
                 <div class="actions">
