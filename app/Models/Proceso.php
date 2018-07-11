@@ -57,7 +57,7 @@ class Proceso extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'tbl_procesos_usuarios', 'FK_PCU_Proceso', ' FK_PCU_Usuario');
+        return $this->belongsToMany(User::class, 'tbl_procesos_usuarios', 'FK_PCU_Proceso', 'FK_PCU_Usuario');
     }
 
     public function encuestas()

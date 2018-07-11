@@ -93,19 +93,15 @@ Route::get('procesos_institucionales/data/data', array(
 ));
 
 //Procesos usuarios
-Route::get('procesos_usuarios/proceso/{$id_proceso}', array(
+Route::get('procesos_usuarios/proceso/{id}', array(
     'as' => 'admin.procesos_usuarios.show',
     'uses' => 'ProcesoUsuarioController@show'
 ));
-Route::post('procesos_usuarios/proceso/asignar_usuarios', array(
+Route::post('procesos_usuarios/proceso/asignar_usuarios/{id}', array(
     'as' => 'admin.procesos_usuarios.asignar',
     'uses' => 'ProcesoUsuarioController@asignarUsuarios'
 ));
-Route::post('procesos_usuarios/proceso/desasignar_usuarios', array(
-    'as' => 'admin.procesos_usuarios.desasignar',
-    'uses' => 'ProcesoUsuarioController@desasignarUsuarios'
-));
-Route::get('procesos_usuarios/data{id_proceso}', array(
+Route::get('procesos_usuarios/data', array(
     'as' => 'admin.procesos_usuarios.data',
     'uses' => 'ProcesoUsuarioController@data'
 ));

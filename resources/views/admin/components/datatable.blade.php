@@ -9,7 +9,7 @@
         @endphp @endforeach @else @php $col = $column;
         @endphp
         @endif
-        <th {{ $props }}>{{ $col }}</th>
+        <th {!! $props !!}>{!! $col !!}</th>
         @empty
             <th>Sin datos</th>
         @endforelse
@@ -24,7 +24,7 @@
         @endphp @endforeach @else @php $col = $column;
         @endphp
         @endif
-        <th {{ $props }}>{{ $col }}</th>
+        <th {{ $props }}>{!! $col !!}</th>
         @empty
             <th>Sin datos</th>
         @endforelse

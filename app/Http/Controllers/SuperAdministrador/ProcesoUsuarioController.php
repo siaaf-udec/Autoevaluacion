@@ -4,6 +4,9 @@ namespace App\Http\Controllers\SuperAdministrador;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use DataTables;
+use App\Models\Proceso;
 
 class ProcesoUsuarioController extends Controller
 {
@@ -27,24 +30,20 @@ class ProcesoUsuarioController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
+            $usuarios = User::with('procesos')->get();
 
-            $procesos_programas = Proceso::with(['fase' => function ($query) {
-                return $query->select('PK_FSS_Id', 'FSS_Nombre');
-            }])
-             ->with(['lineamiento' => function ($query) {
-                    return $query->select('PK_LNM_Id', 'LNM_Nombre');
-                }])
-                ->where('PCS_Institucional', '=', '1')
-                ->get();
-
-            return DataTables::of($procesos_programas)
-                ->editColumn('PCS_FechaInicio', function ($proceso_programa) {
-                    return $proceso_programa->PCS_FechaInicio ? with(new Carbon($proceso_programa->PCS_FechaInicio))->format('d/m/Y') : '';
+            return DataTables::of($usuarios)
+                ->addColumn('seleccion',function($usuario){
+                    $checked = '';
+                    foreach ($usuario->procesos as $proceso) {
+                        if($proceso->PK_PCS_Id == session()->get('id_proceso')){
+                            $checked = 'checked';
+                            break;
+                        }
+                    }
+                    return '<input type="checkbox" class="ids_usuarios" name="seleccion" value="'.$usuario->id.'" '.$checked.' />';
                 })
-                ->editColumn('PCS_FechaFin', function ($proceso_programa) {
-                    return $proceso_programa->PCS_FechaFin ? with(new Carbon($proceso_programa->PCS_FechaFin))->format('d/m/Y') : '';
-                    ;
-                })
+                ->rawColumns(['seleccion'])
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
                 ->make(true);
@@ -58,6 +57,7 @@ class ProcesoUsuarioController extends Controller
      */
     public function show($id)
     {
+        return view('autoevaluacion.SuperAdministrador.ProcesosUsuarios.index');
     }
     /**
      * asignar usuarios a procesos
@@ -65,13 +65,14 @@ class ProcesoUsuarioController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function asignarUsuarios(Request $request)
+    public function asignarUsuarios(Request $request, $id)
     {
-        
+        $proceso = Proceso::findOrFail($id);
+        $proceso->users()->sync($request->get('usuarios'));
 
             return response([
-                'msg' => 'Proceso registrado correctamente.',
-                'title' => '¡Registro exitoso!'
+                'msg' => 'Proceso asignado correctamente.',
+                'title' => '¡Asignacion exitosa exitoso!'
             ], 200)// 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
        
