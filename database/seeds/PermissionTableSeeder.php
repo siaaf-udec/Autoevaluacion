@@ -90,6 +90,12 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'CREAR_ENCUESTAS']);
         Permission::create(['name' => 'MODIFICAR_ENCUESTAS']);
         Permission::create(['name' => 'ELIMINAR_ENCUESTAS']);
+        //permisos banco encuestas
+        Permission::create(['name' => 'ACCEDER_BANCO_ENCUESTAS']);
+        Permission::create(['name' => 'VER_BANCO_ENCUESTAS']);
+        Permission::create(['name' => 'CREAR_BANCO_ENCUESTAS']);
+        Permission::create(['name' => 'MODIFICAR_BANCO_ENCUESTAS']);
+        Permission::create(['name' => 'ELIMINAR_BANCO_ENCUESTAS']);
         // Permisos para datos especificos encuestas
         Permission::create(['name' => 'ACCEDER_DATOS']);
         Permission::create(['name' => 'VER_DATOS']);

@@ -1,12 +1,17 @@
 <li><a><i class="fa fa-info-circle"></i> Fuentes Primarias <span class="fa fa-chevron-down"></span></a>
 
     <ul class="nav child_menu">
-        <li><a><i class="fa fa-file"></i>Gestionar Encuestas<span class="fa fa-chevron-down"></span> </a>
+        <li><a><i class="fa fa-file"></i>Encuestas<span class="fa fa-chevron-down"></span> </a>
 
             <ul class="nav child_menu">
                 @can('ACCEDER_DATOS')
                 <li class="sub_menu"><a href="{{ route('fuentesP.datosEncuestas.index') }}"><i
                                 class="fa fa-plus-square-o"></i>Datos generales sobre encuestas</a>
+                </li>
+                @endcan
+                @can('ACCEDER_BANCO_ENCUESTAS')
+                <li class="sub_menu"><a href="{{ route('fuentesP.bancoEncuestas.index') }}"><i 
+                                class="fa fa-paste"></i>Banco de Encuestas</a>
                 </li>
                 @endcan
                 @can('ACCEDER_ENCUESTAS')

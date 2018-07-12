@@ -29,16 +29,16 @@ class EstablecerPreguntasRequest extends FormRequest
     {
         return [
             'PK_PGT_Id' => 'required|exists:tbl_preguntas',
-            'PK_ECT_Id' => 'required|exists:tbl_encuestas',
+            'PK_BEC_Id' => 'required|exists:tbl_banco_encuestas',
         ];
     }
     public function messages()
     {
         return [
             'PK_PGT_Id.required' => 'Pregunta requerida',
-            'PK_ECT_Id.required' => 'Encuesta requerida',
+            'PK_BEC_Id.required' => 'Encuesta requerida',
             'PK_PGT_Id.exists' => 'La pregunta que selecciono no se encuentra en nuestros registros',
-            'PK_ECT_Id.exists' => 'La encuesta que selecciono no se encuentra en nuestros registros',
+            'PK_BEC_Id.exists' => 'La encuesta que selecciono no se encuentra en nuestros registros',
             
         ];
     }
@@ -54,7 +54,7 @@ class EstablecerPreguntasRequest extends FormRequest
             foreach($this->request->get('gruposInteres') as $grupo => $valor)
             {
                 $verificar = PreguntaEncuesta::where('FK_PEN_Pregunta',$this->request->get('PK_PGT_Id'))
-                ->where('FK_PEN_Encuesta',$this->request->get('PK_ECT_Id'))
+                ->where('FK_PEN_Banco_Encuestas',$this->request->get('PK_BEC_Id'))
                 ->where('FK_PEN_GrupoInteres',$valor)
                 ->first();
                 if($verificar)
@@ -62,13 +62,6 @@ class EstablecerPreguntasRequest extends FormRequest
                     $grupos = GrupoInteres::where('PK_GIT_Id',$valor)->first();
                     $validator->errors()->add('Error', 'Ya existe la pregunta seleccionada para el grupo de interes de '.$grupos->GIT_Nombre);
                 }
-            }
-            $id_proceso = Encuesta::where('PK_ECT_Id',session()->get('id_encuesta'))->first();
-            $proceso = Proceso::with('fase')->
-            where('PK_PCS_Id',$id_proceso->FK_ECT_Proceso)
-            ->first();
-            if ($proceso->fase->FSS_Nombre != "construccion") {
-                $validator->errors()->add('Error', 'El proceso seleccionado no se encuentra en fase de construccion!');
             }
         });
     }

@@ -41,20 +41,6 @@ class PonderacionRespuestasController extends Controller
      */
     public function create($id)
     {
-        session()->put('id', $id);
-        return view('autoevaluacion.FuentesPrimarias.PonderacionRespuestas.index');
-    }
-
-    public function data(Request $request)
-    {
-        if ($request->ajax() && $request->isMethod('GET')) {
-            $ponderacionRespuestas = PonderacionRespuesta::whereHas('tipo', function ($query) {
-                return $query->where('FK_PRT_TipoRespuestas', session()->get('id'));
-            })->get();
-            return Datatables::of($ponderacionRespuestas)
-                ->addIndexColumn()
-                ->make(true);
-        }
     }
 
     /**

@@ -45,14 +45,14 @@
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
+            $('#lineamiento').select2();
             $('#factor').select2();
             $('#caracteristica').select2();
             $('#preguntas').select2();
-            $('#aspecto').select2();
             $('#grupoInteres').select2();
-            selectDinamico("#factor", "#caracteristica", "{{url('admin/caracteristicas')}}");
+            selectDinamico("#lineamiento", "#factor", "{{url('admin/factores')}}", ['#caracteristica,#preguntas']);
+            selectDinamico("#factor", "#caracteristica", "{{url('admin/caracteristicas')}}", ['#preguntas']);
             selectDinamico("#caracteristica", "#preguntas", "{{url('admin/fuentesPrimarias/preguntas')}}");
-            selectDinamico("#caracteristica", "#aspecto", "{{url('admin/aspectos')}}");
             var form = $('#form_agregar_preguntas');
             $(form).parsley({
                 trigger: 'change',
@@ -76,13 +76,13 @@
                         $(form)[0].reset();
                         $(form).parsley().reset();
                         $("#caracteristica").html('').select2();
-                        $("#factor").select2('data', {}); // clear out values selected 
-                        $("#factor").select2({allowClear: true});
+                        $("#factor").html('').select2();
+                        $('#factor').prop('disabled', true);
+                        $('#caracteristica').prop('disabled', true);
+                        $("#lineamiento").select2('data', {}); // clear out values selected 
+                        $("#lineamiento").select2({allowClear: true});
                         $("#grupoInteres").select2('data', {}); // clear out values selected 
                         $("#grupoInteres").select2({allowClear: true});
-                        $('#caracteristica').prop('disabled', true);
-                        $("#aspecto").html('').select2();
-                        $('#aspecto').prop('disabled', true);
                         $("#preguntas").html('').select2();
                         $('#preguntas').prop('disabled', true);
                         new PNotify({

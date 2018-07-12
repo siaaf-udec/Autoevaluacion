@@ -18,11 +18,13 @@ class CreateEncuestasTable extends Migration
             $table->date("ECT_FechaPublicacion");
             $table->date("ECT_FechaFinalizacion");
             $table->integer("FK_ECT_Estado")->unsigned();
+            $table->integer("FK_ECT_Banco_Encuestas")->unsigned();
             $table->integer("FK_ECT_Proceso")->unsigned();
             $table->timestamps();
 
             $table->foreign("FK_ECT_Proceso")->references("PK_PCS_Id")->on("TBL_Procesos")->onDelete("cascade");
             $table->foreign("FK_ECT_Estado")->references("PK_ESD_Id")->on("TBL_Estados")->onDelete("cascade");
+            $table->foreign("FK_ECT_Banco_Encuestas")->references("PK_BEC_Id")->on("TBL_Banco_Encuestas")->onDelete("cascade");
 
         });
     }

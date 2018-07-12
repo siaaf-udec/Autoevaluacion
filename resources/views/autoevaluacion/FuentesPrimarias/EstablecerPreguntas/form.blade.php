@@ -1,3 +1,13 @@
+<div class="item form-group">
+    {!! Form::label('PK_LNM_Id', 'Lineamiento', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        {!! Form::select('PK_LNM_Id', $lineamientos, old('PK_LNM_Id', isset($preguntas)? 
+        $preguntas->preguntas->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id', 'LNM_Nombre'): ''), [
+            'placeholder' => 'Seleccione un lineamiento',
+            'class' => 'select2 form-control',
+            'id' => 'lineamiento']) !!}
+    </div>
+</div>
 
 <div class="item form-group">
     {!! Form::label('PK_FCT_Id', 'Factor', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
@@ -43,5 +53,5 @@
 </div>
 
 <div class="form-group">
-    {!! Form::hidden('PK_ECT_Id', Session::get('id_encuesta')) !!}
+    {!! Form::hidden('PK_BEC_Id', Session::get('id_encuesta')) !!}
 </div>

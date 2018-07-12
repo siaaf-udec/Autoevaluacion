@@ -27,16 +27,16 @@ class ModificarEstablecerPreguntasRequest extends FormRequest
     {
         return [
             'PK_PGT_Id' => 'required|exists:tbl_preguntas',
-            'PK_ECT_Id' => 'required|exists:tbl_encuestas',
+            'PK_BEC_Id' => 'required|exists:tbl_banco_encuestas',
         ];
     }
     public function messages()
     {
         return [
             'PK_PGT_Id.required' => 'Pregunta requerida',
-            'PK_ECT_Id.required' => 'Encuesta requerida',
+            'PK_BEC_Id.required' => 'Encuesta requerida',
             'PK_PGT_Id.exists' => 'La pregunta que selecciono no se encuentra en nuestros registros',
-            'PK_ECT_Id.exists' => 'La encuesta que selecciono no se encuentra en nuestros registros',
+            'PK_BEC_Id.exists' => 'La encuesta que selecciono no se encuentra en nuestros registros',
             
         ];
     }
@@ -46,7 +46,7 @@ class ModificarEstablecerPreguntasRequest extends FormRequest
      * @param  \Illuminate\Validation\Validator  $validator
      * @return void
      */
-    public function withValidator($validator)
+    /*public function withValidator($validator)
     {
         $validator->after(function ($validator) {
             $id_proceso = Encuesta::where('PK_ECT_Id',session()->get('id_encuesta'))->first();
@@ -57,5 +57,5 @@ class ModificarEstablecerPreguntasRequest extends FormRequest
                 $validator->errors()->add('Error', 'El proceso seleccionado no se encuentra en fase de construccion!');
             }
         });
-    }
+    }*/
 }

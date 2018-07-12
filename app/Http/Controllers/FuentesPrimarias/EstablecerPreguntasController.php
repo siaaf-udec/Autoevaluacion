@@ -8,9 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\PreguntaEncuesta;
 use App\Models\DatosEncuesta;
 use App\Models\Pregunta;
-use App\Models\Proceso;
-use App\Models\Encuesta;
 use App\Models\Factor;
+use App\Models\Lineamiento;
 use App\Models\GrupoInteres;
 use App\Models\Caracteristica;
 use DataTables;
@@ -42,7 +41,7 @@ class EstablecerPreguntasController extends Controller
             with('preguntas.estado')
             ->with('preguntas.tipo')
             ->with('preguntas.caracteristica')->
-            where('FK_PEN_Encuesta',session()->get('id_encuesta'))
+            where('FK_PEN_Banco_Encuestas',session()->get('id_encuesta'))
             ->get();
             return DataTables::of($preguntas)
             ->addColumn('estado', function ($preguntas) {
@@ -72,15 +71,12 @@ class EstablecerPreguntasController extends Controller
      */
     public function create()
     {
-        $id_proceso = Encuesta::where('PK_ECT_Id',session()->get('id_encuesta'))->first();
-        $id_lineamiento = Proceso::where('PK_PCS_Id',$id_proceso->FK_ECT_Proceso)->first();
-        $factores = Factor::where('FK_FCT_Lineamiento',$id_lineamiento->FK_PCS_Lineamiento)->get()
-        ->pluck('FCT_Nombre', 'PK_FCT_Id');
+        $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
         $grupos = GrupoInteres::whereHas('estado', function($query){
             return $query->where('ESD_Valor','1');
         })->get()
         ->pluck('GIT_Nombre','PK_GIT_Id');
-        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.create', compact('factores','grupos'));
+        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.create', compact('lineamientos','grupos'));
     }
     /**
      * Store a newly created resource in storage.
@@ -93,7 +89,7 @@ class EstablecerPreguntasController extends Controller
         foreach($request->get('gruposInteres') as $grupo => $valor){
             $preguntas_encuestas = new PreguntaEncuesta();
             $preguntas_encuestas->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
-            $preguntas_encuestas->FK_PEN_Encuesta = $request->get('PK_ECT_Id');
+            $preguntas_encuestas->FK_PEN_Banco_Encuestas = $request->get('PK_BEC_Id');
             $preguntas_encuestas->FK_PEN_GrupoInteres = $valor;
             $preguntas_encuestas->save();
         }           
@@ -121,6 +117,7 @@ class EstablecerPreguntasController extends Controller
     public function edit($id)
     {
         $preguntas = PreguntaEncuesta::findOrFail($id);
+        $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
         $grupos = GrupoInteres::whereHas('estado', function($query){
             return $query->where('ESD_Valor','1');
         })->get()
@@ -134,7 +131,7 @@ class EstablecerPreguntasController extends Controller
         $pregunta_encuesta = new Pregunta();
         $id_pregunta = $preguntas->preguntas->caracteristica()->pluck('PK_CRT_Id')[0];
         $preguntas_encuesta = $pregunta_encuesta->where('FK_PGT_Caracteristica',$id_pregunta)->get()->pluck('PGT_Texto','PK_PGT_Id');
-        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.edit', compact('factores','grupos','caracteristicas','preguntas','preguntas_encuesta'));
+        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.edit', compact('lineamientos','factores','grupos','caracteristicas','preguntas','preguntas_encuesta'));
     }
     /**
      * Update the specified resource in storage.
@@ -147,7 +144,7 @@ class EstablecerPreguntasController extends Controller
     {
         $preguntas_encuestas = PreguntaEncuesta::find($id);
         $preguntas_encuestas->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
-        $preguntas_encuestas->FK_PEN_Encuesta = $request->get('PK_ECT_Id');
+        $preguntas_encuestas->FK_PEN_Banco_Encuestas = $request->get('PK_BEC_Id');
         $preguntas_encuestas->update();           
         return response(['msg' => 'La pregunta se ha modificado correctamente.',
             'title' => '¡Pregunta Modificada!'
