@@ -220,6 +220,8 @@ class DocumentoAutoevaluacionController extends Controller
      */
     public function update(DocumentosAutoevaluacionRequest $request, $id)
     {
+        $borraArchivo = false;
+
         $documento = DocumentoAutoevaluacion::findOrFail($id);
         $this->authorize('autorizar', $documento->FK_DOA_Proceso);
 
@@ -252,6 +254,13 @@ class DocumentoAutoevaluacionController extends Controller
             }
 
         }
+        if($request->get('DOA_Link') != null && $documento->archivo){
+            $documento->FK_DOA_Archivo = null;
+            $borraArchivo = true;
+            $ruta = $documento->archivo->ruta;
+            $id = $documento->FK_DOA_Archivo;
+        }
+
         $documento->fill($request->only([
             'IDO_Nombre',
             'DOA_Numero',
@@ -271,6 +280,12 @@ class DocumentoAutoevaluacionController extends Controller
         $documento->FK_DOA_TipoDocumento = $request->get('PK_TDO_Id');
         $documento->FK_DOA_Dependencia = $request->get('PK_DPC_Id');
         $documento->update();
+
+        if ($borraArchivo) {
+            $ruta = str_replace('storage', 'public', $ruta);
+            Storage::delete($ruta);
+            Archivo::destroy($id);
+        }
 
 
         return response(['msg' => 'El Indicador documental ha sido modificado exitosamente.',

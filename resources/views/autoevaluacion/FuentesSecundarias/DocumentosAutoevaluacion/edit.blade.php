@@ -60,7 +60,8 @@
 
 {{-- Funciones necesarias por el formulario --}} 
 @push('functions')
-    <script type="text/javascript">            
+    <script type="text/javascript">
+    var comprobarDocumento = {{ isset($size)?'true':'false' }};          
         Dropzone.options.myDropzone = {
             url: $('#form_modificar_documento').attr('action'),
             autoProcessQueue: false,
@@ -79,12 +80,16 @@
                     var file = {name: '{{ $documento->archivo->ACV_Nombre .'.'. $documento->archivo->ACV_Extension}}', 
                     size: "{{ $size }}" };
                     myDropzone.options.addedfile.call(myDropzone, file);
-                    myDropzone.options.thumbnail.call(myDropzone, file, 
-                    '{{ url('public.layouts.index') . $documento->archivo->ruta }}');
+                    myDropzone.options.thumbnail.call(myDropzone, file, '{{ $documento->archivo->ruta }}');
                     myDropzone.emit("complete", file);
+                    this.on("removedfile", function(file) {
+                        comprobarDocumento = false;
+                    });
                     
-                }
+            }
+                
             @endif
+
         };
         $(document).ready(function () {
 
@@ -116,7 +121,7 @@
             form.submit(function (e) {
                 var formData = new FormData(this);
                 formData.append('archivo', $('#myDropzone')[0].dropzone.getQueuedFiles()[0]);
-                console.log($('#myDropzone')[0].dropzone);
+                formData.append('comprobarArchivo', comprobarDocumento);
 
                 e.preventDefault();
                 $.ajax({
@@ -127,7 +132,7 @@
                     contentType: false,
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'El documento de autoevaluacion ha sido modificado exitosamente.');
-                        window.location.href = " {{ route('documental.documentos_autoevaluacion.index')}} ";
+                        window.location.replace(" {{ route('documental.documentos_autoevaluacion.index')}} ");
                     },
                     error: function (data) {
                         var errores = data.responseJSON.errors;
