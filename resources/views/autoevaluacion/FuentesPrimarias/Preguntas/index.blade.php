@@ -9,8 +9,9 @@
         <div class="actions">
             <a href="{{ route('fuentesP.preguntas.create') }}" class="btn btn-info">
                 <i class="fa fa-plus"></i> Agregar Pregunta</a>
+            @can('IMPORTAR_PREGUNTAS')
             <a href="{{ route('fuentesP.Importarpreguntas.create') }}" class="btn btn-info">
-                <i class="fa fa-plus"></i> Importar Preguntas </a></div>
+                <i class="fa fa-plus"></i> Importar Preguntas </a></div>@endcan
     </div>
     <br>
     <br>

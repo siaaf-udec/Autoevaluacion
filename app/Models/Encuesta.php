@@ -4,8 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Estado;
-use App\Models\Proceso;
-use App\Models\DatosEncuesta;
+use App\Models\BancoEncuestas;
 
 class Encuesta extends Model
 {
@@ -40,6 +39,10 @@ class Encuesta extends Model
     public function estado()
     {
         return $this->belongsTo(Estado::class, 'FK_ECT_Estado', 'PK_ESD_Id');
+    }
+    public function banco()
+    {
+        return $this->belongsTo(BancoEncuestas::class, 'FK_ECT_Banco_Encuestas', 'PK_BEC_Id');
     }
 
     

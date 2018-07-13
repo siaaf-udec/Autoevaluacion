@@ -6,7 +6,7 @@
             <ul class="nav child_menu">
                 @can('ACCEDER_DATOS')
                 <li class="sub_menu"><a href="{{ route('fuentesP.datosEncuestas.index') }}"><i
-                                class="fa fa-plus-square-o"></i>Datos generales sobre encuestas</a>
+                                class="fa fa-plus-square-o"></i>Datos Generales</a>
                 </li>
                 @endcan
                 @can('ACCEDER_BANCO_ENCUESTAS')
@@ -16,15 +16,9 @@
                 @endcan
                 @can('ACCEDER_ENCUESTAS')
                 <li class="sub_menu"><a href="{{ route('fuentesP.datosEspecificos.index') }}"><i
-                                class="fa fa-plus-square-o"></i>Construccion de encuestas</a>
+                                class="fa fa-external-link"></i>Vincular Encuestas</a>
                 </li>
                 @endcan
-                <li class="sub_menu"><a href="#"><i 
-                                class="fa fa-paste"></i>Exportar Encuestas</a>
-                </li>
-                <li class="sub_menu"><a href="#"><i 
-                                class="fa fa-paste"></i>Importar Encuestas</a>
-                </li>
             </ul>
         </li>
 

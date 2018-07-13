@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Models\Proceso;
+use App\Models\PreguntaEncuesta;
+use App\Models\Caracteristica;
 use Carbon\Carbon;
 
 class EncuestaRequest extends FormRequest
@@ -36,6 +38,7 @@ class EncuestaRequest extends FormRequest
             'ECT_FechaPublicacion' => 'required',
             'ECT_FechaFinalizacion' => 'required',
             'PK_ESD_Id' => 'exists:tbl_estados',
+            'PK_BEC_Id' => 'required|exists:tbl_banco_encuestas',
             'PK_PCS_Id' =>  'required|exists:tbl_procesos',
             'PK_PCS_Id' => $datos
         ];
@@ -45,8 +48,10 @@ class EncuestaRequest extends FormRequest
         return [
             'ECT_FechaPublicacion.required' => 'Fecha de publicacion requerida.',
             'PK_PCS_Id.required' => 'Debe seleccionar un proceso.',
+            'PK_BEC_Id.required' => 'Debe seleccionar una encuesta.',
             'ECT_FechaFinalizacion.required' => 'Fecha de finalizacion requerida.',
             'PK_ESD_Id.exists' => 'El estado que selecciono no se encuentra en nuestros registros',
+            'PK_BEC_Id.exists' => 'La encuesta seleccionada no se encuentra en nuestros registros',
             'PK_PCS_Id.unique' => 'Ya existen datos relacionados al proceso seleccionado.',
         ];
     }
@@ -59,14 +64,26 @@ class EncuestaRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            $proceso;
-            if ( !empty($this->request->get('PK_PCS_Id') ) ) {
+            if (!empty($this->request->get('PK_PCS_Id') ) ) {
                 $proceso = Proceso::with('fase')->
                 where('PK_PCS_Id',$this->request->get('PK_PCS_Id'))
                 ->first();
-            if ($proceso->fase->FSS_Nombre != "construccion") {
-                $validator->errors()->add('Error', 'El proceso seleccionado no se encuentra en fase de construccion!');
-            }
+                if ($proceso->fase->FSS_Nombre != "construccion") {
+                    $validator->errors()->add('Error', 'El proceso seleccionado no se encuentra en fase de construccion!');
+                }
+                $caracteristicas = Caracteristica::whereHas('factor', function($query) use($proceso){
+                    return $query->where('FK_FCT_Lineamiento',$proceso->FK_PCS_Lineamiento);
+                })->get();
+                foreach($caracteristicas as $caracteristica)
+                {
+                    $verificar = PreguntaEncuesta::whereHas('preguntas',function($query) use($caracteristica){
+                        return $query->where('FK_PGT_Caracteristica',$caracteristica->PK_CRT_Id);
+                        })->where('FK_PEN_Banco_Encuestas',$this->request->get('PK_BEC_Id'))->get();
+                    if(!$verificar->count())
+                    {
+                        $validator->errors()->add('Error', ' La encuesta tiene la siguiente caracteristica faltante '.$caracteristica->CRT_Nombre);
+                    }
+                }
             }
             $fechaInicio = Carbon::createFromFormat('d/m/Y', $this->request->get('ECT_FechaPublicacion'));
             $fechaFin = Carbon::createFromFormat('d/m/Y', $this->request->get('ECT_FechaFinalizacion'));

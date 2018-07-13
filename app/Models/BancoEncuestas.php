@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PreguntaEncuesta;
 
 class BancoEncuestas extends Model
 {
@@ -27,5 +28,7 @@ class BancoEncuestas extends Model
      * @var array
      */
     protected $guarded = ['PK_BEC_Id', 'created_at', 'updated_at'];
+
+    
 
 }

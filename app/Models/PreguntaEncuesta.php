@@ -35,4 +35,8 @@ class PreguntaEncuesta extends Model
     {
         return $this->belongsto(GrupoInteres::class, 'FK_PEN_GrupoInteres', 'PK_GIT_Id');
     }
+    public function banco()
+    {
+        return $this->belongsTo(BancoEncuestas::class, 'FK_PEN_Banco_Encuestas', 'PK_BEC_Id');
+    }
 }

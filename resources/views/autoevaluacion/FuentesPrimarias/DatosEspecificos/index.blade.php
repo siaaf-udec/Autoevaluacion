@@ -1,12 +1,12 @@
 {{-- Titulo de la pagina --}}
-@section('title', 'datos específicos')
+@section('title', 'Vincular Encuestas')
 
 {{-- Contenido principal --}}
 @extends('admin.layouts.app')
 
 @section('content')
     @component('admin.components.panel')
-        @slot('title', 'Construcción de Encuestas')
+        @slot('title', 'Vincular encuestas a procesos de autoevaluación')
         @can('CREAR_ENCUESTAS')
             <div class="col-md-12">
                 <div class="actions">
@@ -20,7 +20,7 @@
         @can('VER_ENCUESTAS')
             <div class="col-md-12">
                 
-            @component('admin.components.datatable', ['id' => 'datosEspecificos-table-ajax']) @slot('columns', [ 'id', 'Fecha Publicacion', 'Fecha Finalizacion', 'Estado','Proceso','Programa','Sede',  
+            @component('admin.components.datatable', ['id' => 'datosEspecificos-table-ajax']) @slot('columns', [ 'id', 'Fecha Publicacion', 'Fecha Finalizacion','Estado','Proceso','Programa','Sede','Encuesta',  
     'Acciones' => ['style' => 'width:85px;'] ]) @endcomponent
 
             </div>
@@ -65,7 +65,6 @@
                     type: 'success',
                     styling: 'bootstrap3'
                 });
-
             }
             table = $('#datosEspecificos-table-ajax').DataTable({
                 processing: true,
@@ -83,12 +82,12 @@
                     {data: 'PCS_Nombre', name: 'Proceso', className: "min-tablet-l"},
                     {data: 'programa', name: 'Programa', className: "min-tablet-l"},
                     {data: 'sede', name: 'Sede', className: "min-tablet-l"},
+                    {data: 'encuestas.banco.BEC_Nombre', name: 'Encuesta', className: "min-tablet-l"},
                     
                     {
                         defaultContent:
                             '@can('ELIMINAR_ENCUESTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
-                            '@can('MODIFICAR_ENCUESTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan'+ 
-                             '<a href="javascript:;" class="btn btn-simple btn-primary btn-sm ver" data-toggle="confirmation"><i class="fa fa-question-circle"></i></a>',
+                            '@can('MODIFICAR_ENCUESTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
                         data: 'action',
                         name: 'action',
                         title: 'Acciones',

@@ -16,6 +16,7 @@
             </div>
         </div>
         <div class="ln_solid"></div>
+        @can('IMPORTAR_PREGUNTAS')
         <div class="form-group">
             <div class="col-md-6 col-md-offset-3">
                 {!! Form::submit('Importar Encuestas', ['class' => 'btn btn-success', 'id'=>'importarEncuestas']) !!}
@@ -23,6 +24,7 @@
         </div>
         {!! Form::close() !!}
     @endcomponent
+    @endcan
 @endsection
 
 @push('styles')

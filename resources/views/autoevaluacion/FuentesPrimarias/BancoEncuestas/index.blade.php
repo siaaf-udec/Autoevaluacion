@@ -87,7 +87,7 @@
                         defaultContent:
                             '@can('ELIMINAR_BANCO_ENCUESTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
                             '@can('MODIFICAR_BANCO_ENCUESTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan'+
-                            '@can('VER_ESTABLECER_PREGUNTAS')<a data-toggle="tooltip" title="Establecer Preguntas" href="javascript:;" class="btn btn-simple btn-info btn-sm asignar"><i class="fa fa-plus"></i></a>@endcan',
+                            '@can('VER_ESTABLECER_PREGUNTAS')<a data-toggle="tooltip" title="Establecer Preguntas" href="javascript:;" class="btn btn-simple btn-warning btn-sm asignar"><i class="fa fa-plus"></i></a>@endcan',
                         data: 'action',
                         name: 'action',
                         title: 'Acciones',

@@ -36,6 +36,7 @@ class RoleTableSeeder extends Seeder
             'MODIFICAR_DATOS',
             'ELIMINAR_DATOS',
             'CREAR_DATOS',
+            'IMPORTAR_PREGUNTAS',
             'ACCEDER_ESTABLECER_PREGUNTAS',
             'VER_ESTABLECER_PREGUNTAS',
             'MODIFICAR_ESTABLECER_PREGUNTAS',

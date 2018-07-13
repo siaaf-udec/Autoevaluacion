@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EncuestaRequest;
 use App\Models\DatosEncuesta;
-use App\Models\Encuesta;
 use App\Models\Estado;
+use App\Models\BancoEncuestas;
+use App\Models\Encuesta;
 use App\Models\GrupoInteres;
 use App\Models\Proceso;
 use Carbon\Carbon;
@@ -42,7 +43,7 @@ class DatosEspecificosController extends Controller
     {
         if ($request->ajax() && $request->isMethod('GET')) {
             $encuesta = Auth::user()->procesos()
-            ->with('programa.sede','encuestas.estado')
+            ->with('programa.sede','encuestas.estado','encuestas.banco')
             ->whereHas('encuestas.estado')
             ->get();
             return Datatables::of($encuesta)
@@ -54,7 +55,7 @@ class DatosEspecificosController extends Controller
                 }
             })
             ->addColumn('sede', function ($encuesta) {
-                if ($encuesta->programa->sede) {
+                if ($encuesta->programa) {
                     return $encuesta->programa->sede->SDS_Nombre;
                 } else {
                     return "Ninguna sede seleccionada";
@@ -90,7 +91,8 @@ class DatosEspecificosController extends Controller
     public function create()
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        return view('autoevaluacion.FuentesPrimarias.DatosEspecificos.create', compact('estados'));
+        $encuestas = BancoEncuestas::pluck('BEC_Nombre', 'PK_BEC_Id');
+        return view('autoevaluacion.FuentesPrimarias.DatosEspecificos.create', compact('estados','encuestas'));
     }
     /**
      * Store a newly created resource in storage.
@@ -104,6 +106,7 @@ class DatosEspecificosController extends Controller
         $encuesta->ECT_FechaPublicacion = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaPublicacion'));;
         $encuesta->ECT_FechaFinalizacion = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaFinalizacion'));
         $encuesta->FK_ECT_Estado = $request->get('PK_ESD_Id');
+        $encuesta->FK_ECT_Banco_Encuestas = $request->get('PK_BEC_Id');
         $encuesta->FK_ECT_Proceso = $request->get('PK_PCS_Id');
         $encuesta->save();
         return response([
@@ -131,9 +134,10 @@ class DatosEspecificosController extends Controller
     {
         $encuesta = Encuesta::findOrFail($id);
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+        $encuestas = BancoEncuestas::pluck('BEC_Nombre', 'PK_BEC_Id');
          return view(
              'autoevaluacion.FuentesPrimarias.DatosEspecificos.edit',
-             compact('encuesta', 'estados')
+             compact('encuesta', 'estados','encuestas')
              );
     }
     /**
@@ -149,6 +153,7 @@ class DatosEspecificosController extends Controller
         $encuesta->ECT_FechaPublicacion = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaPublicacion'));;
         $encuesta->ECT_FechaFinalizacion = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaFinalizacion'));
         $encuesta->FK_ECT_Estado = $request->get('PK_ESD_Id');
+        $encuesta->FK_ECT_Banco_Encuestas = $request->get('PK_BEC_Id');
         $encuesta->FK_ECT_Proceso = $request->get('PK_PCS_Id');
         $encuesta->update();
             return response([

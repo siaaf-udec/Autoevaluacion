@@ -52,10 +52,9 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#estado').select2();
+            $('#encuesta').select2();
             fecha('#fecha_fin');
             fecha('#fecha_inicio');
-            $('#proceso').prop('disabled', false);
-            $('#descripcion').prop('disabled', false)
             var form = $('#form_modificar_encuesta');
             $(form).parsley({
                 trigger: 'change',
@@ -67,10 +66,7 @@
                 errorsWrapper: '<p class="help-block help-block-error"></p>',
                 errorTemplate: '<span></span>',
             });
-
-
             form.submit(function (e) {
-
                 e.preventDefault();
                 $.ajax({
                     url: form.attr('action'),
@@ -80,7 +76,6 @@
                     Accept: 'application/json',
                     success: function (response, NULL, jqXHR) {
                         sessionStorage.setItem('update', 'Los datos se han modificado exitosamente.');
-
                         window.location.href = " {{ route('fuentesP.datosEspecificos.index')}} ";
                     },
                     error: function (data) {
@@ -100,8 +95,5 @@
                 });
             });
         });
-
     </script>
-
-
 @endpush

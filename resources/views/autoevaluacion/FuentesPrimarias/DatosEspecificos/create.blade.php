@@ -64,6 +64,7 @@
 @push('functions')
     <script type="text/javascript">
         $('#estado').select2();
+        $('#encuesta').select2();
         fecha('#fecha_inicio');
         fecha('#fecha_fin');
         var form = $('#form_crear_datosEspecificos');
@@ -89,6 +90,8 @@
                     $(form).parsley().reset();
                     $("#estado").select2('data', {}); // clear out values selected 
                     $("#estado").select2({allowClear: true});
+                    $("#encuesta").select2('data', {}); // clear out values selected 
+                    $("#encuesta").select2({allowClear: true});
                     new PNotify({
                         title: response.title,
                         text: response.msg,
