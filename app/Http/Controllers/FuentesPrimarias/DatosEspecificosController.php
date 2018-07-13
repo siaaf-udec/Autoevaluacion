@@ -133,6 +133,7 @@ class DatosEspecificosController extends Controller
     public function edit($id)
     {
         $encuesta = Encuesta::findOrFail($id);
+        $this->authorize('autorizar', $encuesta->FK_ECT_Proceso);
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         $encuestas = BancoEncuestas::pluck('BEC_Nombre', 'PK_BEC_Id');
          return view(
@@ -150,6 +151,7 @@ class DatosEspecificosController extends Controller
     public function update(EncuestaRequest $request, $id)
     {
         $encuesta = Encuesta::find($id);
+        $this->authorize('autorizar', $encuesta->FK_ECT_Proceso);
         $encuesta->ECT_FechaPublicacion = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaPublicacion'));;
         $encuesta->ECT_FechaFinalizacion = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaFinalizacion'));
         $encuesta->FK_ECT_Estado = $request->get('PK_ESD_Id');
@@ -170,7 +172,9 @@ class DatosEspecificosController extends Controller
      */
     public function destroy($id)
     {
-        Encuesta::destroy($id);
+        $encuesta = Encuesta::find($id);
+        $this->authorize('autorizar', $encuesta->FK_ECT_Proceso);
+        $encuesta->delete();
         return response(['msg' => 'Los datos han sido eliminados exitosamente.',
             'title' => 'Datos Eliminados!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request

@@ -20,7 +20,7 @@
         @can('VER_ENCUESTAS')
             <div class="col-md-12">
                 
-            @component('admin.components.datatable', ['id' => 'datosEspecificos-table-ajax']) @slot('columns', [ 'id', 'Fecha Publicacion', 'Fecha Finalizacion','Estado','Proceso','Programa','Sede','Encuesta',  
+            @component('admin.components.datatable', ['id' => 'datosEspecificos-table-ajax']) @slot('columns', [ 'id', 'Fecha Publicacion', 'Fecha Finalizacion','Estado','Proceso','Sede','Programa','Encuesta',  
     'Acciones' => ['style' => 'width:85px;'] ]) @endcomponent
 
             </div>
@@ -80,8 +80,8 @@
                     {data: 'encuestas.ECT_FechaFinalizacion', name: 'Fecha Finalizacion', className: "desktop"},
                     {data: 'estado', name: 'Estado', className: "min-phone-l"}, 
                     {data: 'PCS_Nombre', name: 'Proceso', className: "min-tablet-l"},
-                    {data: 'programa', name: 'Programa', className: "min-tablet-l"},
                     {data: 'sede', name: 'Sede', className: "min-tablet-l"},
+                    {data: 'programa', name: 'Programa', className: "min-tablet-l"},
                     {data: 'encuestas.banco.BEC_Nombre', name: 'Encuesta', className: "min-tablet-l"},
                     
                     {
@@ -123,6 +123,24 @@
                         "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
                         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                     }
+                },
+                initComplete: function () {
+                    this.api().columns([5,6]).every(function () {
+                        var column = this;
+                        var select = $('<select style="width: 100px;"><option value=""></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>');
+                        });
+                    });
                 }
             });
             table.on('click', '.remove', function (e) {

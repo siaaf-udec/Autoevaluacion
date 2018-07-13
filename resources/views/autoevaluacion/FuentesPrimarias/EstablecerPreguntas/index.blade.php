@@ -120,7 +120,7 @@
                     }
                 },
                 initComplete: function () {
-                    this.api().columns([5]).every(function () {
+                    this.api().columns([4,5]).every(function () {
                         var column = this;
                         var select = $('<select style="width: 100px;"><option value=""></option></select>')
                             .appendTo($(column.footer()).empty())

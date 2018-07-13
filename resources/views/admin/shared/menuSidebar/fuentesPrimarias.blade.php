@@ -23,13 +23,13 @@
         </li>
 
         @can('ACCEDER_PREGUNTAS')
-            <li><a href="{{ route('fuentesP.preguntas.index') }}"><i class="fa fa-question-circle"></i>Gestionar
+            <li><a href="{{ route('fuentesP.preguntas.index') }}"><i class="fa fa-question-circle"></i>Banco de
                     Preguntas</a>
             </li>
         @endcan
 
         @can('ACCEDER_TIPO_RESPUESTAS')
-            <li><a href="{{ route('fuentesP.tipoRespuesta.index') }}"><i class="fa fa-pencil-square-o"></i>Gestionar
+            <li><a href="{{ route('fuentesP.tipoRespuesta.index') }}"><i class="fa fa-pencil-square-o"></i>
                     Tipo de Respuestas </a>
             </li>
         @endcan
