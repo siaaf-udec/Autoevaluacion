@@ -37,7 +37,7 @@ class pageController extends Controller
             $sede = $proceso->programa->sede->SDS_Nombre;
         }
         $procesoSede = $sede . ' ' . $proceso->PCS_Nombre;
-        session(['proceso' => $procesoSede]);
+        session(['proceso' => str_limit($procesoSede, 50, '...')]);
         session(['id_proceso' => $request->get('PK_PCS_Id')]);
         return redirect()->back();
     }

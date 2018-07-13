@@ -27,6 +27,7 @@ class DocumentosAutoevaluacionRequest extends FormRequest
         $archivo = "required";
         $link = "required";
         $id = $this->route()->parameter('documentos_autoevaluacion');
+        $id_archivo = DocumentoAutoevaluacion::find($id);
         $comprobar = $this->request->get('comprobarArchivo');
         if ($this->hasFile('archivo') && $this->request->get('DOA_Link') !== null) {
             $link = 'file';
@@ -34,19 +35,19 @@ class DocumentosAutoevaluacionRequest extends FormRequest
         elseif($this->hasFile('archivo')){
             $link = '';
             $archivo = 'file';
+            
         }
         elseif ($this->request->get('DOA_Link') !== null) {
             $link = 'url';
             $archivo = '';
-            if($this->method() == 'PUT' && $comprobar == 'true'){
+            if($this->method() == 'PUT' && ($comprobar == 'true' && isset($id_archivo->FK_DOA_Archivo))){
                 $link = 'file';
             }
         }
-        elseif($comprobar == 'true' && $this->method() == 'PUT'){
+        elseif ($this->method() == 'PUT' && ($comprobar == 'true' && isset($id_archivo->FK_DOA_Archivo))) {   
             $archivo = "";
             $link = "";
         }
-
 
         return [
             'PK_FCT_Id' => 'exists:tbl_factores',
@@ -77,7 +78,8 @@ class DocumentosAutoevaluacionRequest extends FormRequest
             'DOA_Anio.numeric' =>  'El campo año debe ser un año valido.',
             'archivo.file' => 'El archivo debe ser un archivo valido.',
             'DOA_Link.url' => 'El campo link debe ser un link valido.',
-            'DOA_Link.file' => 'Por favor ingrese solo un archivo o un link no ambos.'
+            'DOA_Link.file' => 'Por favor ingrese solo un archivo o un link no ambos.',
+            'DOA_Link.required' => 'Por favor ingrese un Link o un archivo.',
 
         ];
     }
