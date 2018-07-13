@@ -33,14 +33,5 @@
                     Tipo de Respuestas </a>
             </li>
         @endcan
-
-        <li><a><i class="fa fa-spinner"></i>Informes<span class="fa fa-chevron-down"></span> </a>
-            <ul class="nav child_menu">
-                <li><a href="#level2_1"><i class="fa fa-area-chart"></i>Generar informe</a>
-                </li>
-                <li><a href="#level2_2"><i class="fa fa-file-text"></i>Exportar informe</a>
-                </li>
-            </ul>
-        </li>
     </ul>
 </li>             

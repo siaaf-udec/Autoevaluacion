@@ -4,26 +4,19 @@ namespace App\Http\Controllers\Publico;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Sede;
 use App\Models\Encuesta;
-use App\Models\PreguntaEncuesta;
 
-class EncuestasController extends Controller
+class HomeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
-        session()->put('proceso_autoevaluacion', $id);
-        $id_encuesta = Encuesta::where('FK_ECT_Proceso',$id)->first();
-        $grupos = PreguntaEncuesta::whereHas('grupos', function ($query) {
-            return $query->where('FK_GIT_Estado', '1');
-        })->where('FK_PEN_Banco_Encuestas',$id_encuesta->FK_ECT_Banco_Encuestas)
-        ->get()->pluck('grupos.GIT_Nombre', 'grupos.PK_GIT_Id');
-        return view('public.Encuestas.index',compact('grupos'));
+        $encuestas = Encuesta::with('proceso.programa.sede')->get();
+        return view('public.dashboard.index',compact('encuestas'));
     }
 
     /**
@@ -33,7 +26,7 @@ class EncuestasController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
@@ -44,8 +37,9 @@ class EncuestasController extends Controller
      */
     public function store(Request $request)
     {
-        return view('public.Encuestas.encuestas');
+        //
     }
+
     /**
      * Display the specified resource.
      *

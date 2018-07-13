@@ -13,8 +13,6 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="tittle"><a href="{{route('home')}}">Home</a>
                 </li>
-                <li class="dropdown"><a href="{{route('public.encuestas.index')}}">Proceso de Autoevaluacion</a>
-                </li>
                 <li class="title"><a href="{{route('login')}}">login</a>
                 </li>
             </ul>

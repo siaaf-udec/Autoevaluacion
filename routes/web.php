@@ -30,12 +30,6 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
-
-Route::get('/home', function () {
-    return view('admin.layouts.app');
-})->name('admin.home');
-
-Route::get('/', function () {
-    return view('public.dashboard.index');
-})->name('home');
+Route::get('/','Publico\HomeController@index')->name('home');
 Route::resource('encuestas', 'Publico\EncuestasController', ['as' => 'public']);
+Route::get('grupos/{id}', array('as' => 'grupos', 'uses' => 'Publico\EncuestasController@index'));

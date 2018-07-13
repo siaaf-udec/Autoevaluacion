@@ -34,7 +34,6 @@ class Encuesta extends Model
      * @var array
      */
     protected $dates = ['ECT_FechaPublicacion', 'ECT_FechaFinalizacion'];
-
     
     public function estado()
     {
@@ -43,6 +42,10 @@ class Encuesta extends Model
     public function banco()
     {
         return $this->belongsTo(BancoEncuestas::class, 'FK_ECT_Banco_Encuestas', 'PK_BEC_Id');
+    }
+    public function proceso()
+    {
+        return $this->belongsTo(Proceso::class, 'FK_ECT_Proceso', 'PK_PCS_Id');
     }
 
     
