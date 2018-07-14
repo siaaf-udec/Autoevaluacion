@@ -44,5 +44,15 @@ class UsersTableSeeder extends Seeder
             'id_estado' => '1'
         ]);
         $user1->assignRole('FUENTES_SECUNDARIAS');
+
+        $user1 = User::create([
+            'name' => 'Angie',
+            'lastname' => 'Lorena',
+            'email' => 'an@ucundinamarca.edu.co',
+            'password' => '123456',
+            'cedula' => '167887',
+            'id_estado' => '1'
+        ]);
+        $user1->assignRole('ADMIN');
     }
 }

@@ -13,6 +13,8 @@ use App\Models\Sede;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ProcesoProgramaController extends Controller
 {
@@ -46,33 +48,66 @@ class ProcesoProgramaController extends Controller
      */
     public function data(Request $request)
     {
-        if ($request->ajax() && $request->isMethod('GET')) {
-            // $indicadores_documentales = IndicadorDocumental::join('tbl_caracteristicas', 'tbl_indicadores_documentales.PK_IDO_Id','=','tbl_caracteristicas.PK_CRT_Id')
-            // ->join('tbl_factores', 'tbl_caracteristicas.FK_CRT_Factor','=', 'tbl_factores.PK_FCT_Id')
-            // ->join('tbl_lineamientos', 'tbl_factores.FK_FCT_Lineamiento','=', 'tbl_lineamientos.PK_LNM_Id')
-            // ->select('tbl_indicadores_documentales.IDO_Nombre',  'tbl_caracteristicas.CRT_Nombre',
-            // 'tbl_factores.FCT_Nombre', 'tbl_lineamientos.LNM_Nombre')
-            // ->get();
+        if (Gate::allows('SUPERADMINISTRADOR')){
+            if ($request->ajax() && $request->isMethod('GET')) {
+                // $indicadores_documentales = IndicadorDocumental::join('tbl_caracteristicas', 'tbl_indicadores_documentales.PK_IDO_Id','=','tbl_caracteristicas.PK_CRT_Id')
+                // ->join('tbl_factores', 'tbl_caracteristicas.FK_CRT_Factor','=', 'tbl_factores.PK_FCT_Id')
+                // ->join('tbl_lineamientos', 'tbl_factores.FK_FCT_Lineamiento','=', 'tbl_lineamientos.PK_LNM_Id')
+                // ->select('tbl_indicadores_documentales.IDO_Nombre',  'tbl_caracteristicas.CRT_Nombre',
+                // 'tbl_factores.FCT_Nombre', 'tbl_lineamientos.LNM_Nombre')
+                // ->get();
 
-            $procesos_programas = Proceso::with(['fase' => function ($query) {
-                return $query->select('PK_FSS_Id', 'FSS_Nombre');
-            }])
-                ->with('programa.sede')
-                ->with('programa.facultad')
-                ->where('PCS_Institucional', '=', '0')
-                ->get();
+                $procesos_programas = Proceso::with(['fase' => function ($query) {
+                    return $query->select('PK_FSS_Id', 'FSS_Nombre');
+                }])
+                    ->with('programa.sede')
+                    ->with('programa.facultad')
+                    ->where('PCS_Institucional', '=', '0')
+                    ->get();
 
-            return DataTables::of($procesos_programas)
-                ->editColumn('PCS_FechaInicio', function ($proceso_programa) {
-                    return $proceso_programa->PCS_FechaInicio ? with(new Carbon($proceso_programa->PCS_FechaInicio))->format('d/m/Y') : '';
-                })
-                ->editColumn('PCS_FechaFin', function ($proceso_programa) {
-                    return $proceso_programa->PCS_FechaFin ? with(new Carbon($proceso_programa->PCS_FechaFin))->format('d/m/Y') : '';
-                    ;
-                })
-                ->removeColumn('created_at')
-                ->removeColumn('updated_at')
-                ->make(true);
+                return DataTables::of($procesos_programas)
+                    ->editColumn('PCS_FechaInicio', function ($proceso_programa) {
+                        return $proceso_programa->PCS_FechaInicio ? with(new Carbon($proceso_programa->PCS_FechaInicio))->format('d/m/Y') : '';
+                    })
+                    ->editColumn('PCS_FechaFin', function ($proceso_programa) {
+                        return $proceso_programa->PCS_FechaFin ? with(new Carbon($proceso_programa->PCS_FechaFin))->format('d/m/Y') : '';
+                        ;
+                    })
+                    ->removeColumn('created_at')
+                    ->removeColumn('updated_at')
+                    ->make(true);
+            }
+        }
+        else{
+            if ($request->ajax() && $request->isMethod('GET')) {
+                // $indicadores_documentales = IndicadorDocumental::join('tbl_caracteristicas', 'tbl_indicadores_documentales.PK_IDO_Id','=','tbl_caracteristicas.PK_CRT_Id')
+                // ->join('tbl_factores', 'tbl_caracteristicas.FK_CRT_Factor','=', 'tbl_factores.PK_FCT_Id')
+                // ->join('tbl_lineamientos', 'tbl_factores.FK_FCT_Lineamiento','=', 'tbl_lineamientos.PK_LNM_Id')
+                // ->select('tbl_indicadores_documentales.IDO_Nombre',  'tbl_caracteristicas.CRT_Nombre',
+                // 'tbl_factores.FCT_Nombre', 'tbl_lineamientos.LNM_Nombre')
+                // ->get();
+
+                $procesos_programas = Proceso::with(['fase' => function ($query) {
+                    return $query->select('PK_FSS_Id', 'FSS_Nombre');
+                }])
+                    ->with('programa.sede')
+                    ->with('programa.facultad')
+                    ->where('PCS_Institucional', '=', '0')
+                    ->where('FK_PCS_Programa','=',Auth::user()->id_programa)
+                    ->get();
+
+                return DataTables::of($procesos_programas)
+                    ->editColumn('PCS_FechaInicio', function ($proceso_programa) {
+                        return $proceso_programa->PCS_FechaInicio ? with(new Carbon($proceso_programa->PCS_FechaInicio))->format('d/m/Y') : '';
+                    })
+                    ->editColumn('PCS_FechaFin', function ($proceso_programa) {
+                        return $proceso_programa->PCS_FechaFin ? with(new Carbon($proceso_programa->PCS_FechaFin))->format('d/m/Y') : '';
+                        ;
+                    })
+                    ->removeColumn('created_at')
+                    ->removeColumn('updated_at')
+                    ->make(true);
+            }
         }
     }
 
@@ -84,16 +119,33 @@ class ProcesoProgramaController extends Controller
      */
     public function create()
     {
-        $sedes = Sede::pluck('SDS_Nombre', 'PK_SDS_Id');
-        $facultades = Facultad::pluck('FCD_Nombre', 'PK_FCD_Id');
-        $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
-        $fases = Fase::pluck('FSS_Nombre', 'PK_FSS_Id');
+        if (Gate::allows('SUPERADMINISTRADOR')){
+            $sedes = Sede::pluck('SDS_Nombre', 'PK_SDS_Id');
+            $facultades = Facultad::pluck('FCD_Nombre', 'PK_FCD_Id');
+            $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
+            $fases = Fase::pluck('FSS_Nombre', 'PK_FSS_Id');
 
 
         return view(
             'autoevaluacion.SuperAdministrador.ProcesosProgramas.create',
             compact('sedes', 'facultades', 'lineamientos', 'fases')
         );
+        }
+        else{
+
+            //dd(Auth::user()->programa());
+            $sedes = Sede::where('PK_SDS_Id', '=', Auth::user()->programa()->FK_PAC_Sede)
+                           ->pluck('SDS_Nombre', 'PK_SDS_Id');
+            $facultades = Facultad::pluck('FCD_Nombre', 'PK_FCD_Id');
+            $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
+            $fases = Fase::pluck('FSS_Nombre', 'PK_FSS_Id');
+
+
+        return view(
+            'autoevaluacion.SuperAdministrador.ProcesosProgramas.create',
+            compact('sedes', 'facultades', 'lineamientos', 'fases')
+        );
+        }
     }
 
     /**
@@ -107,22 +159,28 @@ class ProcesoProgramaController extends Controller
         $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->get('PCS_FechaInicio'));
         $fechaFin = Carbon::createFromFormat('d/m/Y', $request->get('PCS_FechaFin'));
 
+        if ($fechaInicio < $fechaFin) {
+            $proceso = new Proceso();
+            $proceso->fill($request->only(['PCS_Nombre']));
+            $proceso->PCS_FechaInicio = $fechaInicio;
+            $proceso->PCS_FechaFin = $fechaFin;
 
-        $proceso = new Proceso();
-        $proceso->fill($request->only(['PCS_Nombre']));
-        $proceso->PCS_FechaInicio = $fechaInicio;
-        $proceso->PCS_FechaFin = $fechaFin;
 
+            $proceso->FK_PCS_Fase = 3;
+            $proceso->FK_PCS_Programa = $request->get('PK_PAC_Id');
+            $proceso->FK_PCS_Lineamiento = $request->get('PK_LNM_Id');
+            $proceso->save();
 
-        $proceso->FK_PCS_Fase = 3;
-        $proceso->FK_PCS_Programa = $request->get('PK_PAC_Id');
-        $proceso->FK_PCS_Lineamiento = $request->get('PK_LNM_Id');
-        $proceso->save();
-
-        return response([
+            return response([
                 'msg' => 'Proceso registrado correctamente.',
                 'title' => '¡Registro exitoso!'
             ], 200)// 200 Status Code: Standard response for successful HTTP request
+            ->header('Content-Type', 'application/json');
+        }
+        return response([
+                'errors' => ['La fecha de inicio tiene que ser menor que la fecha de terminación del proceso.'],
+                'title' => '¡Error!'
+            ], 422)// 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
     }
 

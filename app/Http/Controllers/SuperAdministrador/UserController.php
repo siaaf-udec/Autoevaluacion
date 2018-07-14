@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PerfilUsuarioRequest;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -44,10 +45,42 @@ class UserController extends Controller
      */
     public function data(Request $request)
     {
-
+        if (Gate::allows('SUPERADMINISTRADOR')){
+            if ($request->ajax() && $request->isMethod('GET')) {
+                $users = User::with('estado', 'roles')
+                ->where('id','!=',Auth::id())->get();
+                return DataTables::of($users)
+                    ->addColumn('estado', function ($users) {
+                        if (!$users->estado) {
+                            return '';
+                        } elseif (!strcmp($users->estado->ESD_Nombre, 'HABILITADO')) {
+                            return "<span class='label label-sm label-success'>" . $users->estado->ESD_Nombre . "</span>";
+                        } else {
+                            return "<span class='label label-sm label-danger'>" . $users->estado->ESD_Nombre . "</span>";
+                        }
+                        return "<span class='label label-sm label-primary'>" . $users->estado->ESD_Nombre . "</span>";
+                    })
+                    ->addColumn('roles', function ($users) {
+                        if (!$users->roles) {
+                            return '';
+                        }
+                        return $users->roles->map(function ($rol) {
+                            return str_limit($rol->name, 30, '...');
+                        })->implode(', ');
+                    })
+                    ->rawColumns(['estado'])
+                    ->removeColumn('cedula')
+                    ->removeColumn('created_at')
+                    ->removeColumn('updated_at')
+                    ->removeColumn('id_estado')
+                    ->make(true);
+            }
+    }
+    else{
         if ($request->ajax() && $request->isMethod('GET')) {
             $users = User::with('estado', 'roles')
-            ->where('id','!=',Auth::id())->get();
+            ->where('id','!=',Auth::id())
+            ->where('id_programa','=',Auth::user()->id_programa)->get();
             return DataTables::of($users)
                 ->addColumn('estado', function ($users) {
                     if (!$users->estado) {
@@ -74,6 +107,7 @@ class UserController extends Controller
                 ->removeColumn('id_estado')
                 ->make(true);
         }
+    }
 
     }
 
@@ -85,9 +119,21 @@ class UserController extends Controller
      */
     public function create()
     {
-        $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        $roles = Role::pluck('name', 'name');
-        return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados', 'roles'));
+        if (Gate::allows('SUPERADMINISTRADOR')){
+
+            $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+            $roles = Role::pluck('name', 'name');
+            return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados', 'roles'));
+
+        }
+        else{
+
+            $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+            $roles = Role::where('name', '!=', 'SUPERADMIN')
+                           ->where('name', '!=', 'ADMIN')
+                           ->pluck('name', 'name');
+            return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados', 'roles'));
+        }
     }
 
     /**
@@ -130,14 +176,29 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        $roles = Role::pluck('name', 'name');
+        if (Gate::allows('SUPERADMINISTRADOR')){
+
+            $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+            $roles = Role::pluck('name', 'name');
+            $user = User::findOrFail($id);
+            $edit = true;
+            return view(
+                'autoevaluacion.SuperAdministrador.Users.edit',
+                compact('user', 'estados', 'roles', 'edit')
+            );
+        }
+        else{
+
+            $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+        $roles = Role::where('name', '!=', 'SUPERADMIN')->where('name', '!=', 'ADMIN')->pluck('name', 'name');
         $user = User::findOrFail($id);
         $edit = true;
         return view(
             'autoevaluacion.SuperAdministrador.Users.edit',
             compact('user', 'estados', 'roles', 'edit')
         );
+
+    }
     }
 
     /**
@@ -220,6 +281,6 @@ class UserController extends Controller
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
 
-        
+
     }
 }

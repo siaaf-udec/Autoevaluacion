@@ -54,6 +54,7 @@
                     de Interes</a>
             </li>
         @endcan
+        @can('ACCEDER_FACTORES')
         <li><a><i class="fa fa-file"></i>CNA<span class="fa fa-chevron-down"></span> </a>
             <ul class="nav child_menu">
                 @can('ACCEDER_LINEAMIENTOS')
@@ -61,11 +62,13 @@
                                     class="fa fa-plus-square-o"></i>Lineamiento</a>
                     </li>
                 @endcan
+                @can('ACCEDER_FACTORES')
                 <li class="sub_menu"><a href="{{ route('admin.factores.index') }}"><i class="fa fa-plus-square-o"></i>Factor</a>
                 </li>
                 <li class="sub_menu"><a href="{{ route('admin.caracteristicas.index') }}"><i
                                 class="fa fa-plus-square-o"></i>Caracteristicas</a>
                 </li>
+                @endcan
                 @can('ACCEDER_AMBITOS')
                     <li class="sub_menu"><a href="{{ route('admin.ambito.index') }}"><i class="fa fa-plus-square-o"></i>Ambito</a>
                     </li>
@@ -77,5 +80,6 @@
                 @endcan
             </ul>
         </li>
+        @endcan
     </ul>
 </li>

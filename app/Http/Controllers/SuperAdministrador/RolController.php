@@ -8,6 +8,8 @@ use DataTables;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 
 class RolController extends Controller
@@ -42,12 +44,20 @@ class RolController extends Controller
      */
     public function data(Request $request)
     {
+        if (Gate::allows('SUPERADMINISTRADOR')){
         if ($request->ajax() && $request->isMethod('GET')) {
             $roles = Role::all();
             return Datatables::of($roles)
                 ->make(true);
-
         }
+        }
+        else{
+            if ($request->ajax() && $request->isMethod('GET')) {
+                $roles = Role::all()->where('name', '!=', 'SUPERADMIN')->where('name', '!=', 'ADMIN');
+                return Datatables::of($roles)
+                    ->make(true);
+        }
+    }
     }
 
 
@@ -58,9 +68,27 @@ class RolController extends Controller
      */
     public function create()
     {
-        $permisos = Permission::pluck('name', 'name');
+        if (Gate::allows('SUPERADMINISTRADOR')){
 
+            $permisos = Permission::pluck('name', 'name');
         return view('autoevaluacion.SuperAdministrador.Roles.create', compact('permisos'));
+
+        }
+        else{
+
+        $permisos = Permission::where('name', '!=', 'ACCEDER_LINEAMIENTOS')->where('name', '!=', 'SUPERADMINISTRADOR')->where('name', '!=', 'VER_LINEAMIENTOS')->where('name', '!=', 'CREAR_LINEAMIENTOS')->where('name', '!=', 'MODIFICAR_LINEAMIENTOS')->where('name', '!=', 'ELIMINAR_LINEAMIENTOS')
+            ->where('name', '!=', 'ACCEDER_ASPECTOS')->where('name', '!=', 'VER_ASPECTOS')->where('name', '!=', 'CREAR_ASPECTOS')->where('name', '!=', 'MODIFICAR_ASPECTOS')->where('name', '!=', 'ELIMINAR_ASPECTOS')
+            ->where('name', '!=', 'ACCEDER_SEDES')->where('name', '!=', 'MODIFICAR_FACULTADES')->where('name', '!=', 'VER_PROCESOS_INSTITUCIONALES')->where('name', '!=', 'ACCEDER_FACTORES')->where('name', '!=', 'MODIFICAR_CARACTERISTICAS')
+            ->where('name', '!=', 'VER_SEDES')->where('name', '!=', 'ELIMINAR_FACULTADES')->where('name', '!=', 'CREAR_PROCESOS_INSTITUCIONALES')->where('name', '!=', 'VER_FACTORES')->where('name', '!=', 'ELIMINAR_CARACTERISTICAS')
+            ->where('name', '!=', 'CREAR_SEDES')->where('name', '!=', 'ACCEDER_PROGRAMAS_ACADEMICOS')->where('name', '!=', 'MODIFICAR_PROCESOS_INSTITUCIONALES')->where('name', '!=', 'CREAR_FACTORES')->where('name', '!=', 'ACCEDER_AMBITOS')
+            ->where('name', '!=', 'MODIFICAR_SEDES')->where('name', '!=', 'VER_PROGRAMAS_ACADEMICOS')->where('name', '!=','ELIMINAR_PROCESOS_INSTITUCIONALES')->where('name', '!=','MODIFICAR_FACTORES')->where('name', '!=', 'VER_AMBITOS')
+            ->where('name', '!=', 'ELIMINAR_SEDES')->where('name', '!=', 'CREAR_PROGRAMAS_ACADEMICOS')->where('name', '!=', 'ACCEDER_LINEAMIENTOS')->where('name', '!=', 'ELIMINAR_FACTORES')->where('name', '!=', 'CREAR_AMBITOS')
+            ->where('name', '!=', 'ACCEDER_FACULTADES')->where('name', '!=', 'MODIFICAR_PROGRAMAS_ACADEMICOS')->where('name', '!=', 'ACCEDER_LINEAMIENTOS')->where('name', '!=', 'ACCEDER_CARACTERISTICAS')->where('name', '!=', 'MODIFICAR_AMBITOS')
+            ->where('name', '!=', 'VER_FACULTADES')->where('name', '!=', 'ELIMINAR_PROGRAMAS_ACADEMICOS')->where('name', '!=', 'ACCEDER_LINEAMIENTOS')->where('name', '!=', 'VER_CARACTERISTICAS')->where('name', '!=', 'ELIMINAR_AMBITOS')
+            ->where('name', '!=', 'CREAR_FACULTADES')->where('name', '!=', 'ACCEDER_PROCESOS_INSTITUCIONALES')->where('name', '!=', 'ACCEDER_LINEAMIENTOS')->where('name', '!=',  'CREAR_CARACTERISTICAS')->pluck('name', 'name');
+            return view('autoevaluacion.SuperAdministrador.Roles.create', compact('permisos'));
+
+        }
     }
 
     /**
@@ -100,14 +128,38 @@ class RolController extends Controller
      */
     public function edit($id)
     {
-        $permisos = Permission::pluck('name', 'name');
+        if (Gate::allows('SUPERADMINISTRADOR')){
 
-        $rol = Role::findOrFail($id);
+            $permisos = Permission::pluck('name', 'name');
 
-        $edit = true;
+            $rol = Role::findOrFail($id);
 
-        return view('autoevaluacion.SuperAdministrador.Roles.edit',
+            $edit = true;
+
+            return view('autoevaluacion.SuperAdministrador.Roles.edit',
             compact('rol', 'permisos', 'edit'));
+
+        }
+        else{
+
+            $permisos = Permission::where('name', '!=', 'ACCEDER_LINEAMIENTOS')->where('name', '!=', 'SUPERADMINISTRADOR')->where('name', '!=', 'VER_LINEAMIENTOS')->where('name', '!=', 'CREAR_LINEAMIENTOS')->where('name', '!=', 'MODIFICAR_LINEAMIENTOS')->where('name', '!=', 'ELIMINAR_LINEAMIENTOS')
+            ->where('name', '!=', 'ACCEDER_ASPECTOS')->where('name', '!=', 'VER_ASPECTOS')->where('name', '!=', 'CREAR_ASPECTOS')->where('name', '!=', 'MODIFICAR_ASPECTOS')->where('name', '!=', 'ELIMINAR_ASPECTOS')
+            ->where('name', '!=', 'ACCEDER_SEDES')->where('name', '!=', 'MODIFICAR_FACULTADES')->where('name', '!=', 'VER_PROCESOS_INSTITUCIONALES')->where('name', '!=', 'ACCEDER_FACTORES')->where('name', '!=', 'MODIFICAR_CARACTERISTICAS')
+            ->where('name', '!=', 'VER_SEDES')->where('name', '!=', 'ELIMINAR_FACULTADES')->where('name', '!=', 'CREAR_PROCESOS_INSTITUCIONALES')->where('name', '!=', 'VER_FACTORES')->where('name', '!=', 'ELIMINAR_CARACTERISTICAS')
+            ->where('name', '!=', 'CREAR_SEDES')->where('name', '!=', 'ACCEDER_PROGRAMAS_ACADEMICOS')->where('name', '!=', 'MODIFICAR_PROCESOS_INSTITUCIONALES')->where('name', '!=', 'CREAR_FACTORES')->where('name', '!=', 'ACCEDER_AMBITOS')
+            ->where('name', '!=', 'MODIFICAR_SEDES')->where('name', '!=', 'VER_PROGRAMAS_ACADEMICOS')->where('name', '!=','ELIMINAR_PROCESOS_INSTITUCIONALES')->where('name', '!=','MODIFICAR_FACTORES')->where('name', '!=', 'VER_AMBITOS')
+            ->where('name', '!=', 'ELIMINAR_SEDES')->where('name', '!=', 'CREAR_PROGRAMAS_ACADEMICOS')->where('name', '!=', 'ACCEDER_LINEAMIENTOS')->where('name', '!=', 'ELIMINAR_FACTORES')->where('name', '!=', 'CREAR_AMBITOS')
+            ->where('name', '!=', 'ACCEDER_FACULTADES')->where('name', '!=', 'MODIFICAR_PROGRAMAS_ACADEMICOS')->where('name', '!=', 'ACCEDER_LINEAMIENTOS')->where('name', '!=', 'ACCEDER_CARACTERISTICAS')->where('name', '!=', 'MODIFICAR_AMBITOS')
+            ->where('name', '!=', 'VER_FACULTADES')->where('name', '!=', 'ELIMINAR_PROGRAMAS_ACADEMICOS')->where('name', '!=', 'ACCEDER_LINEAMIENTOS')->where('name', '!=', 'VER_CARACTERISTICAS')->where('name', '!=', 'ELIMINAR_AMBITOS')
+            ->where('name', '!=', 'CREAR_FACULTADES')->where('name', '!=', 'ACCEDER_PROCESOS_INSTITUCIONALES')->where('name', '!=', 'ACCEDER_LINEAMIENTOS')->where('name', '!=',  'CREAR_CARACTERISTICAS')->pluck('name', 'name');
+
+            $rol = Role::findOrFail($id);
+
+            $edit = true;
+
+            return view('autoevaluacion.SuperAdministrador.Roles.edit',
+            compact('rol', 'permisos', 'edit'));
+        }
     }
 
     /**
@@ -119,6 +171,7 @@ class RolController extends Controller
      */
     public function update(RolRequest $request, $id)
     {
+
         $rol = Role::findOrFail($id);
         $rol->update($request->except('permission'));
         $permisos = $request->input('permission') ? $request->input('permission') : [];

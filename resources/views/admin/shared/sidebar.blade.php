@@ -28,6 +28,16 @@
                     @include('admin.shared.menuSidebar.fuentesSecundarias')
                     @endhasanyrole
 
+                    @hasrole('ADMIN')
+                    @include('admin.shared.menuSidebar.superadmin')
+                    @endhasrole
+                    @hasanyrole('ADMIN|FUENTES_PRIMARIAS')
+                    @include('admin.shared.menuSidebar.fuentesPrimarias')
+                    @endhasanyrole
+                    @hasanyrole('ADMIN|FUENTES_SECUNDARIAS')
+                    @include('admin.shared.menuSidebar.fuentesSecundarias')
+                    @endhasanyrole
+
                 </ul>
             </div>
 
