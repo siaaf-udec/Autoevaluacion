@@ -57,13 +57,7 @@ class ProcesoUsuarioController extends Controller
      */
     public function show($id)
     {
-        $proceso = Proceso::findOrFail($id);
-        $tipo = 'Programa ';
-        if($proceso->PCS_Institucional == 1){
-            $tipo = 'Institucion ';
-        }
-        $proceso = $tipo . $proceso->PCS_Nombre;
-        $proceso = str_limit($proceso, 45, '...');
+        $proceso = Proceso::findOrFail($id)->nombre_proceso;
 
 
         return view('autoevaluacion.SuperAdministrador.ProcesosUsuarios.index', compact('proceso'));
@@ -81,7 +75,7 @@ class ProcesoUsuarioController extends Controller
 
             return response([
                 'msg' => 'Proceso asignado correctamente.',
-                'title' => '¡Asignacion exitosa exitoso!'
+                'title' => '¡Asignacion exitosa!'
             ], 200)// 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
        

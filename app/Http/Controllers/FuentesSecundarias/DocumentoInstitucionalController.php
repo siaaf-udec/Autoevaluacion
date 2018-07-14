@@ -14,6 +14,7 @@ use Yajra\Datatables\Datatables;
 
 class DocumentoInstitucionalController extends Controller
 {
+    
 
     public function index()
     {

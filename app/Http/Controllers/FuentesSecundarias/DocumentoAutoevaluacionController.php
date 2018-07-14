@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Gate;
 
 class DocumentoAutoevaluacionController extends Controller
 {
+    
     /**
      * Instantiate a new controller instance.
      *
@@ -66,20 +67,14 @@ class DocumentoAutoevaluacionController extends Controller
 
             return DataTables::of($documentos_autoevaluacion)
                 ->addColumn('file', function ($documento_autoevaluacion) {
-
-
                     if (!$documento_autoevaluacion->archivo) {
-
-
                         return '<a class="btn btn-success btn-xs" href="' . $documento_autoevaluacion->DOA_Link .
                             '"target="_blank" role="button">Descargar</a>';
                     } else {
 
                         return '<a class="btn btn-success btn-xs" href="' .
                             $documento_autoevaluacion->archivo->ruta .
-
                             '" target="_blank" role="button">Descargar</a>';
-
                     }
                 })
                 ->addColumn('nombre', function ($documento_autoevaluacion) {
@@ -127,26 +122,23 @@ class DocumentoAutoevaluacionController extends Controller
      */
     public function store(DocumentosAutoevaluacionRequest $request)
     {
-        $proceso = Proceso::findOrFail(session()->get('id_proceso'));
+        if ($request->hasFile('archivo')) {
+            $archivo = $request->file('archivo');
+            $nombre = pathinfo($archivo->getClientOriginalName(), PATHINFO_FILENAME);
+            $extension = $archivo->getClientOriginalExtension();
+            $url = Storage::url($archivo->store('public/documentos_autoevaluacion'));
 
-        if ($proceso->FK_PCS_Fase == 4) {
-            if ($request->hasFile('archivo')) {
-                $archivo = $request->file('archivo');
-                $nombre = pathinfo($archivo->getClientOriginalName(), PATHINFO_FILENAME);
-                $extension = $archivo->getClientOriginalExtension();
-                $url = Storage::url($archivo->store('public/documentos_autoevaluacion'));
+            $archivos = new Archivo();
+            $archivos->ACV_Nombre = $nombre;
+            $archivos->ACV_Extension = $extension;
+            $archivos->ruta = $url;
+            $archivos->save();
 
-                $archivos = new Archivo();
-                $archivos->ACV_Nombre = $nombre;
-                $archivos->ACV_Extension = $extension;
-                $archivos->ruta = $url;
-                $archivos->save();
+            $id_archivo = $archivos->PK_ACV_Id;
+        }
 
-                $id_archivo = $archivos->PK_ACV_Id;
-            }
-
-            $documento_auto = new DocumentoAutoevaluacion();
-            $documento_auto->fill($request->only(['IDO_Nombre',
+        $documento_auto = new DocumentoAutoevaluacion();
+        $documento_auto->fill($request->only(['IDO_Nombre',
             'DOA_Numero',
             'DOA_Anio',
             'DOA_Link',
@@ -155,23 +147,17 @@ class DocumentoAutoevaluacionController extends Controller
             'DOA_ContenidoAdicional',
             'DOA_Observaciones']));
 
-            $documento_auto->FK_DOA_Archivo = isset($id_archivo) ? $id_archivo : null;
-            $documento_auto->FK_DOA_IndicadorDocumental = $request->get('PK_IDO_Id');
-            $documento_auto->FK_DOA_TipoDocumento = $request->get('PK_TDO_Id');
-            $documento_auto->FK_DOA_Dependencia = $request->get('PK_DPC_Id');
-            $documento_auto->FK_DOA_Proceso = session()->get('id_proceso');
-            $documento_auto->save();
+        $documento_auto->FK_DOA_Archivo = isset($id_archivo) ? $id_archivo : null;
+        $documento_auto->FK_DOA_IndicadorDocumental = $request->get('PK_IDO_Id');
+        $documento_auto->FK_DOA_TipoDocumento = $request->get('PK_TDO_Id');
+        $documento_auto->FK_DOA_Dependencia = $request->get('PK_DPC_Id');
+        $documento_auto->FK_DOA_Proceso = session()->get('id_proceso');
+        $documento_auto->save();
 
-            return response(['msg' => 'El documento se ha registrado correctamente.',
+        return response(['msg' => 'El documento se ha registrado correctamente.',
             'title' => '¡Registro exitoso!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
-        }
-         return response([
-                'errors' => ['El proceso se debe encontrar en fase de captura de datos para poder subir documentos.'],
-                'title' => '¡Error!'
-            ], 422)// 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
     }
 
     /**
@@ -231,42 +217,39 @@ class DocumentoAutoevaluacionController extends Controller
 
         $documento = DocumentoAutoevaluacion::findOrFail($id);
         $this->authorize('autorizar', $documento->FK_DOA_Proceso);
-        $proceso = Proceso::find($documento->FK_DOA_Proceso);
+        if ($request->hasFile('archivo')) {
+            $archivo = $request->file('archivo');
+            $nombre = pathinfo($archivo->getClientOriginalName(), PATHINFO_FILENAME);
+            $extension = $archivo->getClientOriginalExtension();
+            $url = Storage::url($archivo->store('public/documentos_autoevaluacion'));
 
-         if ($proceso->FK_PCS_Fase == 4 || $proceso->FK_PCS_Fase == 5) {
-             if ($request->hasFile('archivo')) {
-                 $archivo = $request->file('archivo');
-                 $nombre = pathinfo($archivo->getClientOriginalName(), PATHINFO_FILENAME);
-                 $extension = $archivo->getClientOriginalExtension();
-                 $url = Storage::url($archivo->store('public/documentos_autoevaluacion'));
+            if ($documento->archivo) {
+                $ruta = str_replace('storage', 'public', $documento->archivo->ruta);
+                Storage::delete($ruta);
+                $archivos = Archivo::findOrfail($documento->FK_DOA_Archivo);
+                $archivos->ACV_Nombre = $nombre;
+                $archivos->ACV_Extension = $extension;
+                $archivos->ruta = $url;
+                $archivos->update();
+                $id_archivo = $archivos->PK_ACV_Id;
+            } else {
+                $archivos = new Archivo();
+                $archivos->ACV_Nombre = $nombre;
+                $archivos->ACV_Extension = $extension;
+                $archivos->ruta = $url;
+                $archivos->save();
 
-                 if ($documento->archivo) {
-                     $ruta = str_replace('storage', 'public', $documento->archivo->ruta);
-                     Storage::delete($ruta);
-                     $archivos = Archivo::findOrfail($documento->FK_DOA_Archivo);
-                     $archivos->ACV_Nombre = $nombre;
-                     $archivos->ACV_Extension = $extension;
-                     $archivos->ruta = $url;
-                     $archivos->update();
-                     $id_archivo = $archivos->PK_ACV_Id;
-                 } else {
-                     $archivos = new Archivo();
-                     $archivos->ACV_Nombre = $nombre;
-                     $archivos->ACV_Extension = $extension;
-                     $archivos->ruta = $url;
-                     $archivos->save();
+                $id_archivo = $archivos->PK_ACV_Id;
+            }
+        }
+        if ($request->get('DOA_Link') != null && $documento->archivo) {
+            $documento->FK_DOA_Archivo = null;
+            $borraArchivo = true;
+            $ruta = $documento->archivo->ruta;
+            $id = $documento->FK_DOA_Archivo;
+        }
 
-                     $id_archivo = $archivos->PK_ACV_Id;
-                 }
-             }
-             if ($request->get('DOA_Link') != null && $documento->archivo) {
-                 $documento->FK_DOA_Archivo = null;
-                 $borraArchivo = true;
-                 $ruta = $documento->archivo->ruta;
-                 $id = $documento->FK_DOA_Archivo;
-             }
-
-             $documento->fill($request->only([
+        $documento->fill($request->only([
             'IDO_Nombre',
             'DOA_Numero',
             'DOA_Anio',
@@ -275,35 +258,27 @@ class DocumentoAutoevaluacionController extends Controller
             'DOA_ContenidoEspecifico',
             'DOA_ContenidoAdicional',
             'DOA_Observaciones'
-        ]));
-             if (isset($id_archivo)) {
-                 $documento->FK_DOA_Archivo = $id_archivo;
-             }
+            ]));
+
+        if (isset($id_archivo)) {
+            $documento->FK_DOA_Archivo = $id_archivo;
+        }
 
         
-             $documento->FK_DOA_IndicadorDocumental = $request->get('PK_IDO_Id');
-             $documento->FK_DOA_TipoDocumento = $request->get('PK_TDO_Id');
-             $documento->FK_DOA_Dependencia = $request->get('PK_DPC_Id');
-             $documento->update();
+        $documento->FK_DOA_IndicadorDocumental = $request->get('PK_IDO_Id');
+        $documento->FK_DOA_TipoDocumento = $request->get('PK_TDO_Id');
+        $documento->FK_DOA_Dependencia = $request->get('PK_DPC_Id');
+        $documento->update();
 
-             if ($borraArchivo) {
-                 $ruta = str_replace('storage', 'public', $ruta);
-                 Storage::delete($ruta);
-                 Archivo::destroy($id);
-             }
+        if ($borraArchivo) {
+            Archivo::destroy($id);
+        }
 
 
-             return response(['msg' => 'El Indicador documental ha sido modificado exitosamente.',
+        return response(['msg' => 'El Indicador documental ha sido modificado exitosamente.',
             'title' => 'Indicador Modificado!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
-        }
-        return response([
-                'errors' => ['El proceso se debe encontrar en fase de captura de datos o de consolidación para poder modificar la información de los documentos.'],
-                'title' => '¡Error!'
-            ], 422)// 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
-
     }
 
     /**
@@ -316,18 +291,26 @@ class DocumentoAutoevaluacionController extends Controller
     {
         $documento = DocumentoAutoevaluacion::findOrfail($id);
         $this->authorize('autorizar', $documento->FK_DOA_Proceso);
-        if ($documento->archivo) {
-            $ruta = str_replace('storage', 'public', $documento->archivo->ruta);
-            Storage::delete($ruta);
-            $documento->archivo()->delete();
+        $proceso = Proceso::find($documento->FK_DOA_Proceso);
+        if ($proceso->FK_PCS_Fase == 4) {
+            if ($documento->archivo) {
+                $documento->archivo()->delete();
+            }
+            $documento->delete();
+            return response([
+                'msg' => 'El documento ha sido eliminado exitosamente.',
+                'title' => 'Documento Eliminado!'
+            ], 200)// 200 Status Code: Standard response for successful HTTP request
+                ->header('Content-Type', 'application/json');
         }
-        $documento->delete();
+        return response([
+            'errors' => ['El proceso se debe encontrar en fase de captura de datos para poder eliminar documentos.'],
+            'title' => '¡Error!'
+        ], 422)// 200 Status Code: Standard response for successful HTTP request
+            ->header('Content-Type', 'application/json');
 
 
-        return response(['msg' => 'El documento ha sido eliminado exitosamente.',
-            'title' => 'Documento Eliminado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
-        ->header('Content-Type', 'application/json');
+        
     }
 
     public function obtenerCaracteristicas($id)

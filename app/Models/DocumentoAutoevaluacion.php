@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 
 class DocumentoAutoevaluacion extends Model
@@ -27,6 +28,17 @@ class DocumentoAutoevaluacion extends Model
      * @var array
      */
     protected $guarded = ['PK_DOA_Id', 'created_at', 'updated_at'];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($model) {
+            if ($model->archivo) {
+                $ruta = str_replace('storage', 'public', $model->archivo->ruta);
+                Storage::delete($ruta);
+            }
+        });
+    }
 
     public function archivo()
     {

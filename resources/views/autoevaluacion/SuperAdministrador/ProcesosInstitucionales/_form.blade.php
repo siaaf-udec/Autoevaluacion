@@ -13,7 +13,6 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
         {!! Form::select('PK_FSS_Id', isset($fases)?$fases:[], old('PK_FSS_Id', isset($proceso)? $proceso->FK_PCS_Fase: ''), [ 'placeholder' => 'Seleccione una fase', 
         'class' => 'select2 form-control',
-        'required' => '', 
         'id' => 'fase'])
         !!}
     </div>

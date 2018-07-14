@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\DocumentoAutoevaluacion;
+use App\Models\Proceso;
 
 class DocumentosAutoevaluacionRequest extends FormRequest
 {
@@ -82,5 +83,41 @@ class DocumentosAutoevaluacionRequest extends FormRequest
             'DOA_Link.required' => 'Por favor ingrese un Link o un archivo.',
 
         ];
+    }
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($this->method() == 'POST') {
+                $proceso = Proceso::find(session()->get('id_proceso'));
+                if ($proceso->FK_PCS_Fase != 4) {
+                    $validator->errors()->add('Error', 'El proceso se debe encontrar en fase de captura de datos para poder guardar documentos.');
+                
+                }
+            }
+
+            if($this->method() == 'PUT'){
+                $id = $this->route()->parameter('documentos_autoevaluacion');
+                $documento = DocumentoAutoevaluacion::findOrFail($id);
+                $proceso = Proceso::find($documento->FK_DOA_Proceso);
+
+                if($proceso->FK_PCS_Fase != 4 && $proceso->FK_PCS_Fase != 5){
+                    $validator->errors()->add('Error', 'El proceso se debe encontrar en fase de captura de datos o de consolidación para poder modificar la información de los documentos.');
+                }
+            }
+
+            if ($this->method() == 'DELETE') {
+                $proceso = Proceso::find(session()->get('id_proceso'));
+                if ($proceso->FK_PCS_Fase != 4) {
+                    $validator->errors()->add('Error', 'El proceso se debe encontrar en fase de captura de datos para poder eliminar documentos.');
+                }
+
+            }
+        });
     }
 }

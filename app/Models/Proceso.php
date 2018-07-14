@@ -7,6 +7,7 @@ use App\Models\Sede;
 use App\Models\ProgramaAcademico;
 use App\Models\Fase;
 use App\Models\Encuesta;
+use Illuminate\Support\Facades\Storage;
 
 class Proceso extends Model
 {
@@ -38,6 +39,37 @@ class Proceso extends Model
      */
     protected $dates = ['PCS_FechaInicio', 'PCS_FechaFin'];
 
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getNombreProcesoAttribute()
+    {
+        $sede = 'Institucional';
+        if($this->programa){
+            $sede = $this->programa->sede->SDS_Nombre;
+        }
+        return "{$sede} {$this->PCS_Nombre}";
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($model) {
+            $procesos = $model::has('documentosAutoevaluacion.archivo')->with('documentosAutoevaluacion.archivo')->get();
+            foreach ($procesos as $proceso) {
+                foreach ($proceso->documentosAutoevaluacion as $documento) {
+                    if ($documento->archivo) {
+                        $ruta = str_replace('storage', 'public', $documento->archivo->ruta);
+                        Storage::delete($ruta);
+                    }
+                } 
+            }
+        });
+        
+    }
+
 
 
     public function programa()
@@ -64,6 +96,11 @@ class Proceso extends Model
     {
         
         return $this->hasOne(Encuesta::class,'FK_ECT_Proceso','PK_PCS_Id');
+    }
+
+    public function documentosAutoevaluacion()
+    {   
+        return $this->hasMany(DocumentoAutoevaluacion::class, 'FK_DOA_Proceso', 'PK_PCS_Id');
     }
 
 }

@@ -107,28 +107,22 @@ class ProcesoProgramaController extends Controller
         $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->get('PCS_FechaInicio'));
         $fechaFin = Carbon::createFromFormat('d/m/Y', $request->get('PCS_FechaFin'));
 
-        if ($fechaInicio < $fechaFin) {
-            $proceso = new Proceso();
-            $proceso->fill($request->only(['PCS_Nombre']));
-            $proceso->PCS_FechaInicio = $fechaInicio;
-            $proceso->PCS_FechaFin = $fechaFin;
+
+        $proceso = new Proceso();
+        $proceso->fill($request->only(['PCS_Nombre']));
+        $proceso->PCS_FechaInicio = $fechaInicio;
+        $proceso->PCS_FechaFin = $fechaFin;
 
 
-            $proceso->FK_PCS_Fase = 3;
-            $proceso->FK_PCS_Programa = $request->get('PK_PAC_Id');
-            $proceso->FK_PCS_Lineamiento = $request->get('PK_LNM_Id');
-            $proceso->save();
+        $proceso->FK_PCS_Fase = 3;
+        $proceso->FK_PCS_Programa = $request->get('PK_PAC_Id');
+        $proceso->FK_PCS_Lineamiento = $request->get('PK_LNM_Id');
+        $proceso->save();
 
-            return response([
+        return response([
                 'msg' => 'Proceso registrado correctamente.',
                 'title' => '¡Registro exitoso!'
             ], 200)// 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
-        }
-        return response([
-                'errors' => ['La fecha de inicio tiene que ser menor que la fecha de terminación del proceso.'],
-                'title' => '¡Error!'
-            ], 422)// 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
     }
 

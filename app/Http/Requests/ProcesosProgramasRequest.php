@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Carbon\Carbon;
 
 class ProcesosProgramasRequest extends FormRequest
 {
@@ -43,5 +44,21 @@ class ProcesosProgramasRequest extends FormRequest
             'PK_PAC_Programa.exists' => 'El programa que selecciono no se encuentra en nuestros registros',
             'PK_LNM_Id.exists' => 'El lineamiento que selecciono no se encuentra en nuestros registros'
         ];
+    }
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $fechaInicio = Carbon::createFromFormat('d/m/Y', $this->request->get('PCS_FechaInicio'));
+            $fechaFin = Carbon::createFromFormat('d/m/Y', $this->request->get('PCS_FechaFin'));
+            if ($fechaInicio >= $fechaFin){
+                $validator->errors()->add('Error', 'La fecha de finalización del proceso tiene que ser mayor que la fecha de inicio');
+            }
+        });
     }
 }

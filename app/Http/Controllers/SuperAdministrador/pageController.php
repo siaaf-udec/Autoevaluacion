@@ -17,27 +17,15 @@ class pageController extends Controller
     public function mostrarProcesos()
     {
         $ejemplo = Auth::user()->procesos()->with('programa.sede')->get();
-        $procesos_usuario = Auth::user()->procesos()->with('programa.sede')->get()
-            ->mapWithKeys(function ($i) {
-                $sede = 'Institucional';
-                if (isset($i->programa->sede->SDS_Nombre)) {
-                    $sede = $i->programa->sede->SDS_Nombre;
-                }
-                return [$i['PK_PCS_Id'] => $sede . ' ' . $i['PCS_Nombre']];
-            });
+        $procesos_usuario = Auth::user()->procesos()->with('programa.sede')->get()->pluck('nombre_proceso', 'PK_PCS_Id');
         return json_encode($procesos_usuario);
     }
 
     public function seleccionarProceso(Request $request)
     {
         $proceso = new Proceso();
-        $proceso = $proceso::findOrFail($request->get('PK_PCS_Id'));
-        $sede = "Institucional";
-        if (isset($proceso->programa->sede->SDS_Nombre)) {
-            $sede = $proceso->programa->sede->SDS_Nombre;
-        }
-        $procesoSede = $sede . ' ' . $proceso->PCS_Nombre;
-        session(['proceso' => str_limit($procesoSede, 50, '...')]);
+        $proceso = $proceso::findOrFail($request->get('PK_PCS_Id'))->nombre_proceso;
+        session(['proceso' => str_limit($proceso, 50, '...')]);
         session(['id_proceso' => $request->get('PK_PCS_Id')]);
         return redirect()->back();
     }
