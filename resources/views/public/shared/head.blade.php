@@ -15,5 +15,4 @@
 <!-- Main stylesheet and color file-->
 <link href="{{ asset ('titan/assets/css/style.css') }}" rel="stylesheet">
 <link id="color-scheme" href="{{ asset ('titan/assets/css/colors/default.css') }}" rel="stylesheet">
- <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @stack('styles')

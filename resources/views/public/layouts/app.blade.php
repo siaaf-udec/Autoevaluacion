@@ -4,7 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    @include('public.shared.design')
+    <title>Sistema de Informacion para la Autoevaluación V3.0</title>
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="assets/images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
     @include('public.shared.head')
 </head>
 <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">

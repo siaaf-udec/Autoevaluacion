@@ -1,4 +1,3 @@
-@include('public.shared.design')
 @include('public.shared.head')
 @include('public.shared.header')
 </head>

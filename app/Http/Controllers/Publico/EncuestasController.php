@@ -17,7 +17,6 @@ class EncuestasController extends Controller
      */
     public function index($id)
     {
-        session()->put('proceso_autoevaluacion', $id);
         $id_encuesta = Encuesta::where('FK_ECT_Proceso',$id)->first();
         $grupos = PreguntaEncuesta::whereHas('grupos', function ($query) {
             return $query->where('FK_GIT_Estado', '1');
@@ -31,9 +30,9 @@ class EncuestasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id_proceso, $id_grupo)
     {
-        
+        return view('public.Encuestas.encuestas');
     }
 
     /**
@@ -44,7 +43,7 @@ class EncuestasController extends Controller
      */
     public function store(Request $request)
     {
-        return view('public.Encuestas.encuestas');
+        
     }
     /**
      * Display the specified resource.
