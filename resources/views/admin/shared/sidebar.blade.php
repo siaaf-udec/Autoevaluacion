@@ -18,26 +18,15 @@
                     <li><a href="{{ route('admin.home')}}"><i class="fa fa-home"></i> Home
                         </a>
                     </li>
-                    @hasrole('SUPERADMIN')
-                    @include('admin.shared.menuSidebar.superadmin')
-                    @endhasrole
-                    @hasanyrole('SUPERADMIN|FUENTES_PRIMARIAS')
-                    @include('admin.shared.menuSidebar.fuentesPrimarias')
-                    @endhasanyrole
-                    @hasanyrole('SUPERADMIN|FUENTES_SECUNDARIAS')
-                    @include('admin.shared.menuSidebar.fuentesSecundarias')
-                    @endhasanyrole
-
-                    @hasrole('ADMIN')
-                    @include('admin.shared.menuSidebar.superadmin')
-                    @endhasrole
-                    @hasanyrole('ADMIN|FUENTES_PRIMARIAS')
-                    @include('admin.shared.menuSidebar.fuentesPrimarias')
-                    @endhasanyrole
-                    @hasanyrole('ADMIN|FUENTES_SECUNDARIAS')
-                    @include('admin.shared.menuSidebar.fuentesSecundarias')
-                    @endhasanyrole
-
+                    @can('ACCESO_MODULO_SUPERADMINISTRADOR')
+                        @include('admin.shared.menuSidebar.superadmin')
+                    @endcan
+                    @can('ACCESO_MODULO_FUENTES_PRIMARIAS')
+                        @include('admin.shared.menuSidebar.fuentesPrimarias')
+                    @endcan
+                    @can('ACCESO_MODULO_FUENTES_SECUNDARIAS')
+                        @include('admin.shared.menuSidebar.fuentesSecundarias')
+                    @endcan
                 </ul>
             </div>
 

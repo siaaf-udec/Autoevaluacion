@@ -45,10 +45,10 @@ class UserController extends Controller
      */
     public function data(Request $request)
     {
-        if (Gate::allows('SUPERADMINISTRADOR')){
-            if ($request->ajax() && $request->isMethod('GET')) {
+        if ($request->ajax() && $request->isMethod('GET')) {
+            if (Gate::allows('SUPERADMINISTRADOR')) {
                 $users = User::with('estado', 'roles')
-                ->where('id','!=',Auth::id())->get();
+                ->where('id', '!=', Auth::id())->get();
                 return DataTables::of($users)
                     ->addColumn('estado', function ($users) {
                         if (!$users->estado) {
@@ -74,14 +74,11 @@ class UserController extends Controller
                     ->removeColumn('updated_at')
                     ->removeColumn('id_estado')
                     ->make(true);
-            }
-    }
-    else{
-        if ($request->ajax() && $request->isMethod('GET')) {
-            $users = User::with('estado', 'roles')
-            ->where('id','!=',Auth::id())
-            ->where('id_programa','=',Auth::user()->id_programa)->get();
-            return DataTables::of($users)
+            } else {
+                $users = User::with('estado', 'roles')
+            ->where('id', '!=', Auth::id())
+            ->where('id_programa', '=', Auth::user()->id_programa)->get();
+                return DataTables::of($users)
                 ->addColumn('estado', function ($users) {
                     if (!$users->estado) {
                         return '';
@@ -106,10 +103,11 @@ class UserController extends Controller
                 ->removeColumn('updated_at')
                 ->removeColumn('id_estado')
                 ->make(true);
+            }
         }
     }
 
-    }
+    
 
 
     /**

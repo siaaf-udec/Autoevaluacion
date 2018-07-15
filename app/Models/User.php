@@ -67,7 +67,7 @@ class User extends Authenticatable
     }
     public function programa()
     {
-        return $this->belongsTo(ProgramaAcademico::class, 'id_pograma', 'FK_PAC_Id');
+        return $this->belongsTo(ProgramaAcademico::class, 'id_programa', 'PK_PAC_Id');
     }
 
 }

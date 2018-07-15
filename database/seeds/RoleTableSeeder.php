@@ -21,21 +21,14 @@ class RoleTableSeeder extends Seeder
         $role = Role::create(['name' => 'ADMIN']);
 
         $role->givePermissionTo([
+            'ACCESO_MODULO_SUPERADMINISTRADOR',
+            'ACCESO_MODULO_FUENTES_PRIMARIAS',
+            'ACCESO_MODULO_FUENTES_SECUNDARIAS',
             'ACCEDER_USUARIOS',
             'VER_USUARIOS',
             'CREAR_USUARIOS',
             'MODIFICAR_USUARIOS',
             'ELIMINAR_USUARIOS',
-            'ACCEDER_ROLES',
-            'VER_ROLES',
-            'CREAR_ROLES',
-            'MODIFICAR_ROLES',
-            'ELIMINAR_ROLES',
-            'ACCEDER_PERMISOS',
-            'VER_PERMISOS',
-            'CREAR_PERMISOS',
-            'MODIFICAR_PERMISOS',
-            'ELIMINAR_PERMISOS',
             'ACCEDER_PROCESOS_PROGRAMAS',
             'VER_PROCESOS_PROGRAMAS',
             'CREAR_PROCESOS_PROGRAMAS',
@@ -111,13 +104,13 @@ class RoleTableSeeder extends Seeder
             'CREAR_DOCUMENTOS_INSTITUCIONALES',
             'MODIFICAR_DOCUMENTOS_INSTITUCIONALES',
             'ELIMINAR_DOCUMENTOS_INSTITUCIONALES',
-
             ]);
 
         //Crear y asignar permisos fuentes primarias
         $role = Role::create(['name' => 'FUENTES_PRIMARIAS']);
 
         $role->givePermissionTo([
+            'ACCESO_MODULO_FUENTES_PRIMARIAS',
             'ACCEDER_ENCUESTAS',
             'VER_ENCUESTAS',
             'CREAR_ENCUESTAS',
@@ -158,6 +151,7 @@ class RoleTableSeeder extends Seeder
         //Crear y asignar permisos fuentes secundarias
         $role = Role::create(['name' => 'FUENTES_SECUNDARIAS']);
         $role->givePermissionTo([
+            'ACCESO_MODULO_FUENTES_SECUNDARIAS',
             'ACCEDER_DEPENDENCIAS',
             'VER_DEPENDENCIAS',
             'CREAR_DEPENDENCIAS',

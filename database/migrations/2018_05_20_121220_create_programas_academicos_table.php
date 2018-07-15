@@ -27,6 +27,10 @@ class CreateProgramasAcademicosTable extends Migration
             $table->foreign("FK_PAC_Facultad")->references("PK_FCD_Id")->on("TBL_Facultades")->onDelete('cascade');
             $table->foreign("FK_PAC_Sede")->references("PK_SDS_Id")->on("TBL_Sedes")->onDelete("cascade");
         });
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedInteger('id_programa')->nullable();
+            $table->foreign('id_programa')->references('PK_PAC_Id')->on("TBL_Programas_Academicos")->onDelete('cascade');
+        });
     }
 
     /**
@@ -36,6 +40,10 @@ class CreateProgramasAcademicosTable extends Migration
      */
     public function down()
     {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign('users_id_programa_foreign');
+            $table->dropColumn('id_programa');
+        });
         Schema::dropIfExists('TBL_Programas_Academicos');
     }
 }
