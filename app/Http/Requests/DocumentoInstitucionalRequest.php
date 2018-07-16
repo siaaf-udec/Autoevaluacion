@@ -49,6 +49,7 @@ class DocumentoInstitucionalRequest extends FormRequest
             $link = "";
         }
         return [
+            'FK_DOI_GrupoDocumento' => 'required',
             'PK_GRD_Id' => 'exists:tbl_grupos_documentos',
             'link' => $link,
             'archivo' => $archivo
@@ -62,6 +63,7 @@ class DocumentoInstitucionalRequest extends FormRequest
     public function messages()
     {
         return [
+            'FK_DOI_GrupoDocumento.required' => 'Debe seleccionar un grupo de documentos',
             'PK_GRD_Id.exists' => 'El grupo de documentos que selecciono no existe en nuestros registros.',
             'archivo.file' => 'El archivo debe ser un archivo valido.',
             'link.url' => 'El campo link debe ser un link valido.',

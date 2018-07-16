@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TipoDocumentosTableSeeder::class);
         $this->call(GruposInteresTableSeeder::class);
         $this->call(DatosEncuestaTableSeeder::class);
+        $this->call(GrupoDocumentoTableSeeder::class);
 
     }
 }

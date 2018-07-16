@@ -27,6 +27,7 @@ class GrupoDocumento extends Model
      * @var array
      */
     protected $guarded = ['PK_GRD_Id', 'created_at', 'updated_at'];
+    
     public function documentoinstitucional()
     {
         return $this->hasMany(DocumentoInstitucional::class,'FK_DOI_GrupoDocumento','PK_GRD_Id');

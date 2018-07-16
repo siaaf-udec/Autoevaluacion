@@ -84,7 +84,9 @@ class DocumentoInstitucionalController extends Controller
             $archivo = new Archivo;
             $archivo->ACV_Nombre = $file->getClientOriginalName();
             $archivo->ACV_Extension = $file->extension();
-            $archivo->ruta = Storage::url($file->store('public/DocumentosInstitucionales'));
+            $carpeta= GrupoDocumento::find($request->FK_DOI_GrupoDocumento);
+            $nombrecarpeta= $carpeta->GRD_Nombre;
+            $archivo->ruta = Storage::url($file->store('public/DocumentosInstitucionales/'.$nombrecarpeta));
             $archivo->save();
 
             $docinstitucional = new DocumentoInstitucional;
@@ -148,8 +150,9 @@ class DocumentoInstitucionalController extends Controller
             $archivo = $request->file('archivo');
             $nombre = $archivo->getClientOriginalName();
             $extension = $archivo->getClientOriginalExtension();
-            $url = Storage::url($archivo->store('public/DocumentosInstitucionales'));
-
+            $carpeta= GrupoDocumento::find($request->FK_DOI_GrupoDocumento);
+            $nombrecarpeta= $carpeta->GRD_Nombre;
+            $url = Storage::url($archivo->store('public/DocumentosInstitucionales/'.$nombrecarpeta));
             if ($documento->archivo) {
                 $ruta = str_replace('storage', 'public', $documento->archivo->ruta);
                 Storage::delete($ruta);
