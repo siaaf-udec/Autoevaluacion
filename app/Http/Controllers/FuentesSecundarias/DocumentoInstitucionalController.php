@@ -15,6 +15,13 @@ use Yajra\Datatables\Datatables;
 class DocumentoInstitucionalController extends Controller
 {
     
+    public function __construct()
+    {
+        $this->middleware('permission:ACCEDER_DOCUMENTOS_INSTITUCIONALES');
+        $this->middleware(['permission:MODIFICAR_DOCUMENTOS_INSTITUCIONALES', 'permission:VER_DOCUMENTOS_INSTITUCIONALES'], ['only' => ['edit', 'update']]);
+        $this->middleware('permission:CREAR_DOCUMENTOS_INSTITUCIONALES', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ELIMINAR_DOCUMENTOS_INSTITUCIONALES', ['only' => ['destroy']]);
+    }
 
     public function index()
     {
@@ -117,10 +124,11 @@ class DocumentoInstitucionalController extends Controller
     {
         $grupodocumentos = GrupoDocumento::pluck('GRD_Nombre', 'PK_GRD_Id');
         $documento= DocumentoInstitucional::findOrFail($id);
+        $size = $documento->archivo?filesize(public_path($documento->archivo->ruta)):null;
            return view('autoevaluacion.FuentesSecundarias.DocumentoInstitucional.edit', [
             'user' => $documento,
             'edit' => true,
-        ], compact('grupodocumentos'));
+        ], compact('grupodocumentos','size'));
     }
 
     /**
@@ -132,52 +140,61 @@ class DocumentoInstitucionalController extends Controller
      */
     public function update(DocumentoInstitucionalRequest $request, $id)
     {
-        $documento = DocumentoInstitucional::findOrFail($id);
-        if($request->hasFile('archivo')){
-            $file = $request->file('archivo');
-            $nombre = $file->getClientOriginalName();
-            $extension = $file->getClientOriginalExtension();
-            $url = Storage::url($file->store('public/DocumentosInstitucionales'));
-            if($documento->archivo){
-                $ruta = str_replace('storage', 'public', $documento->archivo->ruta);
-                Storage::delete($ruta);   
-                $archivo = Archivo::findOrfail($documento->FK_DOI_Archivo);
-                $archivo->ACV_Nombre = $nombre;
-                $archivo->ACV_Extension = $extension;
-                $archivo->ruta = $url;
-                $archivo->save();
-                $id_archivo = $archivo->PK_ACV_Id; 
- 
-            }
-            else{
-                $archivo = new Archivo;
-                $archivo->ACV_Nombre = $nombre;
-                $archivo->ACV_Extension = $extension;
-                $archivo->ruta = $url;
-                $archivo->save();
-                $id_archivo = $archivo->PK_ACV_Id;
+        $borraArchivo = false;
 
-                          
-            } 
-                $documento->link = null;
-                $documento->FK_DOI_Archivo = $id_archivo;  
-        }
-        else{
-            if($request->link){
+        $documento = DocumentoInstitucional::findOrFail($id);
+    
+        if ($request->hasFile('archivo')) {
+            $archivo = $request->file('archivo');
+            $nombre = $archivo->getClientOriginalName();
+            $extension = $archivo->getClientOriginalExtension();
+            $url = Storage::url($archivo->store('public/DocumentosInstitucionales'));
+
+            if ($documento->archivo) {
                 $ruta = str_replace('storage', 'public', $documento->archivo->ruta);
                 Storage::delete($ruta);
-                $documento->FK_DOI_Archivo = null;
-                
+                $archivos = Archivo::findOrfail($documento->FK_DOI_Archivo);
+                $archivos->ACV_Nombre = $nombre;
+                $archivos->ACV_Extension = $extension;
+                $archivos->ruta = $url;
+                $archivos->update();
+                $id_archivo = $archivos->PK_ACV_Id;
+            } else {
+                $archivos = new Archivo();
+                $archivos->ACV_Nombre = $nombre;
+                $archivos->ACV_Extension = $extension;
+                $archivos->ruta = $url;
+                $archivos->save();
+
+                $id_archivo = $archivos->PK_ACV_Id;
             }
         }
-        $documento -> fill($request->except('archivo'));
-        $documento->save();
+        if ($request->get('link') != null && $documento->archivo) {
+            $documento->FK_DOI_Archivo = null;
+            $borraArchivo = true;
+            $ruta = $documento->archivo->ruta;
+            $id = $documento->FK_DOI_Archivo;
+        }
+
+        $documento->fill($request->only([
+            'DOI_Nombre',
+            'DOI_Descripcion',
+            'link',
+            ]));
+
+        if (isset($id_archivo)) {
+            $documento->FK_DOI_Archivo = $id_archivo;
+        }
         
-        
-        
-        
+        $documento->FK_DOI_GrupoDocumento = $request->FK_DOI_GrupoDocumento;
+        $documento->update();
+
+        if ($borraArchivo) {
+            Archivo::destroy($id);
+        }
+
         return response(['msg' => 'El Documento ha sido modificado exitosamente.',
-            'title' => 'Documento Modificado!'
+            'title' => 'Documento Institucional Modificado!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
@@ -205,4 +222,3 @@ class DocumentoInstitucionalController extends Controller
     }
     
 }
-

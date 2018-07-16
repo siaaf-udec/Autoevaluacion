@@ -65,7 +65,10 @@
 {{-- Funciones necesarias por el formulario --}} 
 @push('functions')
     <script type="text/javascript">
-        Dropzone.options.myDropzone = {
+    
+    var comprobarDocumento = {{ isset($size)?'true':'false' }};  
+    
+    Dropzone.options.myDropzone = {
             url: $('#form_modificar_datos').attr('action'),
             autoProcessQueue: false,
             uploadMultiple: false,
@@ -73,7 +76,27 @@
             maxFiles: 1,
             maxFilesize: 4,
             addRemoveLinks: true,
-        }
+            @if($user->archivo)
+            // The setting up of the dropzone
+            init:function() {
+
+
+                // Add server images
+                var myDropzone = this;
+
+                    var file = {name: '{{ $user->archivo->ACV_Nombre}}', 
+                    size: "{{ $size }}" };
+                    myDropzone.options.addedfile.call(myDropzone, file);
+                    myDropzone.options.thumbnail.call(myDropzone, file, '{{ $user->archivo->ruta }}');
+                    myDropzone.emit("complete", file);
+                    this.on("removedfile", function(file) {
+                        comprobarDocumento = false;
+                    });
+                    
+            }
+                
+            @endif
+        } 
         $(document).ready(function () {
             var form = $('#form_modificar_datos');
             $(form).parsley({
@@ -92,7 +115,7 @@
             form.submit(function (e) {
                 var formData = new FormData(this);
                 formData.append('archivo', $('#myDropzone')[0].dropzone.getQueuedFiles()[0]);
-
+                formData.append('comprobarArchivo', comprobarDocumento);
                 e.preventDefault();
                 $.ajax({
                     url: form.attr('action'),

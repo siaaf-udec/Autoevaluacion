@@ -25,8 +25,18 @@ class DocumentoInstitucional extends Model
      *
      * @var array
      */
-    protected $fillable = ['DOI_Nombre','DOI_Descripcion','link','FK_DOI_Archivo','FK_DOI_GrupoDocumento'];
+    
     protected $guarded = ['PK_DOI_Id', 'created_at', 'updated_at'];
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($model) {
+            if ($model->archivo) {
+                $ruta = str_replace('storage', 'public', $model->archivo->ruta);
+                Storage::delete($ruta);
+            }
+        });
+    }
     public function grupodocumento()
     {
         return $this->hasOne(GrupoDocumento::class,'PK_GRD_Id','FK_DOI_GrupoDocumento');
