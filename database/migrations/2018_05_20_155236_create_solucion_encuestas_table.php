@@ -16,11 +16,11 @@ class CreateSolucionEncuestasTable extends Migration
         Schema::create('TBL_Solucion_Encuestas', function (Blueprint $table) {
             $table->increments('PK_SEC_Id');
             $table->integer("FK_SEC_Respuesta")->unsigned();
-            $table->integer("FK_SEC_DatosEncuest")->unsigned();
+            $table->integer("FK_SEC_Encuestado")->unsigned();
             $table->timestamps();
 
             $table->foreign("FK_SEC_Respuesta")->references("PK_RPG_Id")->on("TBL_Respuestas_Preguntas")->onDelete("cascade");
-            $table->foreign("FK_SEC_DatosEncuest")->references("PK_ECD_Id")->on("TBL_Encuestados")->onDelete("cascade");
+            $table->foreign("FK_SEC_Encuestado")->references("PK_ECD_Id")->on("TBL_Encuestados")->onDelete("cascade");
         });
     }
 

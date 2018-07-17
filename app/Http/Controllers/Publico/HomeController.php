@@ -16,7 +16,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $fecha = Carbon::yesterday();
+        $fecha = Carbon::now();
         $encuestas = Encuesta::with('proceso.programa.sede')->
         where('ECT_FechaPublicacion','<=',$fecha)->
         where('ECT_FechaFinalizacion','>=',$fecha)

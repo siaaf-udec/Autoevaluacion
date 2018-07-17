@@ -12,10 +12,8 @@
         </div>
         @foreach($preguntas as $pregunta)
             <div id="{{$pregunta->preguntas->PK_PGT_Id }}" class="">{{$pregunta->preguntas->PGT_Texto}} 
-            <br></br>
-            @foreach($pregunta->preguntas->respuestas as $preguntaEncuesta)
-                {{ Form::radio('respuestas[]', $preguntaEncuesta->PK_RPG_Id, true) }} {{ $preguntaEncuesta->RPG_Texto}}
-            <br></br>
+            @foreach($pregunta->preguntas->respuestas as $preguntaEncuesta) <br></br>
+                {{ Form::radio($pregunta->preguntas->PK_PGT_Id, $preguntaEncuesta->PK_RPG_Id) }} {{ $preguntaEncuesta->RPG_Texto}}
             @endforeach
             @if ($loop->last)
             <div class="col-md-10 col-md-offset-9">

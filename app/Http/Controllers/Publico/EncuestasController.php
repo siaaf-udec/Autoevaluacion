@@ -7,11 +7,13 @@ use App\Http\Requests\SolucionEncuestaRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Sede;
 use App\Models\Encuesta;
+use App\Models\Encuestado;
 use App\Models\SolucionEncuesta;
 use App\Models\PreguntaEncuesta;
 use App\Models\DatosEncuesta;
 use App\Models\GrupoInteres;
 use App\Models\CargoAdministrativo;
+use Carbon\Carbon;
 
 class EncuestasController extends Controller
 {
@@ -38,8 +40,14 @@ class EncuestasController extends Controller
      */
     public function create($id_proceso, $id_grupo, $id_cargo)
     {
-        $id_encuesta = Encuesta::where('FK_ECT_Proceso',$id_proceso)->first();
-        $preguntas = PreguntaEncuesta::has('preguntas.respuestas')
+        session()->put('pk_cargo', $id_cargo);
+        session()->put('pk_encuesta', $id_proceso);
+        session()->put('pk_grupo', $id_grupo);
+        $id_encuesta = Encuesta::where('FK_ECT_Proceso',$id_proceso)
+        ->first();
+        $preguntas = PreguntaEncuesta::whereHas('preguntas.respuestas', function ($query) {
+            return $query->where('FK_PGT_Estado', '1');
+        })
         ->with('preguntas.respuestas')
         ->where('FK_PEN_GrupoInteres', '=', $id_grupo)
         ->where('FK_PEN_Banco_Encuestas', '=', $id_encuesta->FK_ECT_Banco_Encuestas)
@@ -50,7 +58,6 @@ class EncuestasController extends Controller
         ->first();
         return view('public.Encuestas.encuestas',compact('preguntas','datos'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -59,14 +66,32 @@ class EncuestasController extends Controller
      */
     public function store(SolucionEncuestaRequest $request)
     {
-        foreach($request->get('respuestas') as $respuesta => $valor){
+        $id_encuesta = Encuesta::where('FK_ECT_Proceso','=',session()->get('pk_encuesta'))->first();
+        $encuestados = new Encuestado();
+        $encuestados->ECD_FechaSolucion = Carbon::now();
+        $encuestados->FK_ECD_Encuesta = $id_encuesta->PK_ECT_Id;
+        $encuestados->FK_ECD_GrupoInteres = session()->get('pk_grupo');
+        if(session()->get('pk_grupo') != 3)
+            $encuestados->FK_ECD_CargoAdministrativo = null;
+        else
+            $encuestados->FK_ECD_CargoAdministrativo = session()->get('pk_cargo');
+        $encuestados->save();
+        $preguntas = PreguntaEncuesta::whereHas('preguntas', function ($query) {
+            return $query->where('FK_PGT_Estado', '1');
+        })
+        ->with('preguntas')
+        ->where('FK_PEN_GrupoInteres', '=', session()->get('pk_grupo'))
+        ->where('FK_PEN_Banco_Encuestas', '=', $id_encuesta->FK_ECT_Banco_Encuestas)
+        ->get();
+        foreach($preguntas as $pregunta){
+            $valor = $request->get($pregunta->preguntas->PK_PGT_Id,false);
             $respuesta_encuesta = new SolucionEncuesta();
             $respuesta_encuesta->FK_SEC_Respuesta = $valor;
-            $respuesta_encuesta->FK_SEC_DatosEncuest = 1;
+            $respuesta_encuesta->FK_SEC_Encuestado = $encuestados->PK_ECD_Id;
             $respuesta_encuesta->save();
         }           
-        return response(['msg' => 'Datos registrados correctamente.',
-            'title' => '¡Registro exitoso!'
+        return response(['msg' => 'Proceso finalizado correctamente.',
+            'title' => '¡Gracias por su contribución!'
         ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }

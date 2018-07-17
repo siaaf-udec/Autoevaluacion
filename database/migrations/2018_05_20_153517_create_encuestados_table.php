@@ -18,15 +18,13 @@ class CreateEncuestadosTable extends Migration
             $table->date("ECD_FechaSolucion");
             $table->integer("FK_ECD_Encuesta")->unsigned();
             $table->integer("FK_ECD_GrupoInteres")->unsigned();
-            $table->integer("FK_ECD_AlcanceAdministrativo")->unsigned()->nullable();
-            $table->integer("FK_ECD_AlcanceCargo")->unsigned()->nullable();
+            $table->integer("FK_ECD_CargoAdministrativo")->unsigned()->nullable();
 
             $table->timestamps();
 
             $table->foreign("FK_ECD_Encuesta")->references("PK_ECT_Id")->on("TBL_Encuestas")->onDelete("cascade");
             $table->foreign("FK_ECD_GrupoInteres")->references("PK_GIT_Id")->on("TBL_Grupos_Interes")->onDelete("cascade");
-            $table->foreign("FK_ECD_AlcanceAdministrativo")->references("PK_AAD_Id")->on("TBL_Alcances_Administrativos")->onDelete("cascade");
-            $table->foreign("FK_ECD_AlcanceCargo")->references("PK_CAA_Id")->on("TBL_Cargos_Administrativos")->onDelete("cascade");
+            $table->foreign("FK_ECD_CargoAdministrativo")->references("PK_CAA_Id")->on("TBL_Cargos_Administrativos")->onDelete("cascade");
         });
     }
 

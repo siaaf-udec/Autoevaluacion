@@ -33,9 +33,6 @@
 @endpush
 
 @push('scripts')
-<!-- validator -->
-<script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
-<script src="{{ asset('gentella/vendors/parsleyjs/i18n/es.js') }}"></script>
 <!-- PNotify -->
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
@@ -49,16 +46,6 @@
             $('#smartwizard').smartWizard();
             $('#smartwizard').smartWizard("theme", "dots");
             var form = $('#form_encuestas');
-            $(form).parsley({
-                trigger: 'change',
-                successClass: "has-success",
-                errorClass: "has-error",
-                classHandler: function (el) {
-                    return el.$element.closest('.form-group');
-                },
-                errorsWrapper: '<p class="help-block help-block-error"></p>',
-                errorTemplate: '<span></span>',
-            });
             form.submit(function (e) {
                 e.preventDefault();
                 $.ajax({
@@ -67,14 +54,13 @@
                     data: form.serialize(),
                     dataType: 'json',
                     success: function (response, NULL, jqXHR) {
-                        $(form)[0].reset();
-                        $(form).parsley().reset();
                         new PNotify({
                             title: response.title,
                             text: response.msg,
                             type: 'success',
                             styling: 'bootstrap3'
                         });
+                        window.location.href = " {{route('home')}} ";
                     },
                     error: function (data) {
                         var errores = data.responseJSON.errors;

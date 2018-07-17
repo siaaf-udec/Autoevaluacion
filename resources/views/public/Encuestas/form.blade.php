@@ -4,7 +4,7 @@
 {!! Form::select('PK_GIT_Id', $grupos,old('PK_GIT_Id'),
 [ 'placeholder' => 'Seleccione una grupo de interes', 
 'class' => 'select2 form-control', 
-'required' => '', 
+'required' => 'required', 
 'id' => 'grupos']) !!}
 </div>
 </div>
@@ -15,7 +15,6 @@
 {!! Form::select('PK_CAA_Id', $cargos,old('PK_CAA_Id'),
 [  
 'class' => 'select2 form-control', 
-'required' => '', 
 'id' => 'cargos',
 'style' => 'width:360px;']) !!}
 </div>
