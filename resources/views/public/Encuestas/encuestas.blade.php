@@ -1,8 +1,8 @@
 @extends('public.layouts.app')
 @extends('public.layouts.seccion')
 @section('fondo')"{{ asset('titan/assets/images/fondo_1.jpg') }}" @endsection
-@section('descripcion')Encuestas @endsection
-@section('titulo')Solucion de encuestas @endsection
+@section('descripcion')Proceso de Autoevaluación @endsection
+@section('titulo')Solucion de encuesta @endsection
 @section('content')
 @component('admin.components.panel')
         {!! Form::open([
@@ -27,7 +27,7 @@
 <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
 <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
 <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
-<link href="{{ asset('gentella/vendors/SmartWizard/dist/css/smart_wizard.css') }}" rel="stylesheet">
+<link href="{{ asset('gentella/vendors/SmartWizard/dist/css/smart_wizard.css') }}" rel="stylesheet"type="text/css" />
 <link href="{{ asset('gentella/vendors/SmartWizard/dist/css/smart_wizard_theme_dots.css') }}" rel="stylesheet"type="text/css" />
 
 @endpush
@@ -40,14 +40,14 @@
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
 <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
-
 <script src="{{ asset('gentella/vendors/SmartWizard/dist/js/jquery.smartWizard.min.js') }}"></script>
 @endpush
 
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
-          $('#smartwizard').smartWizard();
+            $('#smartwizard').smartWizard();
+            $('#smartwizard').smartWizard("theme", "dots");
             var form = $('#form_encuestas');
             $(form).parsley({
                 trigger: 'change',

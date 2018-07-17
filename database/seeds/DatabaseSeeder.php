@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(GruposInteresTableSeeder::class);
         $this->call(DatosEncuestaTableSeeder::class);
         $this->call(GrupoDocumentoTableSeeder::class);
+        $this->call(AlcancesAdministrativosTableSeeder::class);
+        $this->call(CargosAdministrativosTableSeeder::class);
 
     }
 }

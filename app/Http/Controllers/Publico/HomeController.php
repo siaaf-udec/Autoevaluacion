@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Publico;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Encuesta;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -15,7 +16,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $encuestas = Encuesta::with('proceso.programa.sede')->get();
+        $fecha = Carbon::yesterday();
+        $encuestas = Encuesta::with('proceso.programa.sede')->
+        where('ECT_FechaPublicacion','<=',$fecha)->
+        where('ECT_FechaFinalizacion','>=',$fecha)
+        ->get();
         return view('public.dashboard.index',compact('encuestas'));
     }
 

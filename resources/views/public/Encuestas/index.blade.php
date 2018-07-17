@@ -52,10 +52,24 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#grupos').select2();
+            $('#cargos').select2();
+            $('#grupos').change(function (e) {
+                e.preventDefault();
+                var valor = $("#grupos option:selected").text();
+                var id = $("#grupos option:selected").val();
+                if(valor == "DIRECTIVOS ACADEMICOS")
+                {
+                    document.getElementById("container").classList.remove('hidden');
+                }
+                else
+                {
+                    document.getElementById("container").classList.add('hidden');
+                }
+            });
             var form = $('#form_cargar_encuestas');
             form.submit(function (e) {
                 e.preventDefault();
-                window.location.href = "{{ url('encuesta') . '/'. request()->route()->parameter('id') . '/' }}"+ $('#grupos').val()
+                window.location.href = "{{ url('encuesta') . '/'. request()->route()->parameter('id') . '/' }}"+ $('#grupos').val() + '/' + $('#cargos').val() 
             });
         });
     </script>

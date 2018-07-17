@@ -15,8 +15,7 @@ class CreateEncuestadosTable extends Migration
     {
         Schema::create('TBL_Encuestados', function (Blueprint $table) {
             $table->increments('PK_ECD_Id');
-            $table->integer("ECD_Codigo");
-            $table->dateTime("ECD_FechaSolucion");
+            $table->date("ECD_FechaSolucion");
             $table->integer("FK_ECD_Encuesta")->unsigned();
             $table->integer("FK_ECD_GrupoInteres")->unsigned();
             $table->integer("FK_ECD_AlcanceAdministrativo")->unsigned()->nullable();
