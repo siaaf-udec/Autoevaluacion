@@ -76,7 +76,7 @@
                     success: function (response, NULL, jqXHR) {
                         $(form)[0].reset();
                         $(form).parsley().reset();
-                        $("#grupos").select2('data', {}); // clear out values selected 
+                        $("#grupos").select2('data', {});
                         $("#grupos").select2({allowClear: true});
                         new PNotify({
                             title: response.title,

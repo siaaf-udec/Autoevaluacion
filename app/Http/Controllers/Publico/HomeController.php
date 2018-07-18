@@ -17,9 +17,9 @@ class HomeController extends Controller
     public function index()
     {
         $fecha = Carbon::now();
-        $encuestas = Encuesta::with('proceso.programa.sede')->
-        where('ECT_FechaPublicacion','<=',$fecha)->
-        where('ECT_FechaFinalizacion','>=',$fecha)
+        $encuestas = Encuesta::with('proceso.programa.sede')
+        ->where('ECT_FechaPublicacion','<=',$fecha)
+        ->where('ECT_FechaFinalizacion','>=',$fecha)
         ->get();
         return view('public.dashboard.index',compact('encuestas'));
     }

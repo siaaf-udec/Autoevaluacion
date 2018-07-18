@@ -20,7 +20,6 @@
         'data-parsley-trigger'=>"change"] ) !!}
     </div>
 </div>
-
 <div class="form-group">
     {!! Form::label('PK_GIT_Id', 'Grupo de Interes', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">

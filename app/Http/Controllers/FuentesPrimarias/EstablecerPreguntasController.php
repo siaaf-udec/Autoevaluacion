@@ -37,11 +37,11 @@ class EstablecerPreguntasController extends Controller
     {
         if ($request->ajax() && $request->isMethod('GET')) {
             $preguntas = PreguntaEncuesta::
-            with('preguntas','grupos')->
-            with('preguntas.estado')
+            with('preguntas','grupos')
+            ->with('preguntas.estado')
             ->with('preguntas.tipo')
-            ->with('preguntas.caracteristica')->
-            where('FK_PEN_Banco_Encuestas',session()->get('id_encuesta'))
+            ->with('preguntas.caracteristica')
+            ->where('FK_PEN_Banco_Encuestas',session()->get('id_encuesta'))
             ->get();
             return DataTables::of($preguntas)
             ->addColumn('estado', function ($preguntas) {
@@ -73,9 +73,8 @@ class EstablecerPreguntasController extends Controller
     {
         $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
         $grupos = GrupoInteres::whereHas('estado', function($query){
-            return $query->where('ESD_Valor','1');
-        })->get()
-        ->pluck('GIT_Nombre','PK_GIT_Id');
+            return $query->where('ESD_Valor','=','1');
+        })->get()->pluck('GIT_Nombre','PK_GIT_Id');
         return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.create', compact('lineamientos','grupos'));
     }
     /**
@@ -120,8 +119,7 @@ class EstablecerPreguntasController extends Controller
         $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
         $grupos = GrupoInteres::whereHas('estado', function($query){
             return $query->where('ESD_Valor','1');
-        })->get()
-        ->pluck('GIT_Nombre','PK_GIT_Id');
+        })->get()->pluck('GIT_Nombre','PK_GIT_Id');
         $factor = new Factor();
         $id_factor = $preguntas->preguntas->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
         $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');

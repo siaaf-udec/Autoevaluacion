@@ -1,4 +1,4 @@
-{!! Form::label('PK_DAE_Id',$datos->DAE_Titulo) !!}
+{!! Form::label('PK_DAE_Id',isset($datos)? $datos->DAE_Titulo: 'Bienvenido') !!}
 <div id="smartwizard">
     <ul class="hidden">
         <li><a href="#descripcion"></a></li>
@@ -8,7 +8,7 @@
     </ul>
     <div>
         <div id="descripcion" class="">
-            {!! Form::label('PK_DAE_Id',$datos->DAE_Descripcion) !!}
+            {!! Form::label('PK_DAE_Id',isset($datos)? $datos->DAE_Descripcion: 'Su opinion es importante para nosotros. Por favor continue con el proceso de solucion de la encuesta') !!}
         </div>
         @foreach($preguntas as $pregunta)
             <div id="{{$pregunta->preguntas->PK_PGT_Id }}" class="">{{$pregunta->preguntas->PGT_Texto}} 
