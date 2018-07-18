@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CaracteristicasRequest extends FormRequest
 {
@@ -26,7 +27,7 @@ class CaracteristicasRequest extends FormRequest
         return [
             'CRT_Nombre' => 'required',
             'CRT_Descripcion' => 'required',
-            'CRT_Identificador' => 'required|numeric',
+            'CRT_Identificador' => 'required|numeric|'.Rule::unique('tbl_caracteristicas', 'CRT_Identificador'),
             'FK_FCT_Lineamiento' => 'exists:tbl_lineamientos,PK_LNM_Id',
             'FK_CRT_Factor' => 'exists:tbl_factores,PK_FCT_Id',
             'FK_CRT_Estado' => 'exists:tbl_estados,PK_ESD_Id',
@@ -45,6 +46,7 @@ class CaracteristicasRequest extends FormRequest
             'CRT_Descripcion.required' => 'el campo descripción requerido.',
             'CRT_Identificador.required' => 'el campo identificador es requerido.',
             'CRT_Identificador.numeric' => 'el campo identificador deber ser numérico.',
+            'CRT_Identificador.unique' => 'El identificador que ingreso ya ha sido registrado.',
             'FK_CRT_Estado.exists' => 'El estado que selecciono no se encuentra en nuestros registros',
             'FK_FCT_Lineamiento.exists' => 'El Lineamiento que selecciono no se encuentra en nuestros registros',
             'FK_CRT_Factor.exists' => 'El Factor que selecciono no se encuentra en nuestros registros',

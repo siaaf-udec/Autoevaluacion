@@ -100,7 +100,7 @@ class DocumentoAutoevaluacionController extends Controller
      */
     public function create()
     {
-        $id_lineamiento = Proceso::findOrFail(session()->get('id_proceso'))->FK_PCS_Lineamiento;
+        $id_lineamiento = Proceso::find(session()->get('id_proceso'))->FK_PCS_Lineamiento ?? null;
 
         $factores = Factor::has('caracteristica.indicadores_documentales')
             ->where('FK_FCT_Lineamiento', '=', $id_lineamiento)

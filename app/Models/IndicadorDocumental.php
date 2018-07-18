@@ -34,4 +34,8 @@ class IndicadorDocumental extends Model
     {
         return $this->belongsTo(Estado::class,'FK_IDO_Estado','PK_ESD_Id');
     }
+    public function documentosAutoevaluacion()
+    {
+        return $this->hasMany(DocumentoAutoevaluacion::class, 'FK_DOA_IndicadorDocumental', 'PK_IDO_Id');
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class IndicadoresDocumentalesRequest extends FormRequest
 {
@@ -23,9 +24,11 @@ class IndicadoresDocumentalesRequest extends FormRequest
      */
     public function rules()
     {
+        
         return [
             'IDO_Nombre' => 'required|string',
-            'IDO_Identificador' => 'required|numeric',
+            'IDO_Identificador' => 'required|numeric|'.Rule::unique('tbl_indicadores_documentales', 'IDO_Identificador')
+            ->where('FK_IDO_Caracteristica', $this->request->get('PK_CRT_Id')),
             'IDO_Descripcion' => 'required',
             'PK_ESD_Id' => 'exists:tbl_estados',
             'PK_CRT_Id' => 'exists:tbl_caracteristicas'
@@ -43,6 +46,7 @@ class IndicadoresDocumentalesRequest extends FormRequest
             'IDO_Nombre.string' => 'el campo nombre debe ser un nombre valido.',
             'IDO_Identificador.required' => 'el campo identificador es requerido.',
             'IDO_Identificador.numeric' => 'el campo identificador deber ser numérico.',
+            'IDO_Identificador.unique' => 'El identificador que ingreso ya ha sido registrado.',
             'PK_ESD_Id.exists' => 'El estado que selecciono no se encuentra en nuestros registros',
             'PK_CRT_Id.exists' => 'La característica que selecciono no se encuentra en nuestros registros'
         ];

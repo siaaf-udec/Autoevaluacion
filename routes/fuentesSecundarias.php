@@ -53,7 +53,21 @@ array('as' => 'documental.documentos_autoevaluacion.data', 'uses' => 'DocumentoA
 );
 Route::get(
     'documentos_autoevaluacion/caracteristicas/{id}',
-array('as' => 'documental.documentos_autoevaluacion.caracteristicas', 
+array('as' => 'documental.documentos_autoevaluacion.caracteristicas',
 'uses' => 'DocumentoAutoevaluacionController@obtenerCaracteristicas')
 );
 
+Route::get('informes_documentales', array(
+    'as' => 'documental.informe_documental',
+    'uses' => 'ReporteController@index'
+));
+
+Route::get('informes_documentales/datos', array(
+    'as' => 'documental.informe_documental.datos',
+    'uses' => 'ReporteController@obtenerDatos'
+));
+
+Route::post('informes_documentales/filtrar', array(
+    'as' => 'documental.informe_documental.filtrar',
+    'uses' => 'ReporteController@filtro'
+));

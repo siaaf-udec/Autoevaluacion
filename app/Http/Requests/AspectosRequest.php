@@ -30,7 +30,8 @@ class AspectosRequest extends FormRequest
         return [
             'ASP_Nombre' => 'required|string',
             'ASP_Descripcion' => 'required',
-            'ASP_Identificador' => 'required',
+            'ASP_Identificador' => 'required|'.Rule::unique('tbl_aspectos', 'ASP_Identificador')
+            ->where('FK_ASP_Caracteristica', $this->request->get('PK_CRT_Id')),
             'PK_CRT_Id' => 'required|exists:tbl_caracteristicas'
         ];
     }
@@ -44,6 +45,7 @@ class AspectosRequest extends FormRequest
         return [
         'PK_CRT_Id.required' => 'Debe seleccionar una característica.',
         'PK_CRT_Id.exists' => 'La característica que selecciona no existe en nuestros registros.',
+        'ASP_Identificador.unique' => 'El identificador que ingreso ya ha sido registrado.',
         'ASP_Nombre.required' => 'El campo nombre es requerido',
         'ASP_Descripcion' => 'El campo descripción es requerido',
         'PK_CRT_Id' => 'La característica que selecciono no se encuentra en nuestros registros.'

@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class FactoresRequest extends FormRequest
 {
@@ -26,7 +28,8 @@ class FactoresRequest extends FormRequest
         return [
             'FCT_Nombre' => 'required',
             'FCT_Descripcion' => 'required',
-            'FCT_Identificador' => 'required|numeric',
+            'FCT_Identificador' => 'required|numeric|'.Rule::unique('tbl_factores', 'FCT_Identificador')
+            ->where('FK_FCT_Lineamiento', $this->request->get('FK_FCT_Lineamiento')),
             'FCT_Ponderacion_factor' => 'required|numeric',
             'FK_FCT_Estado' => 'exists:tbl_estados,PK_ESD_Id',
             'FK_FCT_Lineamiento' => 'exists:tbl_lineamientos,PK_LNM_Id'
@@ -44,6 +47,7 @@ class FactoresRequest extends FormRequest
             'FCT_Descripcion.required' => 'el campo descripción requerido.',
             'FCT_Identificador.required' => 'el campo identificador es requerido.',
             'FCT_Identificador.numeric' => 'el campo identificador deber ser numérico.',
+            'FCT_Identificador.unique' => 'El identificador que ingreso ya ha sido registrado.',
             'FCT_Ponderacion_factor.required' => 'el campo ponderación es requerido.',
             'FCT_Ponderacion_factor.numeric' => 'el campo ponderación deber ser numérico.',
             'FK_FCT_Estado.exists' => 'El estado que selecciono no se encuentra en nuestros registros',
