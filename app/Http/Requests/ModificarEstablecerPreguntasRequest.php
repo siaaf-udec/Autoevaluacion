@@ -46,7 +46,7 @@ class ModificarEstablecerPreguntasRequest extends FormRequest
      * @param  \Illuminate\Validation\Validator  $validator
      * @return void
      */
-    /*public function withValidator($validator)
+    public function withValidator($validator)
     {
         $validator->after(function ($validator) {
             $id_proceso = Encuesta::where('PK_ECT_Id',session()->get('id_encuesta'))->first();
@@ -54,8 +54,8 @@ class ModificarEstablecerPreguntasRequest extends FormRequest
             where('PK_PCS_Id',$id_proceso->FK_ECT_Proceso)
             ->first();
             if ($proceso->fase->FSS_Nombre != "construccion") {
-                $validator->errors()->add('Error', 'El proceso seleccionado no se encuentra en fase de construccion!');
+                $validator->errors()->add('Error', 'No se puede modificar ya que la encuesta se encuentra relacionada a un proceso en fase diferente de construccion!');
             }
         });
-    }*/
+    }
 }

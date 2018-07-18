@@ -66,7 +66,6 @@
                 });
 
             }
-
             table = $('#datosEncuesta-table-ajax').DataTable({
                 processing: true,
                 serverSide: false,
@@ -160,7 +159,6 @@
             });
 
         });
-
         function SwalDelete(id, route) {
             swal({
                 title: 'Esta seguro?',
@@ -195,7 +193,7 @@
                                 swal('Eliminado exitosamente!', response.message, response.status);
                             })
                             .fail(function () {
-                                swal('Oops...', 'Something went wrong with ajax !', 'error');
+                                swal('Oops...', 'Algo salio mal!', 'error');
                             });
                     });
                 },
@@ -205,5 +203,4 @@
         }
 
     </script>
-
 @endpush

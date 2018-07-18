@@ -16,7 +16,6 @@ class BancoEncuestasController extends Controller
      *
      * @return void \Illuminate\Http\Response
      */
-
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_BANCO_ENCUESTAS');
@@ -60,7 +59,6 @@ class BancoEncuestasController extends Controller
     {
         return view('autoevaluacion.FuentesPrimarias.BancoEncuestas.create');
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -115,7 +113,6 @@ class BancoEncuestasController extends Controller
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
-
     /**
      * Remove the specified resource from storage.
      *

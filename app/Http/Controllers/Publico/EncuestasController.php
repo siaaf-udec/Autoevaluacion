@@ -26,7 +26,7 @@ class EncuestasController extends Controller
     {
         $id_encuesta = Encuesta::where('FK_ECT_Proceso',$id)->first();
         $grupos = PreguntaEncuesta::whereHas('grupos', function ($query) {
-            return $query->where('FK_GIT_Estado', '1');
+            return $query->where('FK_GIT_Estado','=' ,'1');
         })
         ->where('FK_PEN_Banco_Encuestas',$id_encuesta->FK_ECT_Banco_Encuestas)
         ->get()->pluck('grupos.GIT_Nombre', 'grupos.PK_GIT_Id');
@@ -43,8 +43,7 @@ class EncuestasController extends Controller
         session()->put('pk_cargo', $id_cargo);
         session()->put('pk_encuesta', $id_proceso);
         session()->put('pk_grupo', $id_grupo);
-        $id_encuesta = Encuesta::where('FK_ECT_Proceso',$id_proceso)
-        ->first();
+        $id_encuesta = Encuesta::where('FK_ECT_Proceso',$id_proceso)->first();
         $preguntas = PreguntaEncuesta::whereHas('preguntas.respuestas', function ($query) {
             return $query->where('FK_PGT_Estado', '1');
         })
@@ -54,8 +53,7 @@ class EncuestasController extends Controller
         ->get();
         $datos = DatosEncuesta::whereHas('grupos', function ($query) use($id_grupo) {
             return $query->where('PK_GIT_Id', '=',$id_grupo);
-        })
-        ->first();
+        })->first();
         return view('public.Encuestas.encuestas',compact('preguntas','datos'));
     }
     /**
