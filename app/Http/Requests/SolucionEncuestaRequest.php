@@ -48,7 +48,7 @@ class SolucionEncuestaRequest extends FormRequest
             foreach($preguntas as $pregunta){
                 $valor = $this->request->get($pregunta->preguntas->PK_PGT_Id,false);
                 if ($valor == 0) {
-                    $validator->errors()->add('Error', 'Asegurese de seleccionar una respuesta para cada pregunta realizada');
+                    $validator->errors()->add('Error', 'La pregunta numero '.$loop->iteration);
                 }
             }           
         });

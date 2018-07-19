@@ -653,6 +653,8 @@ a,
   letter-spacing: 2px;
   font-size: 11px;
   padding: 8px 37px;
+  background-color: #0e3d38c2;
+  border-color: rgb(2, 1, 1);
 }
 
 .btn.active.focus,

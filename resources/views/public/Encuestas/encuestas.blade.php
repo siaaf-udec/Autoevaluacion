@@ -2,7 +2,7 @@
 @extends('public.layouts.seccion')
 @section('fondo')"{{ asset('titan/assets/images/fondo_1.jpg') }}" @endsection
 @section('descripcion')Proceso de Autoevaluación @endsection
-@section('titulo')Solucion de encuesta @endsection
+@section('titulo')Encuesta @endsection
 @section('content')
 @component('admin.components.panel')
         {!! Form::open([
