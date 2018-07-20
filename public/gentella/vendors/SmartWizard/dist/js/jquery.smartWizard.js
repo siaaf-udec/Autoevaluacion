@@ -30,7 +30,7 @@
             toolbarPosition: 'bottom', // none, top, bottom, both
             toolbarButtonPosition: 'end', // start, end
             showNextButton: true, // show/hide a Next button
-            showPreviousButton: true, // show/hide a Previous button
+            showPreviousButton: false, // show/hide a Previous button
             toolbarExtraButtons: [] // Extra buttons to show on toolbar, array of jQuery input/buttons elements
         },
         anchorSettings: {
@@ -159,7 +159,7 @@
             }
 
             // Create the toolbar buttons
-            var btnNext = this.options.toolbarSettings.showNextButton !== false ? $('<button></button>').text(this.options.lang.next).addClass('btn btn-secondary sw-btn-next').attr('type', 'button') : null;
+            var btnNext = this.options.toolbarSettings.showNextButton !== false ? $('<button></button>').text(this.options.lang.next).addClass('btn btn-info btn-round sw-btn-next').attr('type', 'button') : null;
             var btnPrevious = this.options.toolbarSettings.showPreviousButton !== false ? $('<button></button>').text(this.options.lang.previous).addClass('btn btn-secondary sw-btn-prev').attr('type', 'button') : null;
             var btnGroup = $('<div></div>').addClass('btn-group mr-2 sw-btn-group').attr('role', 'group').append(btnPrevious, btnNext);
 
@@ -259,8 +259,8 @@
             $('.sw-btn-next', this.main).on("click", function (e) {
                 e.preventDefault();
                 mi._showNext();
+                
             });
-
             // Previous button event
             $('.sw-btn-prev', this.main).on("click", function (e) {
                 e.preventDefault();

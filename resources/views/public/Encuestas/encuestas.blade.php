@@ -43,8 +43,29 @@
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#smartwizard').smartWizard();
-            $('#smartwizard').smartWizard("theme", "dots");
+            $('#smartwizard').smartWizard({
+                selected: 0, 
+                lang: { 
+                next: 'Siguiente',
+                previous: 'Anterior'
+            },
+            toolbarSettings: {
+                showNextButton: true, 
+                showPreviousButton: false, 
+            }
+        });
+        $('.sw-btn-next').bind('click', function() {
+            $('.sw-btn-next').hide();
+            $('#finalizar').hide(); 
+        });
+        $(".radios").change(function () {
+            $('.sw-btn-next').show();
+            $('#finalizar').show();   
+        });
+        /*window.onbeforeunload = function(e) {
+            alert('Sirve');
+            window.location.href = " {{route('home')}} ";
+        };*/
             var form = $('#form_encuestas');
             form.submit(function (e) {
                 e.preventDefault();

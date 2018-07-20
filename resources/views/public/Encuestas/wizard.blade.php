@@ -18,13 +18,15 @@
             <font face="helvetica, arial"> <label>{{$pregunta->preguntas->PGT_Texto}} </label> </font>
             @foreach($pregunta->preguntas->respuestas as $preguntaEncuesta)
             <font face="helvetica, arial"> 
-                {{ Form::radio($pregunta->preguntas->PK_PGT_Id, $preguntaEncuesta->PK_RPG_Id) }} {{ $preguntaEncuesta->RPG_Texto}}
+                {{ Form::radio($pregunta->preguntas->PK_PGT_Id, $preguntaEncuesta->PK_RPG_Id,false,
+                ['class' => 'radios','id'=>'preguntas']
+                 ) }} {{ $preguntaEncuesta->RPG_Texto}}
             </font>
             </br>
                 @endforeach
             @if ($loop->last)
             <div class="col-md-10 col-md-offset-9">
-                {!! Form::submit('Finalizar', ['class' => 'btn btn-success']) !!}
+                {!! Form::submit('Finalizar', ['class' => 'btn btn-success', 'id' => 'finalizar']) !!}
             </div>  
             @endif
             </div>
