@@ -12,6 +12,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PerfilUsuarioRequest;
 use Illuminate\Support\Facades\Gate;
+use App\Models\ProgramaAcademico;
 
 class UserController extends Controller
 {
@@ -107,7 +108,7 @@ class UserController extends Controller
         }
     }
 
-    
+
 
 
     /**
@@ -121,16 +122,19 @@ class UserController extends Controller
 
             $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
             $roles = Role::pluck('name', 'name');
-            return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados', 'roles'));
+            $programa = ProgramaAcademico::pluck('PAC_Nombre','PK_PAC_Id');
+            return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados', 'roles','programa'));
 
         }
         else{
 
             $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+            $programa = ProgramaAcademico::where('PK_PAC_Id','=',Auth::user()->id_programa)
+                                           ->pluck('PAC_Nombre','PK_PAC_Id');
             $roles = Role::where('name', '!=', 'SUPERADMIN')
                            ->where('name', '!=', 'ADMIN')
                            ->pluck('name', 'name');
-            return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados', 'roles'));
+            return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados', 'roles','programa'));
         }
     }
 
@@ -145,6 +149,7 @@ class UserController extends Controller
         $user = new User();
         $user->fill($request->all());
         $user->id_estado = $request->get('PK_ESD_Id');
+        $user->id_programa = $request->get('PK_PAC_Id');
         $user->save();
 
         $roles = $request->input('roles') ? $request->input('roles') : [];
@@ -178,11 +183,12 @@ class UserController extends Controller
 
             $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
             $roles = Role::pluck('name', 'name');
+            $programa = ProgramaAcademico::pluck('PAC_Nombre','PK_PAC_Id');
             $user = User::findOrFail($id);
             $edit = true;
             return view(
                 'autoevaluacion.SuperAdministrador.Users.edit',
-                compact('user', 'estados', 'roles', 'edit')
+                compact('user', 'estados', 'roles', 'edit','programa')
             );
         }
         else{

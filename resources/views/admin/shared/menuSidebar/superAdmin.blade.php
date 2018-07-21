@@ -18,11 +18,11 @@
         @endcan
     </ul>
 </li>
-<li><a><i class="fa fa-diamond"></i> Super administrador <span class="fa fa-chevron-down"></span></a>
+<li><a><i class="fa fa-male"></i> Super administrador <span class="fa fa-chevron-down"></span></a>
     <ul class="nav child_menu">
         @can('ACCEDER_SEDES')
             <li>
-                <a href="{{ route('admin.sedes.index')}}"><i class="fa fa-university"></i> Sedes</a>
+                <a href="{{ route('admin.sedes.index')}}"><i class="fa fa-industry"></i> Sedes</a>
             </li>
         @endcan
         @can('ACCEDER_FACULTADES')
@@ -32,50 +32,50 @@
         @endcan
         @can('ACCEDER_PROGRAMAS_ACADEMICOS')
             <li>
-                <a href="{{ route('admin.programas_academicos.index')}}"><i class="fa fa-university"></i> Programas
+                <a href="{{ route('admin.programas_academicos.index')}}"><i class="fa fa-book"></i> Programas
                     Académicos</a>
             </li>
         @endcan
         @can('ACCEDER_PROCESOS_INSTITUCIONALES')
         <li>
-            <a href="{{ route('admin.procesos_institucionales.index')}}"><i class="fa fa-university"></i> Procesos
+            <a href="{{ route('admin.procesos_institucionales.index')}}"><i class="fa fa-building-o"></i> Procesos
                             institucionales</a>
         </li>
         @endcan
         @can('ACCEDER_PROCESOS_PROGRAMAS')
             <li>
-                <a href="{{ route('admin.procesos_programas.index')}}"><i class="fa fa-university"></i> Procesos
+                <a href="{{ route('admin.procesos_programas.index')}}"><i class="fa fa-graduation-cap"></i> Procesos
                     programas</a>
             </li>
         @endcan
         @can('ACCEDER_GRUPOS_INTERES')
             <li>
-                <a href="{{ route('admin.grupos_interes.index')}}"><i class="fa fa-university"></i> Grupos
+                <a href="{{ route('admin.grupos_interes.index')}}"><i class="fa fa-slideshare"></i> Grupos
                     de Interes</a>
             </li>
         @endcan
         @can('ACCEDER_FACTORES')
-        <li><a><i class="fa fa-file"></i>CNA<span class="fa fa-chevron-down"></span> </a>
+        <li><a><i class="fa fa-bookmark"></i>CNA<span class="fa fa-chevron-down"></span> </a>
             <ul class="nav child_menu">
                 @can('ACCEDER_LINEAMIENTOS')
                     <li class="sub_menu"><a href="{{ route('admin.lineamientos.index') }}"><i
-                                    class="fa fa-plus-square-o"></i>Lineamiento</a>
+                                    class="fa fa-line-chart"></i>Lineamiento</a>
                     </li>
                 @endcan
                 @can('ACCEDER_FACTORES')
-                <li class="sub_menu"><a href="{{ route('admin.factores.index') }}"><i class="fa fa-plus-square-o"></i>Factor</a>
+                <li class="sub_menu"><a href="{{ route('admin.factores.index') }}"><i class="fa fa-bar-chart"></i>Factor</a>
                 </li>
                 <li class="sub_menu"><a href="{{ route('admin.caracteristicas.index') }}"><i
-                                class="fa fa-plus-square-o"></i>Caracteristicas</a>
+                                class="fa fa-sliders"></i>Caracteristicas</a>
                 </li>
                 @endcan
                 @can('ACCEDER_AMBITOS')
-                    <li class="sub_menu"><a href="{{ route('admin.ambito.index') }}"><i class="fa fa-plus-square-o"></i>Ambito</a>
+                    <li class="sub_menu"><a href="{{ route('admin.ambito.index') }}"><i class="fa fa-laptop"></i>Ambito</a>
                     </li>
                 @endcan
                 @can('ACCEDER_ASPECTOS')
                     <li class="sub_menu"><a href="{{ route('admin.aspectos.index') }}"><i
-                                    class="fa fa-plus-square-o"></i>Aspectos</a>
+                                    class="fa fa-table"></i>Aspectos</a>
                     </li>
                 @endcan
             </ul>

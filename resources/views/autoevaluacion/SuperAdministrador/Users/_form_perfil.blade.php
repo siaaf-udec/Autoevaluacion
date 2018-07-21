@@ -61,8 +61,8 @@
 <div class="item form-group">
     {!! Form::label('roles', 'Roles', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::select('roles[]', isset($roles)?$roles:[], 
-        old('roles', isset($roles, $user)? $user->roles()->pluck('name', 'name') : ''), 
+        {!! Form::select('roles[]', isset($roles)?$roles:[],
+        old('roles', isset($roles, $user)? $user->roles()->pluck('name', 'name') : ''),
         ['class' => 'select2_roles form-control', 'multiple' => 'multiple', 'required'
         => '', 'id'=>'select_rol']) !!}
     </div>
