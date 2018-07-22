@@ -44,12 +44,29 @@ class PermisosController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
+            if (Gate::allows('SUPERADMINISTRADOR')) {
             $permisos = Permission::all();
             return Datatables::of($permisos)
                     ->make(true);
+            }
+            else{
+                $permisos = Permission::all()
+                ->where('name', '!=', 'SUPERADMINISTRADOR')->where('name','!=','ACCESO_MODULO_SUPERADMINISTRADOR')->where('name', '!=', 'ACCEDER_LINEAMIENTOS')->where('name', '!=', 'VER_LINEAMIENTOS')->where('name', '!=', 'CREAR_LINEAMIENTOS')->where('name', '!=', 'MODIFICAR_LINEAMIENTOS')->where('name', '!=', 'ELIMINAR_LINEAMIENTOS')
+            ->where('name', '!=', 'ACCEDER_ASPECTOS')->where('name', '!=', 'VER_ASPECTOS')->where('name', '!=', 'CREAR_ASPECTOS')->where('name', '!=', 'MODIFICAR_ASPECTOS')->where('name', '!=', 'ELIMINAR_ASPECTOS')
+            ->where('name', '!=', 'ACCEDER_SEDES')->where('name', '!=', 'MODIFICAR_FACULTADES')->where('name', '!=', 'VER_PROCESOS_INSTITUCIONALES')->where('name', '!=', 'ACCEDER_FACTORES')->where('name', '!=', 'MODIFICAR_CARACTERISTICAS')
+            ->where('name', '!=', 'VER_SEDES')->where('name', '!=', 'ELIMINAR_FACULTADES')->where('name', '!=', 'CREAR_PROCESOS_INSTITUCIONALES')->where('name', '!=', 'VER_FACTORES')->where('name', '!=', 'ELIMINAR_CARACTERISTICAS')
+            ->where('name', '!=', 'CREAR_SEDES')->where('name', '!=', 'ACCEDER_PROGRAMAS_ACADEMICOS')->where('name', '!=', 'MODIFICAR_PROCESOS_INSTITUCIONALES')->where('name', '!=', 'CREAR_FACTORES')->where('name', '!=', 'ACCEDER_AMBITOS')
+            ->where('name', '!=', 'MODIFICAR_SEDES')->where('name', '!=', 'VER_PROGRAMAS_ACADEMICOS')->where('name', '!=','ELIMINAR_PROCESOS_INSTITUCIONALES')->where('name', '!=','MODIFICAR_FACTORES')->where('name', '!=', 'VER_AMBITOS')
+            ->where('name', '!=', 'ELIMINAR_SEDES')->where('name', '!=', 'CREAR_PROGRAMAS_ACADEMICOS')->where('name', '!=', 'ACCEDER_LINEAMIENTOS')->where('name', '!=', 'ELIMINAR_FACTORES')->where('name', '!=', 'CREAR_AMBITOS')
+            ->where('name', '!=', 'ACCEDER_FACULTADES')->where('name', '!=', 'MODIFICAR_PROGRAMAS_ACADEMICOS')->where('name', '!=', 'ACCEDER_LINEAMIENTOS')->where('name', '!=', 'ACCEDER_CARACTERISTICAS')->where('name', '!=', 'MODIFICAR_AMBITOS')
+            ->where('name', '!=', 'VER_FACULTADES')->where('name', '!=', 'ELIMINAR_PROGRAMAS_ACADEMICOS')->where('name', '!=', 'ACCEDER_LINEAMIENTOS')->where('name', '!=', 'VER_CARACTERISTICAS')->where('name', '!=', 'ELIMINAR_AMBITOS')
+            ->where('name', '!=', 'CREAR_FACULTADES')->where('name', '!=', 'ACCEDER_PROCESOS_INSTITUCIONALES')->where('name', '!=', 'ACCEDER_LINEAMIENTOS')->where('name', '!=',  'CREAR_CARACTERISTICAS');
+            return Datatables::of($permisos)
+                    ->make(true);
+            }
         }
     }
-    
+
 
 
     /**
