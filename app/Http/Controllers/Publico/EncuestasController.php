@@ -14,6 +14,7 @@ use App\Models\DatosEncuesta;
 use App\Models\GrupoInteres;
 use App\Models\CargoAdministrativo;
 use Carbon\Carbon;
+use Exception;
 
 class EncuestasController extends Controller
 {
@@ -64,7 +65,8 @@ class EncuestasController extends Controller
      */
     public function store(SolucionEncuestaRequest $request)
     {
-        $id_encuesta = Encuesta::where('FK_ECT_Proceso','=',session()->get('pk_encuesta'))->first();
+        $id_encuesta = Encuesta::where('FK_ECT_Proceso','=',session()->get('pk_encuesta'))
+        ->first();
         $encuestados = new Encuestado();
         $encuestados->ECD_FechaSolucion = Carbon::now();
         $encuestados->FK_ECD_Encuesta = $id_encuesta->PK_ECT_Id;
@@ -82,11 +84,11 @@ class EncuestasController extends Controller
         ->where('FK_PEN_Banco_Encuestas', '=', $id_encuesta->FK_ECT_Banco_Encuestas)
         ->get();
         foreach($preguntas as $pregunta){
-            $valor = $request->get($pregunta->preguntas->PK_PGT_Id,false);
-            $respuesta_encuesta = new SolucionEncuesta();
-            $respuesta_encuesta->FK_SEC_Respuesta = $valor;
-            $respuesta_encuesta->FK_SEC_Encuestado = $encuestados->PK_ECD_Id;
-            $respuesta_encuesta->save();
+                $valor = $request->get($pregunta->preguntas->PK_PGT_Id,false);
+                $respuesta_encuesta = new SolucionEncuesta();
+                $respuesta_encuesta->FK_SEC_Respuesta = $valor;
+                $respuesta_encuesta->FK_SEC_Encuestado = $encuestados->PK_ECD_Id;
+                $respuesta_encuesta->save();
         }           
         return response(['msg' => 'Proceso finalizado correctamente.',
             'title' => '¡Gracias por su contribución!'

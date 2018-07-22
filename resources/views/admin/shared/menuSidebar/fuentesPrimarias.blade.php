@@ -33,5 +33,8 @@
                     Tipo de Respuestas </a>
             </li>
         @endcan
+            <li><a href="{{ route('primarias.informe_encuestas') }}"><i class="fa fa-pencil-square-o"></i>
+                    Informes </a>
+            </li>
     </ul>
 </li>             

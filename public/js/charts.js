@@ -8,7 +8,7 @@ function crearGrafica(canvas = null, tipo, titulo = null,  etiquetas, etiquetasD
             colors.push("rgb(" + r + "," + g + "," + b + ")");
         }
         return colors
-        
+
     };
 
     var dynamicColors = function () {
@@ -66,7 +66,6 @@ function peticionGraficasDocumentales(ruta) {
             $('#graficas').removeClass('hidden');
             $('.progress-bar').text(r.completado + '% completado')
              
-
             
             crearGrafica('pie_completado', 'pie', 'Grado de completitud', ['Completado', 'Faltante'], ['adasd'], r.dataPie);
             crearGrafica('fechas_cantidad', 'line', 'Cantidad de archivos subidos por fecha',
@@ -81,4 +80,24 @@ function peticionGraficasDocumentales(ruta) {
              alert('Ocurrio un error en el servidor ...');
          }
      });
+}
+var filtro;
+function peticionGraficasEncuestas(ruta) {
+    $.ajax({
+        url: ruta,
+        type: 'GET',
+        dataType: 'json',
+        success: function (r) {
+           $('#graficas').removeClass('hidden');
+           filtro = crearGrafica('pie_filtro', 'pie',"Cantidad de Encuestados", r.labels_encuestado, ['adasd'], r.data_encuestado);
+           crearGrafica('encuestados', 'bar', 'Cantidad de Encuestados', r.labels_encuestado,
+           ['cantidad'], r.data_encuestado
+        );
+        },
+        error: function(xhr,err)
+        {
+            alert("readyState: "+err.readyState+"\nstatus: "+err.status);
+            alert("responseText: "+err.responseText);
+        }
+    });
 }

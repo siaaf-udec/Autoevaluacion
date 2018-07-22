@@ -33,3 +33,24 @@ Route::get('preguntas/data/data', array('as' => 'fuentesP.preguntas.data', 'uses
 
 //Importar preguntas
 Route::resource('Importarpreguntas', 'ImportarPreguntasController', ['as' => 'fuentesP']);
+
+Route::get('informes_encuestas', array(
+    'as' => 'primarias.informe_encuestas',
+    'uses' => 'ReportesEncuestasController@index'
+));
+
+Route::get('informes_encuestas/datos', array(
+    'as' => 'primarias.informe_encuestas.datos',
+    'uses' => 'ReportesEncuestasController@obtenerDatos'
+));
+
+Route::post('informes_encuestas/filtrar', array(
+    'as' => 'primarias.informe_encuestas.filtrar',
+    'uses' => 'ReportesEncuestasController@filtro'
+));
+
+Route::get(
+    'grupos/preguntas/{id}',
+array('as' => 'primarias.grupos.preguntas',
+'uses' => 'ReportesEncuestasController@obtenerPreguntas')
+);

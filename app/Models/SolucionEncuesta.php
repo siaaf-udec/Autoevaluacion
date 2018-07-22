@@ -26,4 +26,9 @@ class SolucionEncuesta extends Model
      * @var array
      */
     protected $guarded = ['PK_SEC_Id', 'created_at', 'updated_at'];
+    
+    public function encuestados()
+    {
+        return $this->belongsTo(Encuestado::class, 'FK_SEC_Encuestado', 'PK_ECD_Id');
+    }
 }

@@ -55,17 +55,32 @@
             }
         });
         $('.sw-btn-next').bind('click', function() {
-            $('.sw-btn-next').hide();
-            $('#finalizar').hide(); 
+            $('.sw-btn-next').prop( "disabled", true);
+            $('#finalizar').prop( "disabled", true);
         });
         $(".radios").change(function () {
-            $('.sw-btn-next').show();
-            $('#finalizar').show();   
+            $('.sw-btn-next').prop( "disabled", false);
+            $('#finalizar').prop( "disabled", false);  
         });
-        /*window.onbeforeunload = function(e) {
-            alert('Sirve');
+        document.onkeydown = function(e){
+            tecla = (document.all) ? e.keyCode : e.which;
             window.location.href = " {{route('home')}} ";
-        };*/
+        }
+        $(window).bind('beforeunload', function(e) {
+            closeWindow(); 
+        });
+        function closeWindow(){
+            $.ajax({
+            type : "POST",
+            url : "{{route('home')}}",
+            data : "",
+            cache : false,
+            global : false,
+            async : false,
+            success : function(response) {
+            }
+        });
+        }
             var form = $('#form_encuestas');
             form.submit(function (e) {
                 e.preventDefault();

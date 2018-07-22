@@ -26,4 +26,9 @@ class Encuestado extends Model
      * @var array
      */
     protected $guarded = ['PK_ECD_Id', 'created_at', 'updated_at'];
+    
+    public function grupos()
+    {
+        return $this->belongsTo(GrupoInteres::class, 'FK_ECD_GrupoInteres', 'PK_GIT_Id');
+    }
 }
