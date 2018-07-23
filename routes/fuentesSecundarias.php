@@ -71,3 +71,12 @@ Route::post('informes_documentales/filtrar', array(
     'as' => 'documental.informe_documental.filtrar',
     'uses' => 'ReporteController@filtro'
 ));
+
+Route::get('informes_documentales/institucional', array(
+    'as' => 'documental.informe_documental.institucional',
+    'uses' => 'ReporteController@reportes'
+));
+Route::get('informes_documentales/data', array(
+    'as' => 'documental.informe_documental.data',
+    'uses' => 'ReporteController@obtenerDatosInst'
+));

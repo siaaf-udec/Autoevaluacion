@@ -10,6 +10,8 @@ use App\Models\Proceso;
 use App\Models\Factor;
 use App\Models\Dependencia;
 use App\Models\TipoDocumento;
+use App\Models\GrupoDocumento;
+use App\Models\DocumentoInstitucional;
 
 class ReporteController extends Controller
 {
@@ -70,6 +72,7 @@ class ReporteController extends Controller
         //Grafico pie
         $completado = ($documentos->count()/$indicadores_documentales->count()) * 100;
         $dataPie = [array($completado, 100 - $completado)];
+   
 
         $datos = [];
         $datos['completado'] = $completado;
@@ -78,7 +81,7 @@ class ReporteController extends Controller
         $datos['data_fechas'] = array($data_fechas);
         $datos['labels_indicador'] = $labels_indicador;
         $datos['data_indicador'] = array($data_indicador);
-
+   
         return json_encode($datos);
     }
 
@@ -121,6 +124,49 @@ class ReporteController extends Controller
         $datos = [];
         $datos['labels_indicador'] = $labels_indicador;
         $datos['data_indicador'] = array($data_indicador);
+
+        return json_encode($datos);
+    }
+    public function reportes()
+    {
+        return view('autoevaluacion.FuentesSecundarias.Reportes.index2');
+    }
+    public function obtenerDatosInst(Request $request)
+    {
+        $documentosAux = DocumentoInstitucional::with('grupodocumento')
+        ->oldest()
+        ->get();
+        $documentosInst = $documentosAux->groupBy(function($date){
+            return $date->created_at->format('Y-m-d');
+        });
+
+        
+        //grafico historial fechas
+        $labels_fechas = $documentosInst->keys()->toArray();
+        $data_fechas = [];
+
+        foreach ($documentosInst as $documentoInst) {
+            array_push($data_fechas, $documentoInst->count());
+        }
+
+
+
+        //grafica documentos institucionales
+        $labels_documento = [];
+        $data_documento = [];
+        $grupodocumento= GrupoDocumento::with('documentoinstitucional')
+        ->get();
+        foreach ($grupodocumento as $documentoInstitucional) {
+            array_push($labels_documento, $documentoInstitucional->GRD_Nombre);
+            array_push($data_documento, $documentoInstitucional->documentoinstitucional->count());
+        }
+
+
+        $datos = [];
+        $datos['labels_fecha'] = $labels_fechas;
+        $datos['data_fecha'] = array($data_fechas);
+        $datos['labels_documento'] = $labels_documento;
+        $datos['data_documento'] = array($data_documento);
 
         return json_encode($datos);
     }
