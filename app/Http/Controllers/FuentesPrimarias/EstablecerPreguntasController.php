@@ -12,6 +12,9 @@ use App\Models\Factor;
 use App\Models\Lineamiento;
 use App\Models\GrupoInteres;
 use App\Models\Caracteristica;
+use App\Models\BancoEncuestas;
+use App\Models\Encuesta;
+use App\Models\Proceso;
 use DataTables;
 
 class EstablecerPreguntasController extends Controller
@@ -157,10 +160,36 @@ class EstablecerPreguntasController extends Controller
      */
     public function destroy($id)
     {
-        PreguntaEncuesta::destroy($id);
-        return response(['msg' => 'La pregunta ha sido eliminada exitosamente de la encuesta.',
+        $preguntas_encuestas = PreguntaEncuesta::findOrFail($id);
+        $banco_encuestas = BancoEncuestas::findOrFail($preguntas_encuestas->FK_PEN_Banco_Encuestas);
+        $encuestas = Encuesta::where('FK_ECT_Banco_Encuestas','=',$banco_encuestas->PK_BEC_Id)
+        ->get();
+        $contador = 0;
+        foreach($encuestas as $encuesta)
+        {
+            $proceso = Proceso::find($encuesta->FK_ECT_Proceso);
+            if ($proceso->FK_PCS_Fase == 4)
+            {
+                $contador = 1;
+                break;     
+            } 
+        }
+        if($contador==0)
+        {
+            $preguntas_encuestas->delete();
+            return response(['msg' => 'La pregunta ha sido eliminada exitosamente de la encuesta.',
                 'title' => 'Pregunta Eliminada!'
             ], 200) // 200 Status Code: Standard response for successful HTTP request
                 ->header('Content-Type', 'application/json');
+        }
+        else
+        {
+            return response([
+                'errors' => ['La pregunta hace parte de una encuesta en uso para un proceso que se encuentra en fase de captura de datos'],
+                'title' => '¡Error!'
+            ], 422)// 200 Status Code: Standard response for successful HTTP request
+                ->header('Content-Type', 'application/json');
+        }
+        
     }
 }

@@ -188,13 +188,26 @@
                                     type: 'success',
                                     styling: 'bootstrap3'
                                 });
+                            },
+                            error: function (data) {
+                                var errores = data.responseJSON.errors;
+                                var msg = '';
+                                $.each(errores, function (name, val) {
+                                    msg += val + '<br>';
+                                });
+                                new PNotify({
+                                    title: "Error!",
+                                    text: msg,
+                                    type: 'error',
+                                    styling: 'bootstrap3'
+                                });
                             }
                         })
                             .done(function (response) {
                                 swal('Eliminado exitosamente!', response.message, response.status);
                             })
                             .fail(function () {
-                                swal('Oops...', 'Algo salio mal!', 'error');
+                                swal('Error', 'Existe una pregunta que hace parte de una encuesta en uso para un proceso que se encuentra en fase de captura de datos!', 'error');
                             });
                     });
                 },

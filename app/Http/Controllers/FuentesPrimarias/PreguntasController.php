@@ -14,6 +14,10 @@ use App\Models\Lineamiento;
 use App\Models\Pregunta;
 use App\Models\RespuestaPregunta;
 use App\Models\TipoRespuesta;
+use App\Models\BancoEncuestas;
+use App\Models\Encuesta;
+use App\Models\Proceso;
+use App\Models\PreguntaEncuesta;
 use DataTables;
 
 class PreguntasController extends Controller
@@ -171,10 +175,39 @@ class PreguntasController extends Controller
      */
     public function destroy($id)
     {
-        Pregunta::destroy($id);
-        return response(['msg' => 'La pregunta ha sido eliminada exitosamente.',
+        $pregunta = Pregunta::findOrFail($id);
+        $preguntas_encuesta = PreguntaEncuesta::where('FK_PEN_Pregunta','=',$pregunta->PK_PGT_Id)->get();
+        foreach($preguntas_encuesta as $pregunta_encuesta)
+        {
+            $banco_encuestas = BancoEncuestas::findOrFail($pregunta_encuesta->FK_PEN_Banco_Encuestas);
+            $encuestas = Encuesta::where('FK_ECT_Banco_Encuestas','=',$banco_encuestas->PK_BEC_Id)
+            ->get();
+            foreach($encuestas as $encuesta)
+            {
+                $proceso = Proceso::find($encuesta->FK_ECT_Proceso);
+                if ($proceso->FK_PCS_Fase == 4)
+                {
+                    $contador = 1;
+                    break;     
+                } 
+            }
+            if($contador == 1) break;
+        }
+        if($contador==0)
+        {
+            $pregunta->delete();
+            return response(['msg' => 'La pregunta ha sido eliminada exitosamente.',
             'title' => '¡Pregunta Eliminada!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
-        ->header('Content-Type', 'application/json');
+            ], 200)// 200 Status Code: Standard response for successful HTTP request
+            ->header('Content-Type', 'application/json');
+        }
+        else
+        {
+            return response([
+                'errors' => ['La pregunta hace parte de una encuesta en uso para un proceso que se encuentra en fase de captura de datos'],
+                'title' => '¡Error!'
+            ], 422)// 200 Status Code: Standard response for successful HTTP request
+                ->header('Content-Type', 'application/json');
+        }
     }
 }

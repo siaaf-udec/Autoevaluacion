@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BancoEncuestasRequest;
 use App\Http\Controllers\Controller;
 use App\Models\BancoEncuestas;
+use App\Models\Encuesta;
+use App\Models\Proceso;
 use DataTables;
 
 
@@ -122,10 +124,33 @@ class BancoEncuestasController extends Controller
     public function destroy($id)
     {
         $banco_encuestas = BancoEncuestas::findOrFail($id);
-        $banco_encuestas->delete();
-        return response(['msg' => 'La encuesta ha sido eliminada exitosamente.',
-            'title' => 'Encuesta Eliminada!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
-        ->header('Content-Type', 'application/json');
+        $encuestas = Encuesta::where('FK_ECT_Banco_Encuestas','=',$banco_encuestas->PK_BEC_Id)
+        ->get();
+        $contador = 0;
+        foreach($encuestas as $encuesta)
+        {
+            $proceso = Proceso::find($encuesta->FK_ECT_Proceso);
+            if ($proceso->FK_PCS_Fase == 4)
+            {
+                $contador = 1;     
+            } 
+        }
+        if($contador==0)
+        {
+            $banco_encuestas->delete();
+            return response(['msg' => 'La encuesta ha sido eliminada exitosamente.',
+                'title' => 'Encuesta Eliminada!'
+            ], 200)// 200 Status Code: Standard response for successful HTTP request
+            ->header('Content-Type', 'application/json');
+        }
+        else
+        {
+            return response([
+                'errors' => ['La encuesta se encuentra relacionada a un proceso en estado de captura de datos'],
+                'title' => '¡Error!'
+            ], 422)// 200 Status Code: Standard response for successful HTTP request
+                ->header('Content-Type', 'application/json');
+        }
+           
     }
 }

@@ -31,4 +31,8 @@ class SolucionEncuesta extends Model
     {
         return $this->belongsTo(Encuestado::class, 'FK_SEC_Encuestado', 'PK_ECD_Id');
     }
+    public function respuestas()
+    {
+        return $this->belongsTo(RespuestaPregunta::class, 'FK_SEC_Respuesta', 'PK_RPG_Id');
+    }
 }

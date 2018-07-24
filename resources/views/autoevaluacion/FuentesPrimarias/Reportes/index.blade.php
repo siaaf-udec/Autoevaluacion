@@ -31,6 +31,15 @@
                     </div>
                     <canvas id="encuestados" height="150"></canvas>
                 </div>
+                <div class="col-xs-12">
+                    <div class="col-xs-12">
+                        <hr />
+                    </div>
+                    </br>
+                    <canvas id="caracteristicas" height="80"></canvas>
+                    </br></br>
+                    @include('autoevaluacion.FuentesPrimarias.Reportes._form')
+                </div>
                 {!! Form::close() !!}
             </div>
         </div>
@@ -69,10 +78,12 @@
             $('#preguntas').select2({
                 language: "es"
             });
+            $('#factor').select2({
+                language: "es"
+            });
             selectDinamico("#grupos", "#preguntas", "{{url('admin/fuentesPrimarias/grupos/preguntas')}}", ['#preguntas']);
             peticionGraficasEncuestas("{{ route('primarias.informe_encuestas.datos') }}");
             var form = $('#form_filtros');
-
             $("#preguntas").change(function () {
                 console.log('asssa');
                  $.ajax({
@@ -82,11 +93,27 @@
                     dataType: 'json',
                     success: function (r) {
                         filtro.destroy();
-                        filtro = crearGrafica('pie_filtro', 'pie', r.data_titulo, r.labels_respuestas, ['adasd'], r.data_respuestas);
+                        filtro = crearGrafica('pie_filtro', 'doughnut', r.data_titulo, r.labels_respuestas, ['adasd'], r.data_respuestas);
                     }
                 });
 
             });
+            $("#factor").change(function () {
+                console.log('asssa');
+                 $.ajax({
+                    url: "{{ route('primarias.informe_encuestas.filtrar_factores') }}",
+                    type: form.attr('method'),
+                    data: form.serialize(),
+                    dataType: 'json',
+                    success: function (r) {
+                        caracteristicas.destroy();
+                        caracteristicas = crearGrafica('caracteristicas', 'horizontalBar', r.data_factor, r.labels_caracteristicas,
+                        ['Ponderacion'], r.data_caracteristicas);
+                    }
+                });
+
+            });
+            
             @endif
         });
     </script>

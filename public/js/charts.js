@@ -39,9 +39,17 @@ function crearGrafica(canvas = null, tipo, titulo = null,  etiquetas, etiquetasD
         type: tipo,
         data: {
             labels: etiquetas,
-            datasets: dataset
+            datasets: dataset,
         },
         options:{
+            elements: {
+                rectangle: {
+                    borderWidth: 1,
+                    borderColor: 'rgb(0, 0, 0)',
+                    borderSkipped: 'bottom'
+                }
+            },
+            responsive: true,
             title:{
                 display:true,
                 text: titulo
@@ -82,6 +90,7 @@ function peticionGraficasDocumentales(ruta) {
      });
 }
 var filtro;
+var caracteristicas;
 function peticionGraficasEncuestas(ruta) {
     $.ajax({
         url: ruta,
@@ -89,10 +98,11 @@ function peticionGraficasEncuestas(ruta) {
         dataType: 'json',
         success: function (r) {
            $('#graficas').removeClass('hidden');
-           filtro = crearGrafica('pie_filtro', 'pie',"Cantidad de Encuestados", r.labels_encuestado, ['adasd'], r.data_encuestado);
+           filtro = crearGrafica('pie_filtro', 'doughnut',"Cantidad de Encuestados", r.labels_encuestado, ['adasd'], r.data_encuestado);
            crearGrafica('encuestados', 'bar', 'Cantidad de Encuestados', r.labels_encuestado,
-           ['cantidad'], r.data_encuestado
-        );
+           ['Cantidad'], r.data_encuestado);
+           caracteristicas = crearGrafica('caracteristicas', 'horizontalBar', r.data_factor, r.labels_caracteristicas,
+           ['Ponderacion'], r.data_caracteristicas);
         },
         error: function(xhr,err)
         {
