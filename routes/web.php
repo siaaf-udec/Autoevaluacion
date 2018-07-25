@@ -32,5 +32,7 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::get('/','Publico\HomeController@index')->name('home');
 Route::resource('encuestas', 'Publico\EncuestasController', ['as' => 'public']);
-Route::get('grupos/{id}', array('as' => 'grupos', 'uses' => 'Publico\EncuestasController@index'));
+Route::get('grupos/{id}', 'Publico\EncuestasController@index');
 Route::get('encuesta/{id_proceso}/{id_encuesta}/{id_cargo?}', array('as' => 'encuestas', 'uses' => 'Publico\EncuestasController@create'));
+
+Route::get('/downloadPDF/{id}','UserDetailController@downloadPDF');

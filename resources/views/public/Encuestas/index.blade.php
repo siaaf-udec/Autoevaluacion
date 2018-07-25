@@ -16,10 +16,11 @@
         <br></br>
         <div class="ln_solid"></div>
         <div class="form-group">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-6 col-md-offset-6">
+            {!! Form::submit('Iniciar', ['class' => 'btn btn-success']) !!}
+            <span style="display:inline-block; width: 10;"></span>
             {{ link_to_route('home',"Cancelar", [],
-            ['class' => 'btn btn-danger btn-circle']) }}
-            {!! Form::submit('Iniciar', ['class' => 'btn btn-success btn-circle']) !!}
+            ['class' => 'btn btn-danger']) }}
             </div>
         </div>
             {!! Form::close() !!}

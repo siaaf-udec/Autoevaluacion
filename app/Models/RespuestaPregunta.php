@@ -35,4 +35,8 @@ class RespuestaPregunta extends Model
     {
         return $this->belongsTo(PonderacionRespuesta::class, 'FK_RPG_PonderacionRespuesta', 'PK_PRT_Id');
     }
+    public function solucion()
+    {
+        return $this->hasMany(SolucionEncuesta::class,'FK_SEC_Respuesta','PK_RPG_Id');
+    }
 }

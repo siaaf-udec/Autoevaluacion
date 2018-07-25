@@ -29,11 +29,11 @@
         @endcan
 
         @can('ACCEDER_TIPO_RESPUESTAS')
-            <li><a href="{{ route('fuentesP.tipoRespuesta.index') }}"><i class="fa fa-pencil-square-o"></i>
+            <li><a href="{{ route('fuentesP.tipoRespuesta.index') }}"><i class="fa fa-pencil-square"></i>
                     Tipo de Respuestas </a>
             </li>
         @endcan
-            <li><a href="{{ route('primarias.informe_encuestas') }}"><i class="fa fa-pencil-square-o"></i>
+            <li><a href="{{ route('primarias.informe_encuestas') }}"><i class="fa fa-bar-chart"></i>
                     Informes </a>
             </li>
     </ul>

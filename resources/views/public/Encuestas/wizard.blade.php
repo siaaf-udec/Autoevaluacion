@@ -28,7 +28,7 @@
             </br>
                 @endforeach
             @if ($loop->last)
-            <div class="col-md-10 col-md-offset-9">
+            <div class="col-md-19 col-md-offset-9">
                 {!! Form::submit('Finalizar', ['class' => 'btn btn-success', 'id' => 'finalizar']) !!}
             </div>  
             @endif

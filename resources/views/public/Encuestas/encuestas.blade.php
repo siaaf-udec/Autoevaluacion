@@ -58,6 +58,9 @@
             $('.sw-btn-next').prop( "disabled", true);
             $('#finalizar').prop( "disabled", true);
         });
+        $('#finalizar').bind('click', function() {
+            $('#finalizar').hide();
+        });
         $(".radios").change(function () {
             $('.sw-btn-next').prop( "disabled", false);
             $('#finalizar').prop( "disabled", false);  

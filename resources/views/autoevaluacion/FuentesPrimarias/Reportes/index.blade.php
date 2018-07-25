@@ -8,11 +8,18 @@
         @slot('title', 'Reportes de Encuestas')
         @if(session()->get('id_proceso'))
         <div id="graficas" class="hidden">
-            <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    <canvas id="pie_filtro" height="100"></canvas>
-                </div>
+        <div class="row">
+        <div class="col-md-12 col-xs-20">
+            <a href="#"class="btn btn-danger" id="pdf">
+                <i class="fa fa-file-pdf-o"></i> PDF
+            </a>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <canvas id="pie_filtro" height="100"></canvas>
             </div>
+        </div>
             <br>
             <br>
             <div class="row">
@@ -36,7 +43,7 @@
                         <hr />
                     </div>
                     </br>
-                    <canvas id="caracteristicas" height="80"></canvas>
+                    <canvas id="caracteristicas" height="70"></canvas>
                     </br></br>
                     @include('autoevaluacion.FuentesPrimarias.Reportes._form')
                 </div>
@@ -60,6 +67,7 @@
     <script src="{{ asset('js/charts.js') }}"></script>
     <!-- Select2 -->
     <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
 @endpush
 
 {{-- Estilos necesarios para el formulario --}} 
@@ -72,6 +80,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             @if(session()->get('id_proceso'))
+            var canvas = document.getElementById('pie_filtro');
             $('#grupos').select2({
                 language: "es"
             });
@@ -107,13 +116,35 @@
                     dataType: 'json',
                     success: function (r) {
                         caracteristicas.destroy();
-                        caracteristicas = crearGrafica('caracteristicas', 'horizontalBar', r.data_factor, r.labels_caracteristicas,
+                        caracteristicas = crearGraficaBar('caracteristicas', 'horizontalBar', r.data_factor, r.labels_caracteristicas,
                         ['Ponderacion'], r.data_caracteristicas);
                     }
                 });
 
             });
-            
+            $('#pdf').bind('click', function() {
+                var doc = new jsPDF('l', 'mm',[300, 297]);
+                html2canvas($("#pie_filtro"), {
+                onrendered: function(canvas) {
+                    var texto = $("#grupos option:selected").text();         
+                    var imgData = canvas.toDataURL('image/png');                  
+                    doc.text(110,10,"INFORME GENERAL ENCUESTAS");
+                    doc.text(20,30,texto);
+                    doc.addImage(imgData, 'PNG',20,40,0,90); 
+                    doc.addHTML(canvas);        
+                    }       
+                });
+                html2canvas($("#encuestados"), {
+                onrendered: function(canvas) {       
+                    var imgData = canvas.toDataURL('image/png');                  
+                    doc.text(20,140,"CANTIDAD DE PERSONAS ENCUESTADAS");
+                    doc.addImage(imgData, 'PNG',30,150,0,120); 
+                    doc.addHTML(canvas);
+                    doc.save("Informe_Encuestas"+'gt_log.pdf');             
+                    }       
+                });
+
+            });
             @endif
         });
     </script>

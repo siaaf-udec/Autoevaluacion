@@ -9,10 +9,12 @@ use App\Models\Encuestado;
 use App\Models\PreguntaEncuesta;
 use App\Models\RespuestaPregunta;
 use App\Models\Pregunta;
+use App\Models\GrupoInteres;
 use App\Models\Proceso;
 use App\Models\Factor;
 use App\Models\Caracteristica;
 use App\Models\SolucionEncuesta;
+use Illuminate\Support\Collection;
 
 class ReportesEncuestasController extends Controller
 {
@@ -23,10 +25,8 @@ class ReportesEncuestasController extends Controller
      */
     public function index()
     {
-        $grupos = PreguntaEncuesta::whereHas('grupos', function ($query) {
-            return $query->where('FK_GIT_Estado','=' ,'1');
-        })
-        ->get()->pluck('grupos.GIT_Nombre', 'grupos.PK_GIT_Id');
+        $grupos = GrupoInteres::where('FK_GIT_Estado','=','1')
+        ->get()->pluck('GIT_Nombre','PK_GIT_Id');
         $id_lineamiento = Proceso::find(session()->get('id_proceso'))->FK_PCS_Lineamiento ?? null;
         $factores = Factor::where('FK_FCT_Lineamiento','=',$id_lineamiento)
         ->get()->pluck('FCT_Nombre','PK_FCT_Id');
@@ -51,8 +51,27 @@ class ReportesEncuestasController extends Controller
         $labels_caracteristicas = [];
         $data_caracteristicas = [];
         $data_factor = [];
-        
-        $caracteristicas = Caracteristica::with('factor','preguntas.respuestas')
+        $encuesta = Encuesta::where('FK_ECT_Proceso','=',session()->get('id_proceso'))
+        ->first();
+        /*$ponderaciones = SolucionEncuesta::whereHas('encuestados', function ($query) use ($encuesta){
+            return $query->where('FK_ECD_Encuesta','=',$encuesta->PK_ECT_Id);
+        })
+        ->whereHas('respuestas.pregunta.caracteristica', function ($query) use ($encuesta){
+            return $query->where('FK_CRT_Factor','=','1')
+            ->groupby('CRT_Nombre');
+        })
+        ->with('respuestas.pregunta.caracteristica')
+        ->groupby('FK_SEC_Respuesta')
+        ->get();
+        array_push($data_factor,Factor::where('FCT_Identificador','1')->first()->FCT_Nombre);
+        foreach($ponderaciones as $ponderacion)
+        {
+            array_push($labels_caracteristicas, $ponderacion->respuestas->pregunta->caracteristica->CRT_Nombre);
+            array_push($data_caracteristicas, 1);
+        }*/
+        $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados', function ($query) use ($encuesta){
+            return $query->where('FK_ECD_Encuesta','=',$encuesta->PK_ECT_Id);
+        })
         ->where('FK_CRT_Factor','=','1')
         ->get();
         array_push($data_factor,Factor::where('FCT_Identificador','1')->first()->FCT_Nombre);
@@ -103,11 +122,13 @@ class ReportesEncuestasController extends Controller
         $data_titulo = [];
         array_push($data_titulo, $preguntas->PGT_Texto);
         foreach ($respuestas as $respuesta) {
-            $total_respuestas = SolucionEncuesta::whereHas('encuestados', function ($query) use ($request){
-                return $query->where('FK_ECD_GrupoInteres', '=', $request->get('PK_GIT_Id'));
+            $total_respuestas = SolucionEncuesta::whereHas('encuestados', function ($query) use ($request,$encuesta){
+                return $query->where('FK_ECD_GrupoInteres', '=', $request->get('PK_GIT_Id'))
+                ->where('FK_ECD_Encuesta','=',$encuesta->PK_ECT_Id);
             })
             ->where('FK_SEC_Respuesta','=',$respuesta->PK_RPG_Id)
             ->get();
+            if($encuestados->cantidad!=0)
             array_push($labels_respuestas, $respuesta->RPG_Texto." ".number_format($total_respuestas->count()*100/$encuestados->cantidad,1)."%");
             array_push($data_respuestas, $total_respuestas->count());
         }
