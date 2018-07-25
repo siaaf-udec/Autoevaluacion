@@ -80,3 +80,7 @@ Route::get('informes_documentales/data', array(
     'as' => 'documental.informe_documental.data',
     'uses' => 'ReporteController@obtenerDatosInst'
 ));
+Route::get('informes_documentales/pdf', array(
+    'as' => 'documental.informe_documental.pdf',
+    'uses' => 'ReporteController@pdf'
+));

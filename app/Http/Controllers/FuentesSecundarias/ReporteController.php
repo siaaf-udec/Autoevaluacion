@@ -13,6 +13,7 @@ use App\Models\TipoDocumento;
 use App\Models\GrupoDocumento;
 use App\Models\DocumentoInstitucional;
 
+
 class ReporteController extends Controller
 {
     public function index()
@@ -169,5 +170,10 @@ class ReporteController extends Controller
         $datos['data_documento'] = array($data_documento);
 
         return json_encode($datos);
+    }
+
+    public function pdf(){
+        $pdf = \PDF::loadView('autoevaluacion.FuentesSecundarias.Reportes.ejemplo');
+        return $pdf->stream('ejemplo.pdf');
     }
 }
