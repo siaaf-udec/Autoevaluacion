@@ -172,8 +172,4 @@ class ReporteController extends Controller
         return json_encode($datos);
     }
 
-    public function pdf(){
-        $pdf = \PDF::loadView('autoevaluacion.FuentesSecundarias.Reportes.ejemplo');
-        return $pdf->stream('ejemplo.pdf');
-    }
 }
