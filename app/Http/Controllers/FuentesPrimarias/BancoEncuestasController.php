@@ -130,10 +130,7 @@ class BancoEncuestasController extends Controller
         foreach($encuestas as $encuesta)
         {
             $proceso = Proceso::find($encuesta->FK_ECT_Proceso);
-            if ($proceso->FK_PCS_Fase == 4)
-            {
-                $contador = 1;     
-            } 
+            if ($proceso->FK_PCS_Fase == 4) $contador = 1;     
         }
         if($contador==0)
         {

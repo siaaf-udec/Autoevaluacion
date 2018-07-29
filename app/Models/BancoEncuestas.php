@@ -29,6 +29,9 @@ class BancoEncuestas extends Model
      */
     protected $guarded = ['PK_BEC_Id', 'created_at', 'updated_at'];
 
-    
+    public function encuestas()
+    {
+        return $this->hasMany(Encuesta::class,'FK_ECT_Banco_Encuestas','PK_BEC_Id');
+    }
 
 }

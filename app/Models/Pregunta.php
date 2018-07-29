@@ -43,5 +43,9 @@ class Pregunta extends Model
     {
         return $this->hasMany(RespuestaPregunta::class,'FK_RPG_Pregunta','PK_PGT_Id');
     }
+    public function preguntas_encuesta()
+    {
+        return $this->hasMany(PreguntaEncuesta::class,'FK_PEN_Pregunta','PK_PGT_Id');
+    }
 
 }

@@ -168,11 +168,8 @@ class EstablecerPreguntasController extends Controller
         foreach($encuestas as $encuesta)
         {
             $proceso = Proceso::find($encuesta->FK_ECT_Proceso);
-            if ($proceso->FK_PCS_Fase == 4)
-            {
-                $contador = 1;
+            if ($proceso->FK_PCS_Fase == 4) $contador = 1;
                 break;     
-            } 
         }
         if($contador==0)
         {

@@ -176,20 +176,15 @@ class PreguntasController extends Controller
     public function destroy($id)
     {
         $pregunta = Pregunta::findOrFail($id);
-        $preguntas_encuesta = PreguntaEncuesta::where('FK_PEN_Pregunta','=',$pregunta->PK_PGT_Id)->get();
+        $preguntas_encuesta = PreguntaEncuesta::with('banco.encuestas')
+        ->where('FK_PEN_Pregunta','=',$pregunta->PK_PGT_Id)
+        ->get();
         foreach($preguntas_encuesta as $pregunta_encuesta)
         {
-            $banco_encuestas = BancoEncuestas::findOrFail($pregunta_encuesta->FK_PEN_Banco_Encuestas);
-            $encuestas = Encuesta::where('FK_ECT_Banco_Encuestas','=',$banco_encuestas->PK_BEC_Id)
-            ->get();
-            foreach($encuestas as $encuesta)
+            foreach($pregunta_encuesta->banco->encuestas as $encuesta)
             {
                 $proceso = Proceso::find($encuesta->FK_ECT_Proceso);
-                if ($proceso->FK_PCS_Fase == 4)
-                {
-                    $contador = 1;
-                    break;     
-                } 
+                if ($proceso->FK_PCS_Fase == 4) $contador = 1; break;      
             }
             if($contador == 1) break;
         }

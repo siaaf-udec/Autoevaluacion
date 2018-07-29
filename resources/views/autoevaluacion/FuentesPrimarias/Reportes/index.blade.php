@@ -117,30 +117,45 @@
                     success: function (r) {
                         caracteristicas.destroy();
                         caracteristicas = crearGraficaBar('caracteristicas', 'horizontalBar', r.data_factor, r.labels_caracteristicas,
-                        ['Ponderacion'], r.data_caracteristicas);
+                        ['Valorizacion'], r.data_caracteristicas);
                     }
                 });
 
             });
             $('#pdf').bind('click', function() {
-                var doc = new jsPDF('l', 'mm',[300, 297]);
+                var doc = new jsPDF('vertical', 'mm', 'letter');
+                doc.setFont("sans serif")
+                doc.setFontSize(14);
+                doc.setFontType('bold');
                 html2canvas($("#pie_filtro"), {
                 onrendered: function(canvas) {
                     var texto = $("#grupos option:selected").text();         
-                    var imgData = canvas.toDataURL('image/png');                  
-                    doc.text(110,10,"INFORME GENERAL ENCUESTAS");
-                    doc.text(20,30,texto);
-                    doc.addImage(imgData, 'PNG',20,40,0,90); 
+                    var imgData = canvas.toDataURL('image/png');                 
+                    doc.text(70,25,"INFORME GENERAL ENCUESTAS");
+                    doc.text(20,40,'{{ Session::get('proceso')}}');
+                    doc.text(20,55,texto);
+                    doc.addImage(imgData, 'PNG',5,65,0,70); 
                     doc.addHTML(canvas);        
                     }       
                 });
                 html2canvas($("#encuestados"), {
-                onrendered: function(canvas) {       
+                onrendered: function(canvas) {     
                     var imgData = canvas.toDataURL('image/png');                  
-                    doc.text(20,140,"CANTIDAD DE PERSONAS ENCUESTADAS");
-                    doc.addImage(imgData, 'PNG',30,150,0,120); 
+                    doc.text(100,150,"Muestra");
+                    doc.addImage(imgData, 'PNG',5,160,0,100); 
+                    doc.addHTML(canvas);          
+                    }       
+                });
+                html2canvas($("#caracteristicas"), {
+                onrendered: function(canvas) {
+                    doc.addPage();  
+                    var factor = $("#factor option:selected").text();         
+                    var imgData = canvas.toDataURL('image/png');             
+                    doc.text(75,25,"Ponderacion Caracteristicas");
+                    doc.text(20,45,factor);
+                    doc.addImage(imgData, 'PNG',5,60,0,48); 
                     doc.addHTML(canvas);
-                    doc.save("Informe_Encuestas"+'gt_log.pdf');             
+                    doc.save("informe_encuestas"+'gt_log.pdf');             
                     }       
                 });
 

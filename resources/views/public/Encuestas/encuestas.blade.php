@@ -42,6 +42,7 @@
 
 @push('functions')
     <script type="text/javascript">
+        window.location.hash = '';
         $(document).ready(function () {
             $('#smartwizard').smartWizard({
                 selected: 0, 
@@ -65,25 +66,6 @@
             $('.sw-btn-next').prop( "disabled", false);
             $('#finalizar').prop( "disabled", false);  
         });
-        document.onkeydown = function(e){
-            tecla = (document.all) ? e.keyCode : e.which;
-            window.location.href = " {{route('home')}} ";
-        }
-        $(window).bind('beforeunload', function(e) {
-            closeWindow(); 
-        });
-        function closeWindow(){
-            $.ajax({
-            type : "POST",
-            url : "{{route('home')}}",
-            data : "",
-            cache : false,
-            global : false,
-            async : false,
-            success : function(response) {
-            }
-        });
-        }
             var form = $('#form_encuestas');
             form.submit(function (e) {
                 e.preventDefault();
