@@ -1,3 +1,8 @@
+$(document).ajaxStart(function () {
+    $(":submit").attr("disabled", true);
+}).ajaxStop(function () {
+    $(":submit").attr("disabled", false);
+});
 function dataTable(tabla, data, route) {
     tabla.dataTable({
         processing: true,

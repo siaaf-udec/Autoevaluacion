@@ -11,6 +11,8 @@ use App\Models\Lineamiento;
 use DataTables;
 use Excel;
 use Illuminate\Http\Request;
+use App\Jobs\ImportarLineamiento;
+use Illuminate\Support\Facades\Storage;
 
 class LineamientoController extends Controller
 {
@@ -74,62 +76,9 @@ class LineamientoController extends Controller
         $results = "";
         $id = Lineamiento::create($request->except('archivo'))->PK_LNM_Id;
         if ($archivo) {
-            try {
-                Excel::selectSheets('FACTORES', 'CARACTERISTICAS', 'ASPECTOS')->load($archivo->getRealPath(), function ($reader) use ($id) {
-                    // get all rows from the sheet
-                    $sheets = $reader->all()->toArray();
-                    $factores = [];
-
-                    $count = count($sheets);
-                    if ($count <= 3 and $count > 0) {
-                        //Factores
-                        foreach ($sheets[0] as $row) {
-                            $factor = new Factor();
-                            $factor->FCT_Nombre = $row['nombre'];
-                            $factor->FCT_Descripcion = $row['descripcion'];
-                            $factor->FCT_Identificador = $row['numero_factor'];
-                            $factor->FCT_Ponderacion_Factor = $row['ponderacion'];
-
-                            $factor->FK_FCT_Lineamiento = $id;
-                            $factor->FK_FCT_Estado = 1;
-                            $factor->save();
-                            $factores[$row['numero_factor']] = $factor->PK_FCT_Id;
-                        }
-                    }
-                    if ($count <= 3 and $count > 1) {
-                        //Caracteristicas
-                        $caracacteristicas = [];
-                        foreach ($sheets[1] as $row) {
-                            $caracacteristica = new Caracteristica();
-                            $caracacteristica->CRT_Nombre = $row['nombre'];
-                            $caracacteristica->CRT_Descripcion = $row['descripcion'];
-                            $caracacteristica->CRT_Identificador = $row['numero_caracteristica'];
-                            $caracacteristica->FK_CRT_Estado = 1;
-                            $caracacteristica->FK_CRT_Factor = $factores[$row['factor']];
-                            $caracacteristica->save();
-                            $caracacteristicas[$row['numero_caracteristica']] = $caracacteristica->PK_CRT_Id;
-                        }
-                    }
-                    if ($count == 3) {
-                        foreach ($sheets[2] as $row) {
-                            $aspecto = new Aspecto();
-                            $aspecto->ASP_Nombre = $row['nombre'];
-                            $aspecto->ASP_Descripcion = $row['descripcion'];
-                            $aspecto->ASP_Identificador = $row['identificador'];
-                            $aspecto->FK_ASP_Caracteristica = $caracacteristicas[$row['caracteristica']];
-                            $aspecto->save();
-                        }
-                    }
-                });
-            } catch (\Exception $e) {
-                return response(['errors' => ['Error por favor verifique el documento e intentelo de nuevo.'],
-                    'title' => '¡Error!'
-                ], 422)// 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
-            }
+            $url_temporal = Storage::url($archivo->store('public'));
+            ImportarLineamiento::dispatch($url_temporal, $id);       
         }
-
-
         return response(['msg' => 'Lineamiento registrado correctamente.',
             'title' => '¡Registro exitoso!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request

@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Models\Proceso;
+use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,8 +26,18 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->call(function () {
+            $proceso = new Proceso();
+            $proceso->where('PCS_FechaFin', '<', Carbon::now())
+            ->update(['FK_PCS_Fase' => 1]);
+        })->daily();
+
+        $schedule->call(function () {
+            $proceso = new Proceso();
+            $proceso->where('FK_PCS_Fase', '=', 1)
+            ->where('PCS_FechaFin', '<', Carbon::now()->subMonths(2))
+            ->delete();
+        })->daily();
     }
 
     /**
