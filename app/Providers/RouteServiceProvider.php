@@ -103,8 +103,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('admin/fuentesPrimarias')
              ->middleware(['web', 'auth'])
-             ->namespace($this->namespace . '\fuentesPrimarias')
-             ->group(base_path('routes/fuentesPrimarias.php'));
+             ->namespace($this->namespace . '\FuentesPrimarias')
+             ->group(base_path('routes/FuentesPrimarias.php'));
     }
 
     /**
@@ -118,7 +118,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('admin/documental')
              ->middleware(['web', 'auth'])
-             ->namespace($this->namespace . '\fuentesSecundarias')
+             ->namespace($this->namespace . '\FuentesSecundarias')
              ->group(base_path('routes/fuentesSecundarias.php'));
     }
 }

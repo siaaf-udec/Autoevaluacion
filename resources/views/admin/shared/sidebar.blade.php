@@ -19,7 +19,7 @@
                         </a>
                     </li>
                     @can('ACCESO_MODULO_SUPERADMINISTRADOR')
-                        @include('admin.shared.menuSidebar.superadmin')
+                        @include('admin.shared.menuSidebar.superAdmin')
                     @endcan
                     @can('ACCESO_MODULO_FUENTES_PRIMARIAS')
                         @include('admin.shared.menuSidebar.fuentesPrimarias')

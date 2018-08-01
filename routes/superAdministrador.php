@@ -10,13 +10,13 @@ Route::get('mostrar_procesos', array('as' => 'admin.mostrar_procesos', 'uses' =>
 Route::post('seleccionar_proceso', array('as' => 'admin.mostrar_procesos.seleccionar_proceso', 'uses' => 'pageController@seleccionarProceso'));
 
 //Usuarios
-Route::resource('usuarios', 'userController', ['as' => 'admin'])->except([
+Route::resource('usuarios', 'UserController', ['as' => 'admin'])->except([
     'show'
 ]);
-Route::get('usuarios/data', array('as' => 'admin.usuarios.data', 'uses' => 'userController@data'));
-Route::get('usuario/perfil',  array('as' => 'admin.usuario.perfil', 'uses' => 'userController@perfil'));
+Route::get('usuarios/data', array('as' => 'admin.usuarios.data', 'uses' => 'UserController@data'));
+Route::get('usuario/perfil',  array('as' => 'admin.usuario.perfil', 'uses' => 'UserController@perfil'));
 Route::post('usuario/perfil',  array('as' => 'admin.usuario.modificar_perfil', 
-'uses' => 'userController@modificarPerfil'));
+'uses' => 'UserController@modificarPerfil'));
 
 //Roles
 Route::resource('roles', 'RolController', ['as' => 'admin'])->except([
