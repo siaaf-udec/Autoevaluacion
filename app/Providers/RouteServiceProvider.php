@@ -104,7 +104,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::prefix('admin/fuentesPrimarias')
              ->middleware(['web', 'auth'])
              ->namespace($this->namespace . '\FuentesPrimarias')
-             ->group(base_path('routes/FuentesPrimarias.php'));
+             ->group(base_path('routes/fuentesPrimarias.php'));
     }
 
     /**
