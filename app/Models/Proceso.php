@@ -94,7 +94,6 @@ class Proceso extends Model
 
     public function encuestas()
     {
-        
         return $this->hasOne(Encuesta::class,'FK_ECT_Proceso','PK_PCS_Id');
     }
 

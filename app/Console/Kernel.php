@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Models\Proceso;
+use App\Models\Encuesta;
 use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel
@@ -37,6 +38,14 @@ class Kernel extends ConsoleKernel
             $proceso->where('FK_PCS_Fase', '=', 1)
             ->where('PCS_FechaFin', '<', Carbon::now()->subMonths(2))
             ->delete();
+        })->daily();
+
+        $schedule->call(function () {
+            $proceso = Proceso::whereHas('encuestas', function ($query){
+                return $query->where('ECT_FechaPublicacion','<=',Carbon::now());
+            })
+            ->where('FK_PCS_Fase','!=','1')
+            ->update(['FK_PCS_Fase' => 4]);
         })->daily();
     }
 

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Restablecer Contraseña')
 @section('content')
 
     <div class="form login_form">

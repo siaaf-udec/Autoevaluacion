@@ -179,6 +179,7 @@ class PreguntasController extends Controller
         $preguntas_encuesta = PreguntaEncuesta::with('banco.encuestas')
         ->where('FK_PEN_Pregunta','=',$pregunta->PK_PGT_Id)
         ->get();
+        $contador = 0;
         foreach($preguntas_encuesta as $pregunta_encuesta)
         {
             foreach($pregunta_encuesta->banco->encuestas as $encuesta)
