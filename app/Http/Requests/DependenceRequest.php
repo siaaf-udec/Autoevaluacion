@@ -17,10 +17,10 @@ class DependenceRequest extends FormRequest
     {
       
         $id = $this->route()->parameter('dependencium');
-        $dependencia = 'required|string|max:80|unique:tbl_dependencias';
+        $dependencia = 'required|string|max:80|unique:TBL_Dependencias';
 
         if ($this->method() == 'PUT') {
-            $dependencia = 'required|max:80|'.Rule::unique('tbl_dependencias')->ignore($id, 'PK_DPC_Id');
+            $dependencia = 'required|max:80|'.Rule::unique('TBL_Dependencias')->ignore($id, 'PK_DPC_Id');
         }
 
         return [

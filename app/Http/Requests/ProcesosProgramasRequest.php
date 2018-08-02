@@ -27,9 +27,9 @@ class ProcesosProgramasRequest extends FormRequest
     {
         return [
             'PCS_Nombre' => 'required',
-            'PK_FSS_Id' => 'exists:tbl_fases',
-            'PK_PAC_Programa' => 'exists:tbl_programas_academicos',
-            'PK_LNM_Id' => 'exists:tbl_lineamientos'
+            'PK_FSS_Id' => 'exists:TBL_Fases',
+            'PK_PAC_Programa' => 'exists:TBL_Programas_Academicos',
+            'PK_LNM_Id' => 'exists:TBL_Lineamientos'
         ];
     }
     /**

@@ -32,7 +32,7 @@ class PerfilUsuarioRequest extends FormRequest
             'password_confirmation'=>'sometimes|required_with:password',
             'lastname' => 'required|string|max:50',
             'cedula' => 'required|numeric|max:9999999999|' . Rule::unique('users')->ignore(Auth::id()),
-            'PK_ESD_Id' => 'sometimes|numeric|exists:tbl_estados',
+            'PK_ESD_Id' => 'sometimes|numeric|exists:TBL_Estados',
             'roles' =>'sometimes'
         ];
 

@@ -16,10 +16,10 @@ class DocumentGroupRequest extends FormRequest
     public function rules()
     {
         $id = $this->route()->parameter('grupodocumento');
-        $grupodocumento = 'required|string|max:60|unique:tbl_grupos_documentos';
+        $grupodocumento = 'required|string|max:60|unique:TBL_Grupos_Documentos';
 
         if ($this->method() == 'PUT') {
-            $grupodocumento = 'required|max:60|'.Rule::unique('tbl_grupos_documentos')->ignore($id, 'PK_GRD_Id');
+            $grupodocumento = 'required|max:60|'.Rule::unique('TBL_Grupos_Documentos')->ignore($id, 'PK_GRD_Id');
         }
 
         return [

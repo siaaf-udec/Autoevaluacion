@@ -51,11 +51,11 @@ class DocumentosAutoevaluacionRequest extends FormRequest
         }
 
         return [
-            'PK_FCT_Id' => 'exists:tbl_factores',
-            'PK_CRT_Id' => 'exists:tbl_caracteristicas',
-            'PK_IDO_Id' => 'exists:tbl_indicadores_documentales',
-            'PK_DPC_Id' => 'exists:tbl_dependencias',
-            'PK_TDO_Id' => 'exists:tbl_tipo_documentos',
+            'PK_FCT_Id' => 'exists:TBL_Factores',
+            'PK_CRT_Id' => 'exists:TBL_Caracteristicas',
+            'PK_IDO_Id' => 'exists:TBL_Indicadores_Documentales',
+            'PK_DPC_Id' => 'exists:TBL_Dependencias',
+            'PK_TDO_Id' => 'exists:TBL_Tipo_Documentos',
             'DOA_Numero' => 'numeric',
             'DOA_Anio' => 'numeric',
             'DOA_Link' => $link,

@@ -30,7 +30,7 @@ class LineamientosRequest extends FormRequest
             $archivo = 'file|mimes:xlsx';
         }
         return [
-            'LNM_Nombre' => 'required|unique:tbl_lineamientos|' . Rule::unique('tbl_lineamientos')->ignore($id, 'PK_LNM_Id'),
+            'LNM_Nombre' => 'required|' . Rule::unique('TBL_Lineamientos')->ignore($id, 'PK_LNM_Id'),
             'LNM_Descripcion' => 'required',
             'archivo' => $archivo
         ];

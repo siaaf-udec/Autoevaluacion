@@ -26,10 +26,10 @@ class AmbitoRequest extends FormRequest
     public function rules()
     {
         $id = $this->route()->parameter('ambito');
-        $ambito = 'required|string|max:60|unique:tbl_ambitos_responsabilidad';
+        $ambito = 'required|string|max:60|unique:TBL_Ambitos_Responsabilidad';
 
         if ($this->method() == 'PUT') {
-            $ambito = 'required|max:60|'.Rule::unique('tbl_ambitos_responsabilidad')->ignore($id, 'PK_AMB_Id');
+            $ambito = 'required|max:60|'.Rule::unique('TBL_Ambitos_Responsabilidad')->ignore($id, 'PK_AMB_Id');
         }
 
         return [

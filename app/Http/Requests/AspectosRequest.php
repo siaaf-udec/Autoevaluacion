@@ -30,9 +30,9 @@ class AspectosRequest extends FormRequest
         return [
             'ASP_Nombre' => 'required|string',
             'ASP_Descripcion' => 'required',
-            'ASP_Identificador' => 'required|'.Rule::unique('tbl_aspectos', 'ASP_Identificador')
+            'ASP_Identificador' => 'required|'.Rule::unique('TBL_Aspectos', 'ASP_Identificador')
             ->where('FK_ASP_Caracteristica', $this->request->get('PK_CRT_Id')),
-            'PK_CRT_Id' => 'required|exists:tbl_caracteristicas'
+            'PK_CRT_Id' => 'required|exists:TBL_Caracteristicas'
         ];
     }
     /**

@@ -29,9 +29,9 @@ class SedesRequest extends FormRequest
         $id = $this->route()->parameter('sede');
 
         return [
-            'SDS_Nombre' => 'required|max:60|' . Rule::unique('tbl_sedes')->ignore($id, 'PK_SDS_Id'),
+            'SDS_Nombre' => 'required|max:60|' . Rule::unique('TBL_Sedes')->ignore($id, 'PK_SDS_Id'),
             'SDS_Descripcion' => 'required',
-            'PK_ESD_Id' => 'exists:tbl_estados|numeric'
+            'PK_ESD_Id' => 'exists:TBL_Estados|numeric'
         ];
     }
     /**

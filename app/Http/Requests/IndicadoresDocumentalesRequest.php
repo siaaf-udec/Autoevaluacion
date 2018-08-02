@@ -27,11 +27,11 @@ class IndicadoresDocumentalesRequest extends FormRequest
         
         return [
             'IDO_Nombre' => 'required|string',
-            'IDO_Identificador' => 'required|numeric|'.Rule::unique('tbl_indicadores_documentales', 'IDO_Identificador')
+            'IDO_Identificador' => 'required|numeric|'.Rule::unique('TBL_Indicadores_Documentales', 'IDO_Identificador')
             ->where('FK_IDO_Caracteristica', $this->request->get('PK_CRT_Id')),
             'IDO_Descripcion' => 'required',
-            'PK_ESD_Id' => 'exists:tbl_estados',
-            'PK_CRT_Id' => 'exists:tbl_caracteristicas'
+            'PK_ESD_Id' => 'exists:TBL_Estados',
+            'PK_CRT_Id' => 'exists:TBL_Caracteristicas'
         ];
     }
     /**

@@ -26,8 +26,8 @@ class ModificarEstablecerPreguntasRequest extends FormRequest
     public function rules()
     {
         return [
-            'PK_PGT_Id' => 'required|exists:tbl_preguntas',
-            'PK_BEC_Id' => 'required|exists:tbl_banco_encuestas',
+            'PK_PGT_Id' => 'required|exists:TBL_Preguntas',
+            'PK_BEC_Id' => 'required|exists:TBL_Banco_Encuestas',
         ];
     }
     public function messages()

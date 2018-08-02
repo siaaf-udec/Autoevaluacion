@@ -26,7 +26,7 @@ class TipoRespuestaRequest extends FormRequest
         return [
             'TRP_TotalPonderacion' => 'required',
             'TRP_Descripcion' => 'required',
-            'PK_ESD_Id' => 'required|exists:tbl_estados'
+            'PK_ESD_Id' => 'required|exists:TBL_Estados'
         ];
     }
      /**

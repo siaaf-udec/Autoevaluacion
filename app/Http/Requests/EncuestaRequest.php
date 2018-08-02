@@ -29,17 +29,17 @@ class EncuestaRequest extends FormRequest
     public function rules()
     {
         $id = $this->route()->parameter('datosEspecifico');
-        $datos = 'required|unique:tbl_encuestas,fk_ect_proceso';
+        $datos = 'required|unique:TBL_Encuestas,fk_ect_proceso';
         
         if ($this->method() == 'PUT') {
-            $datos = Rule::unique('tbl_encuestas','fk_ect_proceso')->ignore($id, 'PK_ECT_Id');
+            $datos = Rule::unique('TBL_Encuestas','fk_ect_proceso')->ignore($id, 'PK_ECT_Id');
         }
         return [
             'ECT_FechaPublicacion' => 'required',
             'ECT_FechaFinalizacion' => 'required',
-            'PK_ESD_Id' => 'exists:tbl_estados',
-            'PK_BEC_Id' => 'required|exists:tbl_banco_encuestas',
-            'PK_PCS_Id' =>  'required|exists:tbl_procesos',
+            'PK_ESD_Id' => 'exists:TBL_Estados',
+            'PK_BEC_Id' => 'required|exists:TBL_Banco_Encuestas',
+            'PK_PCS_Id' =>  'required|exists:TBL_Procesos',
             'PK_PCS_Id' => $datos
         ];
     }

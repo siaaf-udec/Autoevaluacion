@@ -26,8 +26,8 @@ class ProcesosInstitucionalesRequest extends FormRequest
     {
         return [
             'PCS_Nombre' => 'required',
-            'PK_FSS_Id' => 'exists:tbl_fases',
-            'PK_LNM_Id' => 'exists:tbl_lineamientos'
+            'PK_FSS_Id' => 'exists:TBL_Fases',
+            'PK_LNM_Id' => 'exists:TBL_Lineamientos'
         ];
 
     }

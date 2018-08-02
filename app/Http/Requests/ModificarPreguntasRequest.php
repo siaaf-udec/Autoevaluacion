@@ -28,8 +28,8 @@ class ModificarPreguntasRequest extends FormRequest
     {
         return [
             'PGT_Texto' => 'required|string',
-            'PK_ESD_Id' => 'required|exists:tbl_estados',
-            'PK_CRT_Id' => 'required|exists:tbl_caracteristicas',
+            'PK_ESD_Id' => 'required|exists:TBL_Estados',
+            'PK_CRT_Id' => 'required|exists:TBL_Caracteristicas',
 
         ];
     }

@@ -27,9 +27,9 @@ class PreguntasRequest extends FormRequest
     {
         return [
             'PGT_Texto' => 'required|string',
-            'PK_ESD_Id' => 'required|exists:tbl_estados',
-            'PK_TRP_Id' => 'required|exists:tbl_tipo_respuestas',
-            'PK_CRT_Id' => 'required|exists:tbl_caracteristicas',
+            'PK_ESD_Id' => 'required|exists:TBL_Estados',
+            'PK_TRP_Id' => 'required|exists:TBL_Tipo_Respuestas',
+            'PK_CRT_Id' => 'required|exists:TBL_Caracteristicas',
 
         ];
     }

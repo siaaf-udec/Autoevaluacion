@@ -50,7 +50,7 @@ class DocumentoInstitucionalRequest extends FormRequest
         }
         return [
             'FK_DOI_GrupoDocumento' => 'required',
-            'PK_GRD_Id' => 'exists:tbl_grupos_documentos',
+            'PK_GRD_Id' => 'exists:TBL_Grupos_Documentos',
             'link' => $link,
             'archivo' => $archivo
         ];

@@ -27,8 +27,8 @@ class GruposInteresRequest extends FormRequest
     {
         $id = $this->route()->parameter('grupointeres');
         return [
-            'GIT_Nombre' => 'required|max:60|' . Rule::unique('tbl_grupos_interes')->ignore($id, 'PK_GIT_Id'),
-            'PK_ESD_Id' => 'exists:tbl_estados|numeric'
+            'GIT_Nombre' => 'required|max:60|' . Rule::unique('TBL_Grupos_Interes')->ignore($id, 'PK_GIT_Id'),
+            'PK_ESD_Id' => 'exists:TBL_Estados|numeric'
         ];
     }
      /**

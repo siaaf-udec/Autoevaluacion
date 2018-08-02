@@ -27,11 +27,11 @@ class CaracteristicasRequest extends FormRequest
         return [
             'CRT_Nombre' => 'required',
             'CRT_Descripcion' => 'required',
-            'CRT_Identificador' => 'required|numeric|'.Rule::unique('tbl_caracteristicas', 'CRT_Identificador'),
-            'FK_FCT_Lineamiento' => 'exists:tbl_lineamientos,PK_LNM_Id',
-            'FK_CRT_Factor' => 'exists:tbl_factores,PK_FCT_Id',
-            'FK_CRT_Estado' => 'exists:tbl_estados,PK_ESD_Id',
-            'FK_CRT_Ambito' => 'exists:tbl_ambitos_responsabilidad,PK_AMB_Id'
+            'CRT_Identificador' => 'required|numeric|'.Rule::unique('TBL_Caracteristicas', 'CRT_Identificador'),
+            'FK_FCT_Lineamiento' => 'exists:TBL_Lineamientos,PK_LNM_Id',
+            'FK_CRT_Factor' => 'exists:TBL_Factores,PK_FCT_Id',
+            'FK_CRT_Estado' => 'exists:TBL_Estados,PK_ESD_Id',
+            'FK_CRT_Ambito' => 'exists:TBL_Ambitos_Responsabilidad,PK_AMB_Id'
         ];
     }
     /**

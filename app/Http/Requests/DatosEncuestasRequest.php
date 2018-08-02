@@ -26,15 +26,15 @@ class DatosEncuestasRequest extends FormRequest
     public function rules()
     {
         $id = $this->route()->parameter('datosEncuesta');
-        $datos = 'unique:tbl_datos_encuestas,fk_dae_gruposinteres';
+        $datos = 'unique:TBL_Datos_Encuestas,fk_dae_gruposinteres';
         
         if ($this->method() == 'PUT') {
-            $datos = Rule::unique('tbl_datos_encuestas','fk_dae_gruposinteres')->ignore($id, 'PK_DAE_Id');
+            $datos = Rule::unique('TBL_Datos_Encuestas','fk_dae_gruposinteres')->ignore($id, 'PK_DAE_Id');
         }
         return [
             'DAE_Titulo' => 'required|string',
             'DAE_Descripcion' => 'required',
-            'PK_GIT_Id' => 'required|exists:tbl_grupos_interes',
+            'PK_GIT_Id' => 'required|exists:TBL_Grupos_Interes',
             'PK_GIT_Id' => $datos
         ];
     }

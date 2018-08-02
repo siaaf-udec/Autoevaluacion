@@ -26,9 +26,9 @@ class ProgramasAcademicosRequest extends FormRequest
         return [
             'PAC_Nombre' => 'required|max:60',
             'PAC_Descripcion' => 'required',
-            'PK_ESD_Id' => 'exists:tbl_estados|numeric',
-            'PK_SDS_Id' => 'exists:tbl_sedes|numeric',
-            'PK_FCD_Id' => 'exists:tbl_facultades|numeric'
+            'PK_ESD_Id' => 'exists:TBL_Estados|numeric',
+            'PK_SDS_Id' => 'exists:TBL_Sedes|numeric',
+            'PK_FCD_Id' => 'exists:TBL_Facultades|numeric'
         ];
     }
     /**
