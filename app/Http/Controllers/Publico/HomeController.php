@@ -20,6 +20,7 @@ class HomeController extends Controller
         $encuestas = Encuesta::with('proceso.programa.sede')
         ->where('ECT_FechaPublicacion','<=',$fecha)
         ->where('ECT_FechaFinalizacion','>=',$fecha)
+        ->where('FK_ECT_Estado','=','1')
         ->get();
         return view('public.dashboard.index',compact('encuestas'));
     }

@@ -22,6 +22,7 @@ class CreateProcesosTable extends Migration
             $table->integer("FK_PCS_Programa")->unsigned()->nullable();
             $table->integer("FK_PCS_Fase")->unsigned();
             $table->integer('FK_PCS_Lineamiento')->unsigned();
+            $table->string('PCS_Slug_Procesos')->unique();
             $table->timestamps();
 
             $table->foreign("FK_PCS_Programa")->references("PK_PAC_Id")->on("TBL_Programas_Academicos")->onDelete("cascade");
@@ -38,5 +39,6 @@ class CreateProcesosTable extends Migration
     public function down()
     {
         Schema::connection('autoevaluacion')->dropIfExists('TBL_Procesos');
+
     }
 }

@@ -139,7 +139,9 @@ class ProcesoProgramaController extends Controller
         $proceso->fill($request->only(['PCS_Nombre']));
         $proceso->PCS_FechaInicio = $fechaInicio;
         $proceso->PCS_FechaFin = $fechaFin;
-
+        $nombres = explode(' ', ProgramaAcademico::where('PK_PAC_Id',$request->get('PK_PAC_Id'))->first()->PAC_Nombre);
+        $slug="";foreach($nombres as $nombre) $slug=$slug.'_'.$nombre;
+        $proceso->PCS_Slug_Procesos = "Proceso-.".$slug;
 
         $proceso->FK_PCS_Fase = 3;
         $proceso->FK_PCS_Programa = $request->get('PK_PAC_Id');
@@ -206,8 +208,9 @@ class ProcesoProgramaController extends Controller
         $proceso->FK_PCS_Fase = $request->get('PK_FSS_Id');
         $proceso->FK_PCS_Programa = $request->get('PK_PAC_Id');
         $proceso->FK_PCS_Lineamiento = $request->get('PK_LNM_Id');
-
-
+        $nombres = explode(' ', ProgramaAcademico::where('PK_PAC_Id',$request->get('PK_PAC_Id'))->first()->PAC_Nombre);
+        $slug="";foreach($nombres as $nombre) $slug=$slug.'_'.$nombre;
+        $proceso->PCS_Slug_Procesos = $slug;
         $proceso->update();
 
 

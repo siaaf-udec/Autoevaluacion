@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\SolucionEncuestaRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Autoevaluacion\Sede;
+use App\Models\Autoevaluacion\Proceso;
 use App\Models\Autoevaluacion\Encuesta;
 use App\Models\Autoevaluacion\Encuestado;
 use App\Models\Autoevaluacion\SolucionEncuesta;
@@ -23,15 +24,16 @@ class EncuestasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index($slug_proceso)
     {
-        $id_encuesta = Encuesta::where('FK_ECT_Proceso',$id)->first();
+        $id_proceso = Proceso::where('PCS_Slug_Procesos',$slug_proceso)->first();
+        $id_encuesta = Encuesta::where('FK_ECT_Proceso',$id_proceso->PK_PCS_Id)->first();
         $grupos = GrupoInteres::whereHas('preguntas_encuesta', function ($query) use($id_encuesta){
             return $query->where('FK_PEN_Banco_Encuestas','=' ,$id_encuesta->FK_ECT_Banco_Encuestas);
         })
         ->where('FK_GIT_Estado','=' ,'1')
-        ->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
-        $cargos = CargoAdministrativo::all()->pluck('CAA_Cargo','PK_CAA_Id');
+        ->get()->pluck('GIT_Nombre', 'GIT_Slug');
+        $cargos = CargoAdministrativo::all()->pluck('CAA_Cargo','CAA_Slug');
         return view('public.Encuestas.index',compact('grupos','cargos'));
     }
     /**
@@ -39,9 +41,11 @@ class EncuestasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id_proceso, $id_grupo, $id_cargo)
+    public function create($slug_proceso, $grupo, $cargo = null)
     {
-        session()->put('pk_cargo', $id_cargo);
+        $id_proceso = Proceso::where('PCS_Slug_Procesos',$slug_proceso)->first()->PK_PCS_Id;
+        $id_grupo = GrupoInteres::where('GIT_Slug',$grupo)->first()->PK_GIT_Id;
+        session()->put('pk_cargo', $cargo);
         session()->put('pk_encuesta', $id_proceso);
         session()->put('pk_grupo', $id_grupo);
         $id_encuesta = Encuesta::where('FK_ECT_Proceso',$id_proceso)->first();
@@ -65,16 +69,13 @@ class EncuestasController extends Controller
      */
     public function store(SolucionEncuestaRequest $request)
     {
-        $id_encuesta = Encuesta::where('FK_ECT_Proceso','=',session()->get('pk_encuesta'))
-        ->first();
+        $id_encuesta = Encuesta::where('FK_ECT_Proceso','=',session()->get('pk_encuesta'))->first();
+        $id_cargo = CargoAdministrativo::where('CAA_Slug','=',session()->get('pk_cargo'))->first()->PK_CAA_Id ?? null;
         $encuestados = new Encuestado();
         $encuestados->ECD_FechaSolucion = Carbon::now();
         $encuestados->FK_ECD_Encuesta = $id_encuesta->PK_ECT_Id;
         $encuestados->FK_ECD_GrupoInteres = session()->get('pk_grupo');
-        if(session()->get('pk_grupo') != 3)
-            $encuestados->FK_ECD_CargoAdministrativo = null;
-        else
-            $encuestados->FK_ECD_CargoAdministrativo = session()->get('pk_cargo');
+        $encuestados->FK_ECD_CargoAdministrativo = $id_cargo;
         $encuestados->save();
         $preguntas = PreguntaEncuesta::whereHas('preguntas', function ($query) {
             return $query->where('FK_PGT_Estado', '1');

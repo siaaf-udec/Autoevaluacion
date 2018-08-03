@@ -8,19 +8,21 @@
             </div>
         </div>
 </section>
-<br></br>
 <div class="titan-caption">
     <div class="caption-content">
-        @foreach ($encuestas as $encuesta)
-            @if($encuesta->proceso->programa)
-                <a href="/grupos/{{ $encuesta->proceso->PK_PCS_Id }}" class="btn btn-d btn-round">
+    @if ($encuestas->count() != 0)
+        </br>
+            @foreach ($encuestas as $encuesta)
+                @if($encuesta->proceso->programa)
+                    <a href="/grupos/{{ $encuesta->proceso->PCS_Slug_Procesos }}" class="btn btn-d btn-round">
                     {{$encuesta->proceso->nombre_proceso}}&nbsp;{{$encuesta->proceso->programa->PAC_Nombre}}</a>
-            @else
-                <a href="/grupos/{{ $encuesta->proceso->PK_PCS_Id }}" class="btn btn-d btn-round">
+                @else
+                    <a href="/grupos/{{ $encuesta->proceso->PCS_Slug_Procesos }}" class="btn btn-d btn-round">
                     {{$encuesta->proceso->nombre_proceso}}</a>
-            @endif
-        @endforeach
+                @endif
+            @endforeach
+        <br></br>
+    @endif
     </div>
 </div>
-<br></br>
 @endsection

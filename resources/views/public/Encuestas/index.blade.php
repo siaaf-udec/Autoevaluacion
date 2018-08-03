@@ -62,7 +62,6 @@
             $('#grupos').change(function (e) {
                 e.preventDefault();
                 var valor = $("#grupos option:selected").text();
-                var id = $("#grupos option:selected").val();
                 if(valor == "DIRECTIVOS ACADEMICOS")
                     document.getElementById("container").classList.remove('hidden');
                 else
@@ -70,7 +69,11 @@
             });
             form.submit(function (e) {
                 e.preventDefault();
-                window.location.href = "{{ url('encuesta') . '/'. request()->route()->parameter('id') . '/' }}"+ $('#grupos').val() + '/' + $('#cargos').val(); 
+                if( $("#grupos option:selected").text() == "DIRECTIVOS ACADEMICOS")
+                    window.location.href = "{{ url('encuesta') . '/'. request()->route()->parameter('slug_proceso') . '/' }}"+ $("#grupos").val() + '/' + $("#cargos").val(); 
+                else
+                window.location.href = "{{ url('encuesta') . '/'. request()->route()->parameter('slug_proceso') . '/' }}"+ $("#grupos").val();
+
             });
         });
     </script>

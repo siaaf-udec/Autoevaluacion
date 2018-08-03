@@ -15,8 +15,9 @@ class CreateGruposInteresTable extends Migration
     {
         Schema::connection('autoevaluacion')->create('TBL_Grupos_Interes', function (Blueprint $table) {
             $table->increments('PK_GIT_Id');
-            $table->string("GIT_Nombre");
+            $table->string("GIT_Nombre")->unique();
             $table->integer("FK_GIT_Estado")->unsigned();
+            $table->string('GIT_Slug')->unique();
             $table->timestamps();
 
             $table->foreign("FK_GIT_Estado")->references("PK_ESD_Id")->on("TBL_Estados")->onDelete("cascade");
