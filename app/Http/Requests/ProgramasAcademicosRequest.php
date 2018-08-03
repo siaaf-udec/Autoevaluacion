@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Autoevaluacion\ProgramaAcademico;
 
 class ProgramasAcademicosRequest extends FormRequest
 {
@@ -41,7 +42,7 @@ class ProgramasAcademicosRequest extends FormRequest
         return [
             'PAC_Nombre.required' => 'Nombre requerido.',
             'PAC_Nombre.max' => 'El campo nombre debe tener máximo 50 caracteres.',
-            'PAC_Descripcion' => 'Descripción requerida.',
+            'PAC_Descripcion.required' => 'Descripción requerida.',
             'PK_ESD_Id.required' => 'El estado es requerido.',
             'PK_ESD_Id.numeric' => 'Estado invalido.',
             'PK_ESD_Id.exists' => 'Este estado no existe en nuestros registros.',
@@ -52,5 +53,27 @@ class ProgramasAcademicosRequest extends FormRequest
             'PK_FCD_Id.numeric' => 'Facultad invalida.',
             'PK_FCD_Id.exists' => 'Esta facultad no existe en nuestros registros.',
         ];
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $id = $this->route()->parameter('programas_academico');
+
+            $programas = ProgramaAcademico::where('FK_PAC_Sede', '=', $this->request->get('PK_SDS_Id'))
+            ->where('PAC_Nombre', '=', $this->request->get('PAC_Nombre'))
+            ->where('PK_PAC_Id', '!=', $id)
+            ->get();
+
+            if($programas->count()){
+                $validator->errors()->add('Error', 'En la sede seleccionada ya se encuentra este programa.');
+            }
+        });
     }
 }

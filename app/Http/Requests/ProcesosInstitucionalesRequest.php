@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Carbon\Carbon;
+use App\Models\Autoevaluacion\Proceso;
 
 class ProcesosInstitucionalesRequest extends FormRequest
 {
@@ -57,6 +58,20 @@ class ProcesosInstitucionalesRequest extends FormRequest
             $fechaFin = Carbon::createFromFormat('d/m/Y', $this->request->get('PCS_FechaFin'));
             if ($fechaInicio >= $fechaFin) {
                 $validator->errors()->add('Error', 'La fecha de finalización del proceso tiene que ser mayor que la fecha de inicio');
+            }
+
+            $procesos_institucionales = Proceso::where('PCS_Institucional', '=', 1)
+                ->where('FK_PCS_Fase', '!=', '1')
+                ->where('FK_PCS_Fase', '!=', '2')
+                ->get();
+
+            $condicion_update = $this->request->get('PK_FSS_Id') != '1' && $this->request->get('PK_FSS_Id') != '2';
+
+            if ($this->method() == 'POST') {
+                $condicion_update = true; // debido a que siempre que se crear esta en fase de contracción
+            }
+            if($procesos_institucionales->count() > 0 && $condicion_update){
+                $validator->errors()->add('Error', 'Solo puede haber un proceso institucional en curso.');
             }
         });
     }
