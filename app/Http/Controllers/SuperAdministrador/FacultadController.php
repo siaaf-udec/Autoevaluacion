@@ -4,8 +4,8 @@ namespace App\Http\Controllers\SuperAdministrador;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FacultadesRequest;
-use App\Models\Estado;
-use App\Models\Facultad;
+use App\Models\Autoevaluacion\Estado;
+use App\Models\Autoevaluacion\Facultad;
 use DataTables;
 use Illuminate\Http\Request;
 

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\PonderacionRespuesta;
+use App\Models\Autoevaluacion\PonderacionRespuesta;
 
 class ModificarTipoRespuestaRequest extends FormRequest
 {

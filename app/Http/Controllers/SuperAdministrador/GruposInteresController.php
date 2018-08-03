@@ -4,8 +4,8 @@ namespace App\Http\Controllers\SuperAdministrador;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GruposInteresRequest;
-use App\Models\Estado;
-use App\Models\GrupoInteres;
+use App\Models\Autoevaluacion\Estado;
+use App\Models\Autoevaluacion\GrupoInteres;
 use DataTables;
 use Illuminate\Http\Request;
 

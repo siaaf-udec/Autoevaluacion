@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\TipoRespuestaRequest;
 use App\Http\Requests\ModificarTipoRespuestaRequest;
-use App\Models\Estado;
-use App\Models\PonderacionRespuesta;
-use App\Models\TipoRespuesta;
-use App\Models\BancoEncuestas;
-use App\Models\Encuesta;
-use App\Models\Proceso;
-use App\Models\PreguntaEncuesta;
-use App\Models\Pregunta;
+use App\Models\Autoevaluacion\Estado;
+use App\Models\Autoevaluacion\PonderacionRespuesta;
+use App\Models\Autoevaluacion\TipoRespuesta;
+use App\Models\Autoevaluacion\BancoEncuestas;
+use App\Models\Autoevaluacion\Encuesta;
+use App\Models\Autoevaluacion\Proceso;
+use App\Models\Autoevaluacion\PreguntaEncuesta;
+use App\Models\Autoevaluacion\Pregunta;
 use DataTables;
 class TipoRespuestaController extends Controller
 {

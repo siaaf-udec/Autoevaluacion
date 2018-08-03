@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Carbon\Carbon;
-use App\Models\Proceso;
+use App\Models\Autoevaluacion\Proceso;
 
 class ProcesosProgramasRequest extends FormRequest
 {

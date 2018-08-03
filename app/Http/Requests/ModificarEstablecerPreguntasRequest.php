@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Encuesta;
-use App\Models\Proceso;
+use App\Models\Autoevaluacion\Encuesta;
+use App\Models\Autoevaluacion\Proceso;
 
 class ModificarEstablecerPreguntasRequest extends FormRequest
 {

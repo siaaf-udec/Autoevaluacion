@@ -4,10 +4,10 @@ namespace App\Http\Controllers\SuperAdministrador;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LineamientosRequest;
-use App\Models\Aspecto;
-use App\Models\Caracteristica;
-use App\Models\Factor;
-use App\Models\Lineamiento;
+use App\Models\Autoevaluacion\Aspecto;
+use App\Models\Autoevaluacion\Caracteristica;
+use App\Models\Autoevaluacion\Factor;
+use App\Models\Autoevaluacion\Lineamiento;
 use DataTables;
 use Excel;
 use Illuminate\Http\Request;

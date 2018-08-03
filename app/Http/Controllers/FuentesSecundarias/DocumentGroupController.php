@@ -4,7 +4,7 @@ namespace App\Http\Controllers\FuentesSecundarias;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DocumentGroupRequest;
-use App\Models\GrupoDocumento;
+use App\Models\Autoevaluacion\GrupoDocumento;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 

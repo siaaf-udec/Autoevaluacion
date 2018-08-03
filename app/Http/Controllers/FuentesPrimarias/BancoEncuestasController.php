@@ -5,9 +5,9 @@ namespace App\Http\Controllers\FuentesPrimarias;
 use Illuminate\Http\Request;
 use App\Http\Requests\BancoEncuestasRequest;
 use App\Http\Controllers\Controller;
-use App\Models\BancoEncuestas;
-use App\Models\Encuesta;
-use App\Models\Proceso;
+use App\Models\Autoevaluacion\BancoEncuestas;
+use App\Models\Autoevaluacion\Encuesta;
+use App\Models\Autoevaluacion\Proceso;
 use DataTables;
 
 

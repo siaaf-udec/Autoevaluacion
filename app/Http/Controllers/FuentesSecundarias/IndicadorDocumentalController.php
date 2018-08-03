@@ -4,11 +4,11 @@ namespace App\Http\Controllers\FuentesSecundarias;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IndicadoresDocumentalesRequest;
-use App\Models\Caracteristica;
-use App\Models\Estado;
-use App\Models\Factor;
-use App\Models\IndicadorDocumental;
-use App\Models\Lineamiento;
+use App\Models\Autoevaluacion\Caracteristica;
+use App\Models\Autoevaluacion\Estado;
+use App\Models\Autoevaluacion\Factor;
+use App\Models\Autoevaluacion\IndicadorDocumental;
+use App\Models\Autoevaluacion\Lineamiento;
 use DataTables;
 use Illuminate\Http\Request;
 

@@ -3,10 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\PreguntaEncuesta;
-use App\Models\Encuesta;
-use App\Models\Proceso;
-use App\Models\GrupoInteres;
+use App\Models\Autoevaluacion\PreguntaEncuesta;
+use App\Models\Autoevaluacion\Encuesta;
+use App\Models\Autoevaluacion\Proceso;
+use App\Models\Autoevaluacion\GrupoInteres;
 
 class EstablecerPreguntasRequest extends FormRequest
 {

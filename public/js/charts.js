@@ -47,8 +47,25 @@ function crearGrafica(canvas = null, tipo, titulo = null,  etiquetas, etiquetasD
                 text: titulo
             },
 
+            "scales": { 
+            }
+
         },
     };
+    if (tipo == 'bar' || tipo == 'horizontalBar'){
+        jsonChart.options.scales = {
+            "yAxes": [{
+                "ticks": {
+                    "beginAtZero": true
+                }
+            }],
+            "xAxes": [{
+                "ticks": {
+                    "beginAtZero": true
+                }
+            }]
+        };
+    }
 
     var ctx = document.getElementById(canvas).getContext('2d');
     var myChart = new Chart(ctx, jsonChart);

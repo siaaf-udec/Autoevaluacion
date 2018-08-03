@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\GrupoDocumento;
+use App\Models\Autoevaluacion\GrupoDocumento;
 
 class GrupoDocumentoTableSeeder extends Seeder
 {

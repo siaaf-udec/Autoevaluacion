@@ -21,7 +21,7 @@ Sistema de información para la autoevaluación
     ```sh
     $ php artisan key:generate
     $ php artisan storage:link
-    $ php artisan migrate --seed
+    $ php artisan migrate --path=/database/migrations/autoevaluacion --seed
     ```
 7. Para que funcionen las queues realizar la siguiente configuración, en el archivo .env colocar el driver de esta manera
     ```sh

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\SuperAdministrador;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AmbitoRequest;
-use App\Models\AmbitoResponsabilidad;
+use App\Models\Autoevaluacion\AmbitoResponsabilidad;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 

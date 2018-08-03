@@ -4,7 +4,7 @@ namespace App\Http\Controllers\FuentesSecundarias;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TipoDocumentalRequest;
-use App\Models\TipoDocumento;
+use App\Models\Autoevaluacion\TipoDocumento;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 

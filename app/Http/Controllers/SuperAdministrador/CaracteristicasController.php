@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\SuperAdministrador;
 
 use App\Http\Controllers\Controller;
-use App\Models\AmbitoResponsabilidad;
-use App\Models\Caracteristica;
-use App\Models\Estado;
-use App\Models\Factor;
-use App\Models\Lineamiento;
+use App\Models\Autoevaluacion\AmbitoResponsabilidad;
+use App\Models\Autoevaluacion\Caracteristica;
+use App\Models\Autoevaluacion\Estado;
+use App\Models\Autoevaluacion\Factor;
+use App\Models\Autoevaluacion\Lineamiento;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Http\Requests\CaracteristicasRequest;

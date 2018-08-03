@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Fase;
+use App\Models\Autoevaluacion\Fase;
 
 class FasesTableSeeder extends Seeder
 {

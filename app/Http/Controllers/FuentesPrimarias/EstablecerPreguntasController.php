@@ -5,16 +5,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ModificarEstablecerPreguntasRequest;
 use App\Http\Requests\EstablecerPreguntasRequest;
 use Illuminate\Http\Request;
-use App\Models\PreguntaEncuesta;
-use App\Models\DatosEncuesta;
-use App\Models\Pregunta;
-use App\Models\Factor;
-use App\Models\Lineamiento;
-use App\Models\GrupoInteres;
-use App\Models\Caracteristica;
-use App\Models\BancoEncuestas;
-use App\Models\Encuesta;
-use App\Models\Proceso;
+use App\Models\Autoevaluacion\PreguntaEncuesta;
+use App\Models\Autoevaluacion\DatosEncuesta;
+use App\Models\Autoevaluacion\Pregunta;
+use App\Models\Autoevaluacion\Factor;
+use App\Models\Autoevaluacion\Lineamiento;
+use App\Models\Autoevaluacion\GrupoInteres;
+use App\Models\Autoevaluacion\Caracteristica;
+use App\Models\Autoevaluacion\BancoEncuestas;
+use App\Models\Autoevaluacion\Encuesta;
+use App\Models\Autoevaluacion\Proceso;
 use DataTables;
 
 class EstablecerPreguntasController extends Controller

@@ -4,10 +4,10 @@ namespace App\Http\Controllers\SuperAdministrador;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProgramasAcademicosRequest;
-use App\Models\Estado;
-use App\Models\Facultad;
-use App\Models\ProgramaAcademico;
-use App\Models\Sede;
+use App\Models\Autoevaluacion\Estado;
+use App\Models\Autoevaluacion\Facultad;
+use App\Models\Autoevaluacion\ProgramaAcademico;
+use App\Models\Autoevaluacion\Sede;
 use DataTables;
 use Illuminate\Http\Request;
 

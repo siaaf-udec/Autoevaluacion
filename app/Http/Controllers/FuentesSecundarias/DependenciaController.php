@@ -4,7 +4,7 @@ namespace App\Http\Controllers\FuentesSecundarias;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DependenceRequest;
-use App\Models\Dependencia;
+use App\Models\Autoevaluacion\Dependencia;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 

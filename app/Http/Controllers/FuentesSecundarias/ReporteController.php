@@ -4,14 +4,14 @@ namespace App\Http\Controllers\FuentesSecundarias;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\DocumentoAutoevaluacion;
-use App\Models\IndicadorDocumental;
-use App\Models\Proceso;
-use App\Models\Factor;
-use App\Models\Dependencia;
-use App\Models\TipoDocumento;
-use App\Models\GrupoDocumento;
-use App\Models\DocumentoInstitucional;
+use App\Models\Autoevaluacion\DocumentoAutoevaluacion;
+use App\Models\Autoevaluacion\IndicadorDocumental;
+use App\Models\Autoevaluacion\Proceso;
+use App\Models\Autoevaluacion\Factor;
+use App\Models\Autoevaluacion\Dependencia;
+use App\Models\Autoevaluacion\TipoDocumento;
+use App\Models\Autoevaluacion\GrupoDocumento;
+use App\Models\Autoevaluacion\DocumentoInstitucional;
 
 
 class ReporteController extends Controller

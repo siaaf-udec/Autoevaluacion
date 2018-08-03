@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\TipoDocumento;
+use App\Models\Autoevaluacion\TipoDocumento;
 
 class TipoDocumentosTableSeeder extends Seeder
 {

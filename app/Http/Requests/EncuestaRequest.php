@@ -4,9 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use App\Models\Proceso;
-use App\Models\PreguntaEncuesta;
-use App\Models\Caracteristica;
+use App\Models\Autoevaluacion\Proceso;
+use App\Models\Autoevaluacion\PreguntaEncuesta;
+use App\Models\Autoevaluacion\Caracteristica;
 use Carbon\Carbon;
 
 class EncuestaRequest extends FormRequest

@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\DocumentoAutoevaluacion;
-use App\Models\Proceso;
+use App\Models\Autoevaluacion\DocumentoAutoevaluacion;
+use App\Models\Autoevaluacion\Proceso;
 
 class DocumentosAutoevaluacionRequest extends FormRequest
 {

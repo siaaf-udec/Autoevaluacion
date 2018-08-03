@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\DocumentoInstitucional;
+use App\Models\Autoevaluacion\DocumentoInstitucional;
 
 class DocumentoInstitucionalRequest extends FormRequest
 {

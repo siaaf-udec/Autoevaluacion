@@ -4,8 +4,8 @@ namespace App\Http\Controllers\FuentesPrimarias;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DatosEncuestasRequest;
-use App\Models\DatosEncuesta;
-use App\Models\GrupoInteres;
+use App\Models\Autoevaluacion\DatosEncuesta;
+use App\Models\Autoevaluacion\GrupoInteres;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 

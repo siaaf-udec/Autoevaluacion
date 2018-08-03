@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\CargoAdministrativo;
+use App\Models\Autoevaluacion\CargoAdministrativo;
 
 class CargosAdministrativosTableSeeder extends Seeder
 {

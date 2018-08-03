@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\FuentesPrimarias;
 
 use App\Http\Controllers\Controller;
-use App\Models\PonderacionRespuesta;
+use App\Models\Autoevaluacion\PonderacionRespuesta;
 use DataTables;
 use Illuminate\Http\Request;
 use Session;

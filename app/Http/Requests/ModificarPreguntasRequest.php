@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\PonderacionRespuesta;
-use App\Models\Pregunta;
-use App\Models\TipoRespuesta;
+use App\Models\Autoevaluacion\PonderacionRespuesta;
+use App\Models\Autoevaluacion\Pregunta;
+use App\Models\Autoevaluacion\TipoRespuesta;
 
 class ModificarPreguntasRequest extends FormRequest
 {

@@ -4,8 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Models\Proceso;
-use App\Models\Encuesta;
+use App\Models\Autoevaluacion\Proceso;
+use App\Models\Autoevaluacion\Encuesta;
 use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel

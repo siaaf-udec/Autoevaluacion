@@ -4,9 +4,9 @@ namespace App\Http\Controllers\FuentesSecundarias;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DocumentoInstitucionalRequest;
-use App\Models\Archivo;
-use App\Models\DocumentoInstitucional;
-use App\Models\GrupoDocumento;
+use App\Models\Autoevaluacion\Archivo;
+use App\Models\Autoevaluacion\DocumentoInstitucional;
+use App\Models\Autoevaluacion\GrupoDocumento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\Datatables\Datatables;

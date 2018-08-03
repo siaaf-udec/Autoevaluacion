@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\GrupoInteres;
+use App\Models\Autoevaluacion\GrupoInteres;
 
 class GruposInteresTableSeeder extends Seeder
 {

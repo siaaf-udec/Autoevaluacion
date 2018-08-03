@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Lineamiento;
+use App\Models\Autoevaluacion\Lineamiento;
 
 class LineamientosTableSeeder extends Seeder
 {

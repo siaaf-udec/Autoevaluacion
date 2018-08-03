@@ -4,16 +4,16 @@ namespace App\Http\Controllers\FuentesPrimarias;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Encuesta;
-use App\Models\Encuestado;
-use App\Models\PreguntaEncuesta;
-use App\Models\RespuestaPregunta;
-use App\Models\Pregunta;
-use App\Models\GrupoInteres;
-use App\Models\Proceso;
-use App\Models\Factor;
-use App\Models\Caracteristica;
-use App\Models\SolucionEncuesta;
+use App\Models\Autoevaluacion\Encuesta;
+use App\Models\Autoevaluacion\Encuestado;
+use App\Models\Autoevaluacion\PreguntaEncuesta;
+use App\Models\Autoevaluacion\RespuestaPregunta;
+use App\Models\Autoevaluacion\Pregunta;
+use App\Models\Autoevaluacion\GrupoInteres;
+use App\Models\Autoevaluacion\Proceso;
+use App\Models\Autoevaluacion\Factor;
+use App\Models\Autoevaluacion\Caracteristica;
+use App\Models\Autoevaluacion\SolucionEncuesta;
 use Illuminate\Support\Collection;
 
 class ReportesEncuestasController extends Controller

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Publico;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Encuesta;
+use App\Models\Autoevaluacion\Encuesta;
 use Carbon\Carbon;
 
 class HomeController extends Controller

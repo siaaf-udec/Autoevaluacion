@@ -18,7 +18,7 @@ class UserRequest extends FormRequest
     {
        
         $password = 'required|min:3';
-        $estado = 'required|numeric|exists:TBL_estados';
+        $estado = 'required|numeric|exists:TBL_Estados';
         $id = $this->route()->parameter('usuario');
         $roles = 'required';
         

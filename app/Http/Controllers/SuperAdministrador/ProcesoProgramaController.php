@@ -4,12 +4,12 @@ namespace App\Http\Controllers\SuperAdministrador;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProcesosProgramasRequest;
-use App\Models\Facultad;
-use App\Models\Fase;
-use App\Models\Lineamiento;
-use App\Models\Proceso;
-use App\Models\ProgramaAcademico;
-use App\Models\Sede;
+use App\Models\Autoevaluacion\Facultad;
+use App\Models\Autoevaluacion\Fase;
+use App\Models\Autoevaluacion\Lineamiento;
+use App\Models\Autoevaluacion\Proceso;
+use App\Models\Autoevaluacion\ProgramaAcademico;
+use App\Models\Autoevaluacion\Sede;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;

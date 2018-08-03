@@ -7,9 +7,9 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Models\Aspecto;
-use App\Models\Caracteristica;
-use App\Models\Factor;
+use App\Models\Autoevaluacion\Aspecto;
+use App\Models\Autoevaluacion\Caracteristica;
+use App\Models\Autoevaluacion\Factor;
 use Excel;
 use Illuminate\Support\Facades\Storage;
 

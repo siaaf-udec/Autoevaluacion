@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\SuperAdministrador;
 
 use App\Http\Controllers\Controller;
-use App\Models\Proceso;
+use App\Models\Autoevaluacion\Proceso;
 use Illuminate\Http\Request;
 
 class ProcesosController extends Controller

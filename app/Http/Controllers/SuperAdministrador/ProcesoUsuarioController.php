@@ -4,9 +4,9 @@ namespace App\Http\Controllers\SuperAdministrador;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Autoevaluacion\User;
 use DataTables;
-use App\Models\Proceso;
+use App\Models\Autoevaluacion\Proceso;
 
 class ProcesoUsuarioController extends Controller
 {

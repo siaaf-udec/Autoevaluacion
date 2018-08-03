@@ -8,9 +8,9 @@ use App\Http\Controllers\Controller;
 
 use Carbon\Carbon;
 use DataTables;
-use App\Models\Proceso;
-use App\Models\Lineamiento;
-use App\Models\Fase;
+use App\Models\Autoevaluacion\Proceso;
+use App\Models\Autoevaluacion\Lineamiento;
+use App\Models\Autoevaluacion\Fase;
 use App\Http\Requests\ProcesosInstitucionalesRequest;
 
 
