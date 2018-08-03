@@ -12,14 +12,13 @@
     <div class="col-md-9 col-md-offset-2">
         {!! Form::email('email', old('email'),
         ['class' => 'form-control', 'placeholder' => 'Correo', 'required', 'autofocus', 'max'=> '60']) !!}
-    </div>
-    <br></br>
+    </div><br></br>
     <div class="col-md-9 col-md-offset-2">
     {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Contraseña', 'required']) !!}
-    </div>
-    <br></br>
-    <div class="col-md-6 col-md-offset-6">
-    {{ link_to('/password/reset', 'Olvidaste tu contraseña?',['class' => 'reset_pass'])}} {!! Form::submit('Ingresar', ['class' => 'btn btn-success submit']) !!}
+    </div><br></br>
+    <div class="col-md-6 col-md-offset-2">
+    {!! Form::submit('Ingresar', ['class' => 'btn btn-success submit']) !!}
+    {{ link_to('/password/reset', 'Olvidaste tu contraseña?',['class' => 'reset_pass'])}}
     </div>
     </br>
     </div>

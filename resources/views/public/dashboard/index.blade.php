@@ -13,13 +13,11 @@
     <div class="caption-content">
         @foreach ($encuestas as $encuesta)
             @if($encuesta->proceso->programa)
-            <td><a href="/grupos/{{ $encuesta->proceso->PK_PCS_Id }}" class="btn btn-d btn-round">
-            {{$encuesta->proceso->programa->sede->SDS_Nombre}}&nbsp;{{$encuesta->proceso->PCS_Nombre}}&nbsp;{{$encuesta->proceso->programa->PAC_Nombre}}
-            </a></td>
+                <a href="/grupos/{{ $encuesta->proceso->PK_PCS_Id }}" class="btn btn-d btn-round">
+                    {{$encuesta->proceso->nombre_proceso}}&nbsp;{{$encuesta->proceso->programa->PAC_Nombre}}</a>
             @else
-            <td><a href="/grupos/{{ $encuesta->proceso->PK_PCS_Id }}" class="btn btn-d btn-round">
-            Insitucional&nbsp;{{$encuesta->proceso->PCS_Nombre}}
-            </a></td>
+                <a href="/grupos/{{ $encuesta->proceso->PK_PCS_Id }}" class="btn btn-d btn-round">
+                    {{$encuesta->proceso->nombre_proceso}}</a>
             @endif
         @endforeach
     </div>

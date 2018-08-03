@@ -19,7 +19,7 @@
     <div class="col-md-9 col-md-offset-2"> 
     {!! Form::password('password_confirmation', ['class' => 'form-control', 'placeholder' => 'Repite la contraseña', 'required']) !!}
     </div><br></br>
-    <div class="col-md-9 col-md-offset-8">
+    <div class="col-md-9 col-md-offset-2">
     {!! Form::submit('restablecer', ['class' => 'btn btn-success submit']) !!}
     </div>
     {!! Form::close() !!}

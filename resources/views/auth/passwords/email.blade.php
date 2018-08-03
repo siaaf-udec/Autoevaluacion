@@ -9,8 +9,8 @@
     <div class="col-md-9 col-md-offset-2">
     {!! Form::email('email', old('email'), ['class' => 'form-control', 'placeholder' => 'Correo', 'required', 'autofocus', 'max'=> '60']) !!}
     </div>
-    <br></br>
-    <div class="col-md-6 col-md-offset-8">
+    <br></br><br></br>
+    <div class="col-md-6 col-md-offset-2">
     {!! Form::submit('Restablecer', ['class' => 'btn btn-success submit']) !!}
     </div>
     </div>

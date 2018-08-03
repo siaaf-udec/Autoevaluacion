@@ -37,7 +37,7 @@ class ReportesEncuestasController extends Controller
         //encuestados
         $encuesta = Encuesta::where('FK_ECT_Proceso','=',session()->get('id_proceso'))->first();
         $encuestados = Encuestado::with('grupos')
-        ->where('FK_ECD_Encuesta','=',$encuesta->PK_ECT_Id)
+        ->where('FK_ECD_Encuesta','=',$encuesta->PK_ECT_Id ?? null)
         ->selectRaw('*, COUNT(FK_ECD_GrupoInteres) as cantidad')
         ->groupby('FK_ECD_GrupoInteres')
         ->get();
@@ -54,7 +54,7 @@ class ReportesEncuestasController extends Controller
         $encuesta = Encuesta::where('FK_ECT_Proceso','=',session()->get('id_proceso'))
         ->first();
         $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados', function ($query) use ($encuesta){
-            return $query->where('FK_ECD_Encuesta','=',$encuesta->PK_ECT_Id);
+            return $query->where('FK_ECD_Encuesta','=',$encuesta->PK_ECT_Id ?? null);
         })
         ->with('preguntas')
         ->where('FK_CRT_Factor','=','1')
@@ -96,7 +96,7 @@ class ReportesEncuestasController extends Controller
         $encuesta = Encuesta::where('FK_ECT_Proceso','=',session()->get('id_proceso'))
         ->first();
         $encuestados = Encuestado::selectRaw('COUNT(FK_ECD_GrupoInteres) as cantidad')
-        ->where('FK_ECD_Encuesta','=',$encuesta->PK_ECT_Id)
+        ->where('FK_ECD_Encuesta','=',$encuesta->PK_ECT_Id ?? null)
         ->where('FK_ECD_GrupoInteres','=',$request->get('PK_GIT_Id'))
         ->first();
         $labels_respuestas = [];
@@ -106,7 +106,7 @@ class ReportesEncuestasController extends Controller
         foreach ($respuestas as $respuesta) {
             $total_respuestas = SolucionEncuesta::whereHas('encuestados', function ($query) use ($request,$encuesta){
                 return $query->where('FK_ECD_GrupoInteres', '=', $request->get('PK_GIT_Id'))
-                ->where('FK_ECD_Encuesta','=',$encuesta->PK_ECT_Id);
+                ->where('FK_ECD_Encuesta','=',$encuesta->PK_ECT_Id ?? null);
             })
             ->where('FK_SEC_Respuesta','=',$respuesta->PK_RPG_Id)
             ->get();
@@ -142,7 +142,7 @@ class ReportesEncuestasController extends Controller
         $encuesta = Encuesta::where('FK_ECT_Proceso','=',session()->get('id_proceso'))
         ->first();
         $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados', function ($query) use ($encuesta){
-            return $query->where('FK_ECD_Encuesta','=',$encuesta->PK_ECT_Id);
+            return $query->where('FK_ECD_Encuesta','=',$encuesta->PK_ECT_Id ?? null);
         })
         ->with('preguntas')
         ->where('FK_CRT_Factor','=',$request->get('PK_FCT_Id'))

@@ -26,11 +26,11 @@ class EncuestasController extends Controller
     public function index($id)
     {
         $id_encuesta = Encuesta::where('FK_ECT_Proceso',$id)->first();
-        $grupos = PreguntaEncuesta::whereHas('grupos', function ($query) {
-            return $query->where('FK_GIT_Estado','=' ,'1');
+        $grupos = GrupoInteres::whereHas('preguntas_encuesta', function ($query) use($id_encuesta){
+            return $query->where('FK_PEN_Banco_Encuestas','=' ,$id_encuesta->FK_ECT_Banco_Encuestas);
         })
-        ->where('FK_PEN_Banco_Encuestas',$id_encuesta->FK_ECT_Banco_Encuestas)
-        ->get()->pluck('grupos.GIT_Nombre', 'grupos.PK_GIT_Id');
+        ->where('FK_GIT_Estado','=' ,'1')
+        ->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
         $cargos = CargoAdministrativo::all()->pluck('CAA_Cargo','PK_CAA_Id');
         return view('public.Encuestas.index',compact('grupos','cargos'));
     }

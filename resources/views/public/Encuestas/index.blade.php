@@ -14,20 +14,14 @@
         ])!!}
         @include('public.Encuestas.form')
         <br></br>
-        <div class="ln_solid"></div>
-        <div class="form-group">
             <div class="col-md-6 col-md-offset-6">
-            {!! Form::submit('Iniciar', ['class' => 'btn btn-success']) !!}
-            <span style="display:inline-block; width: 10;"></span>
-            {{ link_to_route('home',"Cancelar", [],
-            ['class' => 'btn btn-danger']) }}
-            </div>
-        </div>
-            {!! Form::close() !!}
-        </div>
-        </div>
-    </div>   
-    </section>
+                {!! Form::submit('Iniciar', ['class' => 'btn btn-success']) !!}
+                    <span style="display:inline-block; width: 10;"></span>
+                {{ link_to_route('home',"Cancelar", [],
+                ['class' => 'btn btn-danger']) }}
+            <div>
+        {!! Form::close() !!}
+</section>
 @endcomponent
 @endsection
 @push('styles')
@@ -52,6 +46,7 @@
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
+            var form = $('#form_cargar_encuestas');
             $('#grupos').select2();
             $('#cargos').select2();
             $(form).parsley({
@@ -73,10 +68,9 @@
                 else
                     document.getElementById("container").classList.add('hidden');
             });
-            var form = $('#form_cargar_encuestas');
             form.submit(function (e) {
                 e.preventDefault();
-                window.location.href = "{{ url('encuesta') . '/'. request()->route()->parameter('id') . '/' }}"+ $('#grupos').val() + '/' + $('#cargos').val() 
+                window.location.href = "{{ url('encuesta') . '/'. request()->route()->parameter('id') . '/' }}"+ $('#grupos').val() + '/' + $('#cargos').val(); 
             });
         });
     </script>
