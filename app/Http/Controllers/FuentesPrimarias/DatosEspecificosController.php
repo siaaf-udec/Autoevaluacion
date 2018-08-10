@@ -5,12 +5,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EncuestaRequest;
-use App\Models\Autoevaluacion\DatosEncuesta;
 use App\Models\Autoevaluacion\Estado;
 use App\Models\Autoevaluacion\BancoEncuestas;
 use App\Models\Autoevaluacion\Encuesta;
-use App\Models\Autoevaluacion\GrupoInteres;
-use App\Models\Autoevaluacion\Proceso;
 use Carbon\Carbon;
 use DataTables;
 

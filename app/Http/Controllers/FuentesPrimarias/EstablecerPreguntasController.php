@@ -6,15 +6,12 @@ use App\Http\Requests\ModificarEstablecerPreguntasRequest;
 use App\Http\Requests\EstablecerPreguntasRequest;
 use Illuminate\Http\Request;
 use App\Models\Autoevaluacion\PreguntaEncuesta;
-use App\Models\Autoevaluacion\DatosEncuesta;
-use App\Models\Autoevaluacion\Pregunta;
 use App\Models\Autoevaluacion\Factor;
 use App\Models\Autoevaluacion\Lineamiento;
 use App\Models\Autoevaluacion\GrupoInteres;
 use App\Models\Autoevaluacion\Caracteristica;
 use App\Models\Autoevaluacion\BancoEncuestas;
 use App\Models\Autoevaluacion\Encuesta;
-use App\Models\Autoevaluacion\Proceso;
 use DataTables;
 
 class EstablecerPreguntasController extends Controller
@@ -39,8 +36,7 @@ class EstablecerPreguntasController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $preguntas = PreguntaEncuesta::
-            with('preguntas','grupos')
+            $preguntas = PreguntaEncuesta::with('preguntas','grupos')
             ->with('preguntas.estado')
             ->with('preguntas.tipo')
             ->with('preguntas.caracteristica')
@@ -161,17 +157,12 @@ class EstablecerPreguntasController extends Controller
     public function destroy($id)
     {
         $preguntas_encuestas = PreguntaEncuesta::findOrFail($id);
-        $banco_encuestas = BancoEncuestas::findOrFail($preguntas_encuestas->FK_PEN_Banco_Encuestas);
-        $encuestas = Encuesta::where('FK_ECT_Banco_Encuestas','=',$banco_encuestas->PK_BEC_Id)
+        $encuestas = Encuesta::whereHas('proceso', function ($query) {
+            return $query->where('FK_PCS_Fase', '=', '4');
+        })
+        ->where('FK_ECT_Banco_Encuestas','=',BancoEncuestas::findOrFail($preguntas_encuestas->FK_PEN_Banco_Encuestas)->PK_BEC_Id)
         ->get();
-        $contador = 0;
-        foreach($encuestas as $encuesta)
-        {
-            $proceso = Proceso::find($encuesta->FK_ECT_Proceso);
-            if ($proceso->FK_PCS_Fase == 4) $contador = 1;
-                break;     
-        }
-        if($contador==0)
+        if($encuestas->count()==0)
         {
             $preguntas_encuestas->delete();
             return response(['msg' => 'La pregunta ha sido eliminada exitosamente de la encuesta.',

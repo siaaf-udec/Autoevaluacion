@@ -15,7 +15,7 @@ class CreatePreguntasEncuestasTable extends Migration
     {
         Schema::connection('autoevaluacion')->create('TBL_Preguntas_Encuestas', function (Blueprint $table) {
             $table->increments('PK_PEN_Id');
-            $table->integer("FK_PEN_Pregunta")->unsigned();
+            $table->integer("FK_PEN_Pregunta")->unsigned()->index();
             $table->integer("FK_PEN_Banco_Encuestas")->unsigned();
             $table->integer("FK_PEN_GrupoInteres")->unsigned();
             $table->timestamps();

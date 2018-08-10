@@ -7,7 +7,6 @@ use App\Http\Requests\BancoEncuestasRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Autoevaluacion\BancoEncuestas;
 use App\Models\Autoevaluacion\Encuesta;
-use App\Models\Autoevaluacion\Proceso;
 use DataTables;
 
 
@@ -59,7 +58,7 @@ class BancoEncuestasController extends Controller
      */
     public function create()
     {
-        return view('autoevaluacion.FuentesPrimarias.BancoEncuestas.create');
+
     }
     /**
      * Store a newly created resource in storage.
@@ -95,8 +94,7 @@ class BancoEncuestasController extends Controller
      */
     public function edit($id)
     {
-        $datos = BancoEncuestas::findOrFail($id);
-        return view('autoevaluacion.FuentesPrimarias.BancoEncuestas.edit',compact('datos'));
+       
     }
     /**
      * Update the specified resource in storage.
@@ -124,15 +122,12 @@ class BancoEncuestasController extends Controller
     public function destroy($id)
     {
         $banco_encuestas = BancoEncuestas::findOrFail($id);
-        $encuestas = Encuesta::where('FK_ECT_Banco_Encuestas','=',$banco_encuestas->PK_BEC_Id)
+        $encuestas = Encuesta::whereHas('proceso', function ($query) {
+            return $query->where('FK_PCS_Fase', '=', '4');
+        })
+        ->where('FK_ECT_Banco_Encuestas','=',$banco_encuestas->PK_BEC_Id)
         ->get();
-        $contador = 0;
-        foreach($encuestas as $encuesta)
-        {
-            $proceso = Proceso::find($encuesta->FK_ECT_Proceso);
-            if ($proceso->FK_PCS_Fase == 4) $contador = 1;     
-        }
-        if($contador==0)
+        if($encuestas->count()==0)
         {
             $banco_encuestas->delete();
             return response(['msg' => 'La encuesta ha sido eliminada exitosamente.',
@@ -148,6 +143,5 @@ class BancoEncuestasController extends Controller
             ], 422)// 200 Status Code: Standard response for successful HTTP request
                 ->header('Content-Type', 'application/json');
         }
-           
     }
 }

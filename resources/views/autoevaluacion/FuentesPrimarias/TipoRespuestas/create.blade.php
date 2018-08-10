@@ -66,7 +66,10 @@
                             container.removeChild(container.lastChild);
                         }
                         for (i=1;i<=number;i++){
-                            container.appendChild(document.createTextNode("Ponderacion " + (i)));
+                            container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
+                            container.appendChild(document.createTextNode("Ponderacion " + (i)));container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;'; 
                             var input = document.createElement("input");
                             input.type = "text";
                             input.name = "Ponderacion_" + i;
@@ -74,8 +77,9 @@
                             input.required = true;
                             input.size = 67;
                             input.pattern = "^[0-9.]*$";
+                            input.style="margin: 0px;width: 300px;height: 34px";
                             container.appendChild(input);
-                            container.appendChild(document.createElement("br"));
+                            container.appendChild(document.createElement("br"));container.appendChild(document.createElement("br"));
                         }
                     }
                     else

@@ -14,8 +14,6 @@ use App\Models\Autoevaluacion\Lineamiento;
 use App\Models\Autoevaluacion\Pregunta;
 use App\Models\Autoevaluacion\RespuestaPregunta;
 use App\Models\Autoevaluacion\TipoRespuesta;
-use App\Models\Autoevaluacion\BancoEncuestas;
-use App\Models\Autoevaluacion\Encuesta;
 use App\Models\Autoevaluacion\Proceso;
 use App\Models\Autoevaluacion\PreguntaEncuesta;
 use DataTables;
@@ -161,7 +159,6 @@ class PreguntasController extends Controller
             $rpta->FK_RPG_PonderacionRespuesta = $request->ponderaciones[$index];
             $rpta->update();
         }
-
         return response(['msg' => 'La pregunta ha sido modificada exitosamente.',
             'title' => '¡Pregunta Modificada!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request

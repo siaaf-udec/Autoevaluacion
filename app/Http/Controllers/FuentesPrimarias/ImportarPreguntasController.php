@@ -4,13 +4,6 @@ namespace App\Http\Controllers\FuentesPrimarias;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportarPreguntasRequest;
-use App\Models\Autoevaluacion\Caracteristica;
-use App\Models\Autoevaluacion\Factor;
-use App\Models\Autoevaluacion\PonderacionRespuesta;
-use App\Models\Autoevaluacion\Pregunta;
-use App\Models\Autoevaluacion\Proceso;
-use App\Models\Autoevaluacion\RespuestaPregunta;
-use App\Models\Autoevaluacion\TipoRespuesta;
 use Excel;
 use Illuminate\Http\Request;
 use App\Jobs\ImportarPreguntas;
@@ -63,8 +56,6 @@ class ImportarPreguntasController extends Controller
             $url_temporal = Storage::url($archivo->store('public'));
             ImportarPreguntas::dispatch($url_temporal, session()->get('id_proceso'));
         }
-
-
         return response(['msg' => 'Preguntas registradas correctamente.',
             'title' => '¡Registro exitoso!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request

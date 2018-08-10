@@ -7,8 +7,8 @@ Route::resource('datosEncuestas', 'DatosEncuestasController', ['as' => 'fuentesP
 Route::get('datosEncuestas/data', array('as' => 'fuentesP.datosEncuestas.data', 'uses' => 'DatosEncuestasController@data'));
 
 //Banco de Encuestas
-Route::resource('bancoEncuestas', 'BancoEncuestasController', ['as' => 'fuentesP'])->except(['show']);
-Route::get('bancoEncuestas/data', array('as' => 'fuentesP.bancoEncuestas.data', 'uses' => 'BancoEncuestasController@data'));
+Route::resource('bancoEncuestas', 'BancoEncuestasController', ['as' => 'fuentesP']);
+Route::get('bancoEncuestas/data/data', array('as' => 'fuentesP.bancoEncuestas.data', 'uses' => 'BancoEncuestasController@data'));
 
 //construccion de encuestas
 Route::resource('datosEspecificos', 'DatosEspecificosController', ['as' => 'fuentesP'])->except(['show']);
@@ -34,6 +34,7 @@ Route::get('preguntas/data/data', array('as' => 'fuentesP.preguntas.data', 'uses
 //Importar preguntas
 Route::resource('Importarpreguntas', 'ImportarPreguntasController', ['as' => 'fuentesP']);
 
+//informes de Encuestas
 Route::get('informes_encuestas', array(
     'as' => 'primarias.informe_encuestas',
     'uses' => 'ReportesEncuestasController@index'
@@ -44,6 +45,7 @@ Route::get('informes_encuestas/datos', array(
     'uses' => 'ReportesEncuestasController@obtenerDatos'
 ));
 
+//filtros informes encuestas
 Route::post('informes_encuestas/filtrar', array(
     'as' => 'primarias.informe_encuestas.filtrar',
     'uses' => 'ReportesEncuestasController@filtro'

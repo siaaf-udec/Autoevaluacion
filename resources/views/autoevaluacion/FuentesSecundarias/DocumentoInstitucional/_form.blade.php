@@ -3,7 +3,7 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
         {!! Form::text('DOI_Nombre', old('CRT_Nombre'),[ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 
         'required' => 'required', 
-        'data-parsley-pattern' => '^[a-zA-Z ][a-zA-Z0-9-_\. ]{1,50}$',
+        'data-parsley-pattern' => '^[a-zA-Z0-9-_\.,;:ñÑáéíóúÁÉÍÓÚ ]+$',
         'data-parsley-pattern-message' => 'Error, digite un nombre valido',
         'data-parsley-length' => "[1, 50]", 
         'data-parsley-trigger'=>"change"] ) !!}
@@ -14,7 +14,7 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
         {!! Form::text('DOI_Descripcion', old('CRT_Descripcion'),[ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 
         'required' => 'required', 
-        'data-parsley-pattern' => '^[a-zA-Z ][a-zA-Z0-9-_\. ]{1,500}$',
+        'data-parsley-pattern' => '^[a-zA-Z0-9-_\.,;:ñÑáéíóúÁÉÍÓÚ ]+$',
         'data-parsley-pattern-message' => 'Por favor escriba solo letras',
         'data-parsley-length' => "[1, 500]", 
         'data-parsley-trigger'=>"change"] ) !!}

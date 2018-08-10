@@ -9,10 +9,7 @@ use App\Http\Requests\ModificarTipoRespuestaRequest;
 use App\Models\Autoevaluacion\Estado;
 use App\Models\Autoevaluacion\PonderacionRespuesta;
 use App\Models\Autoevaluacion\TipoRespuesta;
-use App\Models\Autoevaluacion\BancoEncuestas;
-use App\Models\Autoevaluacion\Encuesta;
 use App\Models\Autoevaluacion\Proceso;
-use App\Models\Autoevaluacion\PreguntaEncuesta;
 use App\Models\Autoevaluacion\Pregunta;
 use DataTables;
 class TipoRespuestaController extends Controller

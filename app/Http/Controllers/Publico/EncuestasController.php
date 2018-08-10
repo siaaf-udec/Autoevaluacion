@@ -85,9 +85,9 @@ class EncuestasController extends Controller
         ->where('FK_PEN_Banco_Encuestas', '=', $id_encuesta->FK_ECT_Banco_Encuestas)
         ->get();
         foreach($preguntas as $pregunta){
-                $valor = $request->get($pregunta->preguntas->PK_PGT_Id,false);
+                $respuestaUsuario = $request->get($pregunta->preguntas->PK_PGT_Id,false);
                 $respuesta_encuesta = new SolucionEncuesta();
-                $respuesta_encuesta->FK_SEC_Respuesta = $valor;
+                $respuesta_encuesta->FK_SEC_Respuesta = $respuestaUsuario;
                 $respuesta_encuesta->FK_SEC_Encuestado = $encuestados->PK_ECD_Id;
                 $respuesta_encuesta->save();
         }           

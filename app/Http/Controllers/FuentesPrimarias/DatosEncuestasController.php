@@ -26,7 +26,10 @@ class DatosEncuestasController extends Controller
 
     public function index()
     {
-        return view('autoevaluacion.FuentesPrimarias.DatosEncuestas.index');
+        $grupos = GrupoInteres::whereHas('estado', function ($query) {
+            return $query->where('ESD_Valor', '=', '1');
+        })->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
+        return view('autoevaluacion.FuentesPrimarias.DatosEncuestas.index', compact('grupos'));
     }
     /**
      * Show the form for creating a new resource.
@@ -50,10 +53,6 @@ class DatosEncuestasController extends Controller
     }
     public function create()
     {
-        $grupos = GrupoInteres::whereHas('estado', function ($query) {
-            return $query->where('ESD_Valor', '=', '1');
-        })->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
-        return view('autoevaluacion.FuentesPrimarias.DatosEncuestas.create', compact('grupos'));
     }
     /**
      * Store a newly created resource in storage.
@@ -90,11 +89,6 @@ class DatosEncuestasController extends Controller
      */
     public function edit($id)
     {
-        $datos = DatosEncuesta::findOrFail($id);
-        $grupos = GrupoInteres::whereHas('estado', function ($query) {
-            return $query->where('ESD_Valor', '1');
-        })->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
-        return view('autoevaluacion.FuentesPrimarias.DatosEncuestas.edit', compact('datos', 'grupos'));
     }
     /**
      * Update the specified resource in storage.
@@ -113,7 +107,6 @@ class DatosEncuestasController extends Controller
             'title' => 'Datos Modificados!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
-
     }
     /**
      * Remove the specified resource from storage.

@@ -14,7 +14,7 @@ class CreatePreguntasTable extends Migration
     public function up()
     {
         Schema::connection('autoevaluacion')->create('TBL_Preguntas', function (Blueprint $table) {
-            $table->increments('PK_PGT_Id');
+            $table->increments('PK_PGT_Id')->index();
             $table->string("PGT_Texto", 10000);
             $table->integer("FK_PGT_Estado")->unsigned();
             $table->integer("FK_PGT_TipoRespuesta")->unsigned();
