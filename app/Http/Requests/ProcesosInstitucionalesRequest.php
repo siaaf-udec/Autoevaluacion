@@ -68,7 +68,7 @@ class ProcesosInstitucionalesRequest extends FormRequest
             $condicion_update = $this->request->get('PK_FSS_Id') != '1' && $this->request->get('PK_FSS_Id') != '2';
 
             if ($this->method() == 'POST') {
-                $condicion_update = true; // debido a que siempre que se crear esta en fase de contracción
+                $condicion_update = true; // debido a que siempre que se crea esta en fase de construcción
             }
             if($procesos_institucionales->count() > 0 && $condicion_update){
                 $validator->errors()->add('Error', 'Solo puede haber un proceso institucional en curso.');
