@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AlcanceAdministrativo extends Model
 {
-    /**
+    /*
      * Conexión usada por el modelo.
      *
      * @var string
