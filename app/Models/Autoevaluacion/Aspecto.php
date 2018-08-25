@@ -34,6 +34,16 @@ class Aspecto extends Model
      */
     protected $guarded = ['PK_ASP_Id', 'created_at', 'updated_at'];
 
+    /**
+     * Obtener nombre de la caracteristica con su respectivo identificador.
+     *
+     * @return string
+     */
+    public function getNombreAspectoAttribute()
+    {
+        return "{$this->ASP_Identificador}. {$this->ASP_Nombre}";
+    }
+
     public function caracteristica(){
         return $this->belongsTo(Caracteristica::class, 'FK_ASP_Caracteristica', 'PK_CRT_Id');
     }

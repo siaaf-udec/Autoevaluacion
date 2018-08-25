@@ -48,6 +48,15 @@ class AspectoController extends Controller
             return DataTables::of($aspectos)
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
+                ->addColumn('nombre_factor', function ($aspecto) {
+                    return $aspecto->caracteristica->factor->nombre_factor;
+                })
+                ->addColumn('nombre_caracteristica', function ($aspecto) {
+                    return $aspecto->caracteristica->nombre_caracteristica;
+                })
+                ->addColumn('nombre_aspecto', function ($aspecto) {
+                    return $aspecto->nombre_aspecto;
+                })
                 ->make(true);
         }
     }
@@ -109,11 +118,11 @@ class AspectoController extends Controller
 
         $factor = new Factor();
         $id_factor = $aspecto->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
-        $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
+        $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('nombre_factor', 'PK_FCT_Id');
 
         $caracteristica = new Caracteristica();
         $id_caracteristica = $aspecto->caracteristica->factor()->pluck('PK_FCT_Id')[0];
-        $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('CRT_Nombre', 'PK_CRT_Id');
+        $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('nombre_caracteristica', 'PK_CRT_Id');
 
 
         return view(

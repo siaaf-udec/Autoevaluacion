@@ -51,6 +51,9 @@ class PreguntasController extends Controller
                 }
                 return "<span class='label label-sm label-primary'>".$preguntas->estado->ESD_Nombre . "</span>";
             })
+             ->addColumn('nombre_caracteristica', function ($preguntas) {
+                    return $preguntas->caracteristica->nombre_caracteristica;
+            })
             ->rawColumns(['estado'])
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
@@ -129,10 +132,10 @@ class PreguntasController extends Controller
         ->pluck('PRT_Ponderacion','PK_PRT_Id');
         $factor = new Factor();
         $id_factor = $pregunta->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
-        $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
+        $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('nombre_factor', 'PK_FCT_Id');
         $caracteristica = new Caracteristica();
         $id_caracteristica = $pregunta->caracteristica->factor()->pluck('PK_FCT_Id')[0];
-        $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('CRT_Nombre', 'PK_CRT_Id');
+        $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('nombre_caracteristica', 'PK_CRT_Id');
         return view('autoevaluacion.FuentesPrimarias.Preguntas.edit',
             compact('pregunta', 'estados', 'factores', 'caracteristicas','respuestas','lineamientos','ponderaciones')
             );

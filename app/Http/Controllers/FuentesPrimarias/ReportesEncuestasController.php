@@ -29,7 +29,7 @@ class ReportesEncuestasController extends Controller
         ->get()->pluck('GIT_Nombre','PK_GIT_Id');
         $id_lineamiento = Proceso::find(session()->get('id_proceso'))->FK_PCS_Lineamiento ?? null;
         $factores = Factor::where('FK_FCT_Lineamiento','=',$id_lineamiento)
-        ->get()->pluck('FCT_Nombre','PK_FCT_Id');
+        ->get()->pluck('nombre_factor','PK_FCT_Id');
         return view('autoevaluacion.FuentesPrimarias.Reportes.index',compact('grupos','factores'));
     }
     public function obtenerDatos(Request $request)

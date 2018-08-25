@@ -78,7 +78,7 @@
                     {data: 'PGT_Texto', name: 'Pregunta', className: "all"},
                     {data: 'estado', name: 'estado', className: "min-phone-l"},
                     {data: 'tipo.TRP_Descripcion', name: 'Descripcion', className: "min-tablet"},
-                    {data: 'caracteristica.CRT_Nombre', name: 'Caracteristica', className: "desktop"},
+                    {data: 'nombre_caracteristica', name: 'Caracteristica', className: "desktop"},
                     {data: 'caracteristica.factor.lineamiento.LNM_Nombre', name: 'Lineamiento', className: "desktop"},
                     {
                         defaultContent:

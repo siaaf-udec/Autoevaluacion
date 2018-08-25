@@ -17,7 +17,7 @@
 @can('VER_ASPECTOS')
     <div class="col-md-12">
         @component('admin.components.datatable', ['id' => 'aspecto_table_ajax']) @slot('columns', [
-        'id', 'Lineamiento', 'Factor', 'Característica','Identificador', 'Aspecto',
+        'id', 'Lineamiento', 'Factor', 'Característica', 'Aspecto',
     'Acciones' => ['style' => 'width:85px;']]) @endcomponent
 
     </div>
@@ -72,10 +72,9 @@
                 "columns": [
                     {data: 'PK_ASP_Id', name: 'id', "visible": false},
                     {data: 'caracteristica.factor.lineamiento.LNM_Nombre', name: 'Lineamiento', className: "all"},
-                    {data: 'caracteristica.factor.FCT_Nombre', name: 'Factor', className: "min-phone-l"},
-                    {data: 'caracteristica.CRT_Nombre', name: 'Caracteristica', className: "min-tablet"},
-                    {data: 'ASP_Identificador', name: 'Identificador', className: "desktop"},
-                    {data: 'ASP_Nombre', name: 'Aspecto', className: "desktop"},
+                    {data: 'nombre_factor', name: 'Factor', className: "min-phone-l"},
+                    {data: 'nombre_caracteristica', name: 'Caracteristica', className: "min-tablet"},
+                    {data: 'nombre_aspecto', name: 'Aspecto', className: "desktop"},
                     {
                         defaultContent:
                             '@can('ELIMINAR_ASPECTOS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +

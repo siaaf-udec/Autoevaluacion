@@ -51,7 +51,8 @@ class CaracteristicasController extends Controller
                 }])->with(['factor' => function ($query) {
                     return $query->select(
                         'PK_FCT_Id',
-                        'FCT_Nombre as nombre_factor'
+                        'FCT_Nombre',
+                        'FCT_Identificador'
                     );
                 }])
                 ->get();
@@ -62,6 +63,12 @@ class CaracteristicasController extends Controller
                 } else {
                     return "Ningún ambito seleccionado";
                 }
+            })
+            ->addColumn('nombre_factor', function($caracteristica){
+                return $caracteristica->factor->FCT_Identificador . '. ' . $caracteristica->factor->FCT_Nombre;
+            })
+            ->addColumn('nombre_caracteristica', function($caracteristica){
+                return $caracteristica->nombre_caracteristica;
             })
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
@@ -101,7 +108,7 @@ class CaracteristicasController extends Controller
      */
     public function show($id)
     {
-        $caracteristicas = Caracteristica::where('FK_CRT_Factor', $id)->pluck('CRT_Nombre', 'PK_CRT_Id');
+        $caracteristicas = Caracteristica::where('FK_CRT_Factor', $id)->get()->pluck('nombre_caracteristica', 'PK_CRT_Id');
         return json_encode($caracteristicas);
     }
 
@@ -113,13 +120,19 @@ class CaracteristicasController extends Controller
      */
     public function edit($id)
     {
+        $caracteristica = Caracteristica::findOrFail($id);
         $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         $ambitos = AmbitoResponsabilidad::pluck('AMB_Nombre', 'PK_AMB_Id');
+
+        $factor = new Factor();
+        $id_factor = $caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
+        $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('nombre_factor', 'PK_FCT_Id');
+
         return view('autoevaluacion.SuperAdministrador.Caracteristicas.edit', [
             'user' => Caracteristica::findOrFail($id),
             'edit' => true,
-        ], compact('lineamientos', 'estados', 'ambitos'));
+        ], compact('caracteristica', 'lineamientos', 'factores', 'estados', 'ambitos'));
     }
 
     /**
@@ -158,7 +171,7 @@ class CaracteristicasController extends Controller
 
     public function factores($id)
     {
-        $factores = Factor::where('FK_FCT_Lineamiento', $id)->pluck('FCT_Nombre', 'PK_FCT_Id');
+        $factores = Factor::where('FK_FCT_Lineamiento', $id)->get()->pluck('nombre_factor', 'PK_FCT_Id');
         return json_encode($factores);
     }
 }

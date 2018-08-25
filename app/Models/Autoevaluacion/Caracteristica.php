@@ -32,8 +32,17 @@ class Caracteristica extends Model
      *
      * @var array
      */
-    protected $fillable = ['CRT_Nombre', 'CRT_Descripcion', 'CRT_Identificador','FK_CRT_Factor','FK_CRT_Estado','FK_CRT_Ambito'];
     protected $guarded = ['PK_CRT_Id', 'created_at', 'updated_at'];
+
+    /**
+     * Obtener nombre de la caracteristica con su respectivo identificador.
+     *
+     * @return string
+     */
+    public function getNombreCaracteristicaAttribute()
+    {
+        return "{$this->CRT_Identificador}. {$this->CRT_Nombre}";
+    }
 
     public function aspecto(){
         return $this->hasMany(Aspecto::class, 'FK_ASP_Caracteristica', 'PK_CRT_Id');

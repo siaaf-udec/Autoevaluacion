@@ -46,14 +46,6 @@ class IndicadorDocumentalController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            // $indicadores_documentales = IndicadorDocumental::join('tbl_caracteristicas', 'tbl_indicadores_documentales.PK_IDO_Id','=','tbl_caracteristicas.PK_CRT_Id')
-            // ->join('tbl_factores', 'tbl_caracteristicas.FK_CRT_Factor','=', 'tbl_factores.PK_FCT_Id')
-            // ->join('tbl_lineamientos', 'tbl_factores.FK_FCT_Lineamiento','=', 'tbl_lineamientos.PK_LNM_Id')
-            // ->select('tbl_indicadores_documentales.IDO_Nombre',  'tbl_caracteristicas.CRT_Nombre', 
-            // 'tbl_factores.FCT_Nombre', 'tbl_lineamientos.LNM_Nombre')
-            // ->get();
-
-
             $indicadores_documentales = IndicadorDocumental::with('caracteristica.factor.lineamiento')
                 ->with(['estado' => function ($query) {
                     return $query->select('PK_ESD_Id', 'ESD_Nombre');
@@ -62,6 +54,15 @@ class IndicadorDocumentalController extends Controller
             return DataTables::of($indicadores_documentales)
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
+                ->addColumn('nombre_factor', function ($indicadores_documentales) {
+                    return $indicadores_documentales->caracteristica->factor->nombre_factor;
+                })
+                ->addColumn('nombre_caracteristica', function ($indicadores_documentales) {
+                    return $indicadores_documentales->caracteristica->nombre_caracteristica;
+                })
+                ->addColumn('nombre_indicador', function ($indicadores_documentales) {
+                    return $indicadores_documentales->nombre_indicador;
+                })
                 ->make(true);
         }
     }
@@ -110,7 +111,8 @@ class IndicadorDocumentalController extends Controller
     public function show($id)
     {
         $indicadores_documentales = IndicadorDocumental::where('FK_IDO_Caracteristica', $id)
-            ->pluck('IDO_Nombre', 'PK_IDO_Id');
+            ->get()    
+            ->pluck('nombre_indicador', 'PK_IDO_Id');
         return json_encode($indicadores_documentales);
     }
 
@@ -127,11 +129,11 @@ class IndicadorDocumentalController extends Controller
 
         $factor = new Factor();
         $id_factor = $indicador->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
-        $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
+        $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('nombre_factor', 'PK_FCT_Id');
 
         $caracteristica = new Caracteristica();
         $id_caracteristica = $indicador->caracteristica->factor()->pluck('PK_FCT_Id')[0];
-        $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('CRT_Nombre', 'PK_CRT_Id');
+        $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('nombre_caracteristica', 'PK_CRT_Id');
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
 
         return view(

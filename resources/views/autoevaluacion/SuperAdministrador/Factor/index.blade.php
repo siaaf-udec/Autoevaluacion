@@ -13,7 +13,7 @@
 <br>
 <br>
 <div class="col-md-12">
-    @component('admin.components.datatable', ['id' => 'factor-table-ajax']) @slot('columns', [ 'id', 'Nombre', 'Descripcion', 'Identificador' , 'Ponderacion' ,'Estado','Lineamiento',
+    @component('admin.components.datatable', ['id' => 'factor-table-ajax']) @slot('columns', [ 'id', 'Nombre', 'Descripcion', 'Ponderacion' ,'Estado','Lineamiento',
     'Acciones' => ['style' => 'width:85px;'] ]) @endcomponent
 
 </div>
@@ -66,9 +66,8 @@
                 "ajax": "{{ route('admin.factores.data') }}",
                 "columns": [
                     {data: 'PK_FCT_Id', name: 'id', "visible": false},
-                    {data: 'FCT_Nombre', name: 'Nombre'},
+                    {data: 'nombre_factor', name: 'Nombre'},
                     {data: 'FCT_Descripcion', name: 'Descripcion'},
-                    {data: 'FCT_Identificador', name: 'Identificador'},
                     {data: 'FCT_Ponderacion_factor', name: 'Ponderacion'},
                     {data: 'estado.nombre_estado', name: 'Estado'},
                     {data: 'lineamiento.nombre', name: 'Lineamiento'},

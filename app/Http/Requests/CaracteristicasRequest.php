@@ -24,10 +24,12 @@ class CaracteristicasRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route()->parameter('caracteristica');
+
         return [
             'CRT_Nombre' => 'required',
             'CRT_Descripcion' => 'required',
-            'CRT_Identificador' => 'required|numeric|'.Rule::unique('TBL_Caracteristicas', 'CRT_Identificador'),
+            'CRT_Identificador' => 'required|numeric|'.Rule::unique('TBL_Caracteristicas', 'CRT_Identificador')->ignore($id, 'PK_CRT_Id'),
             'FK_FCT_Lineamiento' => 'exists:TBL_Lineamientos,PK_LNM_Id',
             'FK_CRT_Factor' => 'exists:TBL_Factores,PK_FCT_Id',
             'FK_CRT_Estado' => 'exists:TBL_Estados,PK_ESD_Id',

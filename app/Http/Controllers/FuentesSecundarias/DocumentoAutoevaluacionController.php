@@ -319,7 +319,7 @@ class DocumentoAutoevaluacionController extends Controller
             ->where('FK_CRT_Factor', '=', $id)
             ->where('FK_CRT_estado', '=', '1')
             ->get()
-            ->pluck('CRT_Nombre', 'PK_CRT_Id');
+            ->pluck('nombre_caracteristica', 'PK_CRT_Id');
         return json_encode($caracteristicas);
     }
 }

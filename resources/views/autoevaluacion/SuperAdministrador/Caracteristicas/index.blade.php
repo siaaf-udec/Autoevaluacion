@@ -8,14 +8,14 @@
 <div class="col-md-12">
     <div class="actions">
         <a href="{{ route('admin.caracteristicas.create') }}" class="btn btn-info">
-            <i class="fa fa-plus"></i> Agregar Caracteristica</a></div>
+            <i class="fa fa-plus"></i> Agregar Característica</a></div>
 </div>
 <br>
 <br>
 <br>
 <div class="col-md-12">
     @component('admin.components.datatable', 
-    ['id' => 'caracteristicas-table-ajax']) @slot('columns', [ 'id', 'Nombre', 'Descripcion','Identificador','Factor','Estado','Ambito',
+    ['id' => 'caracteristicas-table-ajax']) @slot('columns', [ 'id', 'Nombre', 'Descripcion','Factor','Estado','Ambito',
     'Acciones' => ['style' => 'width:85px;'] ]) @endcomponent
 
 </div>
@@ -71,10 +71,9 @@
                 "ajax": "{{ route('admin.caracteristicas.data') }}",
                 "columns": [
                     {data: 'PK_CRT_Id', name: 'id', "visible": false},
-                    {data: 'CRT_Nombre', name: 'Nombre'},
+                    {data: 'nombre_caracteristica', name: 'Nombre'},
                     {data: 'CRT_Descripcion', name: 'Descripcion'},
-                    {data: 'CRT_Identificador', name: 'Identificador'},
-                    {data: 'factor.nombre_factor', name: 'Factor'},
+                    {data: 'nombre_factor', name: 'Factor'},
                     {data: 'estado.nombre_estado', name: 'Estado'},
                     {data: 'ambito', name: 'Ambito'},
 

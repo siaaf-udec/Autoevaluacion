@@ -51,9 +51,8 @@
 {{-- Funciones necesarias por el formulario --}}
 @push('functions')
     <script type="text/javascript">
-        $('#lineamiento').select2();
-            $('#factores').select2();
-            selectDinamico("#lineamiento", "#factores", "{{url('admin/factores')}}");
+        $('.select2_user').select2();
+        selectDinamico("#lineamiento", "#factores", "{{url('admin/factores')}}");
         var form = $('#form_crear_caracteristicas');
         $(form).parsley({
             trigger: 'change',

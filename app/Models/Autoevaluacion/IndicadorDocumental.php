@@ -34,6 +34,16 @@ class IndicadorDocumental extends Model
      */
     protected $guarded = ['PK_IDO_Id', 'created_at', 'updated_at'];
 
+    /**
+     * Obtener nombre de la caracteristica con su respectivo identificador.
+     *
+     * @return string
+     */
+    public function getNombreIndicadorAttribute()
+    {
+        return "{$this->IDO_Identificador}. {$this->IDO_Nombre}";
+    }
+
     public function caracteristica(){
         return $this->belongsTo(Caracteristica::class, 'FK_IDO_Caracteristica', 'PK_CRT_Id');
     }

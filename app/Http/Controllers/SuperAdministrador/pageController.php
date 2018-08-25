@@ -37,7 +37,7 @@ class pageController extends Controller
             ->where('FK_FCT_Lineamiento', '=', $id_lineamiento)
             ->where('FK_FCT_estado', '=', '1')
             ->get()
-            ->pluck('FCT_Nombre', 'PK_FCT_Id');
+            ->pluck('nombre_factor', 'PK_FCT_Id');
             $dependencias = Dependencia::pluck('DPC_Nombre', 'PK_DPC_Id');
         
             $tipo_documentos = TipoDocumento::pluck('TDO_Nombre', 'PK_TDO_Id');
@@ -46,7 +46,7 @@ class pageController extends Controller
             $grupos = GrupoInteres::where('FK_GIT_Estado', '=', '1')
             ->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
             $factores_encuestas = Factor::where('FK_FCT_Lineamiento', '=', $id_lineamiento)
-            ->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
+            ->get()->pluck('nombre_factor', 'PK_FCT_Id');
 
             return view(
             'admin.dashboard.index',

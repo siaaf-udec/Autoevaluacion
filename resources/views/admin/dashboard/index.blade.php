@@ -38,7 +38,7 @@
                 {!! Form::open([
                         'route' => 'documental.informe_documental.filtrar', 
                         'method' => 'POST',
-                        'id' => 'form_filtros',
+                        'id' => 'form_filtros_documental',
                         'class' => 'form-horizontal form-label-left',
                         'novalidate'
                 ])!!}
@@ -67,7 +67,7 @@
                     {!! Form::open([
                             'route' => 'primarias.informe_encuestas.filtrar', 
                             'method' => 'POST',
-                            'id' => 'form_filtros',
+                            'id' => 'form_filtros_encuestas',
                             'class' => 'form-horizontal form-label-left',
                             'novalidate'
                     ])!!}
@@ -142,13 +142,13 @@
                     
                     peticionGraficasDocumentales("{{ route('documental.informe_documental.datos') }}");
 
-                    var form = $('#form_filtros');
+                    var form_documental = $('#form_filtros_documental');
 
                     $("#factor_documental, #caracteristica, #dependencia, #tipo_documento").change(function () {
                         $.ajax({
-                            url: form.attr('action'),
-                            type: form.attr('method'),
-                            data: form.serialize(),
+                            url: form_documental.attr('action'),
+                            type: form_documental.attr('method'),
+                            data: form_documental.serialize(),
                             dataType: 'json',
                             success: function (r) {
                                 ChartFiltro.destroy();
@@ -173,7 +173,7 @@
                         });
                         selectDinamico("#grupos", "#preguntas", "{{url('admin/fuentesPrimarias/grupos/preguntas')}}", ['#preguntas']);
                         peticionGraficasEncuestas("{{ route('primarias.informe_encuestas.datos') }}");
-                        var form = $('#form_filtros');
+                        var form = $('#form_filtros_encuestas');
                         $("#preguntas").change(function () {
                             console.log('asssa');
                             $.ajax({

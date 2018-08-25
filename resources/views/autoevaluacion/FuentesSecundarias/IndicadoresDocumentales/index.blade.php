@@ -25,7 +25,6 @@
                     'Lineamiento',
                     'Factor',
                     'Característica',
-                    'Identificador',
                     'Indicador',
                     'Estado',
                     'Acciones' => ['style' => 'width:85px;']])
@@ -85,10 +84,9 @@
                 "columns": [
                     {data: 'PK_IDO_Id', name: 'id', "visible": false},
                     {data: 'caracteristica.factor.lineamiento.LNM_Nombre', name: 'Lineamiento', className: "all"},
-                    {data: 'caracteristica.factor.FCT_Nombre', name: 'Caracteristica', className: "min-phone-l"},
-                    {data: 'caracteristica.CRT_Nombre', name: 'Caracteristica', className: "min-tablet-l"},
-                    {data: 'IDO_Identificador', name: 'Caracteristica', className: "desktop"},
-                    {data: 'IDO_Nombre', name: 'Aspecto', className: "desktop"},
+                    {data: 'nombre_factor', name: 'Caracteristica', className: "min-phone-l"},
+                    {data: 'nombre_caracteristica', name: 'Caracteristica', className: "min-tablet-l"},
+                    {data: 'nombre_indicador', name: 'Aspecto', className: "desktop"},
                     {data: 'estado.ESD_Nombre', name: 'Estado', className: "desktop"},
                     {
                         defaultContent:

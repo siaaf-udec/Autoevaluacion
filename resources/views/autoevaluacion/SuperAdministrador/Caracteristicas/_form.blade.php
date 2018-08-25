@@ -39,7 +39,7 @@
         <script>var ruta = "{{url('admin/caracteristicas/factor/')}}";
             var id_one = "#lineamiento";
             var id_two = "#factores";</script>
-        {!! Form::select('FK_FCT_Lineamiento',$lineamientos, old('FK_FCT_Lineamiento'), [
+        {!! Form::select('FK_FCT_Lineamiento',$lineamientos, old('FK_FCT_Lineamiento', isset($caracteristica)?$caracteristica->factor->lineamiento()->pluck('PK_LNM_Id', 'LNM_Nombre') : ''), [
             'placeholder' => 'Seleccione un lineamiento',
             'class' => 'select2_user form-control',
             'id' => 'lineamiento',
@@ -49,7 +49,7 @@
 <div class="item form-group">
     {!! Form::label('FK_CRT_Factor','Factor', [ 'class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::select('FK_CRT_Factor', [] , old('FK_CRT_Factor', isset($user)? $user->factor:''), [
+        {!! Form::select('FK_CRT_Factor', isset($factores)? $factores : [] , old('FK_CRT_Factor', isset($caracteristica)? $caracteristica->factor->PK_FCT_Id:''), [
             'placeholder' => 'Seleccione un Factor',
             'class' => 'select2_user form-control',
             'id' => 'factores',

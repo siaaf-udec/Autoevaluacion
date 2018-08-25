@@ -39,6 +39,9 @@ class FactorController extends Controller
             return Datatables::of($factores)
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
+                ->addColumn('nombre_factor', function ($factores) {
+                    return $factores->nombre_factor;
+                })
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -85,7 +88,7 @@ class FactorController extends Controller
      */
     public function show($id)
     {
-        $factores = Factor::where('FK_FCT_Lineamiento', $id)->pluck('FCT_Nombre', 'PK_FCT_Id');
+        $factores = Factor::where('FK_FCT_Lineamiento', $id)->get()->pluck('nombre_factor', 'PK_FCT_Id');
         return json_encode($factores);
 
     }
