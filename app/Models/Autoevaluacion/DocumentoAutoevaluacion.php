@@ -14,7 +14,7 @@ class DocumentoAutoevaluacion extends Model
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
+
     /**
      * Tabla asociada con el modelo.
      *
@@ -54,7 +54,7 @@ class DocumentoAutoevaluacion extends Model
 
     public function proceso()
     {
-       return $this->belongsTo(Proceso::class, 'FK_DOA_Proceso', 'PK_PCS_Id');
+        return $this->belongsTo(Proceso::class, 'FK_DOA_Proceso', 'PK_PCS_Id');
     }
 
     public function indicadorDocumental()

@@ -44,7 +44,8 @@ class Aspecto extends Model
         return "{$this->ASP_Identificador}. {$this->ASP_Nombre}";
     }
 
-    public function caracteristica(){
+    public function caracteristica()
+    {
         return $this->belongsTo(Caracteristica::class, 'FK_ASP_Caracteristica', 'PK_CRT_Id');
     }
 }

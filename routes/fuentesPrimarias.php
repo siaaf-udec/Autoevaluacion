@@ -58,6 +58,6 @@ Route::post('informes_encuestas/filtrar_factores', array(
 
 Route::get(
     'grupos/preguntas/{id}',
-array('as' => 'primarias.grupos.preguntas',
-'uses' => 'ReportesEncuestasController@obtenerPreguntas')
+    array('as' => 'primarias.grupos.preguntas',
+        'uses' => 'ReportesEncuestasController@obtenerPreguntas')
 );

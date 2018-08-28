@@ -13,7 +13,7 @@ class Sede extends Model
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
+
     /**
      * Tabla asociada con el modelo.
      *
@@ -37,7 +37,7 @@ class Sede extends Model
 
     public function proceso()
     {
-        return $this->hasMany(Proceso::class,'FK_PCS_Sede','PK_SDS_Id');
+        return $this->hasMany(Proceso::class, 'FK_PCS_Sede', 'PK_SDS_Id');
     }
 
     public function estado()

@@ -12,7 +12,7 @@ class RespuestaPregunta extends Model
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
+
     /**
      * Tabla asociada con el modelo.
      *
@@ -38,12 +38,14 @@ class RespuestaPregunta extends Model
     {
         return $this->belongsTo(Pregunta::class, 'FK_RPG_Pregunta', 'PK_PGT_Id');
     }
+
     public function ponderacion()
     {
         return $this->belongsTo(PonderacionRespuesta::class, 'FK_RPG_PonderacionRespuesta', 'PK_PRT_Id');
     }
+
     public function solucion()
     {
-        return $this->hasMany(SolucionEncuesta::class,'FK_SEC_Respuesta','PK_RPG_Id');
+        return $this->hasMany(SolucionEncuesta::class, 'FK_SEC_Respuesta', 'PK_RPG_Id');
     }
 }

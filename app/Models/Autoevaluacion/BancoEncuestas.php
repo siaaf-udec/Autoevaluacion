@@ -13,7 +13,7 @@ class BancoEncuestas extends Model
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
+
     /**
      * Tabla asociada con el modelo.
      *
@@ -37,7 +37,7 @@ class BancoEncuestas extends Model
 
     public function encuestas()
     {
-        return $this->hasMany(Encuesta::class,'FK_ECT_Banco_Encuestas','PK_BEC_Id');
+        return $this->hasMany(Encuesta::class, 'FK_ECT_Banco_Encuestas', 'PK_BEC_Id');
     }
 
 }

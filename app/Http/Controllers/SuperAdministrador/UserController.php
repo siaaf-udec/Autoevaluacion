@@ -49,7 +49,7 @@ class UserController extends Controller
         if ($request->ajax() && $request->isMethod('GET')) {
             if (Gate::allows('SUPERADMINISTRADOR')) {
                 $users = User::with('estado', 'roles')
-                ->where('id', '!=', Auth::id())->get();
+                    ->where('id', '!=', Auth::id())->get();
                 return DataTables::of($users)
                     ->addColumn('estado', function ($users) {
                         if (!$users->estado) {
@@ -77,38 +77,36 @@ class UserController extends Controller
                     ->make(true);
             } else {
                 $users = User::with('estado', 'roles')
-            ->where('id', '!=', Auth::id())
-            ->where('id_programa', '=', Auth::user()->id_programa)->get();
+                    ->where('id', '!=', Auth::id())
+                    ->where('id_programa', '=', Auth::user()->id_programa)->get();
                 return DataTables::of($users)
-                ->addColumn('estado', function ($users) {
-                    if (!$users->estado) {
-                        return '';
-                    } elseif (!strcmp($users->estado->ESD_Nombre, 'HABILITADO')) {
-                        return "<span class='label label-sm label-success'>" . $users->estado->ESD_Nombre . "</span>";
-                    } else {
-                        return "<span class='label label-sm label-danger'>" . $users->estado->ESD_Nombre . "</span>";
-                    }
-                    return "<span class='label label-sm label-primary'>" . $users->estado->ESD_Nombre . "</span>";
-                })
-                ->addColumn('roles', function ($users) {
-                    if (!$users->roles) {
-                        return '';
-                    }
-                    return $users->roles->map(function ($rol) {
-                        return str_limit($rol->name, 30, '...');
-                    })->implode(', ');
-                })
-                ->rawColumns(['estado'])
-                ->removeColumn('cedula')
-                ->removeColumn('created_at')
-                ->removeColumn('updated_at')
-                ->removeColumn('id_estado')
-                ->make(true);
+                    ->addColumn('estado', function ($users) {
+                        if (!$users->estado) {
+                            return '';
+                        } elseif (!strcmp($users->estado->ESD_Nombre, 'HABILITADO')) {
+                            return "<span class='label label-sm label-success'>" . $users->estado->ESD_Nombre . "</span>";
+                        } else {
+                            return "<span class='label label-sm label-danger'>" . $users->estado->ESD_Nombre . "</span>";
+                        }
+                        return "<span class='label label-sm label-primary'>" . $users->estado->ESD_Nombre . "</span>";
+                    })
+                    ->addColumn('roles', function ($users) {
+                        if (!$users->roles) {
+                            return '';
+                        }
+                        return $users->roles->map(function ($rol) {
+                            return str_limit($rol->name, 30, '...');
+                        })->implode(', ');
+                    })
+                    ->rawColumns(['estado'])
+                    ->removeColumn('cedula')
+                    ->removeColumn('created_at')
+                    ->removeColumn('updated_at')
+                    ->removeColumn('id_estado')
+                    ->make(true);
             }
         }
     }
-
-
 
 
     /**
@@ -118,23 +116,22 @@ class UserController extends Controller
      */
     public function create()
     {
-        if (Gate::allows('SUPERADMINISTRADOR')){
+        if (Gate::allows('SUPERADMINISTRADOR')) {
 
             $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
             $roles = Role::pluck('name', 'name');
-            $programa = ProgramaAcademico::pluck('PAC_Nombre','PK_PAC_Id');
-            return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados', 'roles','programa'));
+            $programa = ProgramaAcademico::pluck('PAC_Nombre', 'PK_PAC_Id');
+            return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados', 'roles', 'programa'));
 
-        }
-        else{
+        } else {
 
             $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-            $programa = ProgramaAcademico::where('PK_PAC_Id','=',Auth::user()->id_programa)
-                                           ->pluck('PAC_Nombre','PK_PAC_Id');
+            $programa = ProgramaAcademico::where('PK_PAC_Id', '=', Auth::user()->id_programa)
+                ->pluck('PAC_Nombre', 'PK_PAC_Id');
             $roles = Role::where('name', '!=', 'SUPERADMIN')
-                           ->where('name', '!=', 'ADMIN')
-                           ->pluck('name', 'name');
-            return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados', 'roles','programa'));
+                ->where('name', '!=', 'ADMIN')
+                ->pluck('name', 'name');
+            return view('autoevaluacion.SuperAdministrador.Users.create', compact('estados', 'roles', 'programa'));
         }
     }
 
@@ -179,30 +176,29 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        if (Gate::allows('SUPERADMINISTRADOR')){
+        if (Gate::allows('SUPERADMINISTRADOR')) {
 
             $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
             $roles = Role::pluck('name', 'name');
-            $programa = ProgramaAcademico::pluck('PAC_Nombre','PK_PAC_Id');
+            $programa = ProgramaAcademico::pluck('PAC_Nombre', 'PK_PAC_Id');
             $user = User::findOrFail($id);
             $edit = true;
             return view(
                 'autoevaluacion.SuperAdministrador.Users.edit',
-                compact('user', 'estados', 'roles', 'edit','programa')
+                compact('user', 'estados', 'roles', 'edit', 'programa')
             );
-        }
-        else{
+        } else {
 
             $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
-        $roles = Role::where('name', '!=', 'SUPERADMIN')->where('name', '!=', 'ADMIN')->pluck('name', 'name');
-        $user = User::findOrFail($id);
-        $edit = true;
-        return view(
-            'autoevaluacion.SuperAdministrador.Users.edit',
-            compact('user', 'estados', 'roles', 'edit')
-        );
+            $roles = Role::where('name', '!=', 'SUPERADMIN')->where('name', '!=', 'ADMIN')->pluck('name', 'name');
+            $user = User::findOrFail($id);
+            $edit = true;
+            return view(
+                'autoevaluacion.SuperAdministrador.Users.edit',
+                compact('user', 'estados', 'roles', 'edit')
+            );
 
-    }
+        }
     }
 
     /**
@@ -250,7 +246,8 @@ class UserController extends Controller
         ->header('Content-Type', 'application/json');
     }
 
-    public function perfil(){
+    public function perfil()
+    {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         $roles = Role::pluck('name', 'name');
         $user = User::findOrFail(Auth::id());
@@ -266,16 +263,16 @@ class UserController extends Controller
         $user = User::find(Auth::id());
         $user->fill($request->except('password'));
 
-        if($request->get('password')){
+        if ($request->get('password')) {
             $user->password = $request->get('password');
         }
 
-        if($request->get('PK_ESD_Id')){
-            $user->id_estado = $request->get('PK_ESD_Id')?$request->get('PK_ESD_Id'):null;
+        if ($request->get('PK_ESD_Id')) {
+            $user->id_estado = $request->get('PK_ESD_Id') ? $request->get('PK_ESD_Id') : null;
         }
         $user->update();
 
-        if($request->input('roles')){
+        if ($request->input('roles')) {
             $roles = $request->input('roles') ? $request->input('roles') : [];
             $user->syncRoles($roles);
         }

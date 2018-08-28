@@ -14,7 +14,7 @@ class Estado extends Model
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
+
     /**
      * Tabla asociada con el modelo.
      *
@@ -45,11 +45,12 @@ class Estado extends Model
 
     public function factor()
     {
-        return $this->hasMany(Factor::class,'FK_FCT_Estado','PK_ESD_Id');
+        return $this->hasMany(Factor::class, 'FK_FCT_Estado', 'PK_ESD_Id');
     }
+
     public function caracteristica()
     {
-        return $this->hasMany(Caracteristica::class,'FK_CRT_Estado','PK_ESD_Id');
+        return $this->hasMany(Caracteristica::class, 'FK_CRT_Estado', 'PK_ESD_Id');
     }
-    
+
 }

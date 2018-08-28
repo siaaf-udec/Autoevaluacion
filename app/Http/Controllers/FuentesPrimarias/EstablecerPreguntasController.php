@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\FuentesPrimarias;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ModificarEstablecerPreguntasRequest;
 use App\Http\Requests\EstablecerPreguntasRequest;
@@ -28,41 +29,44 @@ class EstablecerPreguntasController extends Controller
         $this->middleware('permission:CREAR_ESTABLECER_PREGUNTAS', ['only' => ['create', 'store']]);
         $this->middleware('permission:ELIMINAR_ESTABLECER_PREGUNTAS', ['only' => ['destroy']]);
     }
+
     public function index($id)
     {
         session()->put('id_encuesta', $id);
         return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.index');
     }
+
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $preguntas = PreguntaEncuesta::with('preguntas','grupos')
-            ->with('preguntas.estado')
-            ->with('preguntas.tipo')
-            ->with('preguntas.caracteristica')
-            ->where('FK_PEN_Banco_Encuestas',session()->get('id_encuesta'))
-            ->get();
+            $preguntas = PreguntaEncuesta::with('preguntas', 'grupos')
+                ->with('preguntas.estado')
+                ->with('preguntas.tipo')
+                ->with('preguntas.caracteristica')
+                ->where('FK_PEN_Banco_Encuestas', session()->get('id_encuesta'))
+                ->get();
             return DataTables::of($preguntas)
-            ->addColumn('estado', function ($preguntas) {
-                if (!$preguntas->preguntas->estado) {
-                    return '';
-                } elseif (!strcmp($preguntas->preguntas->estado->ESD_Nombre, 'HABILITADO')) {
-                    return "<span class='label label-sm label-success'>".$preguntas->preguntas->estado->ESD_Nombre. "</span>";
-                } else {
-                    return "<span class='label label-sm label-danger'>".$preguntas->preguntas->estado->ESD_Nombre . "</span>";
-                }
-                return "<span class='label label-sm label-primary'>".$preguntas->preguntas->estado->ESD_Nombre . "</span>";
-            })
-            ->rawColumns(['estado'])
-            ->removeColumn('created_at')
-            ->removeColumn('updated_at')
-            ->make(true);
+                ->addColumn('estado', function ($preguntas) {
+                    if (!$preguntas->preguntas->estado) {
+                        return '';
+                    } elseif (!strcmp($preguntas->preguntas->estado->ESD_Nombre, 'HABILITADO')) {
+                        return "<span class='label label-sm label-success'>" . $preguntas->preguntas->estado->ESD_Nombre . "</span>";
+                    } else {
+                        return "<span class='label label-sm label-danger'>" . $preguntas->preguntas->estado->ESD_Nombre . "</span>";
+                    }
+                    return "<span class='label label-sm label-primary'>" . $preguntas->preguntas->estado->ESD_Nombre . "</span>";
+                })
+                ->rawColumns(['estado'])
+                ->removeColumn('created_at')
+                ->removeColumn('updated_at')
+                ->make(true);
         }
         return AjaxResponse::fail(
             '¡Lo sentimos!',
             'No se pudo completar tu solicitud.'
         );
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -71,11 +75,12 @@ class EstablecerPreguntasController extends Controller
     public function create()
     {
         $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
-        $grupos = GrupoInteres::whereHas('estado', function($query){
-            return $query->where('ESD_Valor','=','1');
-        })->get()->pluck('GIT_Nombre','PK_GIT_Id');
-        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.create', compact('lineamientos','grupos'));
+        $grupos = GrupoInteres::whereHas('estado', function ($query) {
+            return $query->where('ESD_Valor', '=', '1');
+        })->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
+        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.create', compact('lineamientos', 'grupos'));
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -84,18 +89,19 @@ class EstablecerPreguntasController extends Controller
      */
     public function store(EstablecerPreguntasRequest $request)
     {
-        foreach($request->get('gruposInteres') as $grupo => $valor){
+        foreach ($request->get('gruposInteres') as $grupo => $valor) {
             $preguntas_encuestas = new PreguntaEncuesta();
             $preguntas_encuestas->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
             $preguntas_encuestas->FK_PEN_Banco_Encuestas = $request->get('PK_BEC_Id');
             $preguntas_encuestas->FK_PEN_GrupoInteres = $valor;
             $preguntas_encuestas->save();
-        }           
+        }
         return response(['msg' => 'Datos registrados correctamente.',
             'title' => '¡Registro exitoso!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
+
     /**
      * Display the specified resource.
      *
@@ -106,6 +112,7 @@ class EstablecerPreguntasController extends Controller
     {
         //
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -116,9 +123,9 @@ class EstablecerPreguntasController extends Controller
     {
         $preguntas = PreguntaEncuesta::findOrFail($id);
         $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
-        $grupos = GrupoInteres::whereHas('estado', function($query){
-            return $query->where('ESD_Valor','1');
-        })->get()->pluck('GIT_Nombre','PK_GIT_Id');
+        $grupos = GrupoInteres::whereHas('estado', function ($query) {
+            return $query->where('ESD_Valor', '1');
+        })->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
         $factor = new Factor();
         $id_factor = $preguntas->preguntas->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
         $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
@@ -127,9 +134,10 @@ class EstablecerPreguntasController extends Controller
         $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('CRT_Nombre', 'PK_CRT_Id');
         $pregunta_encuesta = new Pregunta();
         $id_pregunta = $preguntas->preguntas->caracteristica()->pluck('PK_CRT_Id')[0];
-        $preguntas_encuesta = $pregunta_encuesta->where('FK_PGT_Caracteristica',$id_pregunta)->get()->pluck('PGT_Texto','PK_PGT_Id');
-        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.edit', compact('lineamientos','factores','grupos','caracteristicas','preguntas','preguntas_encuesta'));
+        $preguntas_encuesta = $pregunta_encuesta->where('FK_PGT_Caracteristica', $id_pregunta)->get()->pluck('PGT_Texto', 'PK_PGT_Id');
+        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.edit', compact('lineamientos', 'factores', 'grupos', 'caracteristicas', 'preguntas', 'preguntas_encuesta'));
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -142,12 +150,13 @@ class EstablecerPreguntasController extends Controller
         $preguntas_encuestas = PreguntaEncuesta::find($id);
         $preguntas_encuestas->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
         $preguntas_encuestas->FK_PEN_Banco_Encuestas = $request->get('PK_BEC_Id');
-        $preguntas_encuestas->update();           
+        $preguntas_encuestas->update();
         return response(['msg' => 'La pregunta se ha modificado correctamente.',
             'title' => '¡Pregunta Modificada!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -160,24 +169,21 @@ class EstablecerPreguntasController extends Controller
         $encuestas = Encuesta::whereHas('proceso', function ($query) {
             return $query->where('FK_PCS_Fase', '=', '4');
         })
-        ->where('FK_ECT_Banco_Encuestas','=',BancoEncuestas::findOrFail($preguntas_encuestas->FK_PEN_Banco_Encuestas)->PK_BEC_Id)
-        ->get();
-        if($encuestas->count()==0)
-        {
+            ->where('FK_ECT_Banco_Encuestas', '=', BancoEncuestas::findOrFail($preguntas_encuestas->FK_PEN_Banco_Encuestas)->PK_BEC_Id)
+            ->get();
+        if ($encuestas->count() == 0) {
             $preguntas_encuestas->delete();
             return response(['msg' => 'La pregunta ha sido eliminada exitosamente de la encuesta.',
                 'title' => 'Pregunta Eliminada!'
-            ], 200) // 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
-        }
-        else
-        {
+            ], 200)// 200 Status Code: Standard response for successful HTTP request
+            ->header('Content-Type', 'application/json');
+        } else {
             return response([
                 'errors' => ['La pregunta hace parte de una encuesta en uso para un proceso que se encuentra en fase de captura de datos'],
                 'title' => '¡Error!'
             ], 422)// 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            ->header('Content-Type', 'application/json');
         }
-        
+
     }
 }

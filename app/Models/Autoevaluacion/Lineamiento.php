@@ -12,7 +12,7 @@ class Lineamiento extends Model
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
+
     /**
      * Tabla asociada con el modelo.
      *
@@ -33,9 +33,9 @@ class Lineamiento extends Model
      * @var array
      */
     protected $guarded = ['PK_LNM_Id', 'created_at', 'updated_at'];
-    
+
     public function factor_()
     {
-        return $this->hasMany(Factor::class,'FK_FCT_Lineamiento','PK_LNM_Id');
+        return $this->hasMany(Factor::class, 'FK_FCT_Lineamiento', 'PK_LNM_Id');
     }
 }

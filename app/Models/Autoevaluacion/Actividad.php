@@ -37,31 +37,34 @@ class Actividad extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function rol(){
+    public function rol()
+    {
         return $this->belongsTo(Rol::class, 'FK_ACT_Roles', 'PK_Rol_Id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function grupo(){
+    public function grupo()
+    {
         return $this->belongsTo(Grupo::class, 'FK_ACT_Grupos', 'PK_GRP_Id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function subgrupo(){
+    public function subgrupo()
+    {
         return $this->belongsTo(Subgrupo::class, 'FK_ACT_Subgrupos', 'PK_SGP_Id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function estado(){
+    public function estado()
+    {
         return $this->belongsTo(Estado::class, 'FK_ACT_Estado', 'PK_ESD_Id');
     }
-
 
 
 }

@@ -32,6 +32,7 @@ class ProgramasAcademicosRequest extends FormRequest
             'PK_FCD_Id' => 'exists:TBL_Facultades|numeric'
         ];
     }
+
     /**
      * Get the error messages for the defined validation rules.
      *
@@ -58,7 +59,7 @@ class ProgramasAcademicosRequest extends FormRequest
     /**
      * Configure the validator instance.
      *
-     * @param  \Illuminate\Validation\Validator  $validator
+     * @param  \Illuminate\Validation\Validator $validator
      * @return void
      */
     public function withValidator($validator)
@@ -67,11 +68,11 @@ class ProgramasAcademicosRequest extends FormRequest
             $id = $this->route()->parameter('programas_academico');
 
             $programas = ProgramaAcademico::where('FK_PAC_Sede', '=', $this->request->get('PK_SDS_Id'))
-            ->where('PAC_Nombre', '=', $this->request->get('PAC_Nombre'))
-            ->where('PK_PAC_Id', '!=', $id)
-            ->get();
+                ->where('PAC_Nombre', '=', $this->request->get('PAC_Nombre'))
+                ->where('PK_PAC_Id', '!=', $id)
+                ->get();
 
-            if($programas->count()){
+            if ($programas->count()) {
                 $validator->errors()->add('Error', 'En la sede seleccionada ya se encuentra este programa.');
             }
         });

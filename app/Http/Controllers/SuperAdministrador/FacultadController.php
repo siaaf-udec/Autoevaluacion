@@ -113,7 +113,7 @@ class FacultadController extends Controller
      */
     public function update(FacultadesRequest $request, $id)
     {
-        
+
         $facultad = Facultad::findOrFail($id);
         $facultad->fill($request->only(['FCD_Nombre', 'FCD_Descripcion']));
         $facultad->FK_FCD_Estado = $request->get('PK_ESD_Id');

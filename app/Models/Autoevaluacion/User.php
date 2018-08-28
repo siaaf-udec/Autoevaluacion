@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models\Autoevaluacion;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -6,7 +7,6 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Hash;
 use Spatie\Permission\Models\Role;
-
 
 
 /**
@@ -17,7 +17,7 @@ use Spatie\Permission\Models\Role;
  * @property string $email
  * @property string $password
  * @property string $remember_token
-*/
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -29,7 +29,7 @@ class User extends Authenticatable
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
+
 
     /**
      * The attributes that are mass assignable.
@@ -60,11 +60,11 @@ class User extends Authenticatable
     }
 
 
-
     public function role()
     {
         return $this->belongsToMany(Role::class, 'role_user');
     }
+
     public function estado()
     {
         return $this->belongsTo(Estado::class, 'id_estado', 'PK_ESD_Id');
@@ -74,6 +74,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Proceso::class, 'TBL_Procesos_Usuarios', 'FK_PCU_Usuario', 'FK_PCU_Proceso');
     }
+
     public function programa()
     {
         return $this->belongsTo(ProgramaAcademico::class, 'id_programa', 'PK_PAC_Id');

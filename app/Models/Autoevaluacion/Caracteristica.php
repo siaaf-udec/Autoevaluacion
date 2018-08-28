@@ -12,7 +12,7 @@ class Caracteristica extends Model
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
+
     /**
      * Tabla asociada con el modelo.
      *
@@ -44,16 +44,23 @@ class Caracteristica extends Model
         return "{$this->CRT_Identificador}. {$this->CRT_Nombre}";
     }
 
-    public function aspecto(){
+    public function aspecto()
+    {
         return $this->hasMany(Aspecto::class, 'FK_ASP_Caracteristica', 'PK_CRT_Id');
     }
-    public function factor(){
+
+    public function factor()
+    {
         return $this->hasOne(Factor::class, 'PK_FCT_Id', 'FK_CRT_Factor');
     }
-    public function estado(){
+
+    public function estado()
+    {
         return $this->belongsTo(Estado::class, 'FK_CRT_Estado', 'PK_ESD_Id');
     }
-    public function ambitoResponsabilidad(){
+
+    public function ambitoResponsabilidad()
+    {
         return $this->belongsTo(AmbitoResponsabilidad::class, 'FK_CRT_Ambito', 'PK_AMB_Id');
     }
 
@@ -61,10 +68,11 @@ class Caracteristica extends Model
     {
         return $this->hasMany(IndicadorDocumental::class, 'FK_IDO_Caracteristica', 'PK_CRT_Id');
     }
+
     public function preguntas()
     {
         return $this->hasMany(Pregunta::class, 'FK_PGT_Caracteristica', 'PK_CRT_Id');
     }
-  
+
 
 }

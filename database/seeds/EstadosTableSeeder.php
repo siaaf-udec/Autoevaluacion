@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\Autoevaluacion\Estado;
+
 class EstadosTableSeeder extends Seeder
 {
     /**

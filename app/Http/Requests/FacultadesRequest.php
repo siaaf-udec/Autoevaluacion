@@ -33,6 +33,7 @@ class FacultadesRequest extends FormRequest
             'PK_ESD_Id' => 'exists:TBL_Estados|numeric'
         ];
     }
+
     /**
      * Get the error messages for the defined validation rules.
      *
@@ -48,5 +49,5 @@ class FacultadesRequest extends FormRequest
             'PK_ESD_Id.numeric' => 'Estado invalido.',
             'PK_ESD_Id.exists' => 'Este estado no existe en nuestros registros.',
         ];
-    }   
+    }
 }

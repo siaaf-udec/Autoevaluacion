@@ -66,7 +66,8 @@ class GruposInteresController extends Controller
         $grupos_interes->fill($request->only(['GIT_Nombre']));
         $grupos_interes->FK_GIT_Estado = $request->get('PK_ESD_Id');
         $nombres = explode(' ', strtolower($request->get('GIT_Nombre')));
-        $slug="";foreach($nombres as $nombre) $slug=$slug.'_'.$nombre;
+        $slug = "";
+        foreach ($nombres as $nombre) $slug = $slug . '_' . $nombre;
         $grupos_interes->GIT_Slug = $slug;
         $grupos_interes->FK_GIT_Estado = $request->get('PK_ESD_Id');
         $grupos_interes->save();
@@ -112,7 +113,8 @@ class GruposInteresController extends Controller
         $grupos_interes->fill($request->only(['GIT_Nombre']));
         $grupos_interes->FK_GIT_Estado = $request->get('PK_ESD_Id');
         $nombres = explode(' ', strtolower($request->get('GIT_Nombre')));
-        $slug="";foreach($nombres as $nombre) $slug=$slug.'_'.$nombre;
+        $slug = "";
+        foreach ($nombres as $nombre) $slug = $slug . '_' . $nombre;
         $grupos_interes->GIT_Slug = $slug;
         $grupos_interes->update();
         return response([

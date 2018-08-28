@@ -28,7 +28,7 @@ class CreateDocumentosAutoevaluacionTable extends Migration
             $table->integer("FK_DOA_Dependencia")->unsigned();
             $table->integer("FK_DOA_Proceso")->unsigned();
 
-            
+
             $table->timestamps();
 
             $table->foreign("FK_DOA_Archivo")->references("PK_ACV_Id")->on("TBL_Archivos")->onDelete("cascade");

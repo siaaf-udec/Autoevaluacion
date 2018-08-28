@@ -3,7 +3,7 @@
  * Super administrador
  */
 
- //Home
+//Home
 Route::get('/', array('as' => 'admin.home', 'uses' => 'pageController@index'));
 //Rutas necesarias para selecionar proceso
 Route::get('mostrar_procesos', array('as' => 'admin.mostrar_procesos', 'uses' => 'pageController@mostrarProcesos'));
@@ -14,9 +14,9 @@ Route::resource('usuarios', 'UserController', ['as' => 'admin'])->except([
     'show'
 ]);
 Route::get('usuarios/data', array('as' => 'admin.usuarios.data', 'uses' => 'UserController@data'));
-Route::get('usuario/perfil',  array('as' => 'admin.usuario.perfil', 'uses' => 'UserController@perfil'));
-Route::post('usuario/perfil',  array('as' => 'admin.usuario.modificar_perfil', 
-'uses' => 'UserController@modificarPerfil'));
+Route::get('usuario/perfil', array('as' => 'admin.usuario.perfil', 'uses' => 'UserController@perfil'));
+Route::post('usuario/perfil', array('as' => 'admin.usuario.modificar_perfil',
+    'uses' => 'UserController@modificarPerfil'));
 
 //Roles
 Route::resource('roles', 'RolController', ['as' => 'admin'])->except([
@@ -44,7 +44,7 @@ Route::get('factores/data/data', array('as' => 'admin.factores.data', 'uses' => 
 Route::resource('caracteristicas', 'CaracteristicasController', ['as' => 'admin']);
 Route::get(
     'caracteristicas/data/data',
-array('as' => 'admin.caracteristicas.data', 'uses' => 'CaracteristicasController@data')
+    array('as' => 'admin.caracteristicas.data', 'uses' => 'CaracteristicasController@data')
 );
 Route::get('caracteristicas/factor/{id}', 'CaracteristicasController@factores');
 
@@ -54,7 +54,7 @@ Route::resource('ambito', 'AmbitoController', ['as' => 'admin'])->except([
 
 Route::get(
     'ambito/data',
-array('as' => 'admin.ambito.data', 'uses' => 'AmbitoController@data')
+    array('as' => 'admin.ambito.data', 'uses' => 'AmbitoController@data')
 );
 
 //Aspectos
@@ -72,9 +72,9 @@ Route::get('facultades/data/data', array('as' => 'admin.facultades.data', 'uses'
 //Programas académicos
 Route::resource('programas_academicos', 'ProgramaAcademicoController', ['as' => 'admin']);
 Route::get('programas_academicos/data/data', array('as' => 'admin.programas_academicos.data',
- 'uses' => 'ProgramaAcademicoController@data'));
+    'uses' => 'ProgramaAcademicoController@data'));
 
- //Procesos para programas
+//Procesos para programas
 Route::resource('procesos_programas', 'ProcesoProgramaController', ['as' => 'admin']);
 Route::get('procesos_programas/data/data', array(
     'as' => 'admin.procesos_programas.data',

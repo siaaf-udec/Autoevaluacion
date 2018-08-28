@@ -32,6 +32,7 @@ class ProcesosProgramasRequest extends FormRequest
             'PK_LNM_Id' => 'exists:TBL_Lineamientos'
         ];
     }
+
     /**
      * Get the error messages for the defined validation rules.
      *
@@ -46,10 +47,11 @@ class ProcesosProgramasRequest extends FormRequest
             'PK_LNM_Id.exists' => 'El lineamiento que selecciono no se encuentra en nuestros registros'
         ];
     }
+
     /**
      * Configure the validator instance.
      *
-     * @param  \Illuminate\Validation\Validator  $validator
+     * @param  \Illuminate\Validation\Validator $validator
      * @return void
      */
     public function withValidator($validator)
@@ -57,14 +59,14 @@ class ProcesosProgramasRequest extends FormRequest
         $validator->after(function ($validator) {
             $id_programa = $this->request->get('PK_PAC_Id');
             $procesosPrograma = Proceso::where('FK_PCS_Programa', '=', $id_programa)
-            ->where('FK_PCS_Fase', '!=', 1)
-            ->get();
-            if($procesosPrograma->isNotEmpty()){
+                ->where('FK_PCS_Fase', '!=', 1)
+                ->get();
+            if ($procesosPrograma->isNotEmpty()) {
                 $validator->errors()->add('Error', 'El programa ya tiene un proceso en curso.');
             }
             $fechaInicio = Carbon::createFromFormat('d/m/Y', $this->request->get('PCS_FechaInicio'));
             $fechaFin = Carbon::createFromFormat('d/m/Y', $this->request->get('PCS_FechaFin'));
-            if ($fechaInicio >= $fechaFin){
+            if ($fechaInicio >= $fechaFin) {
                 $validator->errors()->add('Error', 'La fecha de finalización del proceso tiene que ser mayor que la fecha de inicio');
             }
         });

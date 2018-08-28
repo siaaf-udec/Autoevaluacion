@@ -14,7 +14,7 @@ class GrupoInteres extends Model
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
+
     /**
      * Tabla asociada con el modelo.
      *
@@ -40,8 +40,9 @@ class GrupoInteres extends Model
     {
         return $this->belongsTo(Estado::class, 'FK_GIT_Estado', 'PK_ESD_Id');
     }
+
     public function preguntas_encuesta()
     {
-        return $this->hasMany(PreguntaEncuesta::class,'FK_PEN_GrupoInteres','PK_GIT_Id');
+        return $this->hasMany(PreguntaEncuesta::class, 'FK_PEN_GrupoInteres', 'PK_GIT_Id');
     }
 }

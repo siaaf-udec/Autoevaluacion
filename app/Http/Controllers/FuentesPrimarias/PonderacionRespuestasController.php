@@ -98,13 +98,14 @@ class PonderacionRespuestasController extends Controller
     {
 
     }
+
     public function mostrarPonderaciones($id)
     {
-        $ponderaciones = PonderacionRespuesta::where('FK_PRT_TipoRespuestas',$id)
-        ->get()
-        ->pluck('PRT_Ponderacion','PK_PRT_Id')
-        ->toArray();
+        $ponderaciones = PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)
+            ->get()
+            ->pluck('PRT_Ponderacion', 'PK_PRT_Id')
+            ->toArray();
         return json_encode($ponderaciones);
     }
-    
+
 }

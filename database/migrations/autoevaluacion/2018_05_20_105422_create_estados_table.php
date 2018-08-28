@@ -36,7 +36,7 @@ class CreateEstadosTable extends Migration
             $table->dropColumn('id_estado');
         });
         Schema::connection('autoevaluacion')->dropIfExists('TBL_Estados');
-        
+
 
     }
 }

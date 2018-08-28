@@ -12,6 +12,7 @@ use App\Models\Autoevaluacion\TipoRespuesta;
 use App\Models\Autoevaluacion\Proceso;
 use App\Models\Autoevaluacion\Pregunta;
 use DataTables;
+
 class TipoRespuestaController extends Controller
 {
     /**
@@ -31,6 +32,7 @@ class TipoRespuestaController extends Controller
     {
         return view('autoevaluacion.FuentesPrimarias.TipoRespuestas.index');
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -40,20 +42,20 @@ class TipoRespuestaController extends Controller
     {
         if ($request->ajax() && $request->isMethod('GET')) {
             $tipoRespuestas = TipoRespuesta::with('estado')
-            ->get();
+                ->get();
             return Datatables::of($tipoRespuestas)
-            ->addColumn('estado', function ($tipoRespuestas) {
-                if (!$tipoRespuestas->estado) {
-                    return '';
-                } elseif (!strcmp($tipoRespuestas->estado->ESD_Nombre, 'HABILITADO')) {
-                    return "<span class='label label-sm label-success'>".$tipoRespuestas->estado->ESD_Nombre. "</span>";
-                } else {
-                    return "<span class='label label-sm label-danger'>".$tipoRespuestas->estado->ESD_Nombre . "</span>";
-                }
-                return "<span class='label label-sm label-primary'>".$tipoRespuestas->estado->ESD_Nombre . "</span>";
-            })
-            ->rawColumns(['estado'])
-            ->make(true);
+                ->addColumn('estado', function ($tipoRespuestas) {
+                    if (!$tipoRespuestas->estado) {
+                        return '';
+                    } elseif (!strcmp($tipoRespuestas->estado->ESD_Nombre, 'HABILITADO')) {
+                        return "<span class='label label-sm label-success'>" . $tipoRespuestas->estado->ESD_Nombre . "</span>";
+                    } else {
+                        return "<span class='label label-sm label-danger'>" . $tipoRespuestas->estado->ESD_Nombre . "</span>";
+                    }
+                    return "<span class='label label-sm label-primary'>" . $tipoRespuestas->estado->ESD_Nombre . "</span>";
+                })
+                ->rawColumns(['estado'])
+                ->make(true);
         }
     }
 
@@ -62,6 +64,7 @@ class TipoRespuestaController extends Controller
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         return view('autoevaluacion.FuentesPrimarias.TipoRespuestas.create', compact('estados'));
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -71,22 +74,22 @@ class TipoRespuestaController extends Controller
     public function store(TipoRespuestaRequest $request)
     {
         $tipoRespuestas = new TipoRespuesta();
-        $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_CantidadRespuestas','TRP_Descripcion']));
+        $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_CantidadRespuestas', 'TRP_Descripcion']));
         $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
         $tipoRespuestas->save();
-        for($i=1;$i<=$request->TRP_CantidadRespuestas;$i++)
-        {
+        for ($i = 1; $i <= $request->TRP_CantidadRespuestas; $i++) {
             $ponderacion = new PonderacionRespuesta();
-            $ponderacion->PRT_Ponderacion = $request->get('Ponderacion_'.$i);
+            $ponderacion->PRT_Ponderacion = $request->get('Ponderacion_' . $i);
             $ponderacion->FK_PRT_TipoRespuestas = $tipoRespuestas->PK_TRP_Id;
             $ponderacion->save();
         }
         return response([
             'msg' => 'Tipo de respuesta registrada correctamente.',
             'title' => '¡Registro exitoso!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
+
     /**
      * Display the specified resource.
      *
@@ -97,6 +100,7 @@ class TipoRespuestaController extends Controller
     {
         //
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -108,11 +112,12 @@ class TipoRespuestaController extends Controller
         $respuesta = TipoRespuesta::findOrFail($id);
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         $ponderaciones = PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)
-        ->get();
+            ->get();
         return view('autoevaluacion.FuentesPrimarias.TipoRespuestas.edit',
             compact('respuesta', 'estados', 'ponderaciones')
         );
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -123,23 +128,23 @@ class TipoRespuestaController extends Controller
     public function update(ModificarTipoRespuestaRequest $request, $id)
     {
         $tipoRespuestas = TipoRespuesta::findOrFail($id);
-        $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion','TRP_Descripcion']));
+        $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_Descripcion']));
         $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
         $tipoRespuestas->update();
-        foreach(PonderacionRespuesta::where('FK_PRT_TipoRespuestas',$id)->get() as $ponderacion)
-        {
+        foreach (PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)->get() as $ponderacion) {
             $ponderacionRpt = PonderacionRespuesta::find($ponderacion->PK_PRT_Id);
             $ponderacionRpt->PRT_Ponderacion = $request->get($ponderacion->PK_PRT_Id);
             $ponderacionRpt->FK_PRT_TipoRespuestas = $id;
-            $ponderacionRpt->save(); 
+            $ponderacionRpt->save();
         }
         return response([
             'msg' => 'El tipo de respuesta ha sido modificado exitosamente.',
             'title' => 'Tipo de respuesta Modificado!'
-        ], 200) // 200 Status Code: Standard response for successful HTTP request
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
-    
+
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -150,38 +155,33 @@ class TipoRespuestaController extends Controller
     {
         $tipoRespuestas = TipoRespuesta::findOrFail($id);
         $preguntas = Pregunta::with('preguntas_encuesta.banco.encuestas')
-        ->where('FK_PGT_TipoRespuesta','=',$tipoRespuestas->PK_TRP_Id)
-        ->get();
+            ->where('FK_PGT_TipoRespuesta', '=', $tipoRespuestas->PK_TRP_Id)
+            ->get();
         $contador = 0;
-        foreach($preguntas as $pregunta)
-        {
-            foreach($pregunta->preguntas_encuesta as $pregunta)
-            {
-                foreach($pregunta->banco->encuestas as $encuesta)
-                {
+        foreach ($preguntas as $pregunta) {
+            foreach ($pregunta->preguntas_encuesta as $pregunta) {
+                foreach ($pregunta->banco->encuestas as $encuesta) {
                     $proceso = Proceso::find($encuesta->FK_ECT_Proceso);
-                    if ($proceso->FK_PCS_Fase == 4) $contador = 1; break;    
+                    if ($proceso->FK_PCS_Fase == 4) $contador = 1;
+                    break;
                 }
-                if($contador ==1) break;
+                if ($contador == 1) break;
             }
-            if($contador==1) break;
+            if ($contador == 1) break;
         }
-        if($contador==0)
-        {
+        if ($contador == 0) {
             $tipoRespuestas->delete();
             return response([
                 'msg' => 'El tipo de respuesta ha sido eliminado exitosamente.',
                 'title' => '¡Tipo de respuesta Eliminado!'
             ], 200)// 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
-        }
-        else
-        {
+        } else {
             return response([
                 'errors' => ['Existe una pregunta que hace parte de una encuesta en uso para un proceso que se encuentra en fase de captura de datos'],
                 'title' => '¡Error!'
             ], 422)// 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            ->header('Content-Type', 'application/json');
         }
     }
 }

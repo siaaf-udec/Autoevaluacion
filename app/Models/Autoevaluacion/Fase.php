@@ -13,7 +13,7 @@ class Fase extends Model
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
+
     /**
      * Tabla asociada con el modelo.
      *
@@ -37,6 +37,6 @@ class Fase extends Model
 
     public function proceso()
     {
-        return $this->hasMany(Proceso::class,'FK_PCS_Fase','PK_FSS_Id');
+        return $this->hasMany(Proceso::class, 'FK_PCS_Fase', 'PK_FSS_Id');
     }
 }

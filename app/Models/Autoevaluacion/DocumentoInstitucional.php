@@ -12,7 +12,7 @@ class DocumentoInstitucional extends Model
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
+
     /**
      * Tabla asociada con el modelo.
      *
@@ -32,8 +32,9 @@ class DocumentoInstitucional extends Model
      *
      * @var array
      */
-    
+
     protected $guarded = ['PK_DOI_Id', 'created_at', 'updated_at'];
+
     public static function boot()
     {
         parent::boot();
@@ -44,12 +45,14 @@ class DocumentoInstitucional extends Model
             }
         });
     }
+
     public function grupodocumento()
     {
-        return $this->hasOne(GrupoDocumento::class,'PK_GRD_Id','FK_DOI_GrupoDocumento');
+        return $this->hasOne(GrupoDocumento::class, 'PK_GRD_Id', 'FK_DOI_GrupoDocumento');
     }
+
     public function archivo()
     {
-        return $this->belongsTo(Archivo::class,'FK_DOI_Archivo','PK_ACV_Id');
+        return $this->belongsTo(Archivo::class, 'FK_DOI_Archivo', 'PK_ACV_Id');
     }
 }

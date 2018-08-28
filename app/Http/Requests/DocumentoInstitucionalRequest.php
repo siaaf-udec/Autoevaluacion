@@ -31,20 +31,17 @@ class DocumentoInstitucionalRequest extends FormRequest
         $comprobar = $this->request->get('comprobarArchivo');
         if ($this->hasFile('archivo') && $this->request->get('link') !== null) {
             $link = 'file';
-        }
-        elseif($this->hasFile('archivo')){
+        } elseif ($this->hasFile('archivo')) {
             $link = '';
             $archivo = 'file';
-            
-        }
-        elseif ($this->request->get('link') !== null) {
+
+        } elseif ($this->request->get('link') !== null) {
             $link = 'url';
             $archivo = '';
-            if($this->method() == 'PUT' && ($comprobar == 'true' && isset($id_archivo->FK_DOI_Archivo))){
+            if ($this->method() == 'PUT' && ($comprobar == 'true' && isset($id_archivo->FK_DOI_Archivo))) {
                 $link = 'file';
             }
-        }
-        elseif ($this->method() == 'PUT' && ($comprobar == 'true' && isset($id_archivo->FK_DOI_Archivo))) {   
+        } elseif ($this->method() == 'PUT' && ($comprobar == 'true' && isset($id_archivo->FK_DOI_Archivo))) {
             $archivo = "";
             $link = "";
         }
@@ -55,6 +52,7 @@ class DocumentoInstitucionalRequest extends FormRequest
             'archivo' => $archivo
         ];
     }
+
     /**
      * Get the error messages for the defined validation rules.
      *

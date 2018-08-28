@@ -29,7 +29,8 @@ class TipoRespuestaRequest extends FormRequest
             'PK_ESD_Id' => 'required|exists:TBL_Estados'
         ];
     }
-     /**
+
+    /**
      * Get the error messages for the defined validation rules.
      *
      * @return array
@@ -37,22 +38,22 @@ class TipoRespuestaRequest extends FormRequest
     public function messages()
     {
         return [
-        'TRP_TotalPonderacion.required' => 'El total de ponderacion es requerido',
-        'TRP_Descripcion.required' => 'La descripción es requerida',    
-        'PK_ESD_Id.required' => 'Debe seleccionar un estado.',
-        'PK_ESD_Id.exists' => 'El estado que seleccionó no existe en nuestros registros.'
+            'TRP_TotalPonderacion.required' => 'El total de ponderacion es requerido',
+            'TRP_Descripcion.required' => 'La descripción es requerida',
+            'PK_ESD_Id.required' => 'Debe seleccionar un estado.',
+            'PK_ESD_Id.exists' => 'El estado que seleccionó no existe en nuestros registros.'
 
 
         ];
     }
+
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
             $sumatoria = 0;
-            for($i=1; $i<=$this->request->get('TRP_CantidadRespuestas');$i++)
-            {
-                
-                $sumatoria = $sumatoria + $this->request->get('Ponderacion_'.$i);
+            for ($i = 1; $i <= $this->request->get('TRP_CantidadRespuestas'); $i++) {
+
+                $sumatoria = $sumatoria + $this->request->get('Ponderacion_' . $i);
             }
             if ($sumatoria != $this->request->get('TRP_TotalPonderacion')) {
                 $validator->errors()->add('Seleccione un proceso', 'La suma de ponderaciones no corresponde con el total de ponderacion digitado!');

@@ -27,7 +27,7 @@ class ImportarPreguntas implements ShouldQueue
      * @return void
      */
 
-     /**
+    /**
      * The number of times the job may be attempted.
      *
      * @var int
@@ -35,6 +35,7 @@ class ImportarPreguntas implements ShouldQueue
     public $tries = 3;
 
     protected $url_archivo, $id_proceso;
+
     public function __construct($url_archivo, $id_proceso)
     {
         $this->url_archivo = $url_archivo;
@@ -49,9 +50,9 @@ class ImportarPreguntas implements ShouldQueue
      */
     public function handle()
     {
-        try{
+        try {
             $id_proceso = $this->id_proceso;
-            Excel::selectSheets('TIPO', 'PONDERACION', 'PREGUNTA', 'RESPUESTA')->load(public_path($this->url_archivo), function ($reader) use($id_proceso) {
+            Excel::selectSheets('TIPO', 'PONDERACION', 'PREGUNTA', 'RESPUESTA')->load(public_path($this->url_archivo), function ($reader) use ($id_proceso) {
                 $sheets = $reader->all()->toArray();
 
                 $tipo_respuesta = [];
@@ -81,13 +82,13 @@ class ImportarPreguntas implements ShouldQueue
                     }
                 }
                 $lineamiento = Proceso::select('FK_PCS_Lineamiento')
-                ->where('PK_PCS_Id', '=', $id_proceso)
-                ->first();
-                $caracteristicas = Caracteristica::whereHas('factor',function($query) use($lineamiento){
-                    return $query->where('FK_FCT_Lineamiento',$lineamiento->FK_PCS_Lineamiento);
+                    ->where('PK_PCS_Id', '=', $id_proceso)
+                    ->first();
+                $caracteristicas = Caracteristica::whereHas('factor', function ($query) use ($lineamiento) {
+                    return $query->where('FK_FCT_Lineamiento', $lineamiento->FK_PCS_Lineamiento);
                 })
-                ->select('PK_CRT_Id', 'CRT_Identificador')
-                ->get();
+                    ->select('PK_CRT_Id', 'CRT_Identificador')
+                    ->get();
 
                 if ($count <= 4 and $count > 3) {
                     //Preguntas
@@ -98,7 +99,7 @@ class ImportarPreguntas implements ShouldQueue
                         $pregunta->FK_PGT_Estado = 1;
                         $pregunta->FK_PGT_TipoRespuesta = $tipo_respuesta[$row['tipo_respuesta']];
                         $id = $caracteristicas->where('CRT_Identificador', $row['numero_caracteristica'])->first();
-                        
+
                         $pregunta->FK_PGT_Caracteristica = $id->PK_CRT_Id;
 
                         $pregunta->save();
@@ -115,10 +116,9 @@ class ImportarPreguntas implements ShouldQueue
                     }
                 }
             });
-        }
-        catch (\Exception $e) {
-            
-        }finally {
+        } catch (\Exception $e) {
+
+        } finally {
             $ruta = str_replace('storage', 'public', $this->url_archivo);
             Storage::delete($ruta);
         }

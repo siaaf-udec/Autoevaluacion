@@ -77,7 +77,7 @@ class LineamientoController extends Controller
         $id = Lineamiento::create($request->except('archivo'))->PK_LNM_Id;
         if ($archivo) {
             $url_temporal = Storage::url($archivo->store('public'));
-            ImportarLineamiento::dispatch($url_temporal, $id);       
+            ImportarLineamiento::dispatch($url_temporal, $id);
         }
         return response(['msg' => 'Lineamiento registrado correctamente.',
             'title' => '¡Registro exitoso!'
@@ -142,7 +142,7 @@ class LineamientoController extends Controller
         $lineamiento->delete();
 
         return response(['msg' => 'El Lineamiento ha sido eliminado exitosamente.',
-            'title' => '¡Rol Eliminado!'
+            'title' => '¡Lineamiento Eliminado!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }

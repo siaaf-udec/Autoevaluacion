@@ -32,6 +32,7 @@ class ProcesosInstitucionalesRequest extends FormRequest
         ];
 
     }
+
     /**
      * Get the error messages for the defined validation rules.
      *
@@ -45,10 +46,11 @@ class ProcesosInstitucionalesRequest extends FormRequest
             'PK_LNM_Id.exists' => 'El lineamiento que selecciono no se encuentra en nuestros registros'
         ];
     }
+
     /**
      * Configure the validator instance.
      *
-     * @param  \Illuminate\Validation\Validator  $validator
+     * @param  \Illuminate\Validation\Validator $validator
      * @return void
      */
     public function withValidator($validator)
@@ -70,7 +72,7 @@ class ProcesosInstitucionalesRequest extends FormRequest
             if ($this->method() == 'POST') {
                 $condicion_update = true; // debido a que siempre que se crea esta en fase de construcción
             }
-            if($procesos_institucionales->count() > 0 && $condicion_update){
+            if ($procesos_institucionales->count() > 0 && $condicion_update) {
                 $validator->errors()->add('Error', 'Solo puede haber un proceso institucional en curso.');
             }
         });

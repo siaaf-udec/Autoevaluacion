@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Gate;
 
 class DocumentoAutoevaluacionController extends Controller
 {
-    
+
     /**
      * Instantiate a new controller instance.
      *
@@ -56,10 +56,10 @@ class DocumentoAutoevaluacionController extends Controller
 
             $documentos_autoevaluacion = DocumentoAutoevaluacion::with('indicadorDocumental.caracteristica.factor')
                 ->with('archivo')
-                ->with(['tipoDocumento' => function($query){
+                ->with(['tipoDocumento' => function ($query) {
                     return $query->select('PK_TDO_Id', 'TDO_Nombre');
                 }])
-                ->with(['dependencia' => function($query){
+                ->with(['dependencia' => function ($query) {
                     return $query->select('PK_DPC_Id', 'DPC_Nombre');
                 }])
                 ->where('FK_DOA_Proceso', '=', session()->get('id_proceso'))
@@ -80,8 +80,7 @@ class DocumentoAutoevaluacionController extends Controller
                 ->addColumn('nombre', function ($documento_autoevaluacion) {
                     if ($documento_autoevaluacion->archivo) {
                         return $documento_autoevaluacion->archivo->ACV_Nombre;
-                    } 
-                    else {
+                    } else {
                         return 'Link';
                     }
                 })
@@ -196,7 +195,7 @@ class DocumentoAutoevaluacionController extends Controller
             ->pluck('IDO_Nombre', 'PK_IDO_Id');
         $dependencias = Dependencia::pluck('DPC_Nombre', 'PK_DPC_Id');
         $tipo_documentos = TipoDocumento::pluck('TDO_Nombre', 'PK_TDO_Id');
-        $size = $documento->archivo?filesize(public_path($documento->archivo->ruta)):null;
+        $size = $documento->archivo ? filesize(public_path($documento->archivo->ruta)) : null;
 
         return view(
             'autoevaluacion.FuentesSecundarias.DocumentosAutoevaluacion.edit',
@@ -258,13 +257,13 @@ class DocumentoAutoevaluacionController extends Controller
             'DOA_ContenidoEspecifico',
             'DOA_ContenidoAdicional',
             'DOA_Observaciones'
-            ]));
+        ]));
 
         if (isset($id_archivo)) {
             $documento->FK_DOA_Archivo = $id_archivo;
         }
 
-        
+
         $documento->FK_DOA_IndicadorDocumental = $request->get('PK_IDO_Id');
         $documento->FK_DOA_TipoDocumento = $request->get('PK_TDO_Id');
         $documento->FK_DOA_Dependencia = $request->get('PK_DPC_Id');
@@ -301,16 +300,15 @@ class DocumentoAutoevaluacionController extends Controller
                 'msg' => 'El documento ha sido eliminado exitosamente.',
                 'title' => 'Documento Eliminado!'
             ], 200)// 200 Status Code: Standard response for successful HTTP request
-                ->header('Content-Type', 'application/json');
+            ->header('Content-Type', 'application/json');
         }
         return response([
             'errors' => ['El proceso se debe encontrar en fase de captura de datos para poder eliminar documentos.'],
             'title' => '¡Error!'
         ], 422)// 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+        ->header('Content-Type', 'application/json');
 
 
-        
     }
 
     public function obtenerCaracteristicas($id)

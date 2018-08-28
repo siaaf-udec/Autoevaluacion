@@ -28,13 +28,14 @@ class FactoresRequest extends FormRequest
         return [
             'FCT_Nombre' => 'required',
             'FCT_Descripcion' => 'required',
-            'FCT_Identificador' => 'required|numeric|'.Rule::unique('TBL_Factores', 'FCT_Identificador')
-            ->where('FK_FCT_Lineamiento', $this->request->get('FK_FCT_Lineamiento')),
+            'FCT_Identificador' => 'required|numeric|' . Rule::unique('TBL_Factores', 'FCT_Identificador')
+                    ->where('FK_FCT_Lineamiento', $this->request->get('FK_FCT_Lineamiento')),
             'FCT_Ponderacion_factor' => 'required|numeric',
             'FK_FCT_Estado' => 'exists:TBL_Estados,PK_ESD_Id',
             'FK_FCT_Lineamiento' => 'exists:TBL_Lineamientos,PK_LNM_Id'
         ];
     }
+
     /**
      * Get the error messages for the defined validation rules.
      *

@@ -30,11 +30,12 @@ class AspectosRequest extends FormRequest
         return [
             'ASP_Nombre' => 'required|string',
             'ASP_Descripcion' => 'required',
-            'ASP_Identificador' => 'required|'.Rule::unique('TBL_Aspectos', 'ASP_Identificador')
-            ->where('FK_ASP_Caracteristica', $this->request->get('PK_CRT_Id')),
+            'ASP_Identificador' => 'required|' . Rule::unique('TBL_Aspectos', 'ASP_Identificador')
+                    ->where('FK_ASP_Caracteristica', $this->request->get('PK_CRT_Id')),
             'PK_CRT_Id' => 'required|exists:TBL_Caracteristicas'
         ];
     }
+
     /**
      * Get the error messages for the defined validation rules.
      *
@@ -43,12 +44,12 @@ class AspectosRequest extends FormRequest
     public function messages()
     {
         return [
-        'PK_CRT_Id.required' => 'Debe seleccionar una característica.',
-        'PK_CRT_Id.exists' => 'La característica que selecciona no existe en nuestros registros.',
-        'ASP_Identificador.unique' => 'El identificador que ingreso ya ha sido registrado.',
-        'ASP_Nombre.required' => 'El campo nombre es requerido',
-        'ASP_Descripcion' => 'El campo descripción es requerido',
-        'PK_CRT_Id' => 'La característica que selecciono no se encuentra en nuestros registros.'
+            'PK_CRT_Id.required' => 'Debe seleccionar una característica.',
+            'PK_CRT_Id.exists' => 'La característica que selecciona no existe en nuestros registros.',
+            'ASP_Identificador.unique' => 'El identificador que ingreso ya ha sido registrado.',
+            'ASP_Nombre.required' => 'El campo nombre es requerido',
+            'ASP_Descripcion' => 'El campo descripción es requerido',
+            'PK_CRT_Id' => 'La característica que selecciono no se encuentra en nuestros registros.'
 
         ];
     }

@@ -24,17 +24,18 @@ class ImportarPreguntasRequest extends FormRequest
     public function rules()
     {
         $archivo = "";
-        if($this->hasFile('archivo')){
+        if ($this->hasFile('archivo')) {
             $archivo = 'file|mimes:xlsx';
         }
         return [
             'archivo' => $archivo
         ];
     }
-     /**
+
+    /**
      * Configure the validator instance.
      *
-     * @param  \Illuminate\Validation\Validator  $validator
+     * @param  \Illuminate\Validation\Validator $validator
      * @return void
      */
     public function withValidator($validator)

@@ -12,8 +12,8 @@ class PreguntaEncuesta extends Model
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
-     /**
+
+    /**
      * Tabla asociada con el modelo.
      *
      * @var string
@@ -38,10 +38,12 @@ class PreguntaEncuesta extends Model
     {
         return $this->belongsTo(Pregunta::class, 'FK_PEN_Pregunta', 'PK_PGT_Id');
     }
+
     public function grupos()
     {
         return $this->belongsto(GrupoInteres::class, 'FK_PEN_GrupoInteres', 'PK_GIT_Id');
     }
+
     public function banco()
     {
         return $this->belongsTo(BancoEncuestas::class, 'FK_PEN_Banco_Encuestas', 'PK_BEC_Id');

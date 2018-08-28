@@ -22,6 +22,7 @@ class ImportarPreguntasController extends Controller
     {
         $this->middleware('permission:IMPORTAR_PREGUNTAS', ['only' => ['create', 'store']]);
     }
+
     /**
      * Display a listing of the resource.
      *

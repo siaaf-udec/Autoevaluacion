@@ -12,7 +12,7 @@ class Pregunta extends Model
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
+
     /**
      * Tabla asociada con el modelo.
      *
@@ -38,21 +38,25 @@ class Pregunta extends Model
     {
         return $this->belongsTo(Estado::class, 'FK_PGT_Estado', 'PK_ESD_Id');
     }
+
     public function tipo()
     {
         return $this->belongsTo(TipoRespuesta::class, 'FK_PGT_TipoRespuesta', 'PK_TRP_Id');
     }
+
     public function caracteristica()
     {
         return $this->belongsTo(Caracteristica::class, 'FK_PGT_Caracteristica', 'PK_CRT_Id');
     }
+
     public function respuestas()
     {
-        return $this->hasMany(RespuestaPregunta::class,'FK_RPG_Pregunta','PK_PGT_Id');
+        return $this->hasMany(RespuestaPregunta::class, 'FK_RPG_Pregunta', 'PK_PGT_Id');
     }
+
     public function preguntas_encuesta()
     {
-        return $this->hasMany(PreguntaEncuesta::class,'FK_PEN_Pregunta','PK_PGT_Id');
+        return $this->hasMany(PreguntaEncuesta::class, 'FK_PEN_Pregunta', 'PK_PGT_Id');
     }
 
 }

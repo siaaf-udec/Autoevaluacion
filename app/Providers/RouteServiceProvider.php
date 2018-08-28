@@ -58,8 +58,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -72,9 +72,9 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api.php'));
     }
 
     /**
@@ -87,9 +87,9 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapSuperAdminRoutes()
     {
         Route::prefix('admin')
-             ->middleware(['web', 'auth'])
-             ->namespace($this->namespace . '\SuperAdministrador')
-             ->group(base_path('routes/superAdministrador.php'));
+            ->middleware(['web', 'auth'])
+            ->namespace($this->namespace . '\SuperAdministrador')
+            ->group(base_path('routes/superAdministrador.php'));
     }
 
     /**
@@ -102,9 +102,9 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapFuentesPrimariasRoutes()
     {
         Route::prefix('admin/fuentesPrimarias')
-             ->middleware(['web', 'auth'])
-             ->namespace($this->namespace . '\FuentesPrimarias')
-             ->group(base_path('routes/fuentesPrimarias.php'));
+            ->middleware(['web', 'auth'])
+            ->namespace($this->namespace . '\FuentesPrimarias')
+            ->group(base_path('routes/fuentesPrimarias.php'));
     }
 
     /**
@@ -117,8 +117,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapFuentesSecundariasRoutes()
     {
         Route::prefix('admin/documental')
-             ->middleware(['web', 'auth'])
-             ->namespace($this->namespace . '\FuentesSecundarias')
-             ->group(base_path('routes/fuentesSecundarias.php'));
+            ->middleware(['web', 'auth'])
+            ->namespace($this->namespace . '\FuentesSecundarias')
+            ->group(base_path('routes/fuentesSecundarias.php'));
     }
 }

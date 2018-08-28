@@ -17,7 +17,7 @@ class Proceso extends Model
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
+
     /**
      * Tabla asociada con el modelo.
      *
@@ -54,7 +54,7 @@ class Proceso extends Model
     public function getNombreProcesoAttribute()
     {
         $sede = 'Institucional';
-        if($this->programa){
+        if ($this->programa) {
             $sede = $this->programa->sede->SDS_Nombre;
         }
         return "{$sede} {$this->PCS_Nombre}";
@@ -71,22 +71,21 @@ class Proceso extends Model
                         $ruta = str_replace('storage', 'public', $documento->archivo->ruta);
                         Storage::delete($ruta);
                     }
-                } 
+                }
             }
         });
-        
-    }
 
+    }
 
 
     public function programa()
     {
-        return $this->belongsTo(ProgramaAcademico::class,'FK_PCS_Programa', 'PK_PAC_Id');
+        return $this->belongsTo(ProgramaAcademico::class, 'FK_PCS_Programa', 'PK_PAC_Id');
     }
 
     public function fase()
     {
-        return $this->hasOne(Fase::class,'PK_FSS_Id','FK_PCS_Fase');
+        return $this->hasOne(Fase::class, 'PK_FSS_Id', 'FK_PCS_Fase');
     }
 
     public function lineamiento()
@@ -101,11 +100,11 @@ class Proceso extends Model
 
     public function encuestas()
     {
-        return $this->hasOne(Encuesta::class,'FK_ECT_Proceso','PK_PCS_Id');
+        return $this->hasOne(Encuesta::class, 'FK_ECT_Proceso', 'PK_PCS_Id');
     }
 
     public function documentosAutoevaluacion()
-    {   
+    {
         return $this->hasMany(DocumentoAutoevaluacion::class, 'FK_DOA_Proceso', 'PK_PCS_Id');
     }
 

@@ -29,13 +29,14 @@ class CaracteristicasRequest extends FormRequest
         return [
             'CRT_Nombre' => 'required',
             'CRT_Descripcion' => 'required',
-            'CRT_Identificador' => 'required|numeric|'.Rule::unique('TBL_Caracteristicas', 'CRT_Identificador')->ignore($id, 'PK_CRT_Id'),
+            'CRT_Identificador' => 'required|numeric|' . Rule::unique('TBL_Caracteristicas', 'CRT_Identificador')->ignore($id, 'PK_CRT_Id'),
             'FK_FCT_Lineamiento' => 'exists:TBL_Lineamientos,PK_LNM_Id',
             'FK_CRT_Factor' => 'exists:TBL_Factores,PK_FCT_Id',
             'FK_CRT_Estado' => 'exists:TBL_Estados,PK_ESD_Id',
             'FK_CRT_Ambito' => 'exists:TBL_Ambitos_Responsabilidad,PK_AMB_Id'
         ];
     }
+
     /**
      * Get the error messages for the defined validation rules.
      *

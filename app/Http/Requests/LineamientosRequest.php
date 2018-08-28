@@ -35,6 +35,7 @@ class LineamientosRequest extends FormRequest
             'archivo' => $archivo
         ];
     }
+
     /**
      * Get the error messages for the defined validation rules.
      *

@@ -57,19 +57,19 @@ class CaracteristicasController extends Controller
                 }])
                 ->get();
             return Datatables::of($caracteristicas)
-            ->addColumn('ambito', function ($caracteristica) {
-                if ($caracteristica->ambito) {
-                    return $caracteristica->ambito;
-                } else {
-                    return "Ningún ambito seleccionado";
-                }
-            })
-            ->addColumn('nombre_factor', function($caracteristica){
-                return $caracteristica->factor->FCT_Identificador . '. ' . $caracteristica->factor->FCT_Nombre;
-            })
-            ->addColumn('nombre_caracteristica', function($caracteristica){
-                return $caracteristica->nombre_caracteristica;
-            })
+                ->addColumn('ambito', function ($caracteristica) {
+                    if ($caracteristica->ambito) {
+                        return $caracteristica->ambito;
+                    } else {
+                        return "Ningún ambito seleccionado";
+                    }
+                })
+                ->addColumn('nombre_factor', function ($caracteristica) {
+                    return $caracteristica->factor->FCT_Identificador . '. ' . $caracteristica->factor->FCT_Nombre;
+                })
+                ->addColumn('nombre_caracteristica', function ($caracteristica) {
+                    return $caracteristica->nombre_caracteristica;
+                })
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
                 ->addIndexColumn()

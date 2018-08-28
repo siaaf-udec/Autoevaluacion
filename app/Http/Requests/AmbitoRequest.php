@@ -29,16 +29,18 @@ class AmbitoRequest extends FormRequest
         $ambito = 'required|string|max:60|unique:TBL_Ambitos_Responsabilidad';
 
         if ($this->method() == 'PUT') {
-            $ambito = 'required|max:60|'.Rule::unique('TBL_Ambitos_Responsabilidad')->ignore($id, 'PK_AMB_Id');
+            $ambito = 'required|max:60|' . Rule::unique('TBL_Ambitos_Responsabilidad')->ignore($id, 'PK_AMB_Id');
         }
 
         return [
             'AMB_Nombre' => $ambito,
         ];
     }
-    public function messages(){
-        return[
-            'AMB_Nombre.unique'=> 'Este ambito ya ha sido registrado',
-              ];
+
+    public function messages()
+    {
+        return [
+            'AMB_Nombre.unique' => 'Este ambito ya ha sido registrado',
+        ];
     }
 }

@@ -42,7 +42,7 @@ class RolRequest extends FormRequest
     public function messages()
     {
         return [
-        'permission.required' => 'El campo permisos es requerido.'
+            'permission.required' => 'El campo permisos es requerido.'
         ];
     }
 }

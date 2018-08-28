@@ -12,14 +12,14 @@ class DocumentGroupRequest extends FormRequest
     {
         return true;
     }
- 
+
     public function rules()
     {
         $id = $this->route()->parameter('grupodocumento');
         $grupodocumento = 'required|string|max:60|unique:TBL_Grupos_Documentos';
 
         if ($this->method() == 'PUT') {
-            $grupodocumento = 'required|max:60|'.Rule::unique('TBL_Grupos_Documentos')->ignore($id, 'PK_GRD_Id');
+            $grupodocumento = 'required|max:60|' . Rule::unique('TBL_Grupos_Documentos')->ignore($id, 'PK_GRD_Id');
         }
 
         return [
@@ -27,6 +27,7 @@ class DocumentGroupRequest extends FormRequest
             'GRD_Descripcion' => 'required',
         ];
     }
+
     /**
      * Get the error messages for the defined validation rules.
      *

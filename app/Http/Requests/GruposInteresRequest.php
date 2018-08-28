@@ -31,7 +31,8 @@ class GruposInteresRequest extends FormRequest
             'PK_ESD_Id' => 'exists:TBL_Estados|numeric'
         ];
     }
-     /**
+
+    /**
      * Get the error messages for the defined validation rules.
      *
      * @return array

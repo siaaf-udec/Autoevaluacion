@@ -11,7 +11,7 @@
 |
 */
 
- // Authentication Routes...
+// Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login')->name('login.in');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
@@ -30,7 +30,7 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
-Route::get('/','Publico\HomeController@index')->name('home');
+Route::get('/', 'Publico\HomeController@index')->name('home');
 Route::resource('encuestas', 'Publico\EncuestasController', ['as' => 'public']);
 Route::get('grupos/{slug_proceso}', 'Publico\EncuestasController@index');
 Route::get('encuesta/{slug_proceso}/{grupo}/{cargo?}', array('as' => 'encuestas', 'uses' => 'Publico\EncuestasController@create'));

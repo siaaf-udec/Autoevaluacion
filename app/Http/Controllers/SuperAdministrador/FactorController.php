@@ -12,7 +12,7 @@ use App\Http\Requests\FactoresRequest;
 
 class FactorController extends Controller
 {
-     /**
+    /**
      * Instantiate a new controller instance.
      *
      * @return void

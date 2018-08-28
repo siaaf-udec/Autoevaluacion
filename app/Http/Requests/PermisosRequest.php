@@ -25,10 +25,10 @@ class PermisosRequest extends FormRequest
      */
     public function rules()
     {
-        
-        
+
+
         $permisos = 'required|string|max:50|unique:permissions';
-        
+
         return [
             'name' => $permisos,
         ];

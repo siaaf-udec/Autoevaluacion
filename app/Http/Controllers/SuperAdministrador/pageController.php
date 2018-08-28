@@ -30,27 +30,27 @@ class pageController extends Controller
     {
         if (Gate::allows('SUPERADMINISTRADOR')) {
 
-        //Documental
+            //Documental
             $id_lineamiento = Proceso::find(session()->get('id_proceso'))->FK_PCS_Lineamiento ?? null;
 
             $factores_documental = Factor::has('caracteristica.indicadores_documentales')
-            ->where('FK_FCT_Lineamiento', '=', $id_lineamiento)
-            ->where('FK_FCT_estado', '=', '1')
-            ->get()
-            ->pluck('nombre_factor', 'PK_FCT_Id');
+                ->where('FK_FCT_Lineamiento', '=', $id_lineamiento)
+                ->where('FK_FCT_estado', '=', '1')
+                ->get()
+                ->pluck('nombre_factor', 'PK_FCT_Id');
             $dependencias = Dependencia::pluck('DPC_Nombre', 'PK_DPC_Id');
-        
+
             $tipo_documentos = TipoDocumento::pluck('TDO_Nombre', 'PK_TDO_Id');
 
             //Encuestas
             $grupos = GrupoInteres::where('FK_GIT_Estado', '=', '1')
-            ->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
+                ->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
             $factores_encuestas = Factor::where('FK_FCT_Lineamiento', '=', $id_lineamiento)
-            ->get()->pluck('nombre_factor', 'PK_FCT_Id');
+                ->get()->pluck('nombre_factor', 'PK_FCT_Id');
 
             return view(
-            'admin.dashboard.index',
-            compact('factores_documental', 'dependencias', 'tipo_documentos', 'grupos', 'factores_encuestas')
+                'admin.dashboard.index',
+                compact('factores_documental', 'dependencias', 'tipo_documentos', 'grupos', 'factores_encuestas')
             );
         }
         return view('admin.dashboard.index');

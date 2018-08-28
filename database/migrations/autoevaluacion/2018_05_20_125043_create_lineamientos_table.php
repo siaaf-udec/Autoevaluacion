@@ -18,8 +18,8 @@ class CreateLineamientosTable extends Migration
             $table->string("LNM_Nombre");
             $table->mediumText("LNM_Descripcion")->nullable();
             $table->timestamps();
-            });
-            
+        });
+
     }
 
     /**

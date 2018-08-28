@@ -24,7 +24,7 @@ class ImportarLineamiento implements ShouldQueue
      * @return void
      */
 
-     /**
+    /**
      * The number of times the job may be attempted.
      *
      * @var int
@@ -95,8 +95,8 @@ class ImportarLineamiento implements ShouldQueue
                 }
             });
         } catch (\Exception $e) {
-            
-        }finally {
+
+        } finally {
             $ruta = str_replace('storage', 'public', $this->url_archivo);
             Storage::delete($ruta);
         }

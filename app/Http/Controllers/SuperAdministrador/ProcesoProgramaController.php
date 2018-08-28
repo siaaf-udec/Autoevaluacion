@@ -63,8 +63,7 @@ class ProcesoProgramaController extends Controller
                         return $proceso_programa->PCS_FechaInicio ? with(new Carbon($proceso_programa->PCS_FechaInicio))->format('d/m/Y') : '';
                     })
                     ->editColumn('PCS_FechaFin', function ($proceso_programa) {
-                        return $proceso_programa->PCS_FechaFin ? with(new Carbon($proceso_programa->PCS_FechaFin))->format('d/m/Y') : '';
-                        ;
+                        return $proceso_programa->PCS_FechaFin ? with(new Carbon($proceso_programa->PCS_FechaFin))->format('d/m/Y') : '';;
                     })
                     ->removeColumn('created_at')
                     ->removeColumn('updated_at')
@@ -84,8 +83,7 @@ class ProcesoProgramaController extends Controller
                         return $proceso_programa->PCS_FechaInicio ? with(new Carbon($proceso_programa->PCS_FechaInicio))->format('d/m/Y') : '';
                     })
                     ->editColumn('PCS_FechaFin', function ($proceso_programa) {
-                        return $proceso_programa->PCS_FechaFin ? with(new Carbon($proceso_programa->PCS_FechaFin))->format('d/m/Y') : '';
-                        ;
+                        return $proceso_programa->PCS_FechaFin ? with(new Carbon($proceso_programa->PCS_FechaFin))->format('d/m/Y') : '';;
                     })
                     ->removeColumn('created_at')
                     ->removeColumn('updated_at')
@@ -93,8 +91,6 @@ class ProcesoProgramaController extends Controller
             }
         }
     }
-        
-    
 
 
     /**
@@ -104,17 +100,16 @@ class ProcesoProgramaController extends Controller
      */
     public function create()
     {
-        if (Gate::allows('SUPERADMINISTRADOR')){
+        if (Gate::allows('SUPERADMINISTRADOR')) {
             $sedes = Sede::pluck('SDS_Nombre', 'PK_SDS_Id');
             $facultades = Facultad::pluck('FCD_Nombre', 'PK_FCD_Id');
             $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
             $fases = Fase::pluck('FSS_Nombre', 'PK_FSS_Id');
-        }
-        else{
+        } else {
             $sedes = Sede::where('PK_SDS_Id', '=', Auth::user()->programa->FK_PAC_Sede)
-                           ->pluck('SDS_Nombre', 'PK_SDS_Id');
-            $facultades = Facultad::where('PK_FCD_Id', '=',  Auth::user()->programa->FK_PAC_Facultad)
-            ->pluck('FCD_Nombre', 'PK_FCD_Id');
+                ->pluck('SDS_Nombre', 'PK_SDS_Id');
+            $facultades = Facultad::where('PK_FCD_Id', '=', Auth::user()->programa->FK_PAC_Facultad)
+                ->pluck('FCD_Nombre', 'PK_FCD_Id');
             $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
             $fases = Fase::pluck('FSS_Nombre', 'PK_FSS_Id');
         }
@@ -139,9 +134,10 @@ class ProcesoProgramaController extends Controller
         $proceso->fill($request->only(['PCS_Nombre']));
         $proceso->PCS_FechaInicio = $fechaInicio;
         $proceso->PCS_FechaFin = $fechaFin;
-        $nombres = explode(' ', ProgramaAcademico::where('PK_PAC_Id',$request->get('PK_PAC_Id'))->first()->PAC_Nombre);
-        $slug="";foreach($nombres as $nombre) $slug=$slug.'_'.$nombre;
-        $proceso->PCS_Slug_Procesos = "Proceso-.".$slug;
+        $nombres = explode(' ', ProgramaAcademico::where('PK_PAC_Id', $request->get('PK_PAC_Id'))->first()->PAC_Nombre);
+        $slug = "";
+        foreach ($nombres as $nombre) $slug = $slug . '_' . $nombre;
+        $proceso->PCS_Slug_Procesos = "Proceso-." . $slug;
 
         $proceso->FK_PCS_Fase = 3;
         $proceso->FK_PCS_Programa = $request->get('PK_PAC_Id');
@@ -149,10 +145,10 @@ class ProcesoProgramaController extends Controller
         $proceso->save();
 
         return response([
-                'msg' => 'Proceso registrado correctamente.',
-                'title' => '¡Registro exitoso!'
-            ], 200)// 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+            'msg' => 'Proceso registrado correctamente.',
+            'title' => '¡Registro exitoso!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
@@ -208,8 +204,9 @@ class ProcesoProgramaController extends Controller
         $proceso->FK_PCS_Fase = $request->get('PK_FSS_Id');
         $proceso->FK_PCS_Programa = $request->get('PK_PAC_Id');
         $proceso->FK_PCS_Lineamiento = $request->get('PK_LNM_Id');
-        $nombres = explode(' ', ProgramaAcademico::where('PK_PAC_Id',$request->get('PK_PAC_Id'))->first()->PAC_Nombre);
-        $slug="";foreach($nombres as $nombre) $slug=$slug.'_'.$nombre;
+        $nombres = explode(' ', ProgramaAcademico::where('PK_PAC_Id', $request->get('PK_PAC_Id'))->first()->PAC_Nombre);
+        $slug = "";
+        foreach ($nombres as $nombre) $slug = $slug . '_' . $nombre;
         $proceso->PCS_Slug_Procesos = $slug;
         $proceso->update();
 

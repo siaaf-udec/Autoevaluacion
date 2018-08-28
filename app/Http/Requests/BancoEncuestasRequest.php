@@ -28,6 +28,7 @@ class BancoEncuestasRequest extends FormRequest
             'BEC_Descripcion' => 'required',
         ];
     }
+
     /**
      * Get the error messages for the defined validation rules.
      *
@@ -36,8 +37,8 @@ class BancoEncuestasRequest extends FormRequest
     public function messages()
     {
         return [
-        'BEC_Nombre.required' => 'El campo nombre es requerido',
-        'BEC_Descripcion' => 'El campo descripción es requerido',
+            'BEC_Nombre.required' => 'El campo nombre es requerido',
+            'BEC_Descripcion' => 'El campo descripción es requerido',
         ];
     }
 }

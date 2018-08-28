@@ -15,7 +15,7 @@ class Factor extends Model
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
+
     /**
      * Tabla asociada con el modelo.
      *
@@ -46,17 +46,19 @@ class Factor extends Model
     {
         return "{$this->FCT_Identificador}. {$this->FCT_Nombre}";
     }
-    
+
     public function estado()
     {
-        return $this->hasOne(Estado::class,'PK_ESD_Id','FK_FCT_Estado');
+        return $this->hasOne(Estado::class, 'PK_ESD_Id', 'FK_FCT_Estado');
     }
+
     public function lineamiento()
     {
-        return $this->hasOne(Lineamiento::class,'PK_LNM_Id','FK_FCT_Lineamiento');
+        return $this->hasOne(Lineamiento::class, 'PK_LNM_Id', 'FK_FCT_Lineamiento');
     }
+
     public function caracteristica()
     {
-        return $this->hasMany(Caracteristica::class,'FK_CRT_Factor','PK_FCT_Id');
+        return $this->hasMany(Caracteristica::class, 'FK_CRT_Factor', 'PK_FCT_Id');
     }
 }

@@ -32,27 +32,28 @@ class ReporteController extends Controller
             compact('factores', 'dependencias', 'tipo_documentos')
         );
     }
+
     public function obtenerDatos(Request $request)
     {
         $proceso = Proceso::find(session()->get('id_proceso'));
         $indicadores_documentales = IndicadorDocumental::whereHas('caracteristica.factor', function ($query) use ($proceso) {
             $query->where('FK_FCT_Lineamiento', '=', $proceso->FK_PCS_Lineamiento);
         })
-        ->with('documentosAutoevaluacion', 'caracteristica')
-        ->get();
+            ->with('documentosAutoevaluacion', 'caracteristica')
+            ->get();
         $documentosAux = DocumentoAutoevaluacion::with('indicadorDocumental')
-        ->where('FK_DOA_Proceso', '=', session()->get('id_proceso'))
-        ->oldest()
-        ->get();
+            ->where('FK_DOA_Proceso', '=', session()->get('id_proceso'))
+            ->oldest()
+            ->get();
 
 
         $documentos = $documentosAux->groupBy('FK_DOA_IndicadorDocumental');
 
-        $documentosAuto = $documentosAux->groupBy(function($date){
+        $documentosAuto = $documentosAux->groupBy(function ($date) {
             return $date->created_at->format('Y-m-d');
         });
 
-        
+
         //Grafico barras
         $labels_indicador = [];
         $data_indicador = [];
@@ -60,7 +61,7 @@ class ReporteController extends Controller
             array_push($labels_indicador, $documentoIndicador->IDO_Nombre);
             array_push($data_indicador, $documentoIndicador->documentosAutoevaluacion->count());
         }
-        
+
 
         //grafico historial fechas
         $labels_fechas = $documentosAuto->keys()->toArray();
@@ -71,9 +72,9 @@ class ReporteController extends Controller
         }
 
         //Grafico pie
-        $completado = ($documentos->count()/$indicadores_documentales->count()) * 100;
+        $completado = ($documentos->count() / $indicadores_documentales->count()) * 100;
         $dataPie = [array($completado, 100 - $completado)];
-   
+
 
         $datos = [];
         $datos['completado'] = $completado;
@@ -82,7 +83,7 @@ class ReporteController extends Controller
         $datos['data_fechas'] = array($data_fechas);
         $datos['labels_indicador'] = $labels_indicador;
         $datos['data_indicador'] = array($data_indicador);
-   
+
         return json_encode($datos);
     }
 
@@ -96,23 +97,23 @@ class ReporteController extends Controller
 
         $indicadores_documentales = IndicadorDocumental::whereHas('caracteristica.factor', function ($query) use ($proceso, $id_factor) {
             $query->where('FK_FCT_Lineamiento', '=', $proceso->FK_PCS_Lineamiento)
-            ->when($id_factor, function($q) use($id_factor){
-                return $q->where('PK_FCT_Id', $id_factor);
-            });
-        })
-        ->when($id_caracteristica, function ($q) use ($id_caracteristica) {
-            return $q->where('FK_IDO_Caracteristica', $id_caracteristica);
-        })
-        ->with(['documentosAutoevaluacion' => function($query) use($tipo_documento, $dependencia){
-            return $query
-                ->when($tipo_documento, function($q)use($tipo_documento){
-                    return $q->where('FK_DOA_TipoDocumento', $tipo_documento);
-                })
-                ->when($dependencia, function ($q) use ($dependencia) {
-                    return $q->where('FK_DOA_Dependencia', $dependencia);
+                ->when($id_factor, function ($q) use ($id_factor) {
+                    return $q->where('PK_FCT_Id', $id_factor);
                 });
-        }])
-        ->get();
+        })
+            ->when($id_caracteristica, function ($q) use ($id_caracteristica) {
+                return $q->where('FK_IDO_Caracteristica', $id_caracteristica);
+            })
+            ->with(['documentosAutoevaluacion' => function ($query) use ($tipo_documento, $dependencia) {
+                return $query
+                    ->when($tipo_documento, function ($q) use ($tipo_documento) {
+                        return $q->where('FK_DOA_TipoDocumento', $tipo_documento);
+                    })
+                    ->when($dependencia, function ($q) use ($dependencia) {
+                        return $q->where('FK_DOA_Dependencia', $dependencia);
+                    });
+            }])
+            ->get();
 
         //Grafico barras
         $labels_indicador = [];
@@ -128,20 +129,22 @@ class ReporteController extends Controller
 
         return json_encode($datos);
     }
+
     public function reportes()
     {
         return view('autoevaluacion.FuentesSecundarias.Reportes.index2');
     }
+
     public function obtenerDatosInst(Request $request)
     {
         $documentosAux = DocumentoInstitucional::with('grupodocumento')
-        ->oldest()
-        ->get();
-        $documentosInst = $documentosAux->groupBy(function($date){
+            ->oldest()
+            ->get();
+        $documentosInst = $documentosAux->groupBy(function ($date) {
             return $date->created_at->format('Y-m-d');
         });
 
-        
+
         //grafico historial fechas
         $labels_fechas = $documentosInst->keys()->toArray();
         $data_fechas = [];
@@ -151,12 +154,11 @@ class ReporteController extends Controller
         }
 
 
-
         //grafica documentos institucionales
         $labels_documento = [];
         $data_documento = [];
-        $grupodocumento= GrupoDocumento::with('documentoinstitucional')
-        ->get();
+        $grupodocumento = GrupoDocumento::with('documentoinstitucional')
+            ->get();
         foreach ($grupodocumento as $documentoInstitucional) {
             array_push($labels_documento, $documentoInstitucional->GRD_Nombre);
             array_push($data_documento, $documentoInstitucional->documentoinstitucional->count());

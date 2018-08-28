@@ -22,7 +22,7 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
@@ -30,22 +30,22 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $proceso = new Proceso();
             $proceso->where('PCS_FechaFin', '<', Carbon::now())
-            ->update(['FK_PCS_Fase' => 1]);
+                ->update(['FK_PCS_Fase' => 1]);
         })->daily();
 
         $schedule->call(function () {
             $proceso = new Proceso();
             $proceso->where('FK_PCS_Fase', '=', 1)
-            ->where('PCS_FechaFin', '<', Carbon::now()->subMonths(2))
-            ->delete();
+                ->where('PCS_FechaFin', '<', Carbon::now()->subMonths(2))
+                ->delete();
         })->daily();
 
         $schedule->call(function () {
-            $proceso = Proceso::whereHas('encuestas', function ($query){
-                return $query->where('ECT_FechaPublicacion','<=',Carbon::now());
+            $proceso = Proceso::whereHas('encuestas', function ($query) {
+                return $query->where('ECT_FechaPublicacion', '<=', Carbon::now());
             })
-            ->where('FK_PCS_Fase','!=','1')
-            ->update(['FK_PCS_Fase' => 4]);
+                ->where('FK_PCS_Fase', '!=', '1')
+                ->update(['FK_PCS_Fase' => 4]);
         })->daily();
     }
 
@@ -56,7 +56,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

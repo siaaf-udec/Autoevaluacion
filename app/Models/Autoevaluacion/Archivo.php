@@ -45,6 +45,6 @@ class Archivo extends Model
 
     public function documentoinstitucional()
     {
-        return $this->hasMany(DocumentoInstitucional::class,'FK_DOI_Archivo','PK_ACV_Id');
+        return $this->hasMany(DocumentoInstitucional::class, 'FK_DOI_Archivo', 'PK_ACV_Id');
     }
 }

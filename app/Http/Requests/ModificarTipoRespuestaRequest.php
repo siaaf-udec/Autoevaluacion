@@ -30,7 +30,8 @@ class ModificarTipoRespuestaRequest extends FormRequest
             'PK_ESD_Id' => 'required|exists:TBL_Estados'
         ];
     }
-     /**
+
+    /**
      * Get the error messages for the defined validation rules.
      *
      * @return array
@@ -38,19 +39,19 @@ class ModificarTipoRespuestaRequest extends FormRequest
     public function messages()
     {
         return [
-        'TRP_TotalPonderacion.required' => 'El total de ponderacion es requerido',
-        'TRP_Descripcion.required' => 'La descripción es requerida',    
-        'PK_ESD_Id.required' => 'Debe seleccionar un estado.',
-        'PK_ESD_Id.exists' => 'El estado que seleccionó no existe en nuestros registros.'
+            'TRP_TotalPonderacion.required' => 'El total de ponderacion es requerido',
+            'TRP_Descripcion.required' => 'La descripción es requerida',
+            'PK_ESD_Id.required' => 'Debe seleccionar un estado.',
+            'PK_ESD_Id.exists' => 'El estado que seleccionó no existe en nuestros registros.'
         ];
     }
+
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
             $id = $this->route()->parameter('tipoRespuestum');
             $sumatoria = 0;
-            foreach(PonderacionRespuesta::where('FK_PRT_TipoRespuestas',$id)->get() as $ponderacion)
-            {
+            foreach (PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)->get() as $ponderacion) {
                 $sumatoria = $sumatoria + $this->request->get($ponderacion->PK_PRT_Id);
             }
             if ($sumatoria != $this->request->get('TRP_TotalPonderacion')) {

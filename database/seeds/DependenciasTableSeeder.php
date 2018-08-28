@@ -11,7 +11,7 @@ class DependenciasTableSeeder extends Seeder
      * @return void
      */
     public function run()
-    {       
+    {
         Dependencia::insert([
             ['DPC_Nombre' => 'MINISTERIO DE EDUCACIÓN NACIONAL'],
             ['DPC_Nombre' => 'RECTORIA'],

@@ -23,7 +23,7 @@ class CreateIndicadoresTable extends Migration
 
             $table->foreign("FK_IND_Aspecto")->references("PK_ASP_Id")->on("TBL_Aspectos")->onDelete("cascade");
             $table->foreign("FK_IND_estado")->references("PK_ESD_Id")->on("TBL_Estados")->onDelete("cascade");
-            
+
         });
     }
 

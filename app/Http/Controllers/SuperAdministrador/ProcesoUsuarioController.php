@@ -10,7 +10,7 @@ use App\Models\Autoevaluacion\Proceso;
 
 class ProcesoUsuarioController extends Controller
 {
-     /**
+    /**
      * Instantiate a new controller instance.
      *
      * @return void
@@ -22,6 +22,7 @@ class ProcesoUsuarioController extends Controller
         $this->middleware('permission:CREAR_PROCESOS_INSTITUCIONALES', ['only' => ['create', 'store']]);
         $this->middleware('permission:ELIMINAR_PROCESOS_INSTITUCIONALES', ['only' => ['destroy']]);
     }
+
     /**
      * Process datatables ajax request.
      *
@@ -33,15 +34,15 @@ class ProcesoUsuarioController extends Controller
             $usuarios = User::with('procesos')->get();
 
             return DataTables::of($usuarios)
-                ->addColumn('seleccion',function($usuario) use($id){
+                ->addColumn('seleccion', function ($usuario) use ($id) {
                     $checked = '';
                     foreach ($usuario->procesos as $proceso) {
-                        if($proceso->PK_PCS_Id == $id){
+                        if ($proceso->PK_PCS_Id == $id) {
                             $checked = 'checked';
                             break;
                         }
                     }
-                    return '<input type="checkbox" class="ids_usuarios" name="seleccion" value="'.$usuario->id.'" '.$checked.' />';
+                    return '<input type="checkbox" class="ids_usuarios" name="seleccion" value="' . $usuario->id . '" ' . $checked . ' />';
                 })
                 ->rawColumns(['seleccion'])
                 ->removeColumn('created_at')
@@ -49,6 +50,7 @@ class ProcesoUsuarioController extends Controller
                 ->make(true);
         }
     }
+
     /**
      * Display the specified resource.
      *
@@ -62,6 +64,7 @@ class ProcesoUsuarioController extends Controller
 
         return view('autoevaluacion.SuperAdministrador.ProcesosUsuarios.index', compact('proceso'));
     }
+
     /**
      * asignar usuarios a procesos
      *
@@ -73,12 +76,12 @@ class ProcesoUsuarioController extends Controller
         $proceso = Proceso::findOrFail($id);
         $proceso->users()->sync($request->get('usuarios'));
 
-            return response([
-                'msg' => 'Proceso asignado correctamente.',
-                'title' => '¡Asignacion exitosa!'
-            ], 200)// 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
-       
+        return response([
+            'msg' => 'Proceso asignado correctamente.',
+            'title' => '¡Asignacion exitosa!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
+
     }
 
     /**
@@ -89,11 +92,11 @@ class ProcesoUsuarioController extends Controller
      */
     public function desasignarUsuarios(Request $request)
     {
-        
+
         return response([
-                'errors' => ['La fecha de inicio tiene que ser menor que la fecha de terminación del proceso.'],
-                'title' => '¡Error!'
-            ], 422)// 200 Status Code: Standard response for successful HTTP request
-            ->header('Content-Type', 'application/json');
+            'errors' => ['La fecha de inicio tiene que ser menor que la fecha de terminación del proceso.'],
+            'title' => '¡Error!'
+        ], 422)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 }

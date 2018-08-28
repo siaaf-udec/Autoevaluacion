@@ -31,6 +31,7 @@ class DatosEncuestasController extends Controller
         })->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
         return view('autoevaluacion.FuentesPrimarias.DatosEncuestas.index', compact('grupos'));
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -51,9 +52,11 @@ class DatosEncuestasController extends Controller
             'No se pudo completar tu solicitud.'
         );
     }
+
     public function create()
     {
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -71,6 +74,7 @@ class DatosEncuestasController extends Controller
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
+
     /**
      * Display the specified resource.
      *
@@ -81,6 +85,7 @@ class DatosEncuestasController extends Controller
     {
 
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -90,6 +95,7 @@ class DatosEncuestasController extends Controller
     public function edit($id)
     {
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -108,6 +114,7 @@ class DatosEncuestasController extends Controller
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
+
     /**
      * Remove the specified resource from storage.
      *

@@ -12,7 +12,7 @@ class IndicadorDocumental extends Model
      * @var string
      */
     protected $connection = 'autoevaluacion';
-    
+
     /**
      * Tabla asociada con el modelo.
      *
@@ -44,13 +44,16 @@ class IndicadorDocumental extends Model
         return "{$this->IDO_Identificador}. {$this->IDO_Nombre}";
     }
 
-    public function caracteristica(){
+    public function caracteristica()
+    {
         return $this->belongsTo(Caracteristica::class, 'FK_IDO_Caracteristica', 'PK_CRT_Id');
     }
+
     public function estado()
     {
-        return $this->belongsTo(Estado::class,'FK_IDO_Estado','PK_ESD_Id');
+        return $this->belongsTo(Estado::class, 'FK_IDO_Estado', 'PK_ESD_Id');
     }
+
     public function documentosAutoevaluacion()
     {
         return $this->hasMany(DocumentoAutoevaluacion::class, 'FK_DOA_IndicadorDocumental', 'PK_IDO_Id');

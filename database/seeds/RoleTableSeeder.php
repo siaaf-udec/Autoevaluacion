@@ -109,7 +109,7 @@ class RoleTableSeeder extends Seeder
             'CREAR_DOCUMENTOS_INSTITUCIONALES',
             'MODIFICAR_DOCUMENTOS_INSTITUCIONALES',
             'ELIMINAR_DOCUMENTOS_INSTITUCIONALES',
-            ]);
+        ]);
 
         //Crear y asignar permisos fuentes primarias
         $role = Role::create(['name' => 'FUENTES_PRIMARIAS']);

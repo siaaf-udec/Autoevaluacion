@@ -54,7 +54,7 @@
             if (sesion != null) {
                 sessionStorage.clear();
                 new PNotify({
-                    title: "Lineamiento Modificado!",
+                    title: "¡Lineamiento Modificado!",
                     text: sesion,
                     type: 'success',
                     styling: 'bootstrap3'

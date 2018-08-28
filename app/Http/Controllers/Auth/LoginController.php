@@ -53,7 +53,7 @@ class LoginController extends Controller
     /**
      * Handle a login request to the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      *
      * @throws \Illuminate\Validation\ValidationException
@@ -82,7 +82,6 @@ class LoginController extends Controller
 
         return $this->sendFailedLoginResponse($request);
     }
-
 
 
 }
