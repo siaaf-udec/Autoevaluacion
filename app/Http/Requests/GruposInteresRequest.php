@@ -25,7 +25,7 @@ class GruposInteresRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->route()->parameter('grupointeres');
+        $id = $this->route()->parameter('grupos_intere');
         return [
             'GIT_Nombre' => 'required|max:60|' . Rule::unique('TBL_Grupos_Interes')->ignore($id, 'PK_GIT_Id'),
             'PK_ESD_Id' => 'exists:TBL_Estados|numeric'
