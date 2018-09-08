@@ -5,7 +5,7 @@
 
 @section('content')
     @component('admin.components.panel')
-        @slot('title', 'Bienvenido a la plataforma Sia.')
+        @slot('title', 'Bienvenido a la plataforma SIA.')
         @can('SUPERADMINISTRADOR')
 
          @if(session()->get('id_proceso'))

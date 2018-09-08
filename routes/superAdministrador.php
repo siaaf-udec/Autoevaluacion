@@ -49,13 +49,8 @@ Route::get(
 Route::get('caracteristicas/factor/{id}', 'CaracteristicasController@factores');
 
 //Ambitos
-Route::resource('ambito', 'AmbitoController', ['as' => 'admin'])->except([
-    'show']);
-
-Route::get(
-    'ambito/data',
-    array('as' => 'admin.ambito.data', 'uses' => 'AmbitoController@data')
-);
+Route::resource('ambito', 'AmbitoController', ['as' => 'admin']);
+Route::get('ambito/data/data', array('as' => 'admin.ambito.data', 'uses' => 'AmbitoController@data'));
 
 //Aspectos
 Route::resource('aspectos', 'AspectoController', ['as' => 'admin']);

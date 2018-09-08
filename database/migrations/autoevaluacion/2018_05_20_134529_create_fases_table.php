@@ -17,6 +17,7 @@ class CreateFasesTable extends Migration
             $table->increments('PK_FSS_Id');
             $table->string("FSS_Nombre");
             $table->mediumText("FSS_Descripcion")->nullable();
+            $table->timestamps();
         });
     }
 
