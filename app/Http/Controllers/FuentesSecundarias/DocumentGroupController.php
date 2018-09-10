@@ -12,10 +12,10 @@ class DocumentGroupController extends Controller
 {
     public function __construct()
     {
-        $this->middleware([
-            'permission:CREAR_GRUPO_DOCUMENTOS',
-            'permission:VER_GRUPO_DOCUMENTOS'
-        ]);
+        $this->middleware('permission:ACCEDER_GRUPO_DOCUMENTOS')->except('show');
+        $this->middleware(['permission:MODIFICAR_GRUPO_DOCUMENTOS', 'permission:VER_GRUPO_DOCUMENTOS'], ['only' => ['edit', 'update']]);
+        $this->middleware('permission:CREAR_GRUPO_DOCUMENTOS', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ELIMINAR_GRUPO_DOCUMENTOS', ['only' => ['destroy']]);
 
     }
 
