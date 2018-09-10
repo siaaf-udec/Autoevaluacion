@@ -13,10 +13,10 @@ class DependenciaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware([
-            'permission:CREAR_DEPENDENCIAS',
-            'permission:VER_DEPENDENCIAS'
-        ]);
+        $this->middleware('permission:ACCEDER_DEPENDENCIAS')->except('show');
+        $this->middleware(['permission:MODIFICAR_DEPENDENCIAS', 'permission:VER_DEPENDENCIAS'], ['only' => ['edit', 'update']]);
+        $this->middleware('permission:CREAR_DEPENDENCIAS', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ELIMINAR_DEPENDENCIAS', ['only' => ['destroy']]);
 
     }
 
