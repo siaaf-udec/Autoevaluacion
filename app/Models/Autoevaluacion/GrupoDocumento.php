@@ -35,6 +35,12 @@ class GrupoDocumento extends Model
      */
     protected $guarded = ['PK_GRD_Id', 'created_at', 'updated_at'];
 
+    /**
+     * Relación muchos a uno con la tabla documento institucional
+     * un grupo puede tener muchos documentos institucionales
+     *
+     * @return void
+     */
     public function documentoinstitucional()
     {
         return $this->hasMany(DocumentoInstitucional::class, 'FK_DOI_GrupoDocumento', 'PK_GRD_Id');

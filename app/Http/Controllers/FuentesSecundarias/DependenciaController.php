@@ -11,6 +11,11 @@ use Yajra\Datatables\Datatables;
 
 class DependenciaController extends Controller
 {
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * acciones posibles en la aplicacion como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_DEPENDENCIAS')->except('show');

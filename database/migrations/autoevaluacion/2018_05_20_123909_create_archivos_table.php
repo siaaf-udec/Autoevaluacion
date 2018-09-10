@@ -8,6 +8,8 @@ class CreateArchivosTable extends Migration
 {
     /**
      * Run the migrations.
+     * Tabla creada para guardar la información necesaria para acceder a los archivos
+     * como la url generada y el nombre original del archivo. 
      *
      * @return void
      */

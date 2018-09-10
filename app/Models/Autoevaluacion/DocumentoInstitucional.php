@@ -35,6 +35,14 @@ class DocumentoInstitucional extends Model
 
     protected $guarded = ['PK_DOI_Id', 'created_at', 'updated_at'];
 
+    /**
+     * The "booting" method of the model.
+     * Se utiliza cada vez que se elimina un documento institucional
+     * para eliminar el archivo del servidor
+     *
+     * @return void
+     */
+
     public static function boot()
     {
         parent::boot();
@@ -46,11 +54,23 @@ class DocumentoInstitucional extends Model
         });
     }
 
+    /**
+     * Relación uno a muchos con la tabla grupo documentos, un documento
+     * institucional solo puede tener un grupo pero un grupo puede tener
+     * muchos documentos
+     *
+     * @return void
+     */
     public function grupodocumento()
     {
         return $this->hasOne(GrupoDocumento::class, 'PK_GRD_Id', 'FK_DOI_GrupoDocumento');
     }
 
+    /**
+     * Relación uno a uno con tabla archivo
+     * un documento de autoevaluación solo puede tener un archivo relacionado
+     *
+     */
     public function archivo()
     {
         return $this->belongsTo(Archivo::class, 'FK_DOI_Archivo', 'PK_ACV_Id');

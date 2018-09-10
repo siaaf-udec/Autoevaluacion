@@ -23,9 +23,9 @@ class DocumentoAutoevaluacionController extends Controller
 {
 
     /**
-     * Instantiate a new controller instance.
-     *
-     * @return void
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
      */
     public function __construct()
     {
@@ -53,7 +53,9 @@ class DocumentoAutoevaluacionController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-
+            /**
+             * Obtiene todos los documentos que tangan archivo, dependencia, proceso
+             */
             $documentos_autoevaluacion = DocumentoAutoevaluacion::with('indicadorDocumental.caracteristica.factor')
                 ->with('archivo')
                 ->with(['tipoDocumento' => function ($query) {
@@ -67,6 +69,11 @@ class DocumentoAutoevaluacionController extends Controller
 
             return DataTables::of($documentos_autoevaluacion)
                 ->addColumn('file', function ($documento_autoevaluacion) {
+                    /**
+                     * Si el documento tiene una archivo guardado en el servidor
+                     * Se obtiene el url y se coloca en un link, si no es asi es porque tiene 
+                     * una url entonces también se le asignar a un botón tipo link.
+                     */
                     if (!$documento_autoevaluacion->archivo) {
                         return '<a class="btn btn-success btn-xs" href="' . $documento_autoevaluacion->DOA_Link .
                             '"target="_blank" role="button">Descargar</a>';
@@ -78,6 +85,10 @@ class DocumentoAutoevaluacionController extends Controller
                     }
                 })
                 ->addColumn('nombre', function ($documento_autoevaluacion) {
+                    /**
+                     * Se agrega el nombre original del archivo si no tiene es porque
+                     * tiene un link, simplemente se le coloca link para identificar.
+                     */
                     if ($documento_autoevaluacion->archivo) {
                         return $documento_autoevaluacion->archivo->ACV_Nombre;
                     } else {
@@ -99,8 +110,16 @@ class DocumentoAutoevaluacionController extends Controller
      */
     public function create()
     {
+        /**
+         * Se obtiene el lineamiento del proceso que tiene seleccionado
+         * sino tiene un proceso selecionado se deja nulo el id_lineamiento
+         */
         $id_lineamiento = Proceso::find(session()->get('id_proceso'))->FK_PCS_Lineamiento ?? null;
 
+        /**
+         * Se obtiene los factores que tenga características y que estas características
+         * también tengan relacionados indicadores
+         */
         $factores = Factor::has('caracteristica.indicadores_documentales')
             ->where('FK_FCT_Lineamiento', '=', $id_lineamiento)
             ->where('FK_FCT_estado', '=', '1')
@@ -121,6 +140,10 @@ class DocumentoAutoevaluacionController extends Controller
      */
     public function store(DocumentosAutoevaluacionRequest $request)
     {
+        /**
+         * Si la petición tenia un archivo incluido se guarda y se obtiene el
+         * id del archivo guardado
+         */
         if ($request->hasFile('archivo')) {
             $archivo = $request->file('archivo');
             $nombre = pathinfo($archivo->getClientOriginalName(), PATHINFO_FILENAME);
@@ -145,7 +168,9 @@ class DocumentoAutoevaluacionController extends Controller
             'DOA_ContenidoEspecifico',
             'DOA_ContenidoAdicional',
             'DOA_Observaciones']));
-
+        /**
+         * Si fue guardado un archivo si no se deja nulo el id del archivo
+         */ 
         $documento_auto->FK_DOA_Archivo = isset($id_archivo) ? $id_archivo : null;
         $documento_auto->FK_DOA_IndicadorDocumental = $request->get('PK_IDO_Id');
         $documento_auto->FK_DOA_TipoDocumento = $request->get('PK_TDO_Id');
@@ -178,12 +203,24 @@ class DocumentoAutoevaluacionController extends Controller
     public function edit($id)
     {
         $documento = DocumentoAutoevaluacion::findOrFail($id);
+        /**
+         * Se utiliza la Gate autorizar para verificar si el usuario tiene permisos
+         * de actualizar este documento, si no es asi lo redirige al home
+         */
         $this->authorize('autorizar', $documento->FK_DOA_Proceso);
+
+        /**
+         * Se obtiene los factores que tenga características y que estas características
+         * también tengan relacionados indicadores
+         */
         $factores = Factor::has('caracteristica.indicadores_documentales')
             ->where('FK_FCT_Lineamiento', '=', $documento->proceso->FK_PCS_Lineamiento)
             ->where('FK_FCT_estado', '=', '1')
             ->get()
             ->pluck('FCT_Nombre', 'PK_FCT_Id');
+        /**
+         * Se obtienen las características que tenga indicadores relacionados
+         */
 
         $caracteristicas = Caracteristica::has('indicadores_documentales')
             ->where('FK_CRT_Factor', '=', $documento->indicadorDocumental->caracteristica->FK_CRT_Factor)
@@ -191,6 +228,9 @@ class DocumentoAutoevaluacionController extends Controller
             ->get()
             ->pluck('CRT_Nombre', 'PK_CRT_Id');
 
+        /**
+         * Se obtienen los indicadores que tenga la caracteristica previamente seleccionada
+         */
         $indicadores = IndicadorDocumental::where('FK_IDO_Caracteristica', '=', $documento->indicadorDocumental->FK_IDO_Caracteristica)
             ->pluck('IDO_Nombre', 'PK_IDO_Id');
         $dependencias = Dependencia::pluck('DPC_Nombre', 'PK_DPC_Id');
@@ -215,13 +255,27 @@ class DocumentoAutoevaluacionController extends Controller
         $borraArchivo = false;
 
         $documento = DocumentoAutoevaluacion::findOrFail($id);
+
+        /**
+         * Se utiliza la Gate autorizar para verificar si el usuario tiene permisos
+         * de actualizar este documento, si no es asi lo redirige al home
+         */
         $this->authorize('autorizar', $documento->FK_DOA_Proceso);
+
+        /**
+         * Si la peticion tenia un archivo incluido se guarda y se obtiene el
+         * id del archivo guardado
+         */
         if ($request->hasFile('archivo')) {
             $archivo = $request->file('archivo');
             $nombre = pathinfo($archivo->getClientOriginalName(), PATHINFO_FILENAME);
             $extension = $archivo->getClientOriginalExtension();
             $url = Storage::url($archivo->store('public/documentos_autoevaluacion'));
 
+            /**
+             * Si el documento y tenia un documento se elimina este y se guarda el nuevo,
+             * si no es asi simplemente se guarda
+             */
             if ($documento->archivo) {
                 $ruta = str_replace('storage', 'public', $documento->archivo->ruta);
                 Storage::delete($ruta);
@@ -241,6 +295,10 @@ class DocumentoAutoevaluacionController extends Controller
                 $id_archivo = $archivos->PK_ACV_Id;
             }
         }
+
+        /**
+         * Si se guardo un link y existía un archivo se elimina el archivo y se guarda el link
+         */
         if ($request->get('DOA_Link') != null && $documento->archivo) {
             $documento->FK_DOA_Archivo = null;
             $borraArchivo = true;
@@ -268,7 +326,10 @@ class DocumentoAutoevaluacionController extends Controller
         $documento->FK_DOA_TipoDocumento = $request->get('PK_TDO_Id');
         $documento->FK_DOA_Dependencia = $request->get('PK_DPC_Id');
         $documento->update();
-
+        /**
+         * Se elimina el archivo al final debido a problemas de perdida de datos, esto ocurre 
+         * si la petición traía un link y el documento antes tenia un archivo guardado en el servidor
+         */
         if ($borraArchivo) {
             Archivo::destroy($id);
         }
@@ -289,8 +350,18 @@ class DocumentoAutoevaluacionController extends Controller
     public function destroy($id)
     {
         $documento = DocumentoAutoevaluacion::findOrfail($id);
+
+        /**
+         * Se utiliza la Gate autorizar para verificar si el usuario tiene permisos
+         * de actualizar este documento, si no es asi lo redirige al home
+         */
         $this->authorize('autorizar', $documento->FK_DOA_Proceso);
         $proceso = Proceso::find($documento->FK_DOA_Proceso);
+
+        /**
+         * Si el proceso se encuentra en fase de captura de datos se puede eliminar si no es asi
+         * no se permite
+         */
         if ($proceso->FK_PCS_Fase == 4) {
             if ($documento->archivo) {
                 $documento->archivo()->delete();
@@ -305,12 +376,19 @@ class DocumentoAutoevaluacionController extends Controller
         return response([
             'errors' => ['El proceso se debe encontrar en fase de captura de datos para poder eliminar documentos.'],
             'title' => '¡Error!'
-        ], 422)// 200 Status Code: Standard response for successful HTTP request
+        ], 422)// 422 Status Code: Standard response for error HTTP request
         ->header('Content-Type', 'application/json');
 
 
     }
 
+    /**
+     * Función utilizada para poblar select que requieran las características
+     * que contenga o estén relacionadas con indicadores documentales
+     *
+     * @param int $id
+     * @return json
+     */
     public function obtenerCaracteristicas($id)
     {
         $caracteristicas = Caracteristica::has('indicadores_documentales')

@@ -79,6 +79,7 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Define the "super administrador" routes for the application.
+     * Rutas usadas por el super administrador
      *
      * These routes are typically stateless.
      *
@@ -94,6 +95,7 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Define the "fuentes primarias" routes for the application.
+     * Rutas utilizadas por el modulo fuentes primarias
      *
      * These routes are typically stateless.
      *
@@ -109,6 +111,7 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Define the "fuentes secundarias" routes for the application.
+     * Rutas utilizadas por el modulo fuentes secundarias
      *
      * These routes are typically stateless.
      *

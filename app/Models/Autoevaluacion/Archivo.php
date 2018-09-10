@@ -34,6 +34,12 @@ class Archivo extends Model
      */
     protected $guarded = ['PK_ACV_Id', 'created_at', 'updated_at'];
 
+    /**
+     * Función que se ejecuta cada vez que se borra
+     * Elimina los archivos del servidor automáticamente
+     *
+     * @return void
+     */
     public static function boot()
     {
         parent::boot();
@@ -43,6 +49,10 @@ class Archivo extends Model
         });
     }
 
+    /**
+     * Relación de la tabla archivos con los documentos institucionales
+     *
+     */
     public function documentoinstitucional()
     {
         return $this->hasMany(DocumentoInstitucional::class, 'FK_DOI_Archivo', 'PK_ACV_Id');

@@ -8,6 +8,8 @@ class CreateTipoDocumentosTable extends Migration
 {
     /**
      * Run the migrations.
+     * Tabla creada con el fin de establecer a que tipo de documento, pertenece un archivo
+     * en especifico, por ejemplo una resolución o una circular.
      *
      * @return void
      */

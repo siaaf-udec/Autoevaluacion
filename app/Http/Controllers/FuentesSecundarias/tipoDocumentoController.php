@@ -11,10 +11,11 @@ use Yajra\Datatables\Datatables;
 class tipoDocumentoController extends Controller
 {
     /**
-     * Instantiate a new controller instance.
-     *
-     * @return void
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
      */
+
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_TIPO_DOCUMENTO')->except('show');

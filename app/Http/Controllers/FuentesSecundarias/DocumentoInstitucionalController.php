@@ -15,6 +15,11 @@ use Yajra\Datatables\Datatables;
 class DocumentoInstitucionalController extends Controller
 {
 
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_DOCUMENTOS_INSTITUCIONALES');
@@ -40,6 +45,11 @@ class DocumentoInstitucionalController extends Controller
                 ->get();
             return Datatables::of($docinstitucional)
                 ->addColumn('archivo', function ($docinstitucional) {
+                    /**
+                     * Si el documento tiene una archivo guardado en el servidor
+                     * Se obtiene el url y se coloca en un link, si no es asi es porque tiene 
+                     * una url entonces también se le asignar a un botón tipo link.
+                     */
                     if (!$docinstitucional->archivo) {
                         return '<a class="btn btn-success btn-xs" href="' . $docinstitucional->link .
                             '"target="_blank" role="button">Enlace al documento</a>';
@@ -78,6 +88,10 @@ class DocumentoInstitucionalController extends Controller
      */
     public function store(DocumentoInstitucionalRequest $request)
     {
+        /**
+         * Si la petición tenia un archivo incluido se guarda y se obtiene el
+         * id del archivo guardado
+         */
         if ($request->hasFile('archivo')) {
             $file = $request->file('archivo');
             $archivo = new Archivo;
@@ -145,6 +159,11 @@ class DocumentoInstitucionalController extends Controller
 
         $documento = DocumentoInstitucional::findOrFail($id);
 
+        /**
+         * Si la peticion tenia un archivo incluido se guarda y se obtiene el
+         * id del archivo guardado
+         */
+
         if ($request->hasFile('archivo')) {
             $archivo = $request->file('archivo');
             $nombre = $archivo->getClientOriginalName();
@@ -152,6 +171,11 @@ class DocumentoInstitucionalController extends Controller
             $carpeta = GrupoDocumento::find($request->FK_DOI_GrupoDocumento);
             $nombrecarpeta = $carpeta->GRD_Nombre;
             $url = Storage::url($archivo->store('public/DocumentosInstitucionales/' . $nombrecarpeta));
+            
+            /**
+             * Si el documento y tenia un documento se elimina este y se guarda el nuevo,
+             * si no es asi simplemente se guarda
+             */
             if ($documento->archivo) {
                 $ruta = str_replace('storage', 'public', $documento->archivo->ruta);
                 Storage::delete($ruta);
@@ -171,6 +195,11 @@ class DocumentoInstitucionalController extends Controller
                 $id_archivo = $archivos->PK_ACV_Id;
             }
         }
+
+        /**
+         * Si se guardo un link y existía un archivo se elimina el archivo y se guarda el link
+         */
+
         if ($request->get('link') != null && $documento->archivo) {
             $documento->FK_DOI_Archivo = null;
             $borraArchivo = true;
@@ -191,6 +220,10 @@ class DocumentoInstitucionalController extends Controller
         $documento->FK_DOI_GrupoDocumento = $request->FK_DOI_GrupoDocumento;
         $documento->update();
 
+        /**
+         * Se elimina el archivo al final debido a problemas de perdida de datos, esto ocurre 
+         * si la petición traía un link y el documento antes tenia un archivo guardado en el servidor
+         */
         if ($borraArchivo) {
             Archivo::destroy($id);
         }

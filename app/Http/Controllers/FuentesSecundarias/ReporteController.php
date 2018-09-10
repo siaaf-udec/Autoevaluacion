@@ -95,6 +95,10 @@ class ReporteController extends Controller
         $tipo_documento = $request->get('PK_TDO_Id');
         $dependencia = $request->get('PK_DPC_Id');
 
+        /**
+         * Se utilizan consultas con filtros para obtner diferentes resultados deseados por el
+         * usuario
+         */
         $indicadores_documentales = IndicadorDocumental::whereHas('caracteristica.factor', function ($query) use ($proceso, $id_factor) {
             $query->where('FK_FCT_Lineamiento', '=', $proceso->FK_PCS_Lineamiento)
                 ->when($id_factor, function ($q) use ($id_factor) {

@@ -8,6 +8,9 @@ class CreateIndicadoresDocumentalesTable extends Migration
 {
     /**
      * Run the migrations.
+     * Taba creada para crear indicadores que indiquen al usuarios que archivos
+     * debe subir para cumplir con los requisitos de la autoevaluación, 
+     * se relaciona con la tabla características.
      *
      * @return void
      */

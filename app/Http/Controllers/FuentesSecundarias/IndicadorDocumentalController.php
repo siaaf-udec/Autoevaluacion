@@ -16,9 +16,9 @@ use Illuminate\Http\Request;
 class IndicadorDocumentalController extends Controller
 {
     /**
-     * Instantiate a new controller instance.
-     *
-     * @return void
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
      */
     public function __construct()
     {
@@ -54,6 +54,10 @@ class IndicadorDocumentalController extends Controller
             return DataTables::of($indicadores_documentales)
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
+                /**
+                 * SE agregan mutadores para obtener el identificador del factor, característica,
+                 * indicador junto a su respectivo indicador
+                 */
                 ->addColumn('nombre_factor', function ($indicadores_documentales) {
                     return $indicadores_documentales->caracteristica->factor->nombre_factor;
                 })

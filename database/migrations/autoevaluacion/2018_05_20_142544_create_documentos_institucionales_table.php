@@ -8,6 +8,8 @@ class CreateDocumentosInstitucionalesTable extends Migration
 {
     /**
      * Run the migrations.
+     * Tabla creada para guardar los documentos que afectan a todos los programas o que son
+     * necesarios en todos  o en una gran parte de los procesos de autoevaluacion.
      *
      * @return void
      */

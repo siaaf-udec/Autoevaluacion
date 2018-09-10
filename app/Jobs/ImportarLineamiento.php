@@ -19,13 +19,7 @@ class ImportarLineamiento implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-
-    /**
-     * The number of times the job may be attempted.
+     * Numero de veces que intenta ejecutar la cola
      *
      * @var int
      */
@@ -33,6 +27,13 @@ class ImportarLineamiento implements ShouldQueue
 
     protected $url_archivo, $id_lineamiento;
 
+    /**
+     * Constructor del job para recibir la url del archivo excel que se guarda temporalmente
+     * para ser importado, ademas del lineamiento al cual pertenece.
+     *
+     * @param [string] $url_archivo
+     * @param [int] $id_lineamiento
+     */
     public function __construct($url_archivo, $id_lineamiento)
     {
         $this->url_archivo = $url_archivo;
@@ -48,12 +49,14 @@ class ImportarLineamiento implements ShouldQueue
     {
         try {
             $id = $this->id_lineamiento;
+            //Se seleccionan solo las hojas del archivo escel especificadas en la funcion
             Excel::selectSheets('FACTORES', 'CARACTERISTICAS', 'ASPECTOS')->load(public_path($this->url_archivo), function ($reader) use ($id) {
-                // get all rows from the sheet
+                // obtiene todas las hojas del excel y las conveirte en array
                 $sheets = $reader->all()->toArray();
                 $factores = [];
 
                 $count = count($sheets);
+                //Si contiene menos de tres hojas y al menos una en este caso seria factores
                 if ($count <= 3 and $count > 0) {
                     //Factores
                     foreach ($sheets[0] as $row) {
@@ -69,6 +72,7 @@ class ImportarLineamiento implements ShouldQueue
                         $factores[$row['numero_factor']] = $factor->PK_FCT_Id;
                     }
                 }
+                //Si contiene menos de tres hojas y al menos mas de dos esta incluye características
                 if ($count <= 3 and $count > 1) {
                     //Caracteristicas
                     $caracacteristicas = [];
@@ -83,6 +87,7 @@ class ImportarLineamiento implements ShouldQueue
                         $caracacteristicas[$row['numero_caracteristica']] = $caracacteristica->PK_CRT_Id;
                     }
                 }
+                //Si tiene exactamente tres hojas contiene Aspectos
                 if ($count == 3) {
                     foreach ($sheets[2] as $row) {
                         $aspecto = new Aspecto();
@@ -97,6 +102,10 @@ class ImportarLineamiento implements ShouldQueue
         } catch (\Exception $e) {
 
         } finally {
+            /**
+             * Clausula finally sin importar que siempre elimina el archivo temporal
+             * que fue guardado en el servidor
+             */
             $ruta = str_replace('storage', 'public', $this->url_archivo);
             Storage::delete($ruta);
         }

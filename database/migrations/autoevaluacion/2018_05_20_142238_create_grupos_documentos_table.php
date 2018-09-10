@@ -8,6 +8,8 @@ class CreateGruposDocumentosTable extends Migration
 {
     /**
      * Run the migrations.
+     * Tabla creada para establecer a que grupo de documentos pertenece cada documento, por
+     * ejemplo documentos institucionales, facultad, programa etc.
      *
      * @return void
      */

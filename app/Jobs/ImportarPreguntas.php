@@ -22,13 +22,7 @@ class ImportarPreguntas implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-
-    /**
-     * The number of times the job may be attempted.
+     * Numero de veces que intenta ejecutar la cola
      *
      * @var int
      */
@@ -36,6 +30,13 @@ class ImportarPreguntas implements ShouldQueue
 
     protected $url_archivo, $id_proceso;
 
+    /**
+     * Constructor del job para recibir la url del archivo excel que se guarda temporalmente
+     * para ser importado, ademas del proceso al cual pertenece.
+     *
+     * @param string $url_archivo
+     * @param int $id_proceso
+     */
     public function __construct($url_archivo, $id_proceso)
     {
         $this->url_archivo = $url_archivo;
@@ -107,6 +108,7 @@ class ImportarPreguntas implements ShouldQueue
                     }
                 }
                 if ($count == 4) {
+                    //Respuestas
                     foreach ($sheets[3] as $row) {
                         $respuesta = new RespuestaPregunta();
                         $respuesta->RPG_Texto = $row['respuesta'];
@@ -119,6 +121,11 @@ class ImportarPreguntas implements ShouldQueue
         } catch (\Exception $e) {
 
         } finally {
+            /**
+             * Clausula finally sin importar que siempre elimina el archivo temporal
+             * que fue guardado en el servidor
+             */
+
             $ruta = str_replace('storage', 'public', $this->url_archivo);
             Storage::delete($ruta);
         }
