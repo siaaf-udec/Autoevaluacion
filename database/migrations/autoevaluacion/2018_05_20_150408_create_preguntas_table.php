@@ -6,8 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreatePreguntasTable extends Migration
 {
-    /**
+     /**
      * Run the migrations.
+     * Tabla creada para tener un banco de preguntas que pueden ser establecidas en una encuesta
+     * y que indiquen a que caracteristica esta afectando.
+     * se relaciona con la tabla estado,  tipo respuesta y caracteristica.
      *
      * @return void
      */

@@ -10,9 +10,7 @@ use Carbon\Carbon;
 class HomeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Se deben mostrar aquellos procesos que se encuentran en fase de captura de datos.
      */
     public function index()
     {

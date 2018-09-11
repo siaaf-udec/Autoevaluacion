@@ -41,17 +41,29 @@ class Encuesta extends Model
      * @var array
      */
     protected $dates = ['ECT_FechaPublicacion', 'ECT_FechaFinalizacion'];
-
+    /**
+     * Relacion uno a muchos con la tabla estado, una encuesta solo puede tener 
+     * un estado (habilitado o deshabilitado), pero un estado puede determinar a cualquier encuesta.
+     *
+     */
     public function estado()
     {
         return $this->belongsTo(Estado::class, 'FK_ECT_Estado', 'PK_ESD_Id');
     }
-
+    /**
+     * Relacion uno a muchos con la tabla banco de encuestas, un encuesta solo puede pertencer 
+     * a un banco de encuestas, pero una banco de encuestas puede tener muchas encuestas
+     *
+     */
     public function banco()
     {
         return $this->belongsTo(BancoEncuestas::class, 'FK_ECT_Banco_Encuestas', 'PK_BEC_Id');
     }
-
+    /**
+     * Relacion muchos a uno con la tabla proceso, una encuesta puede pertenecer a muchos procesos, 
+     * pero un proceso solo tiene una encuesta vinculada.
+     *
+     */
     public function proceso()
     {
         return $this->belongsTo(Proceso::class, 'FK_ECT_Proceso', 'PK_PCS_Id');

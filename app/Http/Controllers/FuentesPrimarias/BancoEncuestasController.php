@@ -12,10 +12,15 @@ use DataTables;
 
 class BancoEncuestasController extends Controller
 {
+    /*
+    Este controlador es responsable de manejar el banco de encuestas 
+    almacenadas en el sistema que pueden ser aplicables a procesos de autoevaluacion 
+    */
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return void \Illuminate\Http\Response
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * acciones posibles en la aplicacion como los son:
+     * Acceder, ver, crea, modificar, eliminar
      */
     public function __construct()
     {
@@ -123,10 +128,10 @@ class BancoEncuestasController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * Para que el proceso de eliminacion de una encuesta sea exitoso, el sistema debe verificar si existe  
+     * algun proceso en fase de captura de datos, en el caso que se cumpla esta condicion no se permitira 
+     * eliminar la encuesta ya que esto afectaria el correcto desarrollo del proceso de autoevaluacion 
+     * en cuestion.
      */
     public function destroy($id)
     {

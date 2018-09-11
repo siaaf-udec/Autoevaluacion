@@ -6,8 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateTipoRespuestasTable extends Migration
 {
-    /**
+     /**
      * Run the migrations.
+     * Tabla creada para almacenar los posibles tipo de respuestas para las preguntas de las encuestas
+     * Se tiene un control de la suma total de ponderaciones por seguridad y tener una posible mayor confiabilidad en los datos 
+     * se relaciona con la tabla estado.
      *
      * @return void
      */

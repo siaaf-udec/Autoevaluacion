@@ -8,6 +8,8 @@ class CreatePonderacionRespuestasTable extends Migration
 {
     /**
      * Run the migrations.
+     * Tabla creada para almacenar las ponderaciones de cada respuesta para cada pregunta
+     * se relaciona con la tabla tipo de respuesta.
      *
      * @return void
      */

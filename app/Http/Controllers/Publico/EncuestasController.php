@@ -19,10 +19,14 @@ use Exception;
 
 class EncuestasController extends Controller
 {
+    /*
+    Este controlador es responsable de manejar el proceso para almacenar las respuestas
+    digitadas por un encuestado.
+    */
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * La busqueda de los datos del proceso, la encuesta y el grupo de interes se hace por medio de slugs
+     * almacenados en la bd para presentarle al usuario una url amigable y entendible. 
      */
     public function index($slug_proceso)
     {
@@ -86,6 +90,11 @@ class EncuestasController extends Controller
             ->where('FK_PEN_GrupoInteres', '=', session()->get('pk_grupo'))
             ->where('FK_PEN_Banco_Encuestas', '=', $id_encuesta->FK_ECT_Banco_Encuestas)
             ->get();
+        /**
+        * Se hace la peticion de las preguntas que conforman la encuesta para obtener el id de cada
+        * una de estas y asi obtener la respuesta digitada por el encuestado ya que el id del grupo 
+        * de radio buttons para las respuestas es la pk de la pregunta.  
+        */
         foreach ($preguntas as $pregunta) {
             $respuestaUsuario = $request->get($pregunta->preguntas->PK_PGT_Id, false);
             $respuesta_encuesta = new SolucionEncuesta();

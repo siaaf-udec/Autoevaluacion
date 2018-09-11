@@ -33,7 +33,11 @@ class Encuestado extends Model
      * @var array
      */
     protected $guarded = ['PK_ECD_Id', 'created_at', 'updated_at'];
-
+    /**
+     * Relacion uno a muchos con la tabla grupos de interes, un encuesta solo puede pertenecer 
+     * a un grupo de interes, pero un grupo de interes puede tener muchos encuestados.
+     *
+     */
     public function grupos()
     {
         return $this->belongsTo(GrupoInteres::class, 'FK_ECD_GrupoInteres', 'PK_GIT_Id');

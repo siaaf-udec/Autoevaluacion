@@ -54,7 +54,7 @@ class DocumentoAutoevaluacionController extends Controller
     {
         if ($request->ajax() && $request->isMethod('GET')) {
             /**
-             * Obtiene todos los documentos que tangan archivo, dependencia, proceso
+             * Obtiene todos los documentos que tengan archivo, dependencia, proceso
              */
             $documentos_autoevaluacion = DocumentoAutoevaluacion::with('indicadorDocumental.caracteristica.factor')
                 ->with('archivo')

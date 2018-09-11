@@ -34,7 +34,12 @@ class BancoEncuestas extends Model
      * @var array
      */
     protected $guarded = ['PK_BEC_Id', 'created_at', 'updated_at'];
-
+    
+    /**
+     * Relación muchos a uno con la tabla encuestas.
+     * El banco de encuestas puede tener muchas encuestas,
+     * la encuesta pertecene a un solo banco de encuesta.
+     */
     public function encuestas()
     {
         return $this->hasMany(Encuesta::class, 'FK_ECT_Banco_Encuestas', 'PK_BEC_Id');

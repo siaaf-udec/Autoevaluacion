@@ -10,12 +10,16 @@ use Session;
 
 class PonderacionRespuestasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return void \Illuminate\Http\Response
-     */
+    /*
+    Este controlador es responsable de mostrar las ponderaciones de las respuestas para las preguntas
+    almacenadas en el banco de preguntas.
+    */
 
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * acciones posibles en la aplicacion como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_PONDERACION_RESPUESTAS');
@@ -99,6 +103,9 @@ class PonderacionRespuestasController extends Controller
 
     }
 
+    /**
+     * Se obtienen las ponderaciones para ser cargadas en selects utilizados en algunos formularios.
+     */
     public function mostrarPonderaciones($id)
     {
         $ponderaciones = PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)

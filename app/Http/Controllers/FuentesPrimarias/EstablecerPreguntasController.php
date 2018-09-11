@@ -17,10 +17,15 @@ use DataTables;
 
 class EstablecerPreguntasController extends Controller
 {
+     /**
+    * Este controlador es responsable de manejar las preguntas que conforman las encuestas 
+    * almacenadas en el banco de encuestas y que pueden ser aplicables a procesos de autoevaluacion 
+    */
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return void \Illuminate\Http\Response
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * acciones posibles en la aplicacion como los son:
+     * Acceder, ver, crea, modificar, eliminar
      */
     public function __construct()
     {
@@ -32,6 +37,10 @@ class EstablecerPreguntasController extends Controller
 
     public function index($id)
     {
+        /**
+        * En una variable de sesion se almacena el id de la encuesta a la cual se le 
+        * estableceran las preguntas y asi poder ser instanciado en otras funciones.  
+        */
         session()->put('id_encuesta', $id);
         return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.index');
     }
@@ -39,6 +48,9 @@ class EstablecerPreguntasController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
+             /**
+            * Se hace la peticion de todas las preguntas pertenecientes a la encuesta
+            */
             $preguntas = PreguntaEncuesta::with('preguntas', 'grupos')
                 ->with('preguntas.estado')
                 ->with('preguntas.tipo')
@@ -89,6 +101,9 @@ class EstablecerPreguntasController extends Controller
      */
     public function store(EstablecerPreguntasRequest $request)
     {
+        /**
+        * La pregunta es almacenada y vinculada a la encuesta para cada grupo de interes seleccionado
+        */
         foreach ($request->get('gruposInteres') as $grupo => $valor) {
             $preguntas_encuestas = new PreguntaEncuesta();
             $preguntas_encuestas->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
@@ -126,12 +141,21 @@ class EstablecerPreguntasController extends Controller
         $grupos = GrupoInteres::whereHas('estado', function ($query) {
             return $query->where('ESD_Valor', '1');
         })->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
+        /**
+         * Se obtiene los factores que estan siendo afectados y tienen relacion con las preguntas
+         */
         $factor = new Factor();
         $id_factor = $preguntas->preguntas->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
         $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
+        /**
+         * Se obtiene los caracteristicas que estan siendo apuntadas por las preguntas
+         */
         $caracteristica = new Caracteristica();
         $id_caracteristica = $preguntas->preguntas->caracteristica->factor()->pluck('PK_FCT_Id')[0];
         $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('CRT_Nombre', 'PK_CRT_Id');
+        /**
+         * Se obtiene el cuerpo de la pregunta 
+         */
         $pregunta_encuesta = new Pregunta();
         $id_pregunta = $preguntas->preguntas->caracteristica()->pluck('PK_CRT_Id')[0];
         $preguntas_encuesta = $pregunta_encuesta->where('FK_PGT_Caracteristica', $id_pregunta)->get()->pluck('PGT_Texto', 'PK_PGT_Id');
@@ -158,10 +182,10 @@ class EstablecerPreguntasController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * Para que el proceso de eliminacion de una pregunta de una encuesta sea exitoso, el sistema 
+     * debe verificar si existe algun proceso en fase de captura de datos, en el caso que se cumpla 
+     * esta condicion no se permitira eliminar la pregunta de la encuesta ya que esto afectaria el 
+     * correcto desarrollo del proceso de autoevaluacion en cuestion.
      */
     public function destroy($id)
     {

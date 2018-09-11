@@ -6,8 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateEncuestasTable extends Migration
 {
-    /**
+     /**
      * Run the migrations.
+     * Tabla creada para almacenar las encuestas vinculadas a un proceso de autoevaluacion 
+     * y tener un mejor manejo en cuanto a la fase de captura de datos
+     * se relaciona con la tabla proceso, estado y banco encuestas.
      *
      * @return void
      */

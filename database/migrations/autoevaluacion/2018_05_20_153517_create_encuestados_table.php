@@ -6,8 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateEncuestadosTable extends Migration
 {
-    /**
+     /**
      * Run the migrations.
+     * Tabla creada para almacenar los datos mas relevantes del encuestado
+     * como la fecha de solucion y si este tiene un cargo administrativo.
+     * se relaciona con la tabla encuesta, grupo de interes y cargo administrativo.
      *
      * @return void
      */

@@ -11,10 +11,15 @@ use Yajra\Datatables\Datatables;
 
 class DatosEncuestasController extends Controller
 {
+    /*
+    Este controlador es responsable de manejar los datos generales de las encuestas, es decir 
+    datos repetitivos para todas las encuestas aplicables a procesos de autoevaluacion 
+    */
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return void \Illuminate\Http\Response
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * acciones posibles en la aplicacion como los son:
+     * Acceder, ver, crea, modificar, eliminar
      */
     public function __construct()
     {
@@ -26,6 +31,9 @@ class DatosEncuestasController extends Controller
 
     public function index()
     {
+        /**
+         * Se verifican los grupos de interes que se encuentren en estado habilitado
+         */
         $grupos = GrupoInteres::whereHas('estado', function ($query) {
             return $query->where('ESD_Valor', '=', '1');
         })->get()->pluck('GIT_Nombre', 'PK_GIT_Id');

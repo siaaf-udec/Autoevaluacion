@@ -40,7 +40,11 @@ class GrupoInteres extends Model
     {
         return $this->belongsTo(Estado::class, 'FK_GIT_Estado', 'PK_ESD_Id');
     }
-
+    /**
+     * Relacion muchos a uno con la tabla preguntas_encuestas, un grupo de interes puede tener 
+     * muchas preguntas, pero una pregunta solo va destinada a un grupo de interes en especifico.
+     *
+     */
     public function preguntas_encuesta()
     {
         return $this->hasMany(PreguntaEncuesta::class, 'FK_PEN_GrupoInteres', 'PK_GIT_Id');

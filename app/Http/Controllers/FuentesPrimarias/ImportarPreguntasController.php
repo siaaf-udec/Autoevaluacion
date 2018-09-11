@@ -12,14 +12,19 @@ use Illuminate\Support\Facades\Storage;
 
 class ImportarPreguntasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return void \Illuminate\Http\Response
-     */
+    /*
+    Este controlador es responsable de manejar el proceso para importar
+    tipo de respuestas, ponderacion, respuestas y preguntas por medio de un archivo de excel
+    */
 
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * acciones posibles en la aplicacion como los son:
+     * Acceder, ver, crear
+     */
     public function __construct()
     {
+        $this->middleware('permission:ACCEDER_IMPORTAR_PREGUNTAS');
         $this->middleware('permission:IMPORTAR_PREGUNTAS', ['only' => ['create', 'store']]);
     }
 

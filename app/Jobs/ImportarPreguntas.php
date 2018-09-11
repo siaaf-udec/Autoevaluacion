@@ -53,14 +53,17 @@ class ImportarPreguntas implements ShouldQueue
     {
         try {
             $id_proceso = $this->id_proceso;
+            //Se seleccionan solo las hojas del archivo escel especificadas en la funcion
             Excel::selectSheets('TIPO', 'PONDERACION', 'PREGUNTA', 'RESPUESTA')->load(public_path($this->url_archivo), function ($reader) use ($id_proceso) {
+                // obtiene todas las hojas del excel y las conveirte en array
                 $sheets = $reader->all()->toArray();
 
                 $tipo_respuesta = [];
 
                 $count = count($sheets);
+                //Si contiene menos de cuatro hojas y al menos una en este caso sera el tipo de respuesta
                 if ($count <= 4 and $count > 0) {
-                    //Tipo respesta
+                    //Tipo respuesta
                     foreach ($sheets[0] as $row) {
                         $tipoRespuesta = new TipoRespuesta();
                         $tipoRespuesta->TRP_TotalPonderacion = $row['total_ponderacion'];
@@ -71,6 +74,7 @@ class ImportarPreguntas implements ShouldQueue
                         $tipo_respuesta[$row['numero_tipo_respuesta']] = $tipoRespuesta->PK_TRP_Id;
                     }
                 }
+                //Si contiene menos de tres hojas y al menos mas de dos esta incluye ponderaciones para cada respuesta
                 if ($count <= 4 and $count > 1) {
                     //Ponderaciones
                     $ponderaciones = [];
@@ -82,6 +86,7 @@ class ImportarPreguntas implements ShouldQueue
                         $ponderaciones[$row['numero_ponderacion']] = $ponderacion->PK_PRT_Id;
                     }
                 }
+                //El archivo puede ser unicamente cargado al sistema unicamente cuando exista proceso seleccionado
                 $lineamiento = Proceso::select('FK_PCS_Lineamiento')
                     ->where('PK_PCS_Id', '=', $id_proceso)
                     ->first();
@@ -90,7 +95,7 @@ class ImportarPreguntas implements ShouldQueue
                 })
                     ->select('PK_CRT_Id', 'CRT_Identificador')
                     ->get();
-
+                //Se almacenan las preguntas apuntando a las caracteristicas pertenecientes al lineamiento del proceso seleccionado
                 if ($count <= 4 and $count > 3) {
                     //Preguntas
                     $preguntas = [];
@@ -107,6 +112,7 @@ class ImportarPreguntas implements ShouldQueue
                         $preguntas[$row['numero_pregunta']] = $pregunta->PK_PGT_Id;
                     }
                 }
+                //Si tiene exactamente cuatro hojas contiene respuestas
                 if ($count == 4) {
                     //Respuestas
                     foreach ($sheets[3] as $row) {

@@ -97,7 +97,11 @@ class Proceso extends Model
     {
         return $this->belongsToMany(User::class, 'TBL_Procesos_Usuarios', 'FK_PCU_Proceso', 'FK_PCU_Usuario');
     }
-
+    /**
+     * Relacion uno a muchos con la tabla encuestas, un proceso solo puede tener 
+     * vinculada una encuesta, pero una encuesta puede pertenecer a muchos proceso.
+     *
+     */
     public function encuestas()
     {
         return $this->hasOne(Encuesta::class, 'FK_ECT_Proceso', 'PK_PCS_Id');

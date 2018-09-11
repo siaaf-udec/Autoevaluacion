@@ -6,8 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateRespuestasPreguntasTable extends Migration
 {
-    /**
+     /**
      * Run the migrations.
+     * Tabla creada para almacenar el cuerpo de las respuestas 
+     * pertenecientes a una pregunta 
+     * se relaciona con la tabla pregunta y ponderacion_respuesta.
      *
      * @return void
      */

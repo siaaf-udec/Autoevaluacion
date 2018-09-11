@@ -6,8 +6,10 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateSolucionEncuestasTable extends Migration
 {
-    /**
+     /**
      * Run the migrations.
+     * Tabla intermedia creada para identificar las respuestas digitadas por un encuestado
+     * se relaciona con la tabla respuestas y encuestados.
      *
      * @return void
      */

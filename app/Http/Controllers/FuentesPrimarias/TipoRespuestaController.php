@@ -15,10 +15,15 @@ use DataTables;
 
 class TipoRespuestaController extends Controller
 {
+    /*
+    Este controlador es responsable de manejar el tipo de respuestas para una pregunta 
+    almacenada en el sistema que pueden ser aplicable a procesos de autoevaluacion 
+    */
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return void \Illuminate\Http\Response
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * acciones posibles en la aplicacion como los son:
+     * Acceder, ver, crea, modificar, eliminar
      */
     public function __construct()
     {
@@ -77,6 +82,10 @@ class TipoRespuestaController extends Controller
         $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_CantidadRespuestas', 'TRP_Descripcion']));
         $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
         $tipoRespuestas->save();
+        /**
+        * Se obtiene la cantidad de respuestas digita por el usuario para asi buscar los campos creados
+        * dinamicamente en la vista y poder almacenar las ponderaciones para cada respuesta.
+        */
         for ($i = 1; $i <= $request->TRP_CantidadRespuestas; $i++) {
             $ponderacion = new PonderacionRespuesta();
             $ponderacion->PRT_Ponderacion = $request->get('Ponderacion_' . $i);
@@ -131,6 +140,10 @@ class TipoRespuestaController extends Controller
         $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_Descripcion']));
         $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
         $tipoRespuestas->update();
+         /**
+        * Se obtiene la cantidad de respuestas para el tipo de respuesta para asi poder modificar
+        * los campos creados las ponderaciones para cada respuesta.
+        */
         foreach (PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)->get() as $ponderacion) {
             $ponderacionRpt = PonderacionRespuesta::find($ponderacion->PK_PRT_Id);
             $ponderacionRpt->PRT_Ponderacion = $request->get($ponderacion->PK_PRT_Id);
@@ -146,10 +159,11 @@ class TipoRespuestaController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * Para que el proceso de eliminacion de un tipo de respuesta sea exitoso, el sistema 
+     * debe verificar si el tipo de respuesta esta relacionado a una pregunta perteneciente
+     * a alguna encuesta vinculada a un proceso en fase de captura de datos, en el caso que se 
+     * cumpla esta condicion no se permitira eliminar el tipo de respuesta ya que esto afectaria 
+     * el correcto desarrollo del proceso de autoevaluacion en cuestion.
      */
     public function destroy($id)
     {

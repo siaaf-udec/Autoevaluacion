@@ -68,7 +68,11 @@ class Caracteristica extends Model
     {
         return $this->hasMany(IndicadorDocumental::class, 'FK_IDO_Caracteristica', 'PK_CRT_Id');
     }
-
+    /**
+     * Relacion muchos a uno con la tabla preguntas, una caracteristicas puede ser apuntada por 
+     * muchas preguntas, pero una pregunta solo puede apuntar a una caracteristica
+     *
+     */
     public function preguntas()
     {
         return $this->hasMany(Pregunta::class, 'FK_PGT_Caracteristica', 'PK_CRT_Id');

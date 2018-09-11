@@ -33,7 +33,11 @@ class TipoRespuesta extends Model
      * @var array
      */
     protected $guarded = ['PK_TRP_Id', 'created_at', 'updated_at'];
-
+    /**
+     * Relacion uno a muchos con la tabla estado, un tipo de respuesta solo puede tener 
+     * un estado (habilitado o deshabilitado), pero un estado puede determinar muchos tipos de respuestas.
+     *
+     */
     public function estado()
     {
         return $this->belongsTo(Estado::class, 'FK_TRP_Estado', 'PK_ESD_Id');

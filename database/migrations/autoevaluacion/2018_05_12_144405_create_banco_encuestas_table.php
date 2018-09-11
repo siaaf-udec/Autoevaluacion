@@ -8,6 +8,7 @@ class CreateBancoEncuestasTable extends Migration
 {
     /**
      * Run the migrations.
+     * Tabla creada para almacenar encuestas que puedan ser aplicadas a proceso de autoevaluacion
      *
      * @return void
      */

@@ -35,7 +35,11 @@ class DatosEncuesta extends Model
      * @var array
      */
     protected $guarded = ['PK_DAE_Id', 'created_at', 'updated_at'];
-
+    /**
+     * Relacion uno a muchos con la tabla grupos de interes, los datos de una encuesta solo puede ir 
+     * destinados a un grupo de interes.
+     *
+     */
     public function grupos()
     {
         return $this->belongsTo(GrupoInteres::class, 'FK_DAE_GruposInteres', 'PK_GIT_Id');

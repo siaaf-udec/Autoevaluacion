@@ -14,11 +14,16 @@ use DataTables;
 
 class DatosEspecificosController extends Controller
 {
+    /*
+    Este controlador es responsable de vincular las encuestas a procesos de autoevaluacion 
+    */
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return void \Illuminate\Http\Response
-     */
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * acciones posibles en la aplicacion como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */ 
+
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_ENCUESTAS');
@@ -40,18 +45,31 @@ class DatosEspecificosController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
+            /**
+             * Obtiene todos los procesos de autoevaluacion asignados al usuario y a los cuales ya les fue 
+             * asignada una encuesta.
+             */
             $encuesta = Auth::user()->procesos()
                 ->with('programa.sede', 'encuestas.estado', 'encuestas.banco')
                 ->whereHas('encuestas.estado')
                 ->get();
             return Datatables::of($encuesta)
                 ->addColumn('programa', function ($encuesta) {
+                    /**
+                    * Se verifica si los datos obtenidos de los procesos de autoevaluacion
+                    * tienen relacion con un programa ya que los procesos institucionales tienen este campo nulo.  
+                    */
                     if ($encuesta->programa) {
                         return $encuesta->programa->PAC_Nombre;
                     } else {
                         return "Ningún Programa seleccionado";
                     }
                 })
+                /**
+                * Se verifica si los datos obtenidos de los procesos de autoevaluacion
+                * tienen relacion con un programa ya que los procesos institucionales tienen este campo nulo
+                * en el caso que se cumpla la condicion la sede tambien es un campo nulo.  
+                */
                 ->addColumn('sede', function ($encuesta) {
                     if ($encuesta->programa) {
                         return $encuesta->programa->sede->SDS_Nombre;
@@ -59,6 +77,9 @@ class DatosEspecificosController extends Controller
                         return "Ninguna sede seleccionada";
                     }
                 })
+                /**
+                * Se debe cambiar el formato de la fecha de publicacion y de finalizacion.  
+                */
                 ->editColumn('encuestas.ECT_FechaPublicacion', function ($encuestas) {
                     return $encuestas->encuestas->ECT_FechaPublicacion ? with(new Carbon($encuestas->encuestas->ECT_FechaPublicacion))->format('d/m/Y') : '';
                 })
@@ -103,6 +124,9 @@ class DatosEspecificosController extends Controller
     public function store(EncuestaRequest $request)
     {
         $encuesta = new Encuesta();
+        /**
+        * Se debe cambiar el formato de la fecha de publicacion y de finalizacion.  
+        */
         $encuesta->ECT_FechaPublicacion = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaPublicacion'));;
         $encuesta->ECT_FechaFinalizacion = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaFinalizacion'));
         $encuesta->FK_ECT_Estado = $request->get('PK_ESD_Id');
@@ -154,7 +178,14 @@ class DatosEspecificosController extends Controller
     public function update(EncuestaRequest $request, $id)
     {
         $encuesta = Encuesta::find($id);
+        /**
+         * Se utiliza la Gate autorizar para verificar si el usuario tiene permisos
+         * de actualizar los datos especificos de la encuesta, si no es asi lo redirige al home
+         */
         $this->authorize('autorizar', $encuesta->FK_ECT_Proceso);
+        /**
+        * Se debe cambiar el formato de la fecha de publicacion y de finalizacion.  
+        */
         $encuesta->ECT_FechaPublicacion = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaPublicacion'));;
         $encuesta->ECT_FechaFinalizacion = Carbon::createFromFormat('d/m/Y', $request->get('ECT_FechaFinalizacion'));
         $encuesta->FK_ECT_Estado = $request->get('PK_ESD_Id');
@@ -177,6 +208,11 @@ class DatosEspecificosController extends Controller
     public function destroy($id)
     {
         $encuesta = Encuesta::find($id);
+         /**
+         * Se utiliza la Gate autorizar para verificar si el usuario tiene permisos
+         * de eliminar o desvincular una encuesta para un proceso de autoevalucion, 
+         * si no es asi lo redirige al home
+         */
         $this->authorize('autorizar', $encuesta->FK_ECT_Proceso);
         $encuesta->delete();
         return response(['msg' => 'Los datos han sido eliminados exitosamente.',

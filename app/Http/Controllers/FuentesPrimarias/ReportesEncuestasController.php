@@ -18,11 +18,10 @@ use Illuminate\Support\Collection;
 
 class ReportesEncuestasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    /*
+    Este controlador es responsable de manejar los reportes de fuentes primarias.
+    */
+
     public function index()
     {
         $grupos = GrupoInteres::where('FK_GIT_Estado', '=', '1')
@@ -35,7 +34,7 @@ class ReportesEncuestasController extends Controller
 
     public function obtenerDatos(Request $request)
     {
-        //encuestados
+        //cantidad de encuestados
         $encuesta = Encuesta::where('FK_ECT_Proceso', '=', session()->get('id_proceso'))->first();
         $encuestados = Encuestado::with('grupos')
             ->where('FK_ECD_Encuesta', '=', $encuesta->PK_ECT_Id ?? null)
@@ -48,7 +47,7 @@ class ReportesEncuestasController extends Controller
             array_push($labels_encuestado, $encuestado->grupos->GIT_Nombre);
             array_push($data_encuestado, $encuestado->cantidad);
         }
-        //caracteristicas
+        //valorizacion de las caracteristicas
         $labels_caracteristicas = [];
         $data_caracteristicas = [];
         $data_factor = [];
@@ -88,6 +87,10 @@ class ReportesEncuestasController extends Controller
 
     public function filtro(Request $request)
     {
+        /**
+         * Se utilizan consultas con filtros para obtener diferentes resultados deseados por el
+         * usuario
+         */
         $preguntas = Pregunta::findOrFail($request->get('PK_PGT_Id'));
         $respuestas = RespuestaPregunta::selectRaw('PK_RPG_Id,FK_RPG_Pregunta,SUBSTRING(RPG_Texto,1,170) as RPG_Texto')
             ->where('FK_RPG_Pregunta', '=', $request->get('PK_PGT_Id'))
@@ -98,6 +101,7 @@ class ReportesEncuestasController extends Controller
             ->where('FK_ECD_Encuesta', '=', $encuesta->PK_ECT_Id ?? null)
             ->where('FK_ECD_GrupoInteres', '=', $request->get('PK_GIT_Id'))
             ->first();
+        //cantidad de respuestas por cada pregunta
         $labels_respuestas = [];
         $data_respuestas = [];
         $data_titulo = [];
@@ -136,7 +140,9 @@ class ReportesEncuestasController extends Controller
 
     public function filtro_factores(Request $request)
     {
-        //caracteristicas
+        /*filtro para obtener la valorizacion de las caracteristicas pertenecientes al factor digitado 
+        por el usuario.
+        */
         $labels_caracteristicas = [];
         $data_caracteristicas = [];
         $data_factor = [];

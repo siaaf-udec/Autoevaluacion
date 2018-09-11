@@ -33,7 +33,11 @@ class PonderacionRespuesta extends Model
      * @var array
      */
     protected $guarded = ['PK_PRT_Id', 'created_at', 'updated_at'];
-
+    /**
+     * Relacion uno a muchos con la tabla tipo de respuesta, una ponderacion solo puede pertenecer
+     * a un tipo de respuesta, pero un tipo de respuesta puede tener muchas ponderaciones. 
+     *
+     */
     public function tipo()
     {
         return $this->belongsTo(TipoRespuesta::class, 'FK_PRT_TipoRespuestas', 'PK_TRP_Id');

@@ -6,8 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreatePreguntasEncuestasTable extends Migration
 {
-    /**
+     /**
      * Run the migrations.
+     * Tabla intermedia creada para identificar las preguntas que pertenecen a una encuesta y a que grupo
+     * de interes estan destinadas
+     * se relaciona con la tabla pregunta, banco_encuestas y grupos de interes.
      *
      * @return void
      */

@@ -6,8 +6,10 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateDatosEncuestasTable extends Migration
 {
-    /**
+     /**
      * Run the migrations.
+     * Tabla creada para almacenar datos repetitivos de una encuesta
+     * se relaciona con la tabla grupos de interes
      *
      * @return void
      */
