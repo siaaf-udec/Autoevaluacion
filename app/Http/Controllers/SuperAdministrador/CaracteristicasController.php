@@ -19,6 +19,11 @@ class CaracteristicasController extends Controller
      *
      * @return void
      */
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_CARACTERISTICAS')->except('show');
@@ -36,6 +41,10 @@ class CaracteristicasController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     */
+     /**
+     * Esta funcion llena el datatable de caracteristica que esta ligado
+     * a ambito y factor
      */
     public function data(Request $request)
     {
@@ -77,6 +86,10 @@ class CaracteristicasController extends Controller
         }
     }
 
+     /**
+     * Esta funcion llena los selects con ambito, los estados
+     * y lineamientos
+     */
     public function create()
     {
         $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
@@ -90,6 +103,9 @@ class CaracteristicasController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion registra la caracteristica
      */
     public function store(CaracteristicasRequest $request)
     {
@@ -106,6 +122,9 @@ class CaracteristicasController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Esta funcion obtiene las caracteristicas del factor
+     */
     public function show($id)
     {
         $caracteristicas = Caracteristica::where('FK_CRT_Factor', $id)->get()->pluck('nombre_caracteristica', 'PK_CRT_Id');
@@ -117,6 +136,10 @@ class CaracteristicasController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion obtiene los id y nombres de cada ambito, estado, lineamiento
+     * y factor que esta ligado al lineamiento
      */
     public function edit($id)
     {
@@ -142,6 +165,9 @@ class CaracteristicasController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Esta funcion modifica las caraccteristicas
+     */
     public function update(CaracteristicasRequest $request, $id)
     {
         $caracteristica = Caracteristica::find($id);
@@ -159,6 +185,9 @@ class CaracteristicasController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Esta funcion elimina las caraccteristicas
+     */
     public function destroy($id)
     {
         Caracteristica::destroy($id);
@@ -169,6 +198,9 @@ class CaracteristicasController extends Controller
         ->header('Content-Type', 'application/json');
     }
 
+    /**
+     * Esta funcion obtiene los factores del lineamiento
+     */
     public function factores($id)
     {
         $factores = Factor::where('FK_FCT_Lineamiento', $id)->get()->pluck('nombre_factor', 'PK_FCT_Id');

@@ -18,6 +18,11 @@ class AspectoController extends Controller
      *
      * @return void
      */
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_ASPECTOS')->except('show');
@@ -40,6 +45,10 @@ class AspectoController extends Controller
      * Process datatables ajax request.
      *
      * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * Esta funcion llena el datatable de aspecto que esta ligado
+     * a caracteristica y factor
      */
     public function data(Request $request)
     {
@@ -80,6 +89,9 @@ class AspectoController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Esta funcion crea los aspectos
+     */
     public function store(AspectosRequest $request)
     {
         $aspecto = new Aspecto();
@@ -111,6 +123,10 @@ class AspectoController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Esta funcion trae cada id y nombre del correspondiente lineamiento, caracteristica, factor
+     * y aspecto a modificar
+     */
     public function edit($id)
     {
         $aspecto = Aspecto::findOrFail($id);
@@ -138,6 +154,9 @@ class AspectoController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Esta funcion modifica los aspectos
+     */
     public function update(AspectosRequest $request, $id)
     {
         $aspecto = Aspecto::find($id);
@@ -158,6 +177,9 @@ class AspectoController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion elimina los aspectos
      */
     public function destroy($id)
     {

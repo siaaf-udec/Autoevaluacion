@@ -19,6 +19,11 @@ class RolController extends Controller
      *
      * @return void
      */
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_ROLES');
@@ -42,6 +47,9 @@ class RolController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    /**
+     * Esta funcion lista en el datatable los roles que se puedan ver depende si eres administrador
+     */
     public function data(Request $request)
     {
         if (Gate::allows('SUPERADMINISTRADOR')) {
@@ -64,6 +72,10 @@ class RolController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Cuando se crea un rol tienen que aparecer los permisos existentes
+     * para asignarlos, depende si eres administrador o no
      */
     public function create()
     {
@@ -95,6 +107,9 @@ class RolController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Esta funcion crea los roles
+     */
     public function store(RolRequest $request)
     {
         $rol = Role::create($request->except('permission'));
@@ -123,6 +138,10 @@ class RolController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Cuando se edita un rol tienen que aparecer los permisos existentes
+     * para asignarlos, depende si eres administrador o no
      */
     public function edit($id)
     {
@@ -166,6 +185,9 @@ class RolController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Est funcion actualiza el rol
+     */
     public function update(RolRequest $request, $id)
     {
 
@@ -186,6 +208,9 @@ class RolController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion elimina el rol
      */
     public function destroy($id)
     {

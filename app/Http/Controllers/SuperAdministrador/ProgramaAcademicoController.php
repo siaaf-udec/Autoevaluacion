@@ -19,6 +19,11 @@ class ProgramaAcademicoController extends Controller
      *
      * @return void
      */
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_PROGRAMAS_ACADEMICOS');
@@ -41,6 +46,10 @@ class ProgramaAcademicoController extends Controller
      * Process datatables ajax request.
      *
      * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * Esta funcion lista en el datatable los programas existentes
+     * con sus sedes y facultades
      */
     public function data(Request $request)
     {
@@ -69,6 +78,10 @@ class ProgramaAcademicoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Cuando se crea un programa es necessario una sede, facultad y estados
+     * existentes
+     */
     public function create()
     {
         $sedes = Sede::pluck('SDS_Nombre', 'PK_SDS_Id');
@@ -86,6 +99,9 @@ class ProgramaAcademicoController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion crea los programas
      */
     public function store(ProgramasAcademicosRequest $request)
     {
@@ -119,6 +135,9 @@ class ProgramaAcademicoController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     *Cuando se edita un programa tambien se debe presentar su facultad, sede y estado
+     */
     public function edit($id)
     {
         $programa_academico = ProgramaAcademico::findOrFail($id);
@@ -139,6 +158,9 @@ class ProgramaAcademicoController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion edita los programas
      */
     public function update(ProgramasAcademicosRequest $request, $id)
     {
@@ -163,6 +185,9 @@ class ProgramaAcademicoController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion elimina los programas academicos
      */
     public function destroy($id)
     {

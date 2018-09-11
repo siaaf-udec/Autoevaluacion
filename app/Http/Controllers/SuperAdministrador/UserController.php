@@ -21,6 +21,11 @@ class UserController extends Controller
      *
      * @return void
      */
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_USUARIOS', ['except' => ['perfil', 'modificarPerfil']]);
@@ -43,6 +48,10 @@ class UserController extends Controller
      * Process datatables ajax request.
      *
      * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * Esta funcion muestra en el datatable todos los usuarios
+     * depende de si eres administrador
      */
     public function data(Request $request)
     {
@@ -114,6 +123,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Cuando se crea un usuario se debe saber de que programa va a ser
+     * y que rol va a tener
+     * depende si es administrador
+     */
     public function create()
     {
         if (Gate::allows('SUPERADMINISTRADOR')) {
@@ -140,6 +154,9 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion crea los usuarios
      */
     public function store(UserRequest $request)
     {
@@ -173,6 +190,15 @@ class UserController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion muestra en el datatable todos los usuarios
+     * depende de si eres administrador
+     */
+    /**
+     * Cuando se edita un usuario se debe saber de que programa va a ser
+     * y que rol va a tener
+     * depende si es administrador
      */
     public function edit($id)
     {
@@ -208,6 +234,9 @@ class UserController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Esta funcion edita los usuarios
+     */
     public function update(UserRequest $request, $id)
     {
         $user = User::find($id);
@@ -235,6 +264,9 @@ class UserController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion elimina los usuarios
      */
     public function destroy($id)
     {

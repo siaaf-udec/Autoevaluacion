@@ -21,6 +21,11 @@ class LineamientoController extends Controller
      *
      * @return void
      */
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_LINEAMIENTOS');
@@ -43,6 +48,9 @@ class LineamientoController extends Controller
      * Process datatables ajax request.
      *
      * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * Esta funcion llena el datatable de todos los lineamientos
      */
     public function data(Request $request)
     {
@@ -69,6 +77,9 @@ class LineamientoController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion crea nuevos lineamientos
      */
     public function store(LineamientosRequest $request)
     {
@@ -118,6 +129,9 @@ class LineamientoController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Esta funcion modifica los lineamientos
+     */
     public function update(LineamientosRequest $request, $id)
     {
         $lineamiento = Lineamiento::findOrFail($id);
@@ -135,6 +149,9 @@ class LineamientoController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion elimina los lineamientos
      */
     public function destroy($id)
     {

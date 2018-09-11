@@ -21,6 +21,11 @@ class ProcesoInstitucionalController extends Controller
      *
      * @return void
      */
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_PROCESOS_INSTITUCIONALES');
@@ -44,6 +49,10 @@ class ProcesoInstitucionalController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+        /**
+         * Esta funcion llena el datatable de todos los procesos institucionales
+         * el cual requiere de lineamiendos, fecha inicio, fecha fin y fase
+         */
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
@@ -76,6 +85,10 @@ class ProcesoInstitucionalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Cuando se crea un proceso se necesitan los lineamientos
+     * y fases.
+     */
     public function create()
     {
         $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
@@ -93,6 +106,9 @@ class ProcesoInstitucionalController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion crea los procesos institucionales
      */
     public function store(ProcesosInstitucionalesRequest $request)
     {
@@ -134,6 +150,10 @@ class ProcesoInstitucionalController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Cuando se modifica un proceso se necesitan los lineamientos
+     * y fases.
+     */
     public function edit($id)
     {
         $proceso = Proceso::findOrFail($id);
@@ -151,6 +171,9 @@ class ProcesoInstitucionalController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion modifica los procesos institucionales
      */
     public function update(ProcesosInstitucionalesRequest $request, $id)
     {
@@ -176,6 +199,9 @@ class ProcesoInstitucionalController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion elimina los pocesos institucionales
      */
     public function destroy($id)
     {

@@ -16,6 +16,11 @@ class GruposInteresController extends Controller
      *
      * @return void \Illuminate\Http\Response
      */
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_GRUPOS_INTERES');
@@ -34,6 +39,9 @@ class GruposInteresController extends Controller
      * Process datatables ajax request.
      *
      * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * Esta funcion llena el datatable de todos los grupos de interes
      */
     public function data(Request $request)
     {
@@ -59,6 +67,9 @@ class GruposInteresController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion crea los grupos de interes
      */
     public function store(GruposInteresRequest $request)
     {
@@ -107,6 +118,9 @@ class GruposInteresController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Esta funcion modifica los grupos de interes
+     */
     public function update(GruposInteresRequest $request, $id)
     {
         $grupos_interes = GrupoInteres::findOrFail($id);
@@ -129,6 +143,9 @@ class GruposInteresController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion elimina los grupos de interes
      */
     public function destroy($id)
     {

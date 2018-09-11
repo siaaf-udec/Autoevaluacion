@@ -23,6 +23,11 @@ class ProcesoProgramaController extends Controller
      *
      * @return void
      */
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_PROCESOS_PROGRAMAS');
@@ -46,6 +51,12 @@ class ProcesoProgramaController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+
+     /**
+         * Esta funcion llena el datatable de todos los procesos de programa
+         * el cual requiere de sede, facultad, programa, fecha inicio;fin y fase
+         * en caso de ser administrador solo se le muestra su programa
+         */
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
@@ -98,6 +109,10 @@ class ProcesoProgramaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Cuando se crea un proceso se necesitan las fases, facultades, sedes y lineamientos
+     * en cado de ser administrador solo su sede y facultad
+     */
     public function create()
     {
         if (Gate::allows('SUPERADMINISTRADOR')) {
@@ -124,6 +139,9 @@ class ProcesoProgramaController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion crea los procesos de programa
      */
     public function store(ProcesosProgramasRequest $request)
     {
@@ -167,6 +185,9 @@ class ProcesoProgramaController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Cuando se edita un proceso se necesitan las fases, facultades, sedes y lineamientos
+     */
     public function edit($id)
     {
         $proceso = Proceso::findOrFail($id);
@@ -193,6 +214,9 @@ class ProcesoProgramaController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion edita los procesos de programa
      */
     public function update(ProcesosProgramasRequest $request, $id)
     {
@@ -223,6 +247,9 @@ class ProcesoProgramaController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion elimina los procesos de programa
      */
     public function destroy($id)
     {

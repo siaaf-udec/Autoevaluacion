@@ -18,6 +18,11 @@ class PermisosController extends Controller
      *
      * @return void
      */
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_PERMISOS');
@@ -40,6 +45,10 @@ class PermisosController extends Controller
      * Process datatables ajax request.
      *
      * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * Esta funcion llena el datatable con todos los permisos exitentes
+     * pero si es administrador solo se le muestran algunos
      */
     public function data(Request $request)
     {
@@ -82,6 +91,9 @@ class PermisosController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Esta funcion crea los permisos
+     */
     public function store(PermisosRequest $request)
     {
         $rol = Permission::create($request->all());
@@ -121,6 +133,9 @@ class PermisosController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+     /**
+     * Esta funcion modifica permisos
+     */
     public function update(PermisosRequest $request, $id)
     {
         $permission = Permission::findOrFail($id);
@@ -138,6 +153,9 @@ class PermisosController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+     /**
+     * Esta funcion elimina permisos
      */
     public function destroy($id)
     {

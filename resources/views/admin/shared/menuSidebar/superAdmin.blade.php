@@ -65,13 +65,14 @@
                 @can('ACCEDER_FACTORES')
                 <li class="sub_menu"><a href="{{ route('admin.factores.index') }}"><i class="fa fa-bar-chart"></i>Factor</a>
                 </li>
-                <li class="sub_menu"><a href="{{ route('admin.caracteristicas.index') }}"><i
-                                class="fa fa-sliders"></i>Caracteristicas</a>
-                </li>
+
                 @endcan
                 @can('ACCEDER_AMBITOS')
                     <li class="sub_menu"><a href="{{ route('admin.ambito.index') }}"><i class="fa fa-laptop"></i>Ambito</a>
                     </li>
+                    <li class="sub_menu"><a href="{{ route('admin.caracteristicas.index') }}"><i
+                        class="fa fa-sliders"></i>Caracteristicas</a>
+        </li>
                 @endcan
                 @can('ACCEDER_ASPECTOS')
                     <li class="sub_menu"><a href="{{ route('admin.aspectos.index') }}"><i

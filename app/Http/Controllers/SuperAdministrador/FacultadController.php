@@ -19,6 +19,11 @@ class FacultadController extends Controller
      *
      * @return void
      */
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_FACULTADES');
@@ -42,6 +47,9 @@ class FacultadController extends Controller
      * Process datatables ajax request.
      *
      * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * Esta funcion llena el datatable de todas las facultades
      */
     public function data(Request $request)
     {
@@ -68,6 +76,9 @@ class FacultadController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion crea una nueva facultades
      */
     public function store(FacultadesRequest $request)
     {
@@ -111,6 +122,9 @@ class FacultadController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Esta funcion actualiza una nueva facultadad
+     */
     public function update(FacultadesRequest $request, $id)
     {
 
@@ -132,6 +146,9 @@ class FacultadController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion elimina una facultad
      */
     public function destroy($id)
     {

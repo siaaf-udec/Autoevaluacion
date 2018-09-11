@@ -17,6 +17,11 @@ class SedeController extends Controller
      *
      * @return void
      */
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_SEDES');
@@ -40,6 +45,9 @@ class SedeController extends Controller
      * Process datatables ajax request.
      *
      * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * Esta funcion lista en el datatable todas las sedes
      */
     public function data(Request $request)
     {
@@ -66,6 +74,9 @@ class SedeController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion crea las sedes
      */
     public function store(SedesRequest $request)
     {
@@ -110,6 +121,9 @@ class SedeController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Esta funcion modifica las sedes
+     */
     public function update(SedesRequest $request, $id)
     {
         $sede = Sede::findOrFail($id);
@@ -128,6 +142,9 @@ class SedeController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion elimina las sedes
      */
     public function destroy($id)
     {

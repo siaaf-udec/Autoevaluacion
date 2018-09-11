@@ -17,6 +17,11 @@ class FactorController extends Controller
      *
      * @return void
      */
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_FACTORES')->except('show');
@@ -26,6 +31,9 @@ class FactorController extends Controller
 
     }
 
+    /**
+     * Esta funcion llena el datatable de factor y lineamientos
+     */
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
@@ -57,6 +65,10 @@ class FactorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Esta funcion trae id y nombres de estados y lineamientos,
+     * cuando se quiere registrar un nuevo factor
+     */
     public function create()
     {
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
@@ -69,6 +81,9 @@ class FactorController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion registra los factores
      */
     public function store(FactoresRequest $request)
     {
@@ -85,6 +100,9 @@ class FactorController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion trae los factores del lineamiento
      */
     public function show($id)
     {
@@ -116,6 +134,9 @@ class FactorController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Esta funcion modifica el factor
+     */
     public function update(FactoresRequest $request, $id)
     {
         $user = Factor::find($id);
@@ -133,6 +154,9 @@ class FactorController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion elimina el factor
      */
     public function destroy($id)
     {

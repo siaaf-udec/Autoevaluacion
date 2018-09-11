@@ -15,6 +15,11 @@ class ProcesoUsuarioController extends Controller
      *
      * @return void
      */
+    /**
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
+     * acciones posibles en la aplicación como los son:
+     * Acceder, ver, crea, modificar, eliminar
+     */
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_PROCESOS_INSTITUCIONALES');
@@ -27,6 +32,9 @@ class ProcesoUsuarioController extends Controller
      * Process datatables ajax request.
      *
      * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * Esta funcion lista los usuarios para los procesos
      */
     public function data(Request $request, $id)
     {
@@ -70,6 +78,9 @@ class ProcesoUsuarioController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * Esta funcion asigna un usuario a un proceso
      */
     public function asignarUsuarios(Request $request, $id)
     {
