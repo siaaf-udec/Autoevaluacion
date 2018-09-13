@@ -59,7 +59,11 @@ class Usuario extends Authenticatable
             $this->attributes['password'] = app('hash')->needsRehash($input) ? Hash::make($input) : $input;
     }
 
-
+    /**
+     * Relacion de muchos a muchos de la tabla rol
+     * un usuario tiene muchos roles
+     * y un rol tiene muchos usuarios
+     */
     public function role()
     {
         return $this->belongsToMany(Role::class, 'role_user');

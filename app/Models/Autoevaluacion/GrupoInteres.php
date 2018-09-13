@@ -36,12 +36,17 @@ class GrupoInteres extends Model
      */
     protected $guarded = ['PK_GIT_Id', 'created_at', 'updated_at'];
 
+    /**
+     * Relacion de uno a muchos de la tabla estado
+     * Un estado tiene muchos grupos
+     * y un grupo tiene un estado
+     */
     public function estado()
     {
         return $this->belongsTo(Estado::class, 'FK_GIT_Estado', 'PK_ESD_Id');
     }
     /**
-     * Relacion muchos a uno con la tabla preguntas_encuestas, un grupo de interes puede tener 
+     * Relacion muchos a uno con la tabla preguntas_encuestas, un grupo de interes puede tener
      * muchas preguntas, pero una pregunta solo va destinada a un grupo de interes en especifico.
      *
      */

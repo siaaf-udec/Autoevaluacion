@@ -35,6 +35,11 @@ class Fase extends Model
      */
     protected $guarded = ['PK_FSS_Id', 'created_at', 'updated_at'];
 
+    /**
+     * Relacion de muchos a uno de la tabla proceso
+     * Un proceso tiene una fase
+     * y una fase muchos procesos
+     */
     public function proceso()
     {
         return $this->hasMany(Proceso::class, 'FK_PCS_Fase', 'PK_FSS_Id');

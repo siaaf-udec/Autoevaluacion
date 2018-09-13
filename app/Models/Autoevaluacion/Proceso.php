@@ -51,6 +51,13 @@ class Proceso extends Model
      *
      * @return string
      */
+
+     /**
+     *es un mutador que muestra el nombre completo del proceso
+     *si es institucional coloca institucional y el nombre del proceso
+     *Si es un proceso para un programa se colcoa el nombre del programa y
+     *el nombre del proceso
+     */
     public function getNombreProcesoAttribute()
     {
         $sede = 'Institucional';
@@ -60,6 +67,11 @@ class Proceso extends Model
         return "{$sede} {$this->PCS_Nombre}";
     }
 
+    /**
+     * se ejecuta cada vez que se elimina un proceso verifica si existe
+     * un archivo de autoevaluacion y lo elimina en
+     * caso de existir del servidor
+     */
     public static function boot()
     {
         parent::boot();
@@ -98,7 +110,7 @@ class Proceso extends Model
         return $this->belongsToMany(User::class, 'TBL_Procesos_Usuarios', 'FK_PCU_Proceso', 'FK_PCU_Usuario');
     }
     /**
-     * Relacion uno a muchos con la tabla encuestas, un proceso solo puede tener 
+     * Relacion uno a muchos con la tabla encuestas, un proceso solo puede tener
      * vinculada una encuesta, pero una encuesta puede pertenecer a muchos proceso.
      *
      */

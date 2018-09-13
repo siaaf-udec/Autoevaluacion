@@ -42,21 +42,40 @@ class Factor extends Model
      *
      * @return string
      */
+     /**
+     * Funcion que uno los dos campos de identificacion
+     * y nombre del factor en una cadena
+     */
     public function getNombreFactorAttribute()
     {
         return "{$this->FCT_Identificador}. {$this->FCT_Nombre}";
     }
 
+    /**
+     * Relacion de uno a muchos de la tabla estado
+     * Un estado tiene muchos factores
+     * y un factor tiene un estado
+     */
     public function estado()
     {
         return $this->hasOne(Estado::class, 'PK_ESD_Id', 'FK_FCT_Estado');
     }
 
+    /**
+     * Relacion de uno a muchos de la tabla lineamiento
+     * Un lineamiento tiene muchos factores
+     * y un factor tiene un lineamiento
+     */
     public function lineamiento()
     {
         return $this->hasOne(Lineamiento::class, 'PK_LNM_Id', 'FK_FCT_Lineamiento');
     }
 
+    /**
+     * Relacion de muchos a uno de la tabla caracteristicas
+     * Un factor tiene muchas caracteristicas
+     * y un caracteristicas tiene un factro
+     */
     public function caracteristica()
     {
         return $this->hasMany(Caracteristica::class, 'FK_CRT_Factor', 'PK_FCT_Id');

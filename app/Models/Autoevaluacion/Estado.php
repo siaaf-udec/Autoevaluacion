@@ -43,11 +43,21 @@ class Estado extends Model
      */
     protected $guarded = ['PK_ESD_Id', 'created_at', 'updated_at'];
 
+    /**
+     * Relacion de muchos a uno de la tabla factor
+     * Un estado tiene muchos factores
+     * y un factor un estados
+     */
     public function factor()
     {
         return $this->hasMany(Factor::class, 'FK_FCT_Estado', 'PK_ESD_Id');
     }
 
+    /**
+     * Relacion de muchos a uno de la tabla factor
+     * Un estado tiene muchas caracteristicas
+     * y un caracteristica un estado
+     */
     public function caracteristica()
     {
         return $this->hasMany(Caracteristica::class, 'FK_CRT_Estado', 'PK_ESD_Id');

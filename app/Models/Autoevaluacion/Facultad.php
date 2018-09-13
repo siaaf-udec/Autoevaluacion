@@ -34,6 +34,11 @@ class Facultad extends Model
      */
     protected $guarded = ['PK_FCD_Id', 'created_at', 'updated_at'];
 
+    /**
+     * Relacion de uno a muchos de la tabla estado
+     * Un estado tiene muchas facultades
+     * y una facultad tiene un estados
+     */
     public function estado()
     {
         return $this->belongsTo(Estado::class, 'FK_FCD_Estado', 'PK_ESD_Id');

@@ -60,21 +60,41 @@ class User extends Authenticatable
     }
 
 
+    /**
+     * Relacion de muchos a muchos de la tabla rol
+     * un usuario tiene muchos roles
+     * y un rol tiene muchos usuarios
+     */
     public function role()
     {
         return $this->belongsToMany(Role::class, 'role_user');
     }
 
+    /**
+     * Relacion de uno a muchos de la tabla estado
+     * un estado tiene muchos usuarios
+     * y un usuario tiene un estado
+     */
     public function estado()
     {
         return $this->belongsTo(Estado::class, 'id_estado', 'PK_ESD_Id');
     }
 
+    /**
+     * Relacion de mcuhos a muchos de la tabla procesos
+     * un proceso tiene muchos usuarios
+     * y un usuario tiene un proceso
+     */
     public function procesos()
     {
         return $this->belongsToMany(Proceso::class, 'TBL_Procesos_Usuarios', 'FK_PCU_Usuario', 'FK_PCU_Proceso');
     }
 
+    /**
+     * Relacion de uno a muchos de la tabla programa
+     * un programa tiene muchos usuarios
+     * y un usuario tiene un programa
+     */
     public function programa()
     {
         return $this->belongsTo(ProgramaAcademico::class, 'id_programa', 'PK_PAC_Id');

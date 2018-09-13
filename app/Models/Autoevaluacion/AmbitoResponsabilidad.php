@@ -35,6 +35,11 @@ class AmbitoResponsabilidad extends Model
      */
     protected $guarded = ['PK_AMB_Id', 'created_at', 'updated_at'];
 
+    /**
+     * Relacion de muchos a uno de la tabla caracteristicas
+     * Un ambito muchas caracteristicas
+     * y un caracterista un solo ambito
+     */
     public function caracteristica_()
     {
         return $this->hasMany(Caracteristica::class, 'FK_CRT_AMB', 'PK_AMB_Id');

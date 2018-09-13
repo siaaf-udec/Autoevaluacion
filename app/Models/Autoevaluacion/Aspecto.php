@@ -39,11 +39,20 @@ class Aspecto extends Model
      *
      * @return string
      */
+    /**
+     * Funcion que uno los dos campos de identificacion
+     * y nombre del aspecto en una cadena
+     */
     public function getNombreAspectoAttribute()
     {
         return "{$this->ASP_Identificador}. {$this->ASP_Nombre}";
     }
 
+    /**
+     * Relacion de uno a muchos de la tabla caracteristicas
+     * Una caracteristia tiene muchos ambitos
+     * y un ambito una sola caracteristica
+     */
     public function caracteristica()
     {
         return $this->belongsTo(Caracteristica::class, 'FK_ASP_Caracteristica', 'PK_CRT_Id');

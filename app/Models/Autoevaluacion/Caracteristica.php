@@ -39,37 +39,66 @@ class Caracteristica extends Model
      *
      * @return string
      */
+     /**
+     * Funcion que uno los dos campos de identificacion
+     * y nombre de la caracteristica en una cadena
+     */
     public function getNombreCaracteristicaAttribute()
     {
         return "{$this->CRT_Identificador}. {$this->CRT_Nombre}";
     }
 
+     /**
+     * Relacion de muchos a uno de la tabla aspecto
+     * Una caracteristia tiene muchos aspectos
+     * y un aspecto una sola caracteristica
+     */
     public function aspecto()
     {
         return $this->hasMany(Aspecto::class, 'FK_ASP_Caracteristica', 'PK_CRT_Id');
     }
 
+    /**
+     * Relacion de uno a muchos de la tabla factor
+     * Un factor tiene muchas caracteristicas
+     * y una caracteristica un solo factro
+     */
     public function factor()
     {
         return $this->hasOne(Factor::class, 'PK_FCT_Id', 'FK_CRT_Factor');
     }
 
+    /**
+     * Relacion uno a muchos de la tabla estado
+     * Una caracteristia tiene un estado
+     * y un estado muchas caracteristicas
+     */
     public function estado()
     {
         return $this->belongsTo(Estado::class, 'FK_CRT_Estado', 'PK_ESD_Id');
     }
 
+    /**
+     * Relacion de uno a muchos de la tabla ambito
+     * Un ambito muchas caracteristicas
+     * y un caracterista un solo ambito
+     */
     public function ambitoResponsabilidad()
     {
         return $this->belongsTo(AmbitoResponsabilidad::class, 'FK_CRT_Ambito', 'PK_AMB_Id');
     }
 
+    /**
+     * Relacion de muchos a uno de la tabla indicadores
+     * Un indicador puede tener muchas caracteristicas
+     * y un caracterista un solo indicador
+     */
     public function indicadores_documentales()
     {
         return $this->hasMany(IndicadorDocumental::class, 'FK_IDO_Caracteristica', 'PK_CRT_Id');
     }
     /**
-     * Relacion muchos a uno con la tabla preguntas, una caracteristicas puede ser apuntada por 
+     * Relacion muchos a uno con la tabla preguntas, una caracteristicas puede ser apuntada por
      * muchas preguntas, pero una pregunta solo puede apuntar a una caracteristica
      *
      */
