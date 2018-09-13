@@ -8,6 +8,8 @@ class CreateAmbitosResponsabilidadTable extends Migration
 {
     /**
      * Run the migrations.
+     *Tabla creada para almacenar el ambito de responsabilidad
+     *del sistema de autoevaluacion
      *
      * @return void
      */

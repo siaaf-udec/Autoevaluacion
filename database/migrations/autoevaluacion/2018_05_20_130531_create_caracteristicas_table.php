@@ -8,6 +8,9 @@ class CreateCaracteristicasTable extends Migration
 {
     /**
      * Run the migrations.
+     *Tabla creada para almacenar las caracteristicas
+     *propuestas por el CNA del sistema de autoevaluacion
+     *Se relaciona con la tabla factores
      *
      * @return void
      */

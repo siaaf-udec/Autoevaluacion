@@ -8,7 +8,8 @@ class CreateFasesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     *Tabla creada par almacenar las fases de los procesos
+     *para el sistema de autoevaluacion
      * @return void
      */
     public function up()

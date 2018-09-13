@@ -8,6 +8,8 @@ class CreateLineamientosTable extends Migration
 {
     /**
      * Run the migrations.
+     *Tabla creada para almacenar los lineamientos
+     *propuestos por el CNA del sistema de autoevaluacion
      *
      * @return void
      */

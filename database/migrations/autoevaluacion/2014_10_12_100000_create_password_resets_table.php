@@ -8,6 +8,8 @@ class CreatePasswordResetsTable extends Migration
 {
     /**
      * Run the migrations.
+     *Tabla creda para almacenar
+     * el token generado cuando se restablece la contraseña
      *
      * @return void
      */

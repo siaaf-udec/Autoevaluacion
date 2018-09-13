@@ -7,6 +7,7 @@ class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
+     *Tabla creada para almacenar usuarios que manejaran el sistema de autoevaluacion
      *
      * @return void
      */

@@ -8,6 +8,9 @@ class CreateAspectosTable extends Migration
 {
     /**
      * Run the migrations.
+     *Tabla creada para almacenar los aspectos
+     *propuestos por el CNA en el sistema autoevaluacion
+     *Se relacion con la tabla caracteristicas
      *
      * @return void
      */

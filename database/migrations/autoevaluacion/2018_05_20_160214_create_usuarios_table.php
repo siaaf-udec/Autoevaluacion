@@ -8,6 +8,9 @@ class CreateUsuariosTable extends Migration
 {
     /**
      * Run the migrations.
+     *Tabla par almacenar los usuarios que manejar
+     * el sistema de autoevaluacion
+     * Esta relaciona con la tabla estados
      *
      * @return void
      */

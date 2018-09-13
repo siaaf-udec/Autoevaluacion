@@ -8,6 +8,10 @@ class CreateProgramasAcademicosTable extends Migration
 {
     /**
      * Run the migrations.
+     *Tabla creada para almacenar los programas
+     *academicos de la universidad de Cundinamarca
+     * del sistema de autoevaluacion
+     * Se relacion a con la tabla usuarios
      *
      * @return void
      */

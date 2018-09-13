@@ -8,6 +8,8 @@ class CreateDependenciasTable extends Migration
 {
     /**
      * Run the migrations.
+     *Tabla creada para almacenar las dependencias
+     *del sistema de autoevaluacion
      *
      * @return void
      */

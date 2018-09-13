@@ -8,6 +8,8 @@ class CreateEstadosTable extends Migration
 {
     /**
      * Run the migrations.
+     * Tabla creada para almacenar los estados de activo o inactivo
+     * y se relaciona con la tabla usuarios
      *
      * @return void
      */

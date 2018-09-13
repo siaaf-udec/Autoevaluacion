@@ -8,6 +8,9 @@ class CreatePermissionTables extends Migration
 {
     /**
      * Run the migrations.
+     *Tabla creada para almacenar los
+     * permisos que se le da a un rol
+     * Se relaciona con la tabla roles
      *
      * @return void
      */

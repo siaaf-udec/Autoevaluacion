@@ -8,7 +8,10 @@ class CreateSedesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     *Tabla creada para almacenar las sedes de la universidades
+     *del sistema de autoevaluacion
+     *Se relaciona con la tabla estados
+          *
      * @return void
      */
     public function up()

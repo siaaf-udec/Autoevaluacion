@@ -8,6 +8,10 @@ class CreateIndicadoresTable extends Migration
 {
     /**
      * Run the migrations.
+     *Tabla creada para almacenar indicadores
+     * proporcionados por el CNA del sistema
+     * de autoevaluacion
+     * Se relaciona con la tabla aspectos
      *
      * @return void
      */

@@ -8,7 +8,9 @@ class CreateProcesosUsuariosTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     *Tabla creada almacenar la asignacion
+     *de algun usuario a un proceso
+     * se relaciona con usuarios
      * @return void
      */
     public function up()

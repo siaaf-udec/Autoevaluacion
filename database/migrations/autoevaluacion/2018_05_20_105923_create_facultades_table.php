@@ -8,6 +8,10 @@ class CreateFacultadesTable extends Migration
 {
     /**
      * Run the migrations.
+     * Tabla creada para almacenar la
+     * facultades de la universidad de Cundinamarca
+     * del sistema de autoevaluacion
+     * Se relaciona con la tabla estado
      *
      * @return void
      */

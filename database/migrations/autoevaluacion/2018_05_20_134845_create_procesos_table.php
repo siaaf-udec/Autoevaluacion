@@ -8,7 +8,10 @@ class CreateProcesosTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     *Tabla creada para almacenar los procesos
+     * de algun programa
+     * para el sistema de autoevaluacion
+     * Se relaciona con los programas academicos
      * @return void
      */
     public function up()

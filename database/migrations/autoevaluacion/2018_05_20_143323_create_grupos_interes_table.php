@@ -8,7 +8,10 @@ class CreateGruposInteresTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     *Tabla creada para almacenar los grupos
+     * que van a formar parte de la autoevalluacion
+     * en el sistema de autoevaluacion
+     * Se relaciona con estado
      * @return void
      */
     public function up()

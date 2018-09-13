@@ -8,6 +8,9 @@ class CreateGruposTable extends Migration
 {
     /**
      * Run the migrations.
+     *Tabla para almacenar los grupos pertenecientes
+     * a un modulo del sistema de autoevaluacion
+     *Se relaciona con la tabla estados
      *
      * @return void
      */

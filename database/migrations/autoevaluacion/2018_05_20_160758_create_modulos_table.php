@@ -8,7 +8,9 @@ class CreateModulosTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     *Tabla almacenada para crear los modulos
+     * del sistema de autoevaluacion
+     *Relacionado con la tabla estados
      * @return void
      */
     public function up()

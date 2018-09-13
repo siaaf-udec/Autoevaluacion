@@ -8,6 +8,9 @@ class CreateFactoresTable extends Migration
 {
     /**
      * Run the migrations.
+     *Tabla creada para almacenar los factores
+     *propuestos por el CNA del sistema de autoevaluacion
+     *Se relaciona con la tabla estados
      *
      * @return void
      */
