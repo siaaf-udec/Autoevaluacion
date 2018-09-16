@@ -101,7 +101,12 @@ Route::get('procesos_usuarios/data/{id}', array(
     'uses' => 'ProcesoUsuarioController@data'
 ));
 
-
 //Grupos de Interes
 Route::resource('grupos_interes', 'GruposInteresController', ['as' => 'admin']);
 Route::get('grupos_interes/data/data', array('as' => 'admin.grupos_interes.data', 'uses' => 'GruposInteresController@data'));
+
+//Reportes pdf con encuestas y documentos institucionales
+Route::post('informe_general/descargar', array(
+    'as' => 'admin.informe_general.descargar',
+    'uses' => 'PageController@pdf_reporte'
+));

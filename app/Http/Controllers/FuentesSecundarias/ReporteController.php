@@ -12,6 +12,7 @@ use App\Models\Autoevaluacion\Dependencia;
 use App\Models\Autoevaluacion\TipoDocumento;
 use App\Models\Autoevaluacion\GrupoDocumento;
 use App\Models\Autoevaluacion\DocumentoInstitucional;
+use Barryvdh\DomPDF\Facade as PDF;
 
 
 class ReporteController extends Controller
@@ -177,5 +178,21 @@ class ReporteController extends Controller
 
         return json_encode($datos);
     }
+
+    public function pdf_documento_autoevaluacion(Request $request)
+    {
+        $imagenes = explode('|', $request->get('json_datos'));
+        $pdf = PDF::loadView('autoevaluacion.FuentesSecundarias.Reportes.pdf_documentos_autoevaluacion', compact('imagenes'));
+        return $pdf->download('reporte_documental.pdf');
+    }
+
+    public function pdf_documentos_institucionales(Request $request)
+    {
+        $imagenes = explode('|', $request->get('json_datos'));
+        $pdf = PDF::loadView('autoevaluacion.FuentesSecundarias.Reportes.pdf_documentos_institucionales', compact('imagenes'));
+        return $pdf->download('reporte_documentos_institucionales.pdf');
+    }
+
+    
 
 }

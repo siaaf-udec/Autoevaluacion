@@ -43,7 +43,7 @@
     <!--FIN Modal CREAR-->
 
 </div>
-@can('VER_USUARIOS')
+@can('VER_TIPO_DOCUMENTO')
     <br>
     <br>
     <br>

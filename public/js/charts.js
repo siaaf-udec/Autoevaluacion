@@ -1,3 +1,7 @@
+var ChartFiltro;
+var limite;
+var url_base64 = [];
+
 function crearGrafica(canvas = null, tipo, titulo = null,  etiquetas, etiquetasData, data = null) {
     var dynamicColorsArray = function (cantidad) {
         let colors =[];
@@ -45,6 +49,12 @@ function crearGrafica(canvas = null, tipo, titulo = null,  etiquetas, etiquetasD
             title:{
                 display:true,
                 text: titulo
+            },
+            animation: {
+                onComplete: function (animation) {
+                    if(url_base64.length < limite)
+                        url_base64.push(this.toBase64Image());
+                }
             },
 
             "scales": { 
@@ -165,7 +175,8 @@ function crearGraficaBar(canvas = null, tipo, titulo = null,  etiquetas, etiquet
     return myChart;
 }
 
-var ChartFiltro;
+
+
 
 function peticionGraficasDocumentales(ruta) {
      $.ajax({
@@ -185,6 +196,7 @@ function peticionGraficasDocumentales(ruta) {
             ChartFiltro = crearGrafica('documentos_indicador', 'bar', 'Documentos subidos por indicador', r.labels_indicador,
                 ['Cantidad'], r.data_indicador
             );
+            
              
          },
          error: function () {

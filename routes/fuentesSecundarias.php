@@ -83,3 +83,16 @@ Route::get('informes_documentales/data', array(
     'as' => 'documental.informe_documental.data',
     'uses' => 'ReporteController@obtenerDatosInst'
 ));
+
+//Reportes pdf documentos de autoevaluacion
+Route::post('informes_documentales/descargar', array(
+    'as' => 'documental.informe_documental.descargar',
+    'uses' => 'ReporteController@pdf_documento_autoevaluacion'
+    )
+);
+//Reportes pdf documentos de autoevaluacion
+Route::post('informes_institucionales/descargar', array(
+    'as' => 'documental.informe_institucionales.descargar',
+    'uses' => 'ReporteController@pdf_documentos_institucionales'
+));
+

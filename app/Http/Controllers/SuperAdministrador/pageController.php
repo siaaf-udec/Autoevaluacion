@@ -23,6 +23,7 @@ use App\Models\Autoevaluacion\Pregunta;
 use App\Models\Autoevaluacion\GrupoInteres;
 use App\Models\Autoevaluacion\Caracteristica;
 use App\Models\Autoevaluacion\SolucionEncuesta;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class pageController extends Controller
 {
@@ -70,6 +71,13 @@ class pageController extends Controller
         session(['proceso' => str_limit($proceso, 50, '...')]);
         session(['id_proceso' => $request->get('PK_PCS_Id')]);
         return redirect()->back();
+    }
+
+    public function pdf_reporte(Request $request)
+    {
+        $imagenes = explode('|', $request->get('json_datos'));
+        $pdf = PDF::loadView('admin.dashboard.pdf_reporte_general', compact('imagenes'));
+        return $pdf->download('reporte_general.pdf');
     }
 
 }

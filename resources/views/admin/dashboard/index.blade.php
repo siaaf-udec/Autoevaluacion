@@ -91,6 +91,14 @@
                     {!! Form::close() !!}
                 </div>
             </div>
+            <div class="row text-right">
+                <form target="_blank" id="form_generar_pdf" action="{{ route('admin.informe_general.descargar') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="json_datos" id="hidden_html" />
+                    <button class="btn btn-danger" id="generar_reporte"><i class="fa fa-file-pdf-o"></i> Generar Reporte</button>
+                </form>
+            </div>
+            
         </div>
         @else                                                                                           
         Por favor seleccione un proceso
@@ -138,9 +146,18 @@
                     $('#tipo_documento').select2({ 
                         language: "es" 
                     });
+
+                    limite = 6;
+
+                    $('#generar_reporte').on('click', function(e){                
+                        $("#hidden_html").val(url_base64.join('|'));
+                        $('#form_generar_pdf').submit();
+                    })
+
                     selectDinamico("#factor_documental", "#caracteristica", "{{url('admin/documental/documentos_autoevaluacion/caracteristicas')}}", ['#indicador']);
                     
-                    peticionGraficasDocumentales("{{ route('documental.informe_documental.datos') }}");
+                    
+                    setTimeout(peticionGraficasDocumentales("{{ route('documental.informe_documental.datos') }}"), 3000);
 
                     var form_documental = $('#form_filtros_documental');
 

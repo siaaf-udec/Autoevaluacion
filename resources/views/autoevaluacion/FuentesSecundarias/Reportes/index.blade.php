@@ -20,6 +20,12 @@
                         </div>
                 </div>
             </div>
+            <form target="_blank" id="form_generar_pdf" action="{{ route('documental.informe_documental.descargar') }}" method="post">
+                @csrf
+                <input type="hidden" name="json_datos" id="hidden_html" />
+                <button class="btn btn-danger" id="generar_reporte"><i class="fa fa-file-pdf-o"></i> Generar Reporte</button>
+            </form>
+            
             <div class="row">
                 <div class="col-md-6 col-xs-12">
                     <canvas id="pie_completado" height="220"></canvas>
@@ -92,12 +98,12 @@
             });
             selectDinamico("#factor", "#caracteristica", "{{url('admin/documental/documentos_autoevaluacion/caracteristicas')}}", ['#indicador']);
             
+            limite = 3;
             peticionGraficasDocumentales("{{ route('documental.informe_documental.datos') }}");
 
             var form = $('#form_filtros');
 
             $("#factor, #caracteristica, #dependencia, #tipo_documento").change(function () {
-                console.log('asssa');
                  $.ajax({
                     url: form.attr('action'),
                     type: form.attr('method'),
@@ -112,6 +118,11 @@
                 });
 
             });
+            
+            $('#generar_reporte').on('click', function(e){                
+                $("#hidden_html").val(url_base64.join('|'));
+                $('#form_generar_pdf').submit();
+            })
 
             @endif
             
