@@ -16,7 +16,6 @@ class CreateProcesosTable extends Migration
         Schema::connection('historial')->create('TBL_Procesos', function (Blueprint $table) {
             $table->increments('PK_PCS_Id');
             $table->string("PCS_Nombre");
-            $table->string("PCS_Programa");
             $table->string("PCS_Completitud_Documental");
             $table->integer('FK_PCS_Lineamiento')->unsigned();
             $table->timestamps();

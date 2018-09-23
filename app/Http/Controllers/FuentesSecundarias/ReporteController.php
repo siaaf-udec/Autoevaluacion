@@ -74,11 +74,11 @@ class ReporteController extends Controller
 
         //Grafico pie
         $completado = ($documentos->count() / $indicadores_documentales->count()) * 100;
-        $dataPie = [array($completado, 100 - $completado)];
+        $dataPie = [array(number_format($completado, 1), 100 - number_format($completado, 1))];
 
 
         $datos = [];
-        $datos['completado'] = $completado;
+        $datos['completado'] = number_format($completado, 1);
         $datos['dataPie'] = $dataPie;
         $datos['labels_fecha'] = $labels_fechas;
         $datos['data_fechas'] = array($data_fechas);
