@@ -34,4 +34,16 @@ class Factor extends Model
      */
     protected $guarded = ['PK_FCT_Id', 'created_at', 'updated_at'];
 
+    /**
+     * Obtener nombre del factor con su respectivo identificador.
+     * Funcion que uno los dos campos de identificacion
+     * y nombre del factor en una cadena
+     *
+     * @return string
+     */
+    public function getNombreFactorAttribute()
+    {
+        return "{$this->FCT_Identificador}. {$this->FCT_Nombre}";
+    }
+
 }

@@ -29,6 +29,10 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
+Route::get('/las', function () {
+    symlink('/home/siaudecc/siav3/storage/app/public', '/home/siaudecc/public_html/storage');
+});
+
 
 Route::get('/', 'Publico\HomeController@index')->name('home');
 Route::resource('encuestas', 'Publico\EncuestasController', ['as' => 'public']);

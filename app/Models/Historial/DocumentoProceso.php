@@ -34,4 +34,14 @@ class DocumentoProceso extends Model
      */
     protected $guarded = ['PK_DPC_Id', 'created_at', 'updated_at'];
 
+    /**
+     * Relación uno a muchos con la tabla indicadores documentales 
+     * un documento solo puede tener un indicador, pero un indicador puede tener muchos documentos 
+     *
+     */
+    public function indicadorDocumental()
+    {
+        return $this->belongsTo(IndicadorDocumental::class, 'FK_DPC_Indicador', 'PK_IDO_Id');
+    }
+
 }

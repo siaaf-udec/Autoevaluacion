@@ -68,7 +68,7 @@ class pageController extends Controller
     {
         $proceso = new Proceso();
         $proceso = $proceso::findOrFail($request->get('PK_PCS_Id'))->nombre_proceso;
-        session(['proceso' => str_limit($proceso, 50, '...')]);
+        session(['proceso' => str_limit($proceso, 45, '...')]);
         session(['id_proceso' => $request->get('PK_PCS_Id')]);
         return redirect()->back();
     }

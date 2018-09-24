@@ -104,13 +104,13 @@ class Kernel extends ConsoleKernel
 
                 foreach ($lineamientos_autoevaluacion[0]->factor_ as $factor) {
                     $factor_historial = new Factor();
-                    $factor_historial->FCT_Nombre = $factor->FCT_Nombre;
+                    $factor_historial->FCT_Nombre = $factor->FCT_Identificador . '.' . $factor->FCT_Nombre;
                     $factor_historial->FK_FCT_Lineamiento = $lineamiento_historial->PK_LNM_Id;
                     $factor_historial->save();
 
                     foreach ($factor->caracteristica as $caracteristica) {
                         $caracteristica_historial = new Caracteristica();
-                        $caracteristica_historial->CRT_Nombre = $caracteristica->CRT_Nombre;
+                        $caracteristica_historial->CRT_Nombre = $caracteristica->CRT_Identificador . '.' . $caracteristica->CRT_Nombre;
                         $caracteristica_historial->FK_CRT_Factor = $caracteristica->FK_CRT_Factor;
                         $caracteristica_historial->save();
 

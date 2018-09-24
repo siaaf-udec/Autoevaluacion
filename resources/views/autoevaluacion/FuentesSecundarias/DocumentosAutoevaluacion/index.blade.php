@@ -85,13 +85,13 @@
                 "ajax": "{{ route('documental.documentos_autoevaluacion.data') }}",
                 "columns": [
                     {data: 'PK_DOA_Id', name: 'id', "visible": false},
-                    {data: 'indicador_documental.caracteristica.factor.FCT_Nombre', name: 'Factor', className: "all"},
+                    {data: 'nombre_factor', name: 'Factor', className: "all"},
                     {
-                        data: 'indicador_documental.caracteristica.CRT_Nombre',
+                        data: 'nombre_caracteristica',
                         name: 'Caracteristica',
                         className: "min-tablet-l"
                     },
-                    {data: 'indicador_documental.IDO_Nombre', name: 'Indicador', className: "desktop"},
+                    {data: 'nombre_indicador', name: 'Indicador', className: "desktop"},
                     {data: 'dependencia.DPC_Nombre', name: 'Aspecto', className: "desktop"},
                     {data: 'tipo_documento.TDO_Nombre', name: 'Estado', className: "desktop"},
                     { data: 'nombre', name: 'Caracteristica', className: "min-phone-l" },

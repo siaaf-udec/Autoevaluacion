@@ -56,6 +56,8 @@ class ProcesosInstitucionalesRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
+            $id = $this->route()->parameter('procesos_institucionale');
+           
             $fechaInicio = Carbon::createFromFormat('d/m/Y', $this->request->get('PCS_FechaInicio'));
             $fechaFin = Carbon::createFromFormat('d/m/Y', $this->request->get('PCS_FechaFin'));
             if ($fechaInicio >= $fechaFin) {
@@ -65,16 +67,21 @@ class ProcesosInstitucionalesRequest extends FormRequest
             $procesos_institucionales = Proceso::where('PCS_Institucional', '=', 1)
                 ->where('FK_PCS_Fase', '!=', '1')
                 ->where('FK_PCS_Fase', '!=', '2')
+                ->where('PK_PCS_Id', '!=', $id)
                 ->get();
 
-            $condicion_update = $this->request->get('PK_FSS_Id') != '1' && $this->request->get('PK_FSS_Id') != '2';
-
-            if ($this->method() == 'POST') {
-                $condicion_update = true; // debido a que siempre que se crea esta en fase de construcción
-            }
-            if ($procesos_institucionales->count() > 0 && $condicion_update) {
+            if ($procesos_institucionales->isNotEmpty()) {
                 $validator->errors()->add('Error', 'Solo puede haber un proceso institucional en curso.');
             }
+
+            if ($this->method() == 'PUT'){
+                $proceso = Proceso::find($id);
+                if($proceso->FK_PCS_Fase != 3 && $proceso->FK_PCS_Lineamiento != $this->request->get('PK_LNM_Id')){
+                    $validator->errors()->add('Error', 'El lineamiento no se puede cambiar después de iniciado el proceso.');
+                }
+            }
+
+
         });
     }
 }

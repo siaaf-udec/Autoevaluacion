@@ -27,6 +27,12 @@
                     @can('ACCESO_MODULO_FUENTES_SECUNDARIAS')
                         @include('admin.shared.menuSidebar.fuentesSecundarias')
                     @endcan
+                    <li>
+                        <a href="{{ route('admin.historial')}}">
+                            <i class="fa fa-history"></i> Historial
+                        </a>
+                    </li>
+
                 </ul>
             </div>
 

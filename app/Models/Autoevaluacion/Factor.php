@@ -39,12 +39,10 @@ class Factor extends Model
 
     /**
      * Obtener nombre del factor con su respectivo identificador.
-     *
-     * @return string
-     */
-     /**
      * Funcion que uno los dos campos de identificacion
      * y nombre del factor en una cadena
+     *
+     * @return string
      */
     public function getNombreFactorAttribute()
     {

@@ -68,6 +68,7 @@ class ProcesoUsuarioController extends Controller
     public function show($id)
     {
         $proceso = Proceso::findOrFail($id)->nombre_proceso;
+        $proceso = str_limit($proceso, 40, '...');
 
 
         return view('autoevaluacion.SuperAdministrador.ProcesosUsuarios.index', compact('proceso'));

@@ -95,6 +95,15 @@ class DocumentoAutoevaluacionController extends Controller
                         return 'Link';
                     }
                 })
+                ->addColumn('nombre_factor', function ($documento_autoevaluacion) {
+                    return $documento_autoevaluacion->indicadorDocumental->caracteristica->factor->nombre_factor;
+                })
+                ->addColumn('nombre_caracteristica', function ($documento_autoevaluacion) {
+                    return $documento_autoevaluacion->indicadorDocumental->caracteristica->nombre_caracteristica;
+                })
+                ->addColumn('nombre_indicador', function ($documento_autoevaluacion) {
+                    return $documento_autoevaluacion->indicadorDocumental->nombre_indicador;
+                })
                 ->rawColumns(['file'])
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
@@ -124,7 +133,7 @@ class DocumentoAutoevaluacionController extends Controller
             ->where('FK_FCT_Lineamiento', '=', $id_lineamiento)
             ->where('FK_FCT_estado', '=', '1')
             ->get()
-            ->pluck('FCT_Nombre', 'PK_FCT_Id');
+            ->pluck('nombre_factor', 'PK_FCT_Id');
         $dependencias = Dependencia::pluck('DPC_Nombre', 'PK_DPC_Id');
         $tipo_documentos = TipoDocumento::pluck('TDO_Nombre', 'PK_TDO_Id');
 

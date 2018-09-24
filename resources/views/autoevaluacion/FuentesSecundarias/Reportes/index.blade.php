@@ -6,7 +6,8 @@
 @section('content')
     @component('admin.components.panel')
         @slot('title', 'Reportes documentales')
-        @if(session()->get('id_proceso'))
+        @if(session()->get('id_proceso') && isset($factores)) 
+        @if($factores->isNotEmpty())
 
         <div id="graficas" class="hidden">
 
@@ -55,7 +56,10 @@
                 {!! Form::close() !!}
             </div>
         </div>
-        @else
+         @else
+        El proceso aun no tiene datos para mostrar.
+        @endif
+        @else                                                                                           
         Por favor seleccione un proceso
         @endif
         
@@ -83,7 +87,8 @@
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
-            @if(session()->get('id_proceso'))
+            @if(session()->get('id_proceso') && isset($factores))
+            @if($factores->isNotEmpty())
             $('#factor').select2({
                 language: "es"
             });
@@ -123,7 +128,7 @@
                 $("#hidden_html").val(url_base64.join('|'));
                 $('#form_generar_pdf').submit();
             })
-
+            @endif
             @endif
             
 

@@ -110,3 +110,13 @@ Route::post('informe_general/descargar', array(
     'as' => 'admin.informe_general.descargar',
     'uses' => 'PageController@pdf_reporte'
 ));
+
+//Historial
+Route::get('historial',  array(
+    'as' => 'admin.historial',
+    'uses' => 'HistorialController@index'
+));
+Route::get('historial/datos_documentales/{id_proceso}', array(
+    'as' => 'historial.documental',
+    'uses' => 'HistorialController@obtenerDatosDocumentales'
+));

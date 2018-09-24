@@ -58,16 +58,29 @@ class ProcesosProgramasRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             $id_programa = $this->request->get('PK_PAC_Id');
+            $id = $this->route()->parameter('procesos_programa');
+
             $procesosPrograma = Proceso::where('FK_PCS_Programa', '=', $id_programa)
-                ->where('FK_PCS_Fase', '!=', 1)
+                ->where('FK_PCS_Fase', '!=', '1')
+                ->where('FK_PCS_Fase', '!=', '2')
+                ->where('PK_PCS_Id', '!=', $id)
                 ->get();
+
             if ($procesosPrograma->isNotEmpty()) {
                 $validator->errors()->add('Error', 'El programa ya tiene un proceso en curso.');
             }
+
             $fechaInicio = Carbon::createFromFormat('d/m/Y', $this->request->get('PCS_FechaInicio'));
             $fechaFin = Carbon::createFromFormat('d/m/Y', $this->request->get('PCS_FechaFin'));
             if ($fechaInicio >= $fechaFin) {
                 $validator->errors()->add('Error', 'La fecha de finalización del proceso tiene que ser mayor que la fecha de inicio');
+            }
+
+            if($this->method() == 'PUT'){
+                $proceso = Proceso::find($id);
+                if ($proceso->FK_PCS_Fase != 3 && $proceso->FK_PCS_Lineamiento != $this->request->get('PK_LNM_Id')) {
+                    $validator->errors()->add('Error', 'El lineamiento no se puede cambiar después de iniciado el proceso.');
+                }
             }
         });
     }
