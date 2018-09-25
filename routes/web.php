@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,3 +42,7 @@ Route::resource('encuestas', 'Publico\EncuestasController', ['as' => 'public']);
 Route::get('grupos/{slug_proceso}', 'Publico\EncuestasController@index');
 Route::get('encuesta/{slug_proceso}/{grupo}/{cargo?}', array('as' => 'encuestas', 'uses' => 'Publico\EncuestasController@create'));
 
+Route::get('descargar', function (Request $request) {
+    $archivo = substr($request->query('archivo'), 9);
+    return response()->download(storage_path('app/public/' . $archivo));
+})->name('descargar');

@@ -54,8 +54,9 @@ class DocumentoInstitucionalController extends Controller
                         return '<a class="btn btn-success btn-xs" href="' . $docinstitucional->link .
                             '"target="_blank" role="button">Enlace al documento</a>';
                     } else {
-                        $ruta = url($docinstitucional->archivo->ruta);
-                        return '<a class="btn btn-success btn-xs" href="' . $ruta .
+                        
+                        return '<a class="btn btn-success btn-xs" href="' . route('descargar') . '?archivo=' .
+                            $docinstitucional->archivo->ruta .
                             '" target="_blank" role="button">' . $docinstitucional->archivo->ACV_Nombre . '</a>';
 
 

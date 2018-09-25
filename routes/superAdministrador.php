@@ -108,7 +108,7 @@ Route::get('grupos_interes/data/data', array('as' => 'admin.grupos_interes.data'
 //Reportes pdf con encuestas y documentos institucionales
 Route::post('informe_general/descargar', array(
     'as' => 'admin.informe_general.descargar',
-    'uses' => 'PageController@pdf_reporte'
+    'uses' => 'pageController@pdf_reporte'
 ));
 
 //Historial

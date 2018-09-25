@@ -79,7 +79,7 @@ class DocumentoAutoevaluacionController extends Controller
                             '"target="_blank" role="button">Descargar</a>';
                     } else {
 
-                        return '<a class="btn btn-success btn-xs" href="' .
+                        return '<a class="btn btn-success btn-xs" href="'. route('descargar') . '?archivo=' .
                             $documento_autoevaluacion->archivo->ruta .
                             '" target="_blank" role="button">Descargar</a>';
                     }
