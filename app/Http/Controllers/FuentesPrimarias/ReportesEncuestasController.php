@@ -15,6 +15,7 @@ use App\Models\Autoevaluacion\Factor;
 use App\Models\Autoevaluacion\Caracteristica;
 use App\Models\Autoevaluacion\SolucionEncuesta;
 use Illuminate\Support\Collection;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class ReportesEncuestasController extends Controller
 {
@@ -177,5 +178,11 @@ class ReportesEncuestasController extends Controller
         $datos['data_factor'] = array($data_factor);
         return json_encode($datos);
 
+    }
+    public function pdf_documento_encuestas(Request $request)
+    {
+        $imagenes = explode('|', $request->get('json_datos'));
+        $pdf = PDF::loadView('autoevaluacion.FuentesPrimarias.Reportes.pdf_documentos_encuestas', compact('imagenes'));
+        return $pdf->download('reporte_encuestas.pdf');
     }
 }

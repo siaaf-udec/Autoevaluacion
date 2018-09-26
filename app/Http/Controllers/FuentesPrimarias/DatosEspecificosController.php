@@ -134,8 +134,8 @@ class DatosEspecificosController extends Controller
         $encuesta->FK_ECT_Proceso = $request->get('PK_PCS_Id');
         $encuesta->save();
         return response([
-            'msg' => 'Datos especificos resgistrados correctamente.',
-            'title' => '¡Registro exitoso!'
+            'msg' => 'Encuesta vinculada exitosamente al proceso .',
+            'title' => '¡Vinculación exitosa!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }

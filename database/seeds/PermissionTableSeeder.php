@@ -114,6 +114,7 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'ELIMINAR_ESTABLECER_PREGUNTAS']);
         Permission::create(['name' => 'CREAR_ESTABLECER_PREGUNTAS']);
         // Permisos para datos establecer preguntas
+        Permission::create(['name' => 'ACCEDER_IMPORTAR_PREGUNTAS']);
         Permission::create(['name' => 'IMPORTAR_PREGUNTAS']);
         // Permisos para tipo de respuestas
         Permission::create(['name' => 'ACCEDER_TIPO_RESPUESTAS']);

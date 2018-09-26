@@ -8,13 +8,12 @@
         @slot('title', 'Reportes de Encuestas')
         @if(session()->get('id_proceso'))
         <div id="graficas" class="hidden">
-        <div class="row">
-        <div class="col-md-12 col-xs-20">
-            <a href="#"class="btn btn-danger" id="pdf">
-                <i class="fa fa-file-pdf-o"></i> PDF
-            </a>
-        </div>
-        </div>
+
+        <form target="_blank" id="form_generar_pdf" action="{{ route('encuestas.informe_encuesta.descargar') }}" method="post">
+                @csrf
+                <input type="hidden" name="json_datos" id="hidden_html" />
+                <button class="btn btn-danger" id="generar_reporte"><i class="fa fa-file-pdf-o"></i> Generar Reporte</button>
+        </form>
         <div class="row">
             <div class="col-md-12 col-xs-12">
                 <canvas id="pie_filtro" height="100"></canvas>
@@ -42,9 +41,7 @@
                     <div class="col-xs-12">
                         <hr />
                     </div>
-                    </br>
                     <canvas id="caracteristicas" height="70"></canvas>
-                    </br></br>
                     @include('autoevaluacion.FuentesPrimarias.Reportes._form')
                 </div>
                 {!! Form::close() !!}
@@ -91,7 +88,11 @@
                 language: "es"
             });
             selectDinamico("#grupos", "#preguntas", "{{url('admin/fuentesPrimarias/grupos/preguntas')}}", ['#preguntas']);
+            
+            limite = 3;
+            
             peticionGraficasEncuestas("{{ route('primarias.informe_encuestas.datos') }}");
+            
             var form = $('#form_filtros');
             $("#preguntas").change(function () {
                 console.log('asssa');
@@ -116,50 +117,17 @@
                     dataType: 'json',
                     success: function (r) {
                         caracteristicas.destroy();
-                        caracteristicas = crearGraficaBar('caracteristicas', 'horizontalBar', r.data_factor, r.labels_caracteristicas,
+                        caracteristicas = crearGrafica('caracteristicas', 'horizontalBar', r.data_factor, r.labels_caracteristicas,
                         ['Valorizacion'], r.data_caracteristicas);
                     }
                 });
 
             });
-            $('#pdf').bind('click', function() {
-                var doc = new jsPDF('vertical', 'mm', 'letter');
-                doc.setFont("sans serif")
-                doc.setFontSize(14);
-                doc.setFontType('bold');
-                html2canvas($("#pie_filtro"), {
-                onrendered: function(canvas) {
-                    var texto = $("#grupos option:selected").text();         
-                    var imgData = canvas.toDataURL('image/png');                 
-                    doc.text(70,25,"INFORME GENERAL ENCUESTAS");
-                    doc.text(20,40,'{{ Session::get('proceso')}}');
-                    doc.text(20,55,texto);
-                    doc.addImage(imgData, 'PNG',5,65,0,70); 
-                    doc.addHTML(canvas);        
-                    }       
-                });
-                html2canvas($("#encuestados"), {
-                onrendered: function(canvas) {     
-                    var imgData = canvas.toDataURL('image/png');                  
-                    doc.text(100,150,"Muestra");
-                    doc.addImage(imgData, 'PNG',5,160,0,100); 
-                    doc.addHTML(canvas);          
-                    }       
-                });
-                html2canvas($("#caracteristicas"), {
-                onrendered: function(canvas) {
-                    doc.addPage();  
-                    var factor = $("#factor option:selected").text();         
-                    var imgData = canvas.toDataURL('image/png');             
-                    doc.text(75,25,"Ponderacion Caracteristicas");
-                    doc.text(20,45,factor);
-                    doc.addImage(imgData, 'PNG',5,60,0,48); 
-                    doc.addHTML(canvas);
-                    doc.save("informe_encuestas"+'gt_log.pdf');             
-                    }       
-                });
-
+            $('#generar_reporte').on('click', function(e){              
+                $("#hidden_html").val(url_base64.join('|'));
+                $('#form_generar_pdf').submit();
             });
+            
             @endif
         });
     </script>

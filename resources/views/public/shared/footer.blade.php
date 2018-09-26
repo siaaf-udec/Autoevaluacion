@@ -4,11 +4,8 @@
             <div class="row">
               <div class="col-sm-6 col-md-8 col-lg-9">
                 <div class="callout-text font-alt">
-                  <h4 style="margin-top: 0px; font-;">Universidad de Cundinamarca</h4>
+                  <h4 style="margin-top: 0px; font-;">Centro de Innovación y Tecnología</h4>
                 </div>
-              </div>
-              <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="callout-btn-box"><a class="btn btn-border-w btn-circle" href="https://www.ucundinamarca.edu.co/">Ver más</a></div>
               </div>
             </div>
           </div>
