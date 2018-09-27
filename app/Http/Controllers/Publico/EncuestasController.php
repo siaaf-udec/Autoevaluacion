@@ -83,10 +83,11 @@ class EncuestasController extends Controller
         $encuestados->FK_ECD_GrupoInteres = session()->get('pk_grupo');
         $encuestados->FK_ECD_CargoAdministrativo = $id_cargo;
         $encuestados->save();
-        $preguntas = PreguntaEncuesta::whereHas('preguntas', function ($query) {
+
+        $preguntasR = PreguntaEncuesta::whereHas('preguntas.respuestas', function ($query) {
             return $query->where('FK_PGT_Estado', '1');
         })
-            ->with('preguntas')
+            ->with('preguntas.respuestas')
             ->where('FK_PEN_GrupoInteres', '=', session()->get('pk_grupo'))
             ->where('FK_PEN_Banco_Encuestas', '=', $id_encuesta->FK_ECT_Banco_Encuestas)
             ->get();
@@ -95,13 +96,16 @@ class EncuestasController extends Controller
         * una de estas y asi obtener la respuesta digitada por el encuestado ya que el id del grupo 
         * de radio buttons para las respuestas es la pk de la pregunta.  
         */
-        foreach ($preguntas as $pregunta) {
+        foreach ($preguntasR as $pregunta) {
             $respuestaUsuario = $request->get($pregunta->preguntas->PK_PGT_Id, false);
             $respuesta_encuesta = new SolucionEncuesta();
             $respuesta_encuesta->FK_SEC_Respuesta = $respuestaUsuario;
             $respuesta_encuesta->FK_SEC_Encuestado = $encuestados->PK_ECD_Id;
             $respuesta_encuesta->save();
         }
+        session()->put('pk_cargo', null);
+        session()->put('pk_encuesta', null);
+        session()->put('pk_grupo', null);
         return response(['msg' => 'Proceso finalizado correctamente.',
             'title' => '¡Gracias por su contribución!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
