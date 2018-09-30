@@ -1,3 +1,4 @@
+<input type="hidden" id="focus" autofocus>
 <font face="helvetica, arial">{!! Form::label('PK_DAE_Id',isset($datos)? $datos->DAE_Titulo: 'Bienvenido') !!}</font>
 <div id="smartwizard">
     <ul class="hidden">
@@ -15,17 +16,20 @@
         </font>
         </div>
         @foreach($preguntas as $pregunta)
-            <div id="{{$pregunta->preguntas->PK_PGT_Id }}" class="">
-            <font face="helvetica, arial"> <label>Pregunta Número {{$loop->iteration}} de {{count($preguntas)}}:</label></font>
-            <font face="helvetica, arial"> <label>{{$pregunta->preguntas->PGT_Texto}} </label> </font><br/>
+            <div id="{{$pregunta->preguntas->PK_PGT_Id }}">
+            <font  face="helvetica, arial"> <label>Pregunta Número {{$loop->iteration}} de {{count($preguntas)}}:</label></font>
+            <font face="helvetica, arial"> <label> <p class="text-justify">{{$pregunta->preguntas->PGT_Texto}}</p> </label> </font><br/>
             @foreach($pregunta->preguntas->respuestas as $preguntaEncuesta)
             <font face="helvetica, arial"> 
+            <div class="radio">
+            <label>
                 {{ Form::radio($pregunta->preguntas->PK_PGT_Id, $preguntaEncuesta->PK_RPG_Id,false,
                 ['class' => 'radios','id'=>'preguntas',
                 'autocomplete' => 'on']
-                 ) }} {{ $preguntaEncuesta->RPG_Texto}}
+                 ) }}<p class="text-justify"> {{ $preguntaEncuesta->RPG_Texto}}</p> 
+            </label> 
+            </div>  
             </font>
-            </br>
                 @endforeach
             @if ($loop->last)
             <div class="col-md-19 col-md-offset-9">

@@ -58,6 +58,7 @@
         $('.sw-btn-next').bind('click', function() {
             $('.sw-btn-next').prop( "disabled", true);
             $('#finalizar').prop( "disabled", true);
+            window.scrollTo(0, 350);
         });
         $('#finalizar').bind('click', function() {
             $('#finalizar').hide();
