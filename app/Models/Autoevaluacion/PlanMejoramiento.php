@@ -33,4 +33,10 @@ class PlanMejoramiento extends Model
          * @var array
          */
         protected $guarded = ['PK_PDM_Id', 'created_at', 'updated_at'];
+
+        public function Proceso()
+        {
+                return $this->belongsTo(Proceso::class, 'FK_ACM_Caracteristica', 'PK_PCS_Id');
+
+        }
 }
