@@ -9,18 +9,14 @@ use DataTables;
 
 class AmbitoController extends Controller
 {
-     /**
-     * Permisos asignados en el constructor del controller para poder controlar las diferentes
-     * acciones posibles en la aplicación como los son:
-     * Acceder, ver, crea, modificar, eliminar
-     */
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function __construct()
-    {
+    {        
         $this->middleware('permission:ACCEDER_AMBITOS')->except('show');
         $this->middleware(['permission:MODIFICAR_AMBITOS', 'permission:VER_AMBITOS'], ['only' => ['edit', 'update']]);
         $this->middleware('permission:CREAR_AMBITOS', ['only' => ['create', 'store']]);
@@ -31,11 +27,8 @@ class AmbitoController extends Controller
         //
         return view('autoevaluacion.SuperAdministrador.Ambito.index');
     }
-
-     /**
-     * Esta funcion lista todos los ambitos existentes
-     */
-
+    
+    
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
@@ -51,7 +44,7 @@ class AmbitoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {  
         //
     }
 
@@ -60,9 +53,6 @@ class AmbitoController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     */
-    /**
-     * Esta funcion crea un nuevo ambito
      */
     public function store(Request $request)
     {
@@ -74,7 +64,7 @@ class AmbitoController extends Controller
             'title' => '¡Registro exitoso!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
-
+    
     }
 
     /**
@@ -85,7 +75,7 @@ class AmbitoController extends Controller
      */
     public function show($id)
     {
-
+        
     }
 
     /**
@@ -106,9 +96,6 @@ class AmbitoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    /**
-     * Esta funcion modifica los ambitos
-     */
     public function update(Request $request, $id)
     {
         $ambito = AmbitoResponsabilidad::find($id);
@@ -118,7 +105,7 @@ class AmbitoController extends Controller
             'title' => '¡Ambito modificado :*!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
-
+        
     }
 
     /**
@@ -126,9 +113,6 @@ class AmbitoController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     */
-    /**
-     * Esta funcion elimina los ambitos
      */
     public function destroy($id)
     {
