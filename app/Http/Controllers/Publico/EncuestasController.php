@@ -23,17 +23,19 @@ class EncuestasController extends Controller
     Este controlador es responsable de manejar el proceso para almacenar las respuestas
     digitadas por un encuestado.
     */
-
+    
     /**
      * La busqueda de los datos del proceso, la encuesta y el grupo de interes se hace por medio de slugs
      * almacenados en la bd para presentarle al usuario una url amigable y entendible. 
      */
     public function index($slug_proceso)
     {
-        $id_proceso = Proceso::where('PCS_Slug_Procesos', $slug_proceso)->first();
-        $id_encuesta = Encuesta::where('FK_ECT_Proceso', $id_proceso->PK_PCS_Id)->first();
+        $id_proceso = Proceso::where('PCS_Slug_Procesos', $slug_proceso)
+        ->first()->PK_PCS_Id;
+        $id_encuesta = Encuesta::where('FK_ECT_Proceso', $id_proceso)
+        ->first()->FK_ECT_Banco_Encuestas;
         $grupos = GrupoInteres::whereHas('preguntas_encuesta', function ($query) use ($id_encuesta) {
-            return $query->where('FK_PEN_Banco_Encuestas', '=', $id_encuesta->FK_ECT_Banco_Encuestas);
+            return $query->where('FK_PEN_Banco_Encuestas', '=', $id_encuesta);
         })
             ->where('FK_GIT_Estado', '=', '1')
             ->get()->pluck('GIT_Nombre', 'GIT_Slug');
@@ -48,22 +50,22 @@ class EncuestasController extends Controller
      */
     public function create($slug_proceso, $grupo, $cargo = null)
     {
-        $id_proceso = Proceso::where('PCS_Slug_Procesos', $slug_proceso)->first()->PK_PCS_Id;
-        $id_grupo = GrupoInteres::where('GIT_Slug', $grupo)->first()->PK_GIT_Id;
-        session()->put('pk_cargo', $cargo);
-        session()->put('pk_encuesta', $id_proceso);
-        session()->put('pk_grupo', $id_grupo);
-        $id_encuesta = Encuesta::where('FK_ECT_Proceso', $id_proceso)->first();
+        $id_proceso = Proceso::where('PCS_Slug_Procesos', $slug_proceso)
+        ->first()->PK_PCS_Id;
+        $id_grupo = GrupoInteres::where('GIT_Slug', $grupo)
+        ->first()->PK_GIT_Id;
+        $id_encuesta = Encuesta::where('FK_ECT_Proceso', $id_proceso)
+        ->first()->FK_ECT_Banco_Encuestas;
         $preguntas = PreguntaEncuesta::whereHas('preguntas.respuestas', function ($query) {
             return $query->where('FK_PGT_Estado', '1');
         })
             ->with('preguntas.respuestas')
             ->where('FK_PEN_GrupoInteres', '=', $id_grupo)
-            ->where('FK_PEN_Banco_Encuestas', '=', $id_encuesta->FK_ECT_Banco_Encuestas)
+            ->where('FK_PEN_Banco_Encuestas', '=', $id_encuesta)
             ->get();
         $datos = DatosEncuesta::whereHas('grupos', function ($query) use ($id_grupo) {
             return $query->where('PK_GIT_Id', '=', $id_grupo);
-        })->first();
+        })->get()->first();
         return view('public.Encuestas.encuestas', compact('preguntas', 'datos'));
     }
 
@@ -75,12 +77,18 @@ class EncuestasController extends Controller
      */
     public function store(SolucionEncuestaRequest $request)
     {
-        $id_encuesta = Encuesta::where('FK_ECT_Proceso', '=', session()->get('pk_encuesta'))->first();
-        $id_cargo = CargoAdministrativo::where('CAA_Slug', '=', session()->get('pk_cargo'))->first()->PK_CAA_Id ?? null;
+        $id_proceso = Proceso::where('PCS_Slug_Procesos', $request->get('proceso'))
+        ->first()->PK_PCS_Id;
+        $id_encuesta = Encuesta::where('FK_ECT_Proceso', '=', $id_proceso)
+        ->first();
+        $id_cargo = CargoAdministrativo::where('CAA_Slug', '=', $request->get('cargo'))
+        ->first()->PK_CAA_Id ?? null;
+        $id_grupo = GrupoInteres::where('GIT_Slug', $request->get('grupo'))
+        ->first()->PK_GIT_Id;
         $encuestados = new Encuestado();
         $encuestados->ECD_FechaSolucion = Carbon::now();
         $encuestados->FK_ECD_Encuesta = $id_encuesta->PK_ECT_Id;
-        $encuestados->FK_ECD_GrupoInteres = session()->get('pk_grupo');
+        $encuestados->FK_ECD_GrupoInteres = $id_grupo;
         $encuestados->FK_ECD_CargoAdministrativo = $id_cargo;
         $encuestados->save();
 
@@ -88,7 +96,7 @@ class EncuestasController extends Controller
             return $query->where('FK_PGT_Estado', '1');
         })
             ->with('preguntas.respuestas')
-            ->where('FK_PEN_GrupoInteres', '=', session()->get('pk_grupo'))
+            ->where('FK_PEN_GrupoInteres', '=', $id_grupo)
             ->where('FK_PEN_Banco_Encuestas', '=', $id_encuesta->FK_ECT_Banco_Encuestas)
             ->get();
         /**
@@ -103,9 +111,6 @@ class EncuestasController extends Controller
             $respuesta_encuesta->FK_SEC_Encuestado = $encuestados->PK_ECD_Id;
             $respuesta_encuesta->save();
         }
-        session()->put('pk_cargo', null);
-        session()->put('pk_encuesta', null);
-        session()->put('pk_grupo', null);
         return response(['msg' => 'Proceso finalizado correctamente.',
             'title' => '¡Gracias por su contribución!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request

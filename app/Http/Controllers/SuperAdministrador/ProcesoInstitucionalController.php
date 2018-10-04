@@ -124,7 +124,7 @@ class ProcesoInstitucionalController extends Controller
 
         $proceso->FK_PCS_Fase = 3;
         $proceso->FK_PCS_Lineamiento = $request->get('PK_LNM_Id');
-        $proceso->PCS_Slug_Procesos = "institucional-";
+        $proceso->PCS_Slug_Procesos = "institucional_";
         $proceso->save();
 
         return response([

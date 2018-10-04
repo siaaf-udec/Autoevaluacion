@@ -13,7 +13,7 @@
         'novalidate'
         ])!!}
         @include('public.Encuestas.wizard')
-        <br></br>
+        <br>
             {!! Form::close() !!}
         </div>
         </div>
@@ -42,6 +42,15 @@
 
 @push('functions')
     <script type="text/javascript">
+        var form = $('#form_encuestas');
+        $(document).ready(function() {
+            $(window).keydown(function(event){
+                if(event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
         window.location.hash = '';
         $(document).ready(function () {
             $('#smartwizard').smartWizard({
@@ -67,23 +76,27 @@
             $('.sw-btn-next').prop( "disabled", false);
             $('#finalizar').prop( "disabled", false);  
         });
-            var form = $('#form_encuestas');
-            form.submit(function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: form.attr('action'),
-                    type: form.attr('method'),
-                    data: form.serialize(),
-                    dataType: 'json',
-                    success: function (response, NULL, jqXHR) {
-                        new PNotify({
-                            title: response.title,
-                            text: response.msg,
-                            type: 'success',
-                            styling: 'bootstrap3'
-                        });
-                        window.location.href = " {{route('home')}} ";
-                    },
+        form.submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            formData.append('proceso','{{ request()->route()->parameter('slug_proceso') }}');
+            formData.append('grupo','{{ request()->route()->parameter('grupo') }}');
+            formData.append('cargo','{{ request()->route()->parameter('cargo') }}');
+            $.ajax({
+                url: form.attr('action'),
+                type: form.attr('method'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response, NULL, jqXHR) {
+                    new PNotify({
+                        title: response.title,
+                        text: response.msg,
+                        type: 'success',
+                        styling: 'bootstrap3'
+                    });
+                    window.location.href = " {{route('home')}} ";
+                },
                     error: function (data) {
                         var errores = data.responseJSON.errors;
                         var msg = '';

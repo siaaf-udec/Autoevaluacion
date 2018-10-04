@@ -54,6 +54,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#estado').select2();
+            document.getElementById('TotalPonderaciones').value = 10;
             $('#ponderacion').change(function (e) {
                 e.preventDefault();
                 var status=$('#ponderacion')[0].checked;
