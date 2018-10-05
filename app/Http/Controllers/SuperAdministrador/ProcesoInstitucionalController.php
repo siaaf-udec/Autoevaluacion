@@ -12,6 +12,7 @@ use App\Models\Autoevaluacion\Proceso;
 use App\Models\Autoevaluacion\Lineamiento;
 use App\Models\Autoevaluacion\Fase;
 use App\Http\Requests\ProcesosInstitucionalesRequest;
+use App\Models\Autoevaluacion\PlanMejoramiento;
 
 
 class ProcesoInstitucionalController extends Controller
@@ -183,6 +184,16 @@ class ProcesoInstitucionalController extends Controller
         $proceso->PCS_FechaFin = Carbon::createFromFormat('d/m/Y', $request->get('PCS_FechaFin'));
 
         $proceso->FK_PCS_Fase = $request->get('PK_FSS_Id');
+        $fase = Fase::where('PK_FSS_Id','=',$request->get('PK_FSS_Id'))
+        ->first();
+        if($fase->FSS_Nombre == "plan de mejoramiento")
+        {
+            $planmejoramiento = new PlanMejoramiento();
+            $planmejoramiento->PDM_Nombre = "Plan de Mejoramiento Institucional ".$request->get('PCS_Nombre');
+            $planmejoramiento->PDM_Descripcion ="Esta es la descripcion mientrastanto :D ";
+            $planmejoramiento->FK_PDM_Proceso=$id;
+            $planmejoramiento->save();
+        }
         $proceso->FK_PCS_Lineamiento = $request->get('PK_LNM_Id');
         $proceso->update();
 

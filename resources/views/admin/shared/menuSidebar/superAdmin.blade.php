@@ -54,6 +54,11 @@
                     de Interes</a>
             </li>
         @endcan
+        @can('ACCEDER_ACTIVIDADES_MEJORAMIENTO')
+            <li>
+                <a href="{{ route('admin.actividades_mejoramiento.index')}}"><i class="fa fa-slideshare"></i> Actividades de Mejoramiento</a>
+            </li>
+        @endcan
         @can('ACCEDER_FACTORES')
         <li><a><i class="fa fa-bookmark"></i>CNA<span class="fa fa-chevron-down"></span> </a>
             <ul class="nav child_menu">

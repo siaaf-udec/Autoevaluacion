@@ -18,8 +18,8 @@ class CreateActividadesMejoramiento extends Migration
             $table->increments('PK_ACM_Id');
             $table->string("ACM_Nombre");
             $table->mediumText("ACM_Descripcion")->nullable();
-            $table-date("ACM_Fecha_Inicio");
-            $table-date("ACM_Fecha_Fin");
+            $table->date("ACM_Fecha_Inicio");
+            $table->date("ACM_Fecha_Fin");
             $table->integer("FK_ACM_Caracteristica")->unsigned();
             $table->integer("FK_ACM_Plan_Mejoramiento")->unsigned();
             $table->timestamps();

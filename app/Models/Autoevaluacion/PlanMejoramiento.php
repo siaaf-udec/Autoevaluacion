@@ -36,7 +36,7 @@ class PlanMejoramiento extends Model
 
         public function Proceso()
         {
-                return $this->belongsTo(Proceso::class, 'FK_ACM_Caracteristica', 'PK_PCS_Id');
+                return $this->belongsTo(Proceso::class, 'FK_PDM_Proceso', 'PK_PCS_Id');
 
         }
 }

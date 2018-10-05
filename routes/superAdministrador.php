@@ -120,3 +120,7 @@ Route::get('historial/datos_documentales/{id_proceso}', array(
     'as' => 'historial.documental',
     'uses' => 'HistorialController@obtenerDatosDocumentales'
 ));
+
+//Actividades de mejoramiento
+Route::resource('actividades_mejoramiento', 'ActividadesMejoramientoController', ['as' => 'admin']);
+Route::get('actividades_mejoramiento/data/data', array('as' => 'admin.actividades_mejoramiento.data', 'uses' => 'ActividadesMejoramientoController@data'));

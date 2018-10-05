@@ -20,7 +20,7 @@ class TblPlanDeMejoramiento extends Migration
             $table->integer("FK_PDM_Proceso")->unsigned();
             $table->timestamps();
 
-            $table->foreign("FK_PDM_Proceso")->references("PK_PCS_Id")->on("TBL_Proceso")->onDelete("cascade");
+            $table->foreign("FK_PDM_Proceso")->references("PK_PCS_Id")->on("TBL_Procesos")->onDelete("cascade");
         //
 });    
 }
