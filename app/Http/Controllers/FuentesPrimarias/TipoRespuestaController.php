@@ -89,6 +89,7 @@ class TipoRespuestaController extends Controller
         for ($i = 1; $i <= $request->TRP_CantidadRespuestas; $i++) {
             $ponderacion = new PonderacionRespuesta();
             $ponderacion->PRT_Ponderacion = $request->get('Ponderacion_' . $i);
+            $ponderacion->PRT_Rango = $i;
             $ponderacion->FK_PRT_TipoRespuestas = $tipoRespuestas->PK_TRP_Id;
             $ponderacion->save();
         }

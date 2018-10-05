@@ -42,4 +42,12 @@ class Encuestado extends Model
     {
         return $this->belongsTo(GrupoInteres::class, 'FK_ECD_GrupoInteres', 'PK_GIT_Id');
     }
+    public function solucion()
+    {
+        return $this->hasMany(SolucionEncuesta::class, 'FK_SEC_Encuestado', 'PK_ECD_Id');
+    }
+    public function encuesta()
+    {
+        return $this->belongsTo(Encuesta::class, 'FK_ECD_Encuesta', 'PK_ECT_Id');
+    }
 }

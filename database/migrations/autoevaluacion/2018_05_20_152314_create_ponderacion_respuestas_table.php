@@ -18,6 +18,7 @@ class CreatePonderacionRespuestasTable extends Migration
         Schema::connection('autoevaluacion')->create('TBL_Ponderacion_Respuestas', function (Blueprint $table) {
             $table->increments('PK_PRT_Id');
             $table->float("PRT_Ponderacion");
+            $table->integer("PRT_Rango");
             $table->integer("FK_PRT_TipoRespuestas")->unsigned();
             $table->timestamps();
 

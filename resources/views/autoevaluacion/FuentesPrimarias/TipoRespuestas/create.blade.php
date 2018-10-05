@@ -85,6 +85,7 @@
                     }
                     else
                     {
+                        $("#ponderacion").prop("checked", false);
                         new PNotify({
                             title: "Error",
                             text: "El valor para cantidad de respuestas no es valido",

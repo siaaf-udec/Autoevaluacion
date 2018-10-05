@@ -14,6 +14,7 @@ use App\Models\Autoevaluacion\Proceso;
 use App\Models\Autoevaluacion\Factor;
 use App\Models\Autoevaluacion\Caracteristica;
 use App\Models\Autoevaluacion\SolucionEncuesta;
+use App\Models\Autoevaluacion\PonderacionRespuesta;
 use Illuminate\Support\Collection;
 use Barryvdh\DomPDF\Facade as PDF;
 
@@ -48,34 +49,38 @@ class ReportesEncuestasController extends Controller
             array_push($labels_encuestado, $encuestado->grupos->GIT_Nombre);
             array_push($data_encuestado, $encuestado->cantidad);
         }
+
         //valorizacion de las caracteristicas
         $labels_caracteristicas = [];
         $data_caracteristicas = [];
         $data_factor = [];
-        $encuesta = Encuesta::where('FK_ECT_Proceso', '=', session()->get('id_proceso'))
-            ->first();
-        $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados', function ($query) use ($encuesta) {
-            return $query->where('FK_ECD_Encuesta', '=', $encuesta->PK_ECT_Id ?? null);
+
+        $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query){
+            return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
         })
-            ->with('preguntas')
             ->where('FK_CRT_Factor', '=', '1')
             ->groupby('PK_CRT_Id')
             ->get();
-        array_push($data_factor, Factor::where('PK_FCT_Id', '1')->first()->FCT_Nombre);
-        foreach ($caracteristicas as $caracteristica) {
+
+        foreach ($caracteristicas as $caracteristica)
+        {
             array_push($labels_caracteristicas, $caracteristica->CRT_Nombre);
-            foreach ($caracteristica->preguntas as $pregunta) {
-                $respuestas = SolucionEncuesta::whereHas('respuestas.ponderacion', function ($query) use ($pregunta) {
-                    return $query->where('FK_RPG_Pregunta', '=', $pregunta->PK_PGT_Id);
-                })
-                    ->with('respuestas.ponderacion')
-                    ->get();
-                $totalponderacion = 0.0;
-                foreach ($respuestas as $respuesta) {
-                    $totalponderacion = $totalponderacion + $respuesta->respuestas->ponderacion->PRT_Ponderacion;
-                }
-                array_push($data_caracteristicas, $totalponderacion);
+            $soluciones = SolucionEncuesta::whereHas('encuestados.encuesta', function ($query){
+                return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
+            })
+            ->whereHas('respuestas.pregunta.caracteristica', function ($query) use ($caracteristica){
+                return $query->where('PK_CRT_Id', '=', $caracteristica->PK_CRT_Id);
+            })
+            ->with('respuestas.ponderacion')
+            ->get();
+            $totalponderacion=0;
+            $prueba = $soluciones->count();
+            foreach($soluciones as $solucion)
+            {
+                $totalponderacion = $totalponderacion + (10/$solucion->respuestas->ponderacion->PRT_Rango);
             }
+            $prueba = $totalponderacion/$prueba;
+            array_push($data_caracteristicas, $prueba); 
         }
         $datos = [];
         $datos['labels_encuestado'] = $labels_encuestado;
@@ -147,30 +152,35 @@ class ReportesEncuestasController extends Controller
         $labels_caracteristicas = [];
         $data_caracteristicas = [];
         $data_factor = [];
-        $encuesta = Encuesta::where('FK_ECT_Proceso', '=', session()->get('id_proceso'))
-            ->first();
-        $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados', function ($query) use ($encuesta) {
-            return $query->where('FK_ECD_Encuesta', '=', $encuesta->PK_ECT_Id ?? null);
+
+
+        $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query){
+            return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
         })
-            ->with('preguntas')
             ->where('FK_CRT_Factor', '=', $request->get('PK_FCT_Id'))
             ->groupby('PK_CRT_Id')
             ->get();
+
         array_push($data_factor, Factor::where('PK_FCT_Id', $request->get('PK_FCT_Id'))->first()->FCT_Nombre);
-        foreach ($caracteristicas as $caracteristica) {
+        foreach ($caracteristicas as $caracteristica)
+        {
             array_push($labels_caracteristicas, $caracteristica->CRT_Nombre);
-            foreach ($caracteristica->preguntas as $pregunta) {
-                $respuestas = SolucionEncuesta::whereHas('respuestas.ponderacion', function ($query) use ($pregunta) {
-                    return $query->where('FK_RPG_Pregunta', '=', $pregunta->PK_PGT_Id);
-                })
-                    ->with('respuestas.ponderacion')
-                    ->get();
-                $totalponderacion = 0.0;
-                foreach ($respuestas as $respuesta) {
-                    $totalponderacion = $totalponderacion + $respuesta->respuestas->ponderacion->PRT_Ponderacion;
-                }
-                array_push($data_caracteristicas, $totalponderacion);
+            $soluciones = SolucionEncuesta::whereHas('encuestados.encuesta', function ($query){
+                return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
+            })
+            ->whereHas('respuestas.pregunta.caracteristica', function ($query) use ($caracteristica){
+                return $query->where('PK_CRT_Id', '=', $caracteristica->PK_CRT_Id);
+            })
+            ->with('respuestas.ponderacion')
+            ->get();
+            $totalponderacion=0;
+            $prueba = $soluciones->count();
+            foreach($soluciones as $solucion)
+            {
+                $totalponderacion = $totalponderacion + (10/$solucion->respuestas->ponderacion->PRT_Rango);
             }
+            $prueba = $totalponderacion/$prueba;
+            array_push($data_caracteristicas, $prueba); 
         }
         $datos = [];
         $datos['labels_caracteristicas'] = $labels_caracteristicas;
