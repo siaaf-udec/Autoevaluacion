@@ -56,7 +56,7 @@
         @endcan
         @can('ACCEDER_ACTIVIDADES_MEJORAMIENTO')
             <li>
-                <a href="{{ route('admin.actividades_mejoramiento.index')}}"><i class="fa fa-slideshare"></i> Actividades de Mejoramiento</a>
+                <a href="{{ route('admin.actividades_mejoramiento.index')}}"><i class="fa fa-line-chart"></i> Actividades de Mejoramiento</a>
             </li>
         @endcan
         @can('ACCEDER_FACTORES')

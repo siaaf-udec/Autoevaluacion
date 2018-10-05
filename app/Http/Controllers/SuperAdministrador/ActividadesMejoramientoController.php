@@ -5,6 +5,7 @@ namespace App\Http\Controllers\SuperAdministrador;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Autoevaluacion\ActividadesMejoramiento;
+use App\Models\Autoevaluacion\SolucionEncuesta;
 use App\Models\Autoevaluacion\Encuesta;
 use App\Models\Autoevaluacion\Caracteristica;
 use DataTables;
@@ -55,31 +56,31 @@ class ActividadesMejoramientoController extends Controller
                 return $actividades->ACM_Fecha_Fin ? with(new Carbon($actividades->ACM_Fecha_Fin))->format('d/m/Y') : '';
             })
             ->addColumn('Valorizacion', function ($actividades) {
-                $encuesta = Encuesta::where('FK_ECT_Proceso', '=', session()->get('id_proceso'))
-                ->first();
-                $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados', function ($query) use ($encuesta) {
-                return $query->where('FK_ECD_Encuesta', '=', $encuesta->PK_ECT_Id ?? null);
+                $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query){
+                    return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
                 })
-                ->with('preguntas')
                 ->where('PK_CRT_Id','=',$actividades->Caracteristicas->PK_CRT_Id)
-                ->where('FK_CRT_Factor', '=', '1')
                 ->groupby('PK_CRT_Id')
                 ->get();
-                $totalponderacion = 0.0;
-                foreach ($caracteristicas as $caracteristica) {
-                    foreach ($caracteristica->preguntas as $pregunta) {
-                        $respuestas = SolucionEncuesta::whereHas('respuestas.ponderacion', function ($query) use ($pregunta) {
-                        return $query->where('FK_RPG_Pregunta', '=', $pregunta->PK_PGT_Id);
+        
+                foreach ($caracteristicas as $caracteristica)
+                {
+                    $soluciones = SolucionEncuesta::whereHas('encuestados.encuesta', function ($query){
+                        return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
+                    })
+                    ->whereHas('respuestas.pregunta.caracteristica', function ($query) use ($caracteristica){
+                        return $query->where('PK_CRT_Id', '=', $caracteristica->PK_CRT_Id);
                     })
                     ->with('respuestas.ponderacion')
                     ->get();
-                    $totalponderacion = 0.0;
-                        foreach ($respuestas as $respuesta) {
-                            $totalponderacion = $totalponderacion + $respuesta->respuestas->ponderacion->PRT_Ponderacion;
-                        }
+                    $totalponderacion=0;
+                    $prueba = $soluciones->count();
+                    foreach($soluciones as $solucion)
+                    {
+                        $totalponderacion = $totalponderacion + (10/$solucion->respuestas->ponderacion->PRT_Rango);
                     }
+                    return $totalponderacion/$prueba;
                 }
-                return $totalponderacion;
             })
             ->removeColumn('created_at')
             ->removeColumn('updated_at')
