@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Autoevaluacion\ActividadesMejoramiento;
 use App\Models\Autoevaluacion\SolucionEncuesta;
+use App\Models\Autoevaluacion\PlanMejoramiento;
 use App\Models\Autoevaluacion\Encuesta;
 use App\Models\Autoevaluacion\Caracteristica;
 use DataTables;
@@ -42,54 +43,54 @@ class ActividadesMejoramientoController extends Controller
 
     public function data(Request $request)
     {
-        if ($request->ajax() && $request->isMethod('GET')) {
-            $actividades = ActividadesMejoramiento::whereHas('PlanMejoramiento', function ($query) {
-                return $query->where('FK_PDM_Proceso', '=', session()->get('id_proceso') );
-            })
-            ->with('Caracteristicas')
-            ->get();
-            return DataTables::of($actividades)
-            ->editColumn('ACM_Fecha_Inicio', function ($actividades) {
-                return $actividades->ACM_Fecha_Inicio ? with(new Carbon($actividades->ACM_Fecha_Inicio))->format('d/m/Y') : '';
-            })
-            ->editColumn('ACM_Fecha_Fin', function ($actividades) {
-                return $actividades->ACM_Fecha_Fin ? with(new Carbon($actividades->ACM_Fecha_Fin))->format('d/m/Y') : '';
-            })
-            ->addColumn('Valorizacion', function ($actividades) {
-                $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query){
-                    return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
+        $planMejoramiento = PlanMejoramiento::where('FK_PDM_Proceso','=',session()->get('id_proceso'))
+        ->first();
+        if($planMejoramiento!=null){
+            if ($request->ajax() && $request->isMethod('GET')) {
+                $actividades = ActividadesMejoramiento::whereHas('PlanMejoramiento', function ($query) {
+                    return $query->where('FK_PDM_Proceso', '=', session()->get('id_proceso') );
                 })
-                ->where('PK_CRT_Id','=',$actividades->Caracteristicas->PK_CRT_Id)
-                ->groupby('PK_CRT_Id')
+                ->with('Caracteristicas')
                 ->get();
-        
-                foreach ($caracteristicas as $caracteristica)
-                {
-                    $soluciones = SolucionEncuesta::whereHas('encuestados.encuesta', function ($query){
+                return DataTables::of($actividades)
+                ->editColumn('ACM_Fecha_Inicio', function ($actividades) {
+                    return $actividades->ACM_Fecha_Inicio ? with(new Carbon($actividades->ACM_Fecha_Inicio))->format('d/m/Y') : '';
+                })
+                ->editColumn('ACM_Fecha_Fin', function ($actividades) {
+                    return $actividades->ACM_Fecha_Fin ? with(new Carbon($actividades->ACM_Fecha_Fin))->format('d/m/Y') : '';
+                })
+                ->addColumn('Valorizacion', function ($actividades) {
+                    $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query){
                         return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
                     })
-                    ->whereHas('respuestas.pregunta.caracteristica', function ($query) use ($caracteristica){
-                        return $query->where('PK_CRT_Id', '=', $caracteristica->PK_CRT_Id);
-                    })
-                    ->with('respuestas.ponderacion')
+                    ->where('PK_CRT_Id','=',$actividades->Caracteristicas->PK_CRT_Id)
+                    ->groupby('PK_CRT_Id')
                     ->get();
-                    $totalponderacion=0;
-                    $prueba = $soluciones->count();
-                    foreach($soluciones as $solucion)
+        
+                    foreach ($caracteristicas as $caracteristica)
                     {
-                        $totalponderacion = $totalponderacion + (10/$solucion->respuestas->ponderacion->PRT_Rango);
+                        $soluciones = SolucionEncuesta::whereHas('encuestados.encuesta', function ($query){
+                            return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
+                        })
+                        ->whereHas('respuestas.pregunta.caracteristica', function ($query) use ($caracteristica){
+                            return $query->where('PK_CRT_Id', '=', $caracteristica->PK_CRT_Id);
+                        })
+                        ->with('respuestas.ponderacion')
+                        ->get();
+                        $totalponderacion=0;
+                        $prueba = $soluciones->count();
+                        foreach($soluciones as $solucion)
+                        {
+                            $totalponderacion = $totalponderacion + (10/$solucion->respuestas->ponderacion->PRT_Rango);
+                        }
+                        return $totalponderacion/$prueba;
                     }
-                    return $totalponderacion/$prueba;
-                }
-            })
-            ->removeColumn('created_at')
-            ->removeColumn('updated_at')
-            ->make(true);
+                })
+                ->removeColumn('created_at')
+                ->removeColumn('updated_at')
+                ->make(true);
+            }
         }
-        return AjaxResponse::fail(
-            '¡Lo sentimos!',
-            'No se pudo completar tu solicitud.'
-        );
     }
 
     /**

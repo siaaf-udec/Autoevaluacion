@@ -124,3 +124,19 @@ Route::get('historial/datos_documentales/{id_proceso}', array(
 //Actividades de mejoramiento
 Route::resource('actividades_mejoramiento', 'ActividadesMejoramientoController', ['as' => 'admin']);
 Route::get('actividades_mejoramiento/data/data', array('as' => 'admin.actividades_mejoramiento.data', 'uses' => 'ActividadesMejoramientoController@data'));
+
+//informes plan de mejoramiento
+Route::get('informes_mejoramiento', array(
+    'as' => 'admin.informes_mejoramiento',
+    'uses' => 'ReportesPlanMejoramientoController@index'
+));
+
+Route::get('informes_mejoramiento/datos', array(
+    'as' => 'admin.informes_mejoramiento.datos',
+    'uses' => 'ReportesPlanMejoramientoController@obtenerDatos'
+));
+
+Route::post('informes_mejoramiento/filtrar_factores', array(
+    'as' => 'admin.informes_mejoramiento.filtrar_factores',
+    'uses' => 'ReportesPlanMejoramientoController@filtro_factores'
+));

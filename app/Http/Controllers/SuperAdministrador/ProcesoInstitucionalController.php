@@ -188,11 +188,16 @@ class ProcesoInstitucionalController extends Controller
         ->first();
         if($fase->FSS_Nombre == "plan de mejoramiento")
         {
-            $planmejoramiento = new PlanMejoramiento();
-            $planmejoramiento->PDM_Nombre = "Plan de Mejoramiento Institucional ".$request->get('PCS_Nombre');
-            $planmejoramiento->PDM_Descripcion ="Esta es la descripcion mientrastanto :D ";
-            $planmejoramiento->FK_PDM_Proceso=$id;
-            $planmejoramiento->save();
+            $verificarPlan = PlanMejoramiento::where('FK_PDM_Proceso','=',$id)
+            ->first();
+            if($verificarPlan == null)
+            {
+                $planmejoramiento = new PlanMejoramiento();
+                $planmejoramiento->PDM_Nombre = "Plan de Mejoramiento Institucional ".$request->get('PCS_Nombre');
+                $planmejoramiento->PDM_Descripcion ="Esta es la descripcion mientrastanto :D ";
+                $planmejoramiento->FK_PDM_Proceso=$id;
+                $planmejoramiento->save();
+            }
         }
         $proceso->FK_PCS_Lineamiento = $request->get('PK_LNM_Id');
         $proceso->update();

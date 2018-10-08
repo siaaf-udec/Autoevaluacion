@@ -11,7 +11,9 @@
         <div class="col-md-12">
             <div class="actions">
                 <a href="{{ route('admin.actividades_mejoramiento.create') }}" class="btn btn-info">
-                    <i class="fa fa-plus"></i> Agregar Actividad</a></div>
+                    <i class="fa fa-plus"></i> Agregar Actividad</a>
+                <a href="{{ route('admin.informes_mejoramiento') }}" class="btn btn-info">
+                    <i class="fa fa-plus"></i> Ver Reporte</a></div>
             </div>
         <br>
         <br>

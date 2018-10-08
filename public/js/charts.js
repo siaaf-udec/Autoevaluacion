@@ -130,3 +130,22 @@ function peticionGraficasEncuestas(ruta) {
         }
     });
 }
+
+var caracteristicas;
+function peticionGraficasMejoramiento(ruta) {
+    $.ajax({
+        url: ruta,
+        type: 'GET',
+        dataType: 'json',
+        success: function (r) {
+           $('#graficas').removeClass('hidden');
+           caracteristicas = crearGrafica('caracteristicas', 'horizontalBar', r.data_factor, r.labels_caracteristicas,
+           ['Valorización'], r.data_caracteristicas);
+        },
+        error: function(xhr,err)
+        {
+            alert("readyState: "+err.readyState+"\nstatus: "+err.status);
+            alert("responseText: "+err.responseText);
+        }
+    });
+}
