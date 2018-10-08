@@ -34,7 +34,7 @@
     {!! Form::label('PGT_Texto','Pregunta', ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
         {!! Form::text('PGT_Texto', old('PGT_Texto'),[ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 'required' => 'required',
-        'data-parsley-length'=>'[1, 5000]', 'data-parsley-pattern' => '^[a-zA-Z ][a-zA-Z0-9-_\.,()/;:ñÑáéíóúÁÉÍÓÚ ]+$',
+        'data-parsley-length'=>'[1, 5000]', 'data-parsley-pattern' => '^[a-zA-Z0-9-_\.,;:?¿!¡()/ñÑáéíóúÁÉÍÓÚ ]+$',
         'data-parsley-pattern-message' => 'Error, digite una pregunta valida','required' => 'required','data-parsley-trigger'=>"change" ] ) !!}
     </div>
 </div>

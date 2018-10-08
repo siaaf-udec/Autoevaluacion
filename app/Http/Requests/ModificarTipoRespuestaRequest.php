@@ -50,12 +50,32 @@ class ModificarTipoRespuestaRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             $id = $this->route()->parameter('tipoRespuestum');
-            $sumatoria = 0;
+            $sumatoria=0;$valor_one = 0;$valor_dos = 0; $bandera=0;
             foreach (PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)->get() as $ponderacion) {
                 $sumatoria = $sumatoria + $this->request->get($ponderacion->PK_PRT_Id);
             }
             if ($sumatoria != $this->request->get('TRP_TotalPonderacion')) {
                 $validator->errors()->add('Seleccione un proceso', 'La suma de ponderaciones no corresponde con el total de ponderacion digitado!');
+            }
+            $i=1;
+            foreach (PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)->get() as $ponderacion) {
+                $sumatoria = $sumatoria + $this->request->get($ponderacion->PK_PRT_Id);
+                if($i==1)
+                {
+                    $valor_one = $this->request->get($ponderacion->PK_PRT_Id);
+                }
+                if($i==2)
+                {
+                    if($valor_one <= $this->request->get($ponderacion->PK_PRT_Id))
+                    {
+                        $bandera = 1;
+                    }
+                    $valor_one = $this->request->get($ponderacion->PK_PRT_Id);
+                }
+                $i=2;
+            }
+            if ($bandera==1) {
+                $validator->errors()->add('Error', 'Las ponderaciones deben ir en orden de mayor a menor. Por favor verifique');
             }
         });
     }

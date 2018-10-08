@@ -81,6 +81,7 @@ class ImportarPreguntas implements ShouldQueue
                     foreach ($sheets[1] as $row) {
                         $ponderacion = new PonderacionRespuesta();
                         $ponderacion->PRT_Ponderacion = $row['ponderacion'];
+                        $ponderacion->PRT_Rango = $row['rango']; 
                         $ponderacion->FK_PRT_TipoRespuestas = $tipo_respuesta[$row['tipo_respuesta']];
                         $ponderacion->save();
                         $ponderaciones[$row['numero_ponderacion']] = $ponderacion->PK_PRT_Id;

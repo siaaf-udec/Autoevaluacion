@@ -60,7 +60,7 @@
                 var status=$('#ponderacion')[0].checked;
                 if(status === true){
                     var number = document.getElementById('cantidad').value;
-                    if(number != 0)
+                    if(number != 0 && number <= 5)
                     {
                         var container = document.getElementById("container");
                         while (container.hasChildNodes()) {
@@ -123,6 +123,7 @@
                     success: function (response, NULL, jqXHR) {
                         $(form)[0].reset();
                         $(form).parsley().reset();
+                        document.getElementById('TotalPonderaciones').value = 10;
                         new PNotify({
                             title: response.title,
                             text: response.msg,

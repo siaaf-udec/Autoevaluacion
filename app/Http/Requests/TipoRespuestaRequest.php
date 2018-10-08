@@ -51,12 +51,24 @@ class TipoRespuestaRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             $sumatoria = 0;
+            $bandera = 0;
             for ($i = 1; $i <= $this->request->get('TRP_CantidadRespuestas'); $i++) {
 
                 $sumatoria = $sumatoria + $this->request->get('Ponderacion_' . $i);
             }
             if ($sumatoria != $this->request->get('TRP_TotalPonderacion')) {
                 $validator->errors()->add('Seleccione un proceso', 'La suma de ponderaciones no corresponde con el total de ponderacion digitado!');
+            }
+
+            for ($i = 1; $i <= $this->request->get('TRP_CantidadRespuestas'); $i++) 
+            {
+                if($this->request->get('Ponderacion_' . $i) <= $this->request->get('Ponderacion_' . ($i++))) 
+                {
+                    $bandera = 1;
+                }
+            }
+            if ($bandera==1) {
+                $validator->errors()->add('Error', 'Las ponderaciones deben ir en orden de mayor a menor. Por favor verifique');
             }
         });
     }
