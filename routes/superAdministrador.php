@@ -120,9 +120,13 @@ Route::get('historial/datos_documentales/{id_proceso}', array(
     'as' => 'historial.documental',
     'uses' => 'HistorialController@obtenerDatosDocumentales'
 ));
+//Caracteristicas Mejoramiento
+Route::resource('caracteristicas_mejoramiento', 'CaracteristicasMejoramientoController', ['as' => 'admin']);
+Route::get('caracteristicas_mejoramiento/data/data', array('as' => 'admin.caracteristicas_mejoramiento.data', 'uses' => 'CaracteristicasMejoramientoController@data'));
 
 //Actividades de mejoramiento
-Route::resource('actividades_mejoramiento', 'ActividadesMejoramientoController', ['as' => 'admin']);
+Route::resource('actividades_mejoramiento', 'ActividadesMejoramientoController', ['as' => 'admin'])->except(['show']);
+Route::get('actividades_mejoramiento/{id}', array('as' => 'admin.actividades_mejoramiento.datos', 'uses' => 'ActividadesMejoramientoController@index'));
 Route::get('actividades_mejoramiento/data/data', array('as' => 'admin.actividades_mejoramiento.data', 'uses' => 'ActividadesMejoramientoController@data'));
 
 //informes plan de mejoramiento

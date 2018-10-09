@@ -54,12 +54,6 @@
                     de Interes</a>
             </li>
         @endcan
-        @can('ACCEDER_ACTIVIDADES_MEJORAMIENTO')
-            <li>
-                <a href="{{ route('admin.actividades_mejoramiento.index')}}"><i class="fa fa-line-chart"></i> Actividades de Mejoramiento</a>
-            </li>
-        @endcan
-        @can('ACCEDER_FACTORES')
         <li><a><i class="fa fa-bookmark"></i>CNA<span class="fa fa-chevron-down"></span> </a>
             <ul class="nav child_menu">
                 @can('ACCEDER_LINEAMIENTOS')
@@ -86,6 +80,17 @@
                 @endcan
             </ul>
         </li>
-        @endcan
+
+        <li><a><i class="fa fa-star"></i>Plan de Mejoramiento<span class="fa fa-chevron-down"></span> </a>
+            <ul class="nav child_menu">
+                @can('ACCEDER_ACTIVIDADES_MEJORAMIENTO')
+                <li>
+                    <a href="{{ route('admin.caracteristicas_mejoramiento.index')}}"><i class="fa fa-line-chart"></i> Valorizacion de Caracteristicas</a>
+                </li>
+                @endcan
+                <li class="sub_menu"><a href="#"><i class="fa fa-bar-chart"></i>Actividades de Mejoramiento</a>
+                </li>
+            </ul>
+        </li>
     </ul>
 </li>

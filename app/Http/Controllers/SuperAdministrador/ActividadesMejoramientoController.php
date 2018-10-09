@@ -9,6 +9,7 @@ use App\Models\Autoevaluacion\SolucionEncuesta;
 use App\Models\Autoevaluacion\PlanMejoramiento;
 use App\Models\Autoevaluacion\Encuesta;
 use App\Models\Autoevaluacion\Caracteristica;
+use App\Models\Autoevaluacion\Lineamiento;
 use DataTables;
 use Carbon\Carbon;
 
@@ -36,9 +37,11 @@ class ActividadesMejoramientoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        return view('autoevaluacion.SuperAdministrador.ActividadesMejoramiento.index');
+        session()->put('id_actividad', $id);
+        $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
+        return view('autoevaluacion.SuperAdministrador.ActividadesMejoramiento.create',compact('lineamientos'));
     }
 
     public function data(Request $request)
