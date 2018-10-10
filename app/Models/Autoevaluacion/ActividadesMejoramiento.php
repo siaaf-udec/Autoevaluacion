@@ -34,6 +34,8 @@ class ActividadesMejoramiento extends Model
      */
     protected $guarded = ['PK_ACM_Id', 'created_at', 'updated_at'];
     //
+    protected $dates = ['ACM_Fecha_Inicio', 'ACM_Fecha_Fin'];
+    
     public function Caracteristicas ()
     {
         return $this->belongsTo(Caracteristica::class, 'FK_ACM_Caracteristica', 'PK_CRT_Id');

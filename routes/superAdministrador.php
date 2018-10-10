@@ -126,7 +126,7 @@ Route::get('caracteristicas_mejoramiento/data/data', array('as' => 'admin.caract
 
 //Actividades de mejoramiento
 Route::resource('actividades_mejoramiento', 'ActividadesMejoramientoController', ['as' => 'admin'])->except(['show']);
-Route::get('actividades_mejoramiento/{id}', array('as' => 'admin.actividades_mejoramiento.datos', 'uses' => 'ActividadesMejoramientoController@index'));
+Route::get('actividades_mejoramiento/{id}', array('as' => 'admin.actividades_mejoramiento.datos', 'uses' => 'ActividadesMejoramientoController@create'));
 Route::get('actividades_mejoramiento/data/data', array('as' => 'admin.actividades_mejoramiento.data', 'uses' => 'ActividadesMejoramientoController@data'));
 
 //informes plan de mejoramiento

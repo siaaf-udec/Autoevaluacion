@@ -7,18 +7,6 @@
     @component('admin.components.panel') 
     @slot('title', 'Actividades de Mejoramiento')
     @if(session()->get('id_proceso'))
-    @can('CREAR_ACTIVIDADES_MEJORAMIENTO')
-        <div class="col-md-12">
-            <div class="actions">
-                <a href="{{ route('admin.actividades_mejoramiento.create') }}" class="btn btn-info">
-                    <i class="fa fa-plus"></i> Agregar Actividad</a>
-                <a href="{{ route('admin.informes_mejoramiento') }}" class="btn btn-info">
-                    <i class="fa fa-plus"></i> Ver Reporte</a></div>
-            </div>
-        <br>
-        <br>
-        <br>
-    @endcan
     @can('VER_ACTIVIDADES_MEJORAMIENTO')
         <div class="col-md-12">
             @component('admin.components.datatable', ['id' => 'actividades_mejoramiento_table_ajax']) @slot('columns', [
@@ -131,7 +119,7 @@
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/aspectos') }}' + '/' + dataTable.PK_ASP_Id;
+                var route = '{{ url('admin/actividades_mejoramiento') }}' + '/' + dataTable.PK_ACM_Id;
                 var type = 'DELETE';
                 dataType: "JSON",
                     SwalDelete(dataTable.PK_ASP_Id, route);
@@ -142,7 +130,7 @@
                 e.preventDefault();
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
-                var route = '{{ url('admin/aspectos/') }}' + '/' + dataTable.PK_ASP_Id + '/edit';
+                var route = '{{ url('admin/actividades_mejoramiento/') }}' + '/' + dataTable.PK_ACM_Id + '/edit';
                 window.location.href = route;
 
 
@@ -153,7 +141,7 @@
         function SwalDelete(id, route) {
             swal({
                 title: 'Esta seguro?',
-                text: "El Aspecto sera eliminado permanentemente!",
+                text: "La actividad de mejoramiento sera eliminada permanentemente!",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -181,7 +169,7 @@
                             }
                         })
                             .done(function (response) {
-                                swal('Eliminado exitosamente!', response.message, response.status);
+                                swal('Eliminada exitosamente!', response.message, response.status);
                             })
                             .fail(function () {
                                 swal('Oops...', 'Something went wrong with ajax !', 'error');

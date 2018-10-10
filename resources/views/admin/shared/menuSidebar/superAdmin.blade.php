@@ -88,7 +88,8 @@
                     <a href="{{ route('admin.caracteristicas_mejoramiento.index')}}"><i class="fa fa-line-chart"></i> Valorizacion de Caracteristicas</a>
                 </li>
                 @endcan
-                <li class="sub_menu"><a href="#"><i class="fa fa-bar-chart"></i>Actividades de Mejoramiento</a>
+                <li>
+                    <a href="{{ route('admin.actividades_mejoramiento.index')}}"><i class="fa fa-bar-chart"></i>Actividades de Mejoramiento</a>
                 </li>
             </ul>
         </li>

@@ -37,11 +37,9 @@ class ActividadesMejoramientoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
-        session()->put('id_actividad', $id);
-        $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
-        return view('autoevaluacion.SuperAdministrador.ActividadesMejoramiento.create',compact('lineamientos'));
+        return view('autoevaluacion.SuperAdministrador.ActividadesMejoramiento.index');
     }
 
     public function data(Request $request)
@@ -101,9 +99,11 @@ class ActividadesMejoramientoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        session()->put('id_actividad', $id);
+        $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
+        return view('autoevaluacion.SuperAdministrador.ActividadesMejoramiento.create',compact('lineamientos'));
     }
 
     /**
@@ -114,7 +114,22 @@ class ActividadesMejoramientoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $actividades = new ActividadesMejoramiento();
+        /**
+        * Se debe cambiar el formato de la fecha de publicacion y de finalizacion.  
+        */
+        $actividades->fill($request->only(['ACM_Nombre', 'ACM_Descripcion']));
+        $actividades->ACM_Fecha_Inicio = Carbon::createFromFormat('d/m/Y', $request->get('ACM_Fecha_Inicio'));;
+        $actividades->ACM_Fecha_Fin = Carbon::createFromFormat('d/m/Y', $request->get('ACM_Fecha_Fin'));
+        $actividades->FK_ACM_Caracteristica = session()->get('id_actividad');
+        $idPlanMejoramiento = PlanMejoramiento::where('FK_PDM_Proceso','=', session()->get('id_proceso'))->first()->PK_PDM_Id;
+        $actividades->FK_ACM_Plan_Mejoramiento = $idPlanMejoramiento;
+        $actividades->save();
+        return response([
+            'msg' => 'Actividad creada con exito.',
+            'title' => '¡Proceso Exitoso!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
@@ -136,7 +151,11 @@ class ActividadesMejoramientoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $actividades = ActividadesMejoramiento::findOrFail($id);
+        return view(
+            'autoevaluacion.SuperAdministrador.ActividadesMejoramiento.edit',
+            compact('actividades')
+        );
     }
 
     /**
@@ -148,7 +167,17 @@ class ActividadesMejoramientoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $actividades = ActividadesMejoramiento::find($id);
+        $actividades->ACM_Fecha_Inicio = Carbon::createFromFormat('d/m/Y', $request->get('ACM_Fecha_Inicio'));;
+        $actividades->ACM_Fecha_Fin = Carbon::createFromFormat('d/m/Y', $request->get('ACM_Fecha_Fin'));
+        
+        $actividades->ACM_Nombre = $request->get('ACM_Nombre');
+        $actividades->ACM_Descripcion = $request->get('ACM_Descripcion');
+        $actividades->update();
+        return response(['msg' => 'La actividad de mejoramiento de ha moficado.',
+            'title' => 'Actividad de Mejoramiento Modificada!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 
     /**
@@ -159,6 +188,11 @@ class ActividadesMejoramientoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        ActividadesMejoramiento::destroy($id);
+
+        return response(['msg' => 'La actividad de mejoramiento se ha sido eliminada exitosamente.',
+            'title' => 'Actividad de Mejoramiento Eliminada!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+        ->header('Content-Type', 'application/json');
     }
 }
