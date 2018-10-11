@@ -61,14 +61,6 @@ class CaracteristicasMejoramientoController extends Controller
                             return "No tiene asociado un Ambito de Responsabilidad";}
                     })
                     ->addColumn('Valorizacion', function ($caracteristicas) {
-                        $caracteristicasM = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query){
-                            return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
-                        })
-                        ->where('PK_CRT_Id','=',$caracteristicas->PK_CRT_Id)
-                        ->groupby('PK_CRT_Id')
-                        ->get();
-                        foreach ($caracteristicas as $caracteristica)
-                        {
                             $soluciones = SolucionEncuesta::whereHas('encuestados.encuesta', function ($query){
                                 return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
                             })
@@ -77,41 +69,34 @@ class CaracteristicasMejoramientoController extends Controller
                             })
                             ->with('respuestas.ponderacion')
                             ->get();
-                            if($soluciones->count()>0)
-                            {
+                            if($soluciones->count()>0){
                                 $totalponderacion=0;
                                 $prueba = $soluciones->count();
-                                foreach($soluciones as $solucion)
-                                {
+                                foreach($soluciones as $solucion){
                                     $totalponderacion = $totalponderacion + (10/$solucion->respuestas->ponderacion->PRT_Rango);
                                 }
-                                session()->push('valorizacion',$totalponderacion/$prueba);
-                                return $totalponderacion/$prueba;
+                                session()->push('valorizacion',round($totalponderacion/$prueba),2);
+                                return round($totalponderacion/$prueba,2);
                             }
-                            else
-                            {
+                            else{
                                 session()->push('valorizacion',0);
                                 return 0;
                             }
-                        }
                     })
                 ->addColumn('Calificacion', function ($caracteristicas){
-                    $valor = session()->pull('valorizacion');
-                        switch ($valor) 
-                        {
-                            case ($valor >= 0 && $valor):
-                            return "<span class='label label-sm label-danger'>No se cumple</span>";
-                            break;
-                            case ($valor>= 4 && $valor<=6):
-                            return "<span class='label label-sm label-warning'>Parcialmente</span>";
-                            break;
-                            case ($valor>= 7 && $valor<=9):
-                            return "<span class='label label-sm label-info'>Se cumple aceptablemente</span>";
-                            break;
-                            case ($valor == 10):
-                            return "<span class='label label-sm label-success'>Se cumple totalmente</span>";
-                            break;
-                        }
+                    $valor = session()->pull('valorizacion')[0];
+                    if($valor>=0.0 && $valor<3.9){
+                        return "<span class='label label-sm label-danger'>No se cumple</span>";
+                    }
+                    elseif($valor>=4.0 && $valor<=6.9){
+                        return "<span class='label label-sm label-warning'>Parcialmente</span>";
+                    }
+                    elseif($valor>=7.0 && $valor<=9.5){
+                        return "<span class='label label-sm label-info'>Se cumple aceptablemente</span>";
+                    }
+                    else{
+                        return "<span class='label label-sm label-success'>Se cumple totalmente</span>";
+                    }
                 })
                 ->rawColumns(['Calificacion'])
                 ->removeColumn('created_at')

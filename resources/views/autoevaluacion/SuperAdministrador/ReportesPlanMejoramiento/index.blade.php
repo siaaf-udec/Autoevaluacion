@@ -8,14 +8,6 @@
         @slot('title', 'Reportes Plan de Mejoramiento')
         @if(session()->get('id_proceso'))
         <div id="graficas" class="hidden">
-
-        <form target="_blank" id="form_generar_pdf" action="#" method="post">
-                @csrf
-                <input type="hidden" name="json_datos" id="hidden_html" />
-                <button class="btn btn-danger" id="generar_reporte"><i class="fa fa-file-pdf-o"></i> Generar Reporte</button>
-        </form>
-            <br>
-            <br>
             <div class="row">
                 {!! Form::open([
                         'route' => 'admin.informes_mejoramiento.filtrar_factores', 
@@ -72,7 +64,7 @@
             
             peticionGraficasMejoramiento("{{ route('admin.informes_mejoramiento.datos') }}");
             
-            
+            var form = $('#form_filtros');
             $("#factor").change(function () {
                 console.log('asssa');
                  $.ajax({
@@ -83,16 +75,11 @@
                     success: function (r) {
                         caracteristicas.destroy();
                         caracteristicas = crearGrafica('caracteristicas', 'horizontalBar', r.data_factor, r.labels_caracteristicas,
-                        ['Valorizacion'], r.data_caracteristicas);
+                        ['Valorizacion de Caracteristicas'], r.data_caracteristicas);
                     }
                 });
 
             });
-            $('#generar_reporte').on('click', function(e){              
-                $("#hidden_html").val(url_base64.join('|'));
-                $('#form_generar_pdf').submit();
-            });
-            
             @endif
         });
     </script>

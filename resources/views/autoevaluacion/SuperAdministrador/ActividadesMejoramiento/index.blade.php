@@ -10,7 +10,7 @@
     @can('VER_ACTIVIDADES_MEJORAMIENTO')
         <div class="col-md-12">
             @component('admin.components.datatable', ['id' => 'actividades_mejoramiento_table_ajax']) @slot('columns', [
-            'id', 'Nombre', 'Descripcion', 'Fecha de Inicio', 'Fecha de Finalizacion', 'Caracteristica', 'Valorizacion',
+            'id', 'Nombre', 'Descripcion', 'Fecha de Inicio', 'Fecha de Finalizacion', 'Caracteristica', 
             'Acciones' => ['style' => 'width:85px;']]) @endcomponent
         </div> 
     @endcan
@@ -71,7 +71,6 @@
                         {data: 'ACM_Fecha_Inicio', name: 'Fecha de Inicio', className: "min-phone-l"},
                         {data: 'ACM_Fecha_Fin', name: 'Fecha de Finalizacion', className: "all"},
                         {data: 'caracteristicas.CRT_Nombre', name: 'Caracteristica', className: "min-phone-l"},
-                        {data: 'Valorizacion', name: 'Valorizacion', className: "min-phone-l"},
                         {
                             defaultContent:
                                 '@can('ELIMINAR_ACTIVIDADES_MEJORAMIENTO')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +

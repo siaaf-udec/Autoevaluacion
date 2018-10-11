@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SuperAdministrador;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ActividadesMejoramientoRequest;
 use App\Models\Autoevaluacion\ActividadesMejoramiento;
 use App\Models\Autoevaluacion\SolucionEncuesta;
 use App\Models\Autoevaluacion\PlanMejoramiento;
@@ -60,33 +61,6 @@ class ActividadesMejoramientoController extends Controller
                 ->editColumn('ACM_Fecha_Fin', function ($actividades) {
                     return $actividades->ACM_Fecha_Fin ? with(new Carbon($actividades->ACM_Fecha_Fin))->format('d/m/Y') : '';
                 })
-                ->addColumn('Valorizacion', function ($actividades) {
-                    $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query){
-                        return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
-                    })
-                    ->where('PK_CRT_Id','=',$actividades->Caracteristicas->PK_CRT_Id)
-                    ->groupby('PK_CRT_Id')
-                    ->get();
-        
-                    foreach ($caracteristicas as $caracteristica)
-                    {
-                        $soluciones = SolucionEncuesta::whereHas('encuestados.encuesta', function ($query){
-                            return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
-                        })
-                        ->whereHas('respuestas.pregunta.caracteristica', function ($query) use ($caracteristica){
-                            return $query->where('PK_CRT_Id', '=', $caracteristica->PK_CRT_Id);
-                        })
-                        ->with('respuestas.ponderacion')
-                        ->get();
-                        $totalponderacion=0;
-                        $prueba = $soluciones->count();
-                        foreach($soluciones as $solucion)
-                        {
-                            $totalponderacion = $totalponderacion + (10/$solucion->respuestas->ponderacion->PRT_Rango);
-                        }
-                        return $totalponderacion/$prueba;
-                    }
-                })
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
                 ->make(true);
@@ -112,7 +86,7 @@ class ActividadesMejoramientoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ActividadesMejoramientoRequest $request)
     {
         $actividades = new ActividadesMejoramiento();
         /**
@@ -165,7 +139,7 @@ class ActividadesMejoramientoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ActividadesMejoramientoRequest $request, $id)
     {
         $actividades = ActividadesMejoramiento::find($id);
         $actividades->ACM_Fecha_Inicio = Carbon::createFromFormat('d/m/Y', $request->get('ACM_Fecha_Inicio'));;

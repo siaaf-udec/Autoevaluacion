@@ -156,7 +156,7 @@ class ProcesoProgramaController extends Controller
         $nombres = explode(' ', ProgramaAcademico::where('PK_PAC_Id', $request->get('PK_PAC_Id'))->first()->PAC_Nombre);
         $slug = "";
         foreach ($nombres as $nombre) $slug = $slug . '_' . $nombre;
-        $proceso->PCS_Slug_Procesos = "Proceso" . $slug;
+        $proceso->PCS_Slug_Procesos = "Proceso" . $slug. Carbon::now()->toDateString();
 
         $proceso->FK_PCS_Fase = 3;
         $proceso->FK_PCS_Programa = $request->get('PK_PAC_Id');
@@ -247,7 +247,7 @@ class ProcesoProgramaController extends Controller
         $nombres = explode(' ', ProgramaAcademico::where('PK_PAC_Id', $request->get('PK_PAC_Id'))->first()->PAC_Nombre);
         $slug = "";
         foreach ($nombres as $nombre) $slug = $slug . '_' . $nombre;
-        $proceso->PCS_Slug_Procesos = $slug;
+        $proceso->PCS_Slug_Procesos = $slug . Carbon::now()->toDateString();
         $proceso->update();
 
 
