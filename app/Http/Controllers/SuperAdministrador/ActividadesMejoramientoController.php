@@ -40,7 +40,9 @@ class ActividadesMejoramientoController extends Controller
      */
     public function index()
     {
-        return view('autoevaluacion.SuperAdministrador.ActividadesMejoramiento.index');
+        $planMejoramiento = PlanMejoramiento::where('FK_PDM_Proceso','=',session()->get('id_proceso'))
+        ->first();
+        return view('autoevaluacion.SuperAdministrador.ActividadesMejoramiento.index', compact('planMejoramiento'));
     }
 
     public function data(Request $request)

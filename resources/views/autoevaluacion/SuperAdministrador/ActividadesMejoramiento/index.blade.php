@@ -7,6 +7,7 @@
     @component('admin.components.panel') 
     @slot('title', 'Actividades de Mejoramiento')
     @if(session()->get('id_proceso'))
+    @if(isset($planMejoramiento))
     @can('VER_ACTIVIDADES_MEJORAMIENTO')
         <div class="col-md-12">
             @component('admin.components.datatable', ['id' => 'actividades_mejoramiento_table_ajax']) @slot('columns', [
@@ -14,6 +15,9 @@
             'Acciones' => ['style' => 'width:85px;']]) @endcomponent
         </div> 
     @endcan
+    @else
+    Este proceso aun no tiene plan de mejoramiento.
+    @endif
     @else
     Por favor seleccione un proceso
     @endif
