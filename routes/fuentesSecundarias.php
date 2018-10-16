@@ -3,6 +3,9 @@
  * Fuentes Secundarias
  */
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+
 //Rutas para especificar las dependencias a las que pertenece cada documento
 Route::resource('dependencia', 'DependenciaController', ['as' => 'documental'])->except([
     'show', 'edit'
@@ -95,4 +98,9 @@ Route::post('informes_institucionales/descargar', array(
     'as' => 'documental.informe_institucionales.descargar',
     'uses' => 'ReporteController@pdf_documentos_institucionales'
 ));
+
+Route::get('descargar', function (Request $request) {
+    $archivo = substr($request->query('archivo'), 9);
+    return response()->download(storage_path('app/public/' . $archivo));
+})->name('descargar');
 

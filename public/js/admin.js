@@ -85,7 +85,7 @@ function selectDinamico(Id_select_1, Id_select_2, ruta, dependientes = []) {
 
                     // Limpiamos el select
                     select2.find('option').remove();
-                    select2.append('<option value="">--Seleccione--</option>');
+                    select2.append('<option value="">-- Seleccione --</option>');
                     $.each(r, function (key, data) { // indice, valor
                         select2.append('<option value="' + key + '">' + data + '</option>');
                     })

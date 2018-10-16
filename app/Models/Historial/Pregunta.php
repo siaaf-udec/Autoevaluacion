@@ -33,4 +33,9 @@ class Pregunta extends Model
      * @var array
      */
     protected $guarded = ['PK_PGT_Id', 'created_at', 'updated_at'];
+
+    public function caracteristica()
+    {
+        return $this->belongsTo(Caracteristica::class, 'FK_PGT_Caracteristica', 'PK_CRT_Id');
+    }
 }

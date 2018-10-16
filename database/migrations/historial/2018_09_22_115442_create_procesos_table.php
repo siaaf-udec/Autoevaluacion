@@ -17,6 +17,7 @@ class CreateProcesosTable extends Migration
             $table->increments('PK_PCS_Id');
             $table->string("PCS_Nombre");
             $table->string("PCS_Completitud_Documental");
+            $table->year('PCS_Anio_Proceso');
             $table->integer('FK_PCS_Lineamiento')->unsigned();
             $table->timestamps();
 

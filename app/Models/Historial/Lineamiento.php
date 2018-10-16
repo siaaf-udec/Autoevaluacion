@@ -33,4 +33,14 @@ class Lineamiento extends Model
      * @var array
      */
     protected $guarded = ['PK_LNM_Id', 'created_at', 'updated_at'];
+
+    /**
+     * Relacion de muchos a uno de la tabla factor
+     * Un factor tiene un lineamiento
+     * y un lineamiento muchos factores
+     */
+    public function factores()
+    {
+        return $this->hasMany(Factor::class, 'FK_FCT_Lineamiento', 'PK_LNM_Id');
+    }
 }

@@ -116,9 +116,18 @@ Route::get('historial',  array(
     'as' => 'admin.historial',
     'uses' => 'HistorialController@index'
 ));
-Route::get('historial/datos_documentales/{id_proceso}', array(
-    'as' => 'historial.documental',
-    'uses' => 'HistorialController@obtenerDatosDocumentales'
+Route::get('historial/proceso/{anio}', array(
+    'as' => 'admin.historial.procesos.anio',
+    'uses' => 'HistorialController@obtenerProceso'
+));
+
+Route::get('historial/datos_graficas/{id_proceso}', array(
+    'as' => 'admin.historial.datos_graficas',
+    'uses' => 'HistorialController@obtenerDatosGraficas'
+));
+Route::get('historial/caracteristicas/{id_factor}', array(
+    'as' => 'admin.historial.obtener_caracteristicas',
+    'uses' => 'HistorialController@obtenerCaracteristicas'
 ));
 //Caracteristicas Mejoramiento
 Route::resource('caracteristicas_mejoramiento', 'CaracteristicasMejoramientoController', ['as' => 'admin']);

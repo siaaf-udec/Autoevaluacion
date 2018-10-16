@@ -34,4 +34,16 @@ class Proceso extends Model
      */
     protected $guarded = ['PK_PCS_Id', 'created_at', 'updated_at'];
 
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['PCS_Fecha_Proceso'];
+
+    public function lineamiento()
+    {
+        return $this->belongsTo(Lineamiento::class, 'FK_PCS_Lineamiento', 'PK_LNM_Id');
+    }
+
 }

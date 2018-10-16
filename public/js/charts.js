@@ -149,3 +149,40 @@ function peticionGraficasMejoramiento(ruta) {
         }
     });
 }
+
+
+function peticionGraficasHistorial(ruta) {
+    $.ajax({
+        url: ruta,
+        type: 'GET',
+        dataType: 'json',
+        success: function (r) {
+            $('.progress-bar').css('width', r.completado + '%').attr('aria-valuenow', r.completado);
+            $('#graficas').removeClass('hidden');
+            $('.progress-bar').text(r.completado + '% completado')
+
+
+            crearGrafica('pie_completado', 'pie', 'Grado de completitud', ['Completado', 'Faltante'], ['adasd'], r.dataPie);
+            crearGrafica('fechas_cantidad', 'line', 'Cantidad de archivos subidos por fecha',
+                r.labels_fecha, ['cantidad'], r.data_fechas);
+
+            ChartFiltro = crearGrafica('documentos_indicador', 'bar', 'Documentos subidos por indicador', r.labels_indicador,
+                ['Cantidad'], r.data_indicador
+            );
+
+            var select2 = $('#factor_documental');
+            // Limpiamos el select
+            select2.find('option').remove();
+            select2.append('<option value="">-- Seleccione --</option>');
+            console.log(r.factores);
+            $.each(r.factores, function (key, data) { // indice, valor
+                select2.append('<option value="' + key + '">' + data + '</option>');
+            })
+
+
+        },
+        error: function () {
+            alert('Ocurrio un error en el servidor ...');
+        }
+    });
+}

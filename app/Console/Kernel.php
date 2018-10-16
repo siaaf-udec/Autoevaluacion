@@ -100,6 +100,7 @@ class Kernel extends ConsoleKernel
                 $proceso_historial->PCS_Nombre = $process->nombre_proceso;
                 $proceso_historial->PCS_Completitud_Documental = (($documentos->count() / $indicadores_documentales->count()) * 100);
                 $proceso_historial->FK_PCS_Lineamiento = $lineamiento_historial->PK_LNM_Id;
+                $proceso_historial->PCS_Anio_Proceso = $process->PCS_FechaInicio;
                 $proceso_historial->save();
 
                 foreach ($lineamientos_autoevaluacion[0]->factor_ as $factor) {

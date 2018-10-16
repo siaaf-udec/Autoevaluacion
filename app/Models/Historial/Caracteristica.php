@@ -34,4 +34,19 @@ class Caracteristica extends Model
      */
     protected $guarded = ['PK_CRT_Id', 'created_at', 'updated_at'];
 
+    public function factor()
+    {
+        return $this->belongsTo(Factor::class, 'FK_CRT_Factor', 'PK_FCT_Id');
+    }
+
+    /**
+     * Relacion de muchos a uno de la tabla indicadores
+     * Un indicador puede tener muchas caracteristicas
+     * y un caracterista un solo indicador
+     */
+    public function indicadores_documentales()
+    {
+        return $this->hasMany(IndicadorDocumental::class, 'FK_IDO_Caracteristica', 'PK_CRT_Id');
+    }
+
 }

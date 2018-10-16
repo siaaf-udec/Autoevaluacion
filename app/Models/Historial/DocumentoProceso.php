@@ -44,4 +44,9 @@ class DocumentoProceso extends Model
         return $this->belongsTo(IndicadorDocumental::class, 'FK_DPC_Indicador', 'PK_IDO_Id');
     }
 
+    public function proceso()
+    {
+        return $this->belongsTo(Proceso::class, 'FK_DPC_Proceso', 'PK_PCS_Id');
+    }
+
 }

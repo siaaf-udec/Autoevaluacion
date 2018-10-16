@@ -33,4 +33,14 @@ class SolucionEncuesta extends Model
      * @var array
      */
     protected $guarded = ['PK_SEC_Id', 'created_at', 'updated_at'];
+
+    /**
+     * Relacion muchos a muchos con la tabla respuestas_pregunta, una solucion de una encuesta puede tener 
+     * muchas respuestas y una respuesta puede estar en muchas soluciones de la encuesta.
+     *
+     */
+    public function respuestas()
+    {
+        return $this->belongsTo(RespuestaPregunta::class, 'FK_SEC_Respuesta', 'PK_RPG_Id');
+    }
 }
