@@ -89,6 +89,12 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'CREAR_GRUPOS_INTERES']);
         Permission::create(['name' => 'MODIFICAR_GRUPOS_INTERES']);
         Permission::create(['name' => 'ELIMINAR_GRUPOS_INTERES']);
+        //Permisos para Responsables
+        Permission::create(['name' => 'ACCEDER_RESPONSABLES']);
+        Permission::create(['name' => 'VER_RESPONSABLES']);
+        Permission::create(['name' => 'CREAR_RESPONSABLES']);
+        Permission::create(['name' => 'MODIFICAR_RESPONSABLES']);
+        Permission::create(['name' => 'ELIMINAR_RESPONSABLES']);
         //Permisos para Actividaddes de mejoramiento
         Permission::create(['name' => 'ACCEDER_ACTIVIDADES_MEJORAMIENTO']);
         Permission::create(['name' => 'VER_ACTIVIDADES_MEJORAMIENTO']);

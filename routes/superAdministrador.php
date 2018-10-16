@@ -133,6 +133,10 @@ Route::get('historial/caracteristicas/{id_factor}', array(
 Route::resource('caracteristicas_mejoramiento', 'CaracteristicasMejoramientoController', ['as' => 'admin']);
 Route::get('caracteristicas_mejoramiento/data/data', array('as' => 'admin.caracteristicas_mejoramiento.data', 'uses' => 'CaracteristicasMejoramientoController@data'));
 
+//Responsables
+Route::resource('responsables', 'ResponsablesController', ['as' => 'admin']);
+Route::get('responsables/data/data', array('as' => 'admin.responsables.data', 'uses' => 'ResponsablesController@data'));
+
 //Actividades de mejoramiento
 Route::resource('actividades_mejoramiento', 'ActividadesMejoramientoController', ['as' => 'admin'])->except(['show']);
 Route::get('actividades_mejoramiento/{id}', array('as' => 'admin.actividades_mejoramiento.datos', 'uses' => 'ActividadesMejoramientoController@create'));

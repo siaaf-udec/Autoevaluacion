@@ -11,7 +11,7 @@
     @can('VER_ACTIVIDADES_MEJORAMIENTO')
         <div class="col-md-12">
             @component('admin.components.datatable', ['id' => 'actividades_mejoramiento_table_ajax']) @slot('columns', [
-            'id', 'Nombre', 'Descripcion', 'Fecha de Inicio', 'Fecha de Finalizacion', 'Caracteristica', 
+            'id','Factor','Caracteristica','Nombre', 'Descripcion', 'Fecha de Inicio', 'Fecha de Finalizacion', 'Responsable',
             'Acciones' => ['style' => 'width:85px;']]) @endcomponent
         </div> 
     @endcan
@@ -70,11 +70,13 @@
                     "ajax": "{{ route('admin.actividades_mejoramiento.data') }}",
                     "columns": [
                         {data: 'PK_ACM_Id', name: 'id', "visible": false},
+                        {data: 'caracteristicas.CRT_Nombre', name: 'Caracteristica', className: "min-phone-l"},
+                        {data: 'caracteristicas.factor.FCT_Nombre', name: 'Factor', className: "min-phone-l"},
                         {data: 'ACM_Nombre', name: 'Nombre', className: "min-phone-l"},
                         {data: 'ACM_Descripcion', name: 'Descripcion', className: "min-phone-l"},
                         {data: 'ACM_Fecha_Inicio', name: 'Fecha de Inicio', className: "min-phone-l"},
                         {data: 'ACM_Fecha_Fin', name: 'Fecha de Finalizacion', className: "all"},
-                        {data: 'caracteristicas.CRT_Nombre', name: 'Caracteristica', className: "min-phone-l"},
+                        {data: 'responsable', name: 'Responsable', className: "all"},
                         {
                             defaultContent:
                                 '@can('ELIMINAR_ACTIVIDADES_MEJORAMIENTO')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +

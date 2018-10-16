@@ -63,6 +63,7 @@
         $(document).ready(function () {
             fecha('#fecha_inicio');
             fecha('#fecha_fin');
+            $('#responsable').select2();
             var form = $('#form_crear_actividades');
             $(form).parsley({
                 trigger: 'change',
@@ -85,6 +86,8 @@
                     success: function (response, NULL, jqXHR) {
                         $(form)[0].reset();
                         $(form).parsley().reset();
+                        $("#responsable").select2('data', {}); // clear out values selected 
+                        $("#responsable").select2({allowClear: true});
                         new PNotify({
                             title: response.title,
                             text: response.msg,

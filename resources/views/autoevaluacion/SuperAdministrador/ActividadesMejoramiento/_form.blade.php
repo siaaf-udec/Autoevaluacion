@@ -48,3 +48,17 @@
     </div>
 </div>
 
+<div class="form-group">
+    {!! Form::label('PK_RPS_Id', 'Responsable', ['class' => 'control-label col-md-4 col-sm-3 col-xs-12']) !!}
+    <div class="col-md-5 col-sm-9 col-xs-9">
+        {!! Form::select('PK_RPS_Id', $responsable, old('PK_BEC_Id',isset($actividades)? $actividades->responsable->PK_RPS_Id
+        : ''), 
+        ['class' => 'select2 form-control',
+        'required' => '', 'id' => 'responsable',
+        'placeholder' => 'Seleccione un responsable',
+        'style' => 'width:100%'
+        ])
+        !!}
+    </div>
+</div>
+

@@ -52,6 +52,7 @@
         $(document).ready(function () {
             fecha('#fecha_inicio');
             fecha('#fecha_fin');
+            $('#responsable').select2();
             var form = $('#form_modificar_actividad');
             $(form).parsley({
                 trigger: 'change',

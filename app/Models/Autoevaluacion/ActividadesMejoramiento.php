@@ -36,13 +36,17 @@ class ActividadesMejoramiento extends Model
     //
     protected $dates = ['ACM_Fecha_Inicio', 'ACM_Fecha_Fin'];
     
-    public function Caracteristicas ()
+    public function Caracteristicas()
     {
         return $this->belongsTo(Caracteristica::class, 'FK_ACM_Caracteristica', 'PK_CRT_Id');
     }
     public function PlanMejoramiento()
     {
         return $this->belongsTo(planMejoramiento::class, 'FK_ACM_Plan_Mejoramiento', 'PK_PDM_Id');
+    }
+    public function responsable()
+    {
+        return $this->belongsTo(Responsable::class, 'FK_ACM_Responsable', 'PK_RPS_Id');
     }
 
 }

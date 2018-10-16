@@ -83,14 +83,21 @@
 
         <li><a><i class="fa fa-star"></i>Plan de Mejoramiento<span class="fa fa-chevron-down"></span> </a>
             <ul class="nav child_menu">
-                @can('ACCEDER_ACTIVIDADES_MEJORAMIENTO')
+                @can('ACCEDER_RESPONSABLES')
+                <li>
+                    <a href="{{ route('admin.responsables.index')}}"><i class="fa fa-child"></i>Responsables</a>
+                </li>
+                @endcan
+                @can('ACCEDER_VALORIZACION_CARACTERISTICAS')
                 <li>
                     <a href="{{ route('admin.caracteristicas_mejoramiento.index')}}"><i class="fa fa-line-chart"></i> Valorizacion de Caracteristicas</a>
                 </li>
                 @endcan
+                @can('ACCEDER_ACTIVIDADES_MEJORAMIENTO')
                 <li>
                     <a href="{{ route('admin.actividades_mejoramiento.index')}}"><i class="fa fa-bar-chart"></i>Actividades de Mejoramiento</a>
                 </li>
+                @endcan
             </ul>
         </li>
     </ul>

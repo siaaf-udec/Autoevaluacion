@@ -20,12 +20,14 @@ class CreateActividadesMejoramiento extends Migration
             $table->mediumText("ACM_Descripcion")->nullable();
             $table->date("ACM_Fecha_Inicio");
             $table->date("ACM_Fecha_Fin");
+            $table->integer("FK_ACM_Responsable")->unsigned();
             $table->integer("FK_ACM_Caracteristica")->unsigned();
             $table->integer("FK_ACM_Plan_Mejoramiento")->unsigned();
             $table->timestamps();
 
+            $table->foreign("FK_ACM_Responsable")->references("PK_RPS_Id")->on("TBL_Responsables")->onDelete("cascade");
             $table->foreign("FK_ACM_Caracteristica")->references("PK_CRT_Id")->on("TBL_Caracteristicas")->onDelete("cascade");
-	    $table->foreign("FK_ACM_Plan_Mejoramiento")->references("PK_PDM_Id")->on("TBL_Plan_De_Mejoramiento")->onDelete("cascade");
+	        $table->foreign("FK_ACM_Plan_Mejoramiento")->references("PK_PDM_Id")->on("TBL_Plan_De_Mejoramiento")->onDelete("cascade");
 });    
 
 }
