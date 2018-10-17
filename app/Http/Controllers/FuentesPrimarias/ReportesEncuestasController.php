@@ -61,7 +61,7 @@ class ReportesEncuestasController extends Controller
             ->where('FK_CRT_Factor', '=', '1')
             ->groupby('PK_CRT_Id')
             ->get();
-
+        
         foreach ($caracteristicas as $caracteristica)
         {
             array_push($labels_caracteristicas, $caracteristica->CRT_Nombre);

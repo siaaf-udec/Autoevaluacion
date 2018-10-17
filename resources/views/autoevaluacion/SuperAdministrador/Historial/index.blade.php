@@ -43,7 +43,7 @@
     <br>
     <br>
     <div class="row">
-        {!! Form::open([ 'route' => 'documental.informe_documental.filtrar', 'method' => 'POST', 'id' => 'form_filtros_documental',
+        {!! Form::open(['method' => 'POST', 'id' => 'form_filtros_documental',
         'class' => 'form-horizontal form-label-left', 'novalidate' ])!!}
         <div class="col-xs-12">
     @include('autoevaluacion.SuperAdministrador.Historial._form_documental')
@@ -131,10 +131,13 @@
                 }
             });
 
+            var form_documental = $('#form_filtros_documental');
+
             $("#factor_documental, #caracteristica").change(function () {
+                url = '{{ url('admin/historial/filtro_documental') }}' + '/' + $('#proceso_historial').val();
                 $.ajax({
-                    url: form_documental.attr('action'),
-                    type: form_documental.attr('method'),
+                    url: url,
+                    type: 'POST',
                     data: form_documental.serialize(),
                     dataType: 'json',
                     success: function (r) {

@@ -17,10 +17,11 @@ class CreatePreguntasTable extends Migration
             $table->increments('PK_PGT_Id')->index();
             $table->string("PGT_Texto", 10000);
             $table->integer("FK_PGT_Caracteristica")->unsigned();
+            $table->unsignedInteger('FK_PGT_Proceso');
             $table->timestamps();
 
             $table->foreign("FK_PGT_Caracteristica")->references("PK_CRT_Id")->on("TBL_Caracteristicas")->onDelete("cascade");
-
+            $table->foreign('FK_PGT_Proceso')->references('PK_PCS_Id')->on('TBL_Procesos')->onDelete('cascade');
 
         });
     }

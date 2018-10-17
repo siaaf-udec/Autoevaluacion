@@ -18,7 +18,7 @@ class SolucionEncuesta extends Model
      *
      * @var string
      */
-    protected $table = 'TBL_Solucion_Encuestas';
+    protected $table = 'TBL_Solucion_Encuesta';
 
     /**
      * LLave primaria del modelo.
@@ -43,4 +43,5 @@ class SolucionEncuesta extends Model
     {
         return $this->belongsTo(RespuestaPregunta::class, 'FK_SEC_Respuesta', 'PK_RPG_Id');
     }
+    
 }

@@ -129,6 +129,12 @@ Route::get('historial/caracteristicas/{id_factor}', array(
     'as' => 'admin.historial.obtener_caracteristicas',
     'uses' => 'HistorialController@obtenerCaracteristicas'
 ));
+Route::post('historial/filtro_documental/{id_proceso}', array(
+    'as' => 'admin.historial.filtro_documental',
+    'uses' => 'HistorialController@filtroDocumental'
+));
+
+
 //Caracteristicas Mejoramiento
 Route::resource('caracteristicas_mejoramiento', 'CaracteristicasMejoramientoController', ['as' => 'admin']);
 Route::get('caracteristicas_mejoramiento/data/data', array('as' => 'admin.caracteristicas_mejoramiento.data', 'uses' => 'CaracteristicasMejoramientoController@data'));

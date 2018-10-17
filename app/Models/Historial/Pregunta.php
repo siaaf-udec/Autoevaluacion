@@ -38,4 +38,11 @@ class Pregunta extends Model
     {
         return $this->belongsTo(Caracteristica::class, 'FK_PGT_Caracteristica', 'PK_CRT_Id');
     }
+
+    public function respuestas()
+    {
+        return $this->hasMany(RespuestaPregunta::class, 'FK_RPG_Pregunta', 'PK_PGT_Id');
+    }
+
+
 }

@@ -16,7 +16,7 @@ class CreateSolucionEncuestaTable extends Migration
         Schema::connection('historial')->create('TBL_Solucion_Encuesta', function (Blueprint $table) {
             $table->increments('PK_SEC_Id');
             $table->integer("SEC_Total_Encuestados");
-            $table->integer("SEC_Total_Ponderacion");
+            $table->float("SEC_Total_Ponderacion");
             $table->string("SEC_Grupo_Interes");
             $table->integer("FK_SEC_Respuesta")->unsigned();
             $table->timestamps();
