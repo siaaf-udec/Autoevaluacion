@@ -6,37 +6,37 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlanMejoramiento extends Model
 {
-/**
-         * Conexión usada por el modelo.
-         *
-         * @var string
-         */
-        protected $connection = 'autoevaluacion';
+    /**
+     * Conexión usada por el modelo.
+     *
+     * @var string
+     */
+    protected $connection = 'autoevaluacion';
 
-        /**
-         * Tabla asociada con el modelo.
-         *
-         * @var string
-         */
-        protected $table = 'TBL_Plan_De_Mejoramiento';
+    /**
+     * Tabla asociada con el modelo.
+     *
+     * @var string
+     */
+    protected $table = 'TBL_Plan_De_Mejoramiento';
 
-        /**
-         * LLave primaria del modelo.
-         *
-         * @var string
-         */
-        protected $primaryKey = 'PK_PDM_Id';
+    /**
+     * LLave primaria del modelo.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'PK_PDM_Id';
 
-        /**
-         * Atributos del modelo que no pueden ser asignados en masa.
-         *
-         * @var array
-         */
-        protected $guarded = ['PK_PDM_Id', 'created_at', 'updated_at'];
+    /**
+     * Atributos del modelo que no pueden ser asignados en masa.
+     *
+     * @var array
+     */
+    protected $guarded = ['PK_PDM_Id', 'created_at', 'updated_at'];
 
-        public function Proceso()
-        {
-                return $this->belongsTo(Proceso::class, 'FK_PDM_Proceso', 'PK_PCS_Id');
+    public function Proceso()
+    {
+        return $this->belongsTo(Proceso::class, 'FK_PDM_Proceso', 'PK_PCS_Id');
 
-        }
+    }
 }

@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\FuentesPrimarias;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Http\Requests\TipoRespuestaRequest;
 use App\Http\Requests\ModificarTipoRespuestaRequest;
+use App\Http\Requests\TipoRespuestaRequest;
 use App\Models\Autoevaluacion\Estado;
 use App\Models\Autoevaluacion\PonderacionRespuesta;
-use App\Models\Autoevaluacion\TipoRespuesta;
-use App\Models\Autoevaluacion\Proceso;
 use App\Models\Autoevaluacion\Pregunta;
+use App\Models\Autoevaluacion\Proceso;
+use App\Models\Autoevaluacion\TipoRespuesta;
 use DataTables;
+use Illuminate\Http\Request;
 
 class TipoRespuestaController extends Controller
 {
@@ -21,7 +21,7 @@ class TipoRespuestaController extends Controller
     */
 
     /**
-     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
      * acciones posibles en la aplicacion como los son:
      * Acceder, ver, crea, modificar, eliminar
      */
@@ -83,9 +83,9 @@ class TipoRespuestaController extends Controller
         $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
         $tipoRespuestas->save();
         /**
-        * Se obtiene la cantidad de respuestas digita por el usuario para asi buscar los campos creados
-        * dinamicamente en la vista y poder almacenar las ponderaciones para cada respuesta.
-        */
+         * Se obtiene la cantidad de respuestas digita por el usuario para asi buscar los campos creados
+         * dinamicamente en la vista y poder almacenar las ponderaciones para cada respuesta.
+         */
         for ($i = 1; $i <= $request->TRP_CantidadRespuestas; $i++) {
             $ponderacion = new PonderacionRespuesta();
             $ponderacion->PRT_Ponderacion = $request->get('Ponderacion_' . $i);
@@ -141,10 +141,10 @@ class TipoRespuestaController extends Controller
         $tipoRespuestas->fill($request->only(['TRP_TotalPonderacion', 'TRP_Descripcion']));
         $tipoRespuestas->FK_TRP_Estado = $request->get('PK_ESD_Id');
         $tipoRespuestas->update();
-         /**
-        * Se obtiene la cantidad de respuestas para el tipo de respuesta para asi poder modificar
-        * los campos creados las ponderaciones para cada respuesta.
-        */
+        /**
+         * Se obtiene la cantidad de respuestas para el tipo de respuesta para asi poder modificar
+         * los campos creados las ponderaciones para cada respuesta.
+         */
         foreach (PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)->get() as $ponderacion) {
             $ponderacionRpt = PonderacionRespuesta::find($ponderacion->PK_PRT_Id);
             $ponderacionRpt->PRT_Ponderacion = $request->get($ponderacion->PK_PRT_Id);
@@ -160,10 +160,10 @@ class TipoRespuestaController extends Controller
     }
 
     /**
-     * Para que el proceso de eliminacion de un tipo de respuesta sea exitoso, el sistema 
+     * Para que el proceso de eliminacion de un tipo de respuesta sea exitoso, el sistema
      * debe verificar si el tipo de respuesta esta relacionado a una pregunta perteneciente
-     * a alguna encuesta vinculada a un proceso en fase de captura de datos, en el caso que se 
-     * cumpla esta condicion no se permitira eliminar el tipo de respuesta ya que esto afectaria 
+     * a alguna encuesta vinculada a un proceso en fase de captura de datos, en el caso que se
+     * cumpla esta condicion no se permitira eliminar el tipo de respuesta ya que esto afectaria
      * el correcto desarrollo del proceso de autoevaluacion en cuestion.
      */
     public function destroy($id)

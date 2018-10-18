@@ -3,7 +3,6 @@
 namespace App\Models\Autoevaluacion;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Autoevaluacion\Proceso;
 
 class Sede extends Model
 {

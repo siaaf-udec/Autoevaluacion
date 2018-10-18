@@ -5,12 +5,12 @@
 @extends('admin.layouts.app')
 @section('content') @component('admin.components.panel') @slot('title', 'Grupo de documentos')
 <div class="col-md-12">
-   @can('CREAR_GRUPO_DOCUMENTOS')
-    <div class="actions">
-        <a id="crear_grupo" href="#" class="btn btn-info" data-toggle="modal" data-target="#modal_grupo">
-            <i class="fa fa-plus"></i> Agregar Grupo de documentos</a></div>
-    @endcan
-    <!-- Modal-->
+    @can('CREAR_GRUPO_DOCUMENTOS')
+        <div class="actions">
+            <a id="crear_grupo" href="#" class="btn btn-info" data-toggle="modal" data-target="#modal_grupo">
+                <i class="fa fa-plus"></i> Agregar Grupo de documentos</a></div>
+@endcan
+<!-- Modal-->
     <div class="modal fade" id="modal_grupo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="grupodocumentos">
             <div class="modal-content">
@@ -52,7 +52,7 @@
 @endcomponent
 @endsection
 
-{{-- Scripts necesarios para el formulario --}} 
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
@@ -66,9 +66,9 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
     <script src="{{ asset('js/admin.js') }}"></script>
 
-@endpush 
+@endpush
 
-{{-- Estilos necesarios para el formulario --}} 
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
@@ -76,9 +76,9 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
-@endpush 
+@endpush
 
-{{-- Funciones necesarias por el formulario --}} 
+{{-- Funciones necesarias por el formulario --}}
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {

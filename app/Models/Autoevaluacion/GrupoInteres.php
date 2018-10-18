@@ -3,8 +3,6 @@
 namespace App\Models\Autoevaluacion;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Autoevaluacion\DatosEncuesta;
-use App\Models\Autoevaluacion\PreguntaEncuesta;
 
 class GrupoInteres extends Model
 {
@@ -45,6 +43,7 @@ class GrupoInteres extends Model
     {
         return $this->belongsTo(Estado::class, 'FK_GIT_Estado', 'PK_ESD_Id');
     }
+
     /**
      * Relacion muchos a uno con la tabla preguntas_encuestas, un grupo de interes puede tener
      * muchas preguntas, pero una pregunta solo va destinada a un grupo de interes en especifico.

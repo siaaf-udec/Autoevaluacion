@@ -19,8 +19,8 @@
         @endcan
         @can('VER_ENCUESTAS')
             <div class="col-md-12">
-                
-            @component('admin.components.datatable', ['id' => 'datosEspecificos-table-ajax']) @slot('columns', [ 'id', 'Fecha Publicacion', 'Fecha Finalizacion','Estado','Proceso','Sede','Programa','Encuesta',  
+
+                @component('admin.components.datatable', ['id' => 'datosEspecificos-table-ajax']) @slot('columns', [ 'id', 'Fecha Publicacion', 'Fecha Finalizacion','Estado','Proceso','Sede','Programa','Encuesta',
     'Acciones' => ['style' => 'width:85px;'] ]) @endcomponent
 
             </div>
@@ -28,7 +28,7 @@
         @endcan
 @endsection
 
-{{-- Scripts necesarios para el formulario --}} 
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <!-- Datatables -->
     <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
@@ -40,7 +40,7 @@
 
 @endpush
 
-{{-- Estilos necesarios para el formulario --}} 
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
@@ -52,7 +52,7 @@
 @endpush
 
 {{-- Funciones necesarias por el formulario --}}
- @push('functions')
+@push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
             let sesion = sessionStorage.getItem("update");
@@ -75,15 +75,15 @@
                 buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                 "ajax": "{{ route('fuentesP.datosEspecificos.data') }}",
                 "columns": [
-                    {data: 'encuestas.PK_ECT_Id', name: 'id', "visible": false}, 
-                    {data: 'encuestas.ECT_FechaPublicacion', name: 'Fecha Publicacion', className: "desktop"}, 
+                    {data: 'encuestas.PK_ECT_Id', name: 'id', "visible": false},
+                    {data: 'encuestas.ECT_FechaPublicacion', name: 'Fecha Publicacion', className: "desktop"},
                     {data: 'encuestas.ECT_FechaFinalizacion', name: 'Fecha Finalizacion', className: "desktop"},
-                    {data: 'estado', name: 'Estado', className: "min-phone-l"}, 
+                    {data: 'estado', name: 'Estado', className: "min-phone-l"},
                     {data: 'PCS_Nombre', name: 'Proceso', className: "min-tablet-l"},
                     {data: 'sede', name: 'Sede', className: "min-tablet-l"},
                     {data: 'programa', name: 'Programa', className: "min-tablet-l"},
                     {data: 'encuestas.banco.BEC_Nombre', name: 'Encuesta', className: "min-tablet-l"},
-                    
+
                     {
                         defaultContent:
                             '@can('ELIMINAR_ENCUESTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
@@ -125,7 +125,7 @@
                     }
                 },
                 initComplete: function () {
-                    this.api().columns([5,6]).every(function () {
+                    this.api().columns([5, 6]).every(function () {
                         var column = this;
                         var select = $('<select style="width: 100px;"><option value=""></option></select>')
                             .appendTo($(column.footer()).empty())

@@ -1,5 +1,5 @@
-{{-- Titulo de la pagina --}} 
-@section('title', 'Historial') {{-- Contenido principal --}} 
+{{-- Titulo de la pagina --}}
+@section('title', 'Historial') {{-- Contenido principal --}}
 @extends('admin.layouts.app')
 
 @section('content') @component('admin.components.panel') @slot('title', 'Historial')
@@ -25,8 +25,9 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="progress">
-                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
-                    style="width:40%;color:black">
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0"
+                     aria-valuemax="100"
+                     style="width:40%;color:black">
 
                 </div>
             </div>
@@ -43,13 +44,13 @@
     <br>
     <br>
     <div class="row">
-        {!! Form::open(['method' => 'POST', 'id' => 'form_filtros_documental',
-        'class' => 'form-horizontal form-label-left', 'novalidate' ])!!}
+        {!! Form::open(['method' => 'POST', 'id' => 'form_filtros_documental', 'class' => 'form-horizontal form-label-left', 'novalidate'
+        ])!!}
         <div class="col-xs-12">
-    @include('autoevaluacion.SuperAdministrador.Historial._form_documental')
+            @include('autoevaluacion.SuperAdministrador.Historial._form_documental')
 
             <div class="col-xs-12">
-                <hr />
+                <hr/>
             </div>
             <canvas id="documentos_indicador" height="150"></canvas>
         </div>
@@ -67,27 +68,23 @@
     <br>
     <br>
     <div class="row">
-        {{-- {!! Form::open([ 'route' => 'primarias.informe_encuestas.filtrar', 'method' => 'POST', 'id' => 'form_filtros_encuestas',
-        'class' => 'form-horizontal form-label-left', 'novalidate' ])!!} --}}
+        {!! Form::open(['method' => 'POST', 'id' => 'form_filtros_encuestas',
+        'class' => 'form-horizontal form-label-left', 'novalidate' ])!!}
         <div class="col-xs-12">
-            {{--
-    @include('admin.dashboard._form_reportes encuestas1') --}}
-
             <div class="col-xs-12">
-                <hr />
+                <hr/>
             </div>
             <canvas id="encuestados" height="150"></canvas>
         </div>
         <div class="col-xs-12">
             <div class="col-xs-12">
-                <hr />
+                <hr/>
             </div>
             </br>
             <canvas id="caracteristicas" height="70"></canvas>
             </br>
             </br>
-            {{--
-    @include('admin.dashboard._form_reportes_encuestas2') --}}
+            @include('autoevaluacion.SuperAdministrador.Historial._form_encuestas')
         </div>
         {!! Form::close() !!}
     </div>
@@ -98,36 +95,38 @@
 
 @endcomponent
 @endsection
- @can('SUPERADMINISTRADOR') {{-- Scripts necesarios para el formulario --}} @push('scripts')
-<!-- Char js -->
-<script src="{{ asset('gentella/vendors/Chart.js/Chart.min.js') }}"></script>
-<script src="{{ asset('js/charts.js') }}"></script>
-<!-- Select2 -->
-<script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
+@can('SUPERADMINISTRADOR') {{-- Scripts necesarios para el formulario --}} @push('scripts')
+    <!-- Char js -->
+    <script src="{{ asset('gentella/vendors/Chart.js/Chart.min.js') }}"></script>
+    <script src="{{ asset('js/charts.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
+
 
 
 
 @endpush {{-- Estilos necesarios para el formulario --}} @push('styles')
-<link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet"> 
+    <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @endpush {{-- Funciones necesarias por el formulario --}} @push('functions')
-<script type="text/javascript">
-    $(document).ready(function () {
+    <script type="text/javascript">
+        $(document).ready(function () {
             $('#proceso_historial').select2();
             $('#proceso_anio').select2();
-             $('#factor_documental').select2({
-                        language: "es"
-                    });
-            $('#caracteristica').select2({ 
-                language: "es" 
-            }); 
+            $('#factor_documental').select2({
+                language: "es"
+            });
+            $('#caracteristica').select2({
+                language: "es"
+            });
+            $('#factor').select2({language: "es"});
 
             selectDinamico("#proceso_anio", "#proceso_historial", "{{url('admin/historial/proceso')}}");
-            selectDinamico("#factor_documental", "#caracteristica", 
-            "{{url('admin/historial/caracteristicas')}}");
+            selectDinamico("#factor_documental", "#caracteristica",
+                "{{url('admin/historial/caracteristicas')}}");
 
             $("#proceso_historial").change(function (e) {
                 if (this.value != '') {
-                    peticionGraficasHistorial( '{{ url('admin/historial/datos_graficas') }}' + '/' +  this.value);
+                    peticionGraficasHistorial('{{ url('admin/historial/datos_graficas') }}' + '/' + this.value);
                 }
             });
 
@@ -142,15 +141,31 @@
                     dataType: 'json',
                     success: function (r) {
                         ChartFiltro.destroy();
-                        ChartFiltro = crearGrafica('documentos_indicador', 'bar', 'Documentos subidos por indicador', 
-                        r.labels_indicador, ['Cantidad'], r.data_indicador
+                        ChartFiltro = crearGrafica('documentos_indicador', 'bar', 'Documentos subidos por indicador',
+                            r.labels_indicador, ['Cantidad'], r.data_indicador
                         );
+                    }
+                });
+            });
+            var form = $('#form_filtros_encuestas');
+            $("#factor").change(function () {
+                url = '{{ url('admin/historial/filtro_encuestas') }}' + '/' + $('#proceso_historial').val();
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: form.serialize(),
+                    dataType: 'json',
+                    success: function (r) {
+                        caracteristicas.destroy();
+                        caracteristicas = crearGrafica('caracteristicas', 'horizontalBar', r.factor_elegido, r.labels_caracteristicas,
+                            ['Valorizacion'], r.data_caracteristicas);
                     }
                 });
             });
         });
 
-</script>
+    </script>
+
 
 
 

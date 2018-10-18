@@ -4,9 +4,9 @@ namespace App\Http\Controllers\FuentesPrimarias;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportarPreguntasRequest;
+use App\Jobs\ImportarPreguntas;
 use Excel;
 use Illuminate\Http\Request;
-use App\Jobs\ImportarPreguntas;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -18,7 +18,7 @@ class ImportarPreguntasController extends Controller
     */
 
     /**
-     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
      * acciones posibles en la aplicacion como los son:
      * Acceder, ver, crear
      */

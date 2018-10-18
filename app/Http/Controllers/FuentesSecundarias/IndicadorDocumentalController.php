@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 class IndicadorDocumentalController extends Controller
 {
     /**
-     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
      * acciones posibles en la aplicación como los son:
      * Acceder, ver, crea, modificar, eliminar
      */

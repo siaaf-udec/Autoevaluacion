@@ -15,21 +15,21 @@
     <script src="{{ asset('gentella/vendors/Chart.js/Chart.min.js') }}"></script>
     <script src="{{ asset('js/charts.js') }}"></script>
     <style>
-        
 
-    #graficas {
-        text-align:center;
-        width:100%;
-        display:block;
-        margin:auto;
-    }
+
+        #graficas {
+            text-align: center;
+            width: 100%;
+            display: block;
+            margin: auto;
+        }
 
 
     </style>
 </head>
 
 <body>
-    <div id="pdf">
+<div id="pdf">
     <div class="container">
         <div class="">
             <div class="row">
@@ -52,16 +52,15 @@
         </div>
 
     </div>
-    </div>
+</div>
 
 
+<!-- jQuery -->
+<script src="{{ asset('gentella/vendors/jquery/dist/jquery.min.js') }}"></script>
+<!-- Bootstrap -->
+<script src="{{ asset('gentella/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+@stack('functions')
 
-    <!-- jQuery -->
-    <script src="{{ asset('gentella/vendors/jquery/dist/jquery.min.js') }}"></script>
-    <!-- Bootstrap -->
-    <script src="{{ asset('gentella/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    @stack('functions')
-    
 </body>
 
 </html>

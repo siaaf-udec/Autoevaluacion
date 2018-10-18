@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Carbon\Carbon;
 use App\Models\Autoevaluacion\Proceso;
+use Carbon\Carbon;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ProcesosProgramasRequest extends FormRequest
 {
@@ -76,7 +76,7 @@ class ProcesosProgramasRequest extends FormRequest
                 $validator->errors()->add('Error', 'La fecha de finalización del proceso tiene que ser mayor que la fecha de inicio');
             }
 
-            if($this->method() == 'PUT'){
+            if ($this->method() == 'PUT') {
                 $proceso = Proceso::find($id);
                 if ($proceso->FK_PCS_Fase != 3 && $proceso->FK_PCS_Lineamiento != $this->request->get('PK_LNM_Id')) {
                     $validator->errors()->add('Error', 'El lineamiento no se puede cambiar después de iniciado el proceso.');

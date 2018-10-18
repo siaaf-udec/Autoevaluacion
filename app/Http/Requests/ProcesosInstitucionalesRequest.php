@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Carbon\Carbon;
 use App\Models\Autoevaluacion\Proceso;
+use Carbon\Carbon;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ProcesosInstitucionalesRequest extends FormRequest
 {
@@ -57,7 +57,7 @@ class ProcesosInstitucionalesRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             $id = $this->route()->parameter('procesos_institucionale');
-           
+
             $fechaInicio = Carbon::createFromFormat('d/m/Y', $this->request->get('PCS_FechaInicio'));
             $fechaFin = Carbon::createFromFormat('d/m/Y', $this->request->get('PCS_FechaFin'));
             if ($fechaInicio >= $fechaFin) {
@@ -74,9 +74,9 @@ class ProcesosInstitucionalesRequest extends FormRequest
                 $validator->errors()->add('Error', 'Solo puede haber un proceso institucional en curso.');
             }
 
-            if ($this->method() == 'PUT'){
+            if ($this->method() == 'PUT') {
                 $proceso = Proceso::find($id);
-                if($proceso->FK_PCS_Fase != 3 && $proceso->FK_PCS_Lineamiento != $this->request->get('PK_LNM_Id')){
+                if ($proceso->FK_PCS_Fase != 3 && $proceso->FK_PCS_Lineamiento != $this->request->get('PK_LNM_Id')) {
                     $validator->errors()->add('Error', 'El lineamiento no se puede cambiar después de iniciado el proceso.');
                 }
             }

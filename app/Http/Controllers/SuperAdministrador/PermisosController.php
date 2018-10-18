@@ -6,9 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PermisosRequest;
 use DataTables;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Spatie\Permission\Models\Permission;
 
 
 class PermisosController extends Controller
@@ -133,7 +132,7 @@ class PermisosController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-     /**
+    /**
      * Esta funcion modifica permisos
      */
     public function update(PermisosRequest $request, $id)
@@ -154,7 +153,7 @@ class PermisosController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-     /**
+    /**
      * Esta funcion elimina permisos
      */
     public function destroy($id)

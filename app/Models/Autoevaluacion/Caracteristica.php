@@ -39,7 +39,7 @@ class Caracteristica extends Model
      *
      * @return string
      */
-     /**
+    /**
      * Funcion que uno los dos campos de identificacion
      * y nombre de la caracteristica en una cadena
      */
@@ -48,7 +48,7 @@ class Caracteristica extends Model
         return "{$this->CRT_Identificador}. {$this->CRT_Nombre}";
     }
 
-     /**
+    /**
      * Relacion de muchos a uno de la tabla aspecto
      * Una caracteristia tiene muchos aspectos
      * y un aspecto una sola caracteristica
@@ -97,6 +97,7 @@ class Caracteristica extends Model
     {
         return $this->hasMany(IndicadorDocumental::class, 'FK_IDO_Caracteristica', 'PK_CRT_Id');
     }
+
     /**
      * Relacion muchos a uno con la tabla preguntas, una caracteristicas puede ser apuntada por
      * muchas preguntas, pero una pregunta solo puede apuntar a una caracteristica

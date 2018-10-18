@@ -18,7 +18,7 @@
 </div>
 {!! Form::close() !!} @endcomponent
 @endsection
-{{-- Estilos necesarios para el formulario --}} 
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -26,8 +26,8 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
     <!-- Select2 -->
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
-@endpush 
-{{-- Scripts necesarios para el formulario --}} 
+@endpush
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>

@@ -46,21 +46,21 @@
     </div>
 </div>
 @can('ACCEDER_USUARIOS')
-<div class="item form-group">
-    {!! Form::label('estado','Estado', [ 'class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::select('PK_ESD_Id', $estados, old('PK_ESD_Id', isset($user)? $user->id_estado:''), [ 'class' => 'select2_user form-control',
-        'required']) !!}
+    <div class="item form-group">
+        {!! Form::label('estado','Estado', [ 'class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {!! Form::select('PK_ESD_Id', $estados, old('PK_ESD_Id', isset($user)? $user->id_estado:''), [ 'class' => 'select2_user form-control',
+            'required']) !!}
+        </div>
     </div>
-</div>
 
-<div class="item form-group">
-    {!! Form::label('roles', 'Roles', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::select('roles[]', $roles,
-        old('roles', isset($roles, $user)? $user->roles()->pluck('name', 'name') : ''),
-        ['class' => 'select2_roles form-control', 'multiple' => 'multiple', 'required'
-        => '', 'id'=>'select_rol']) !!}
+    <div class="item form-group">
+        {!! Form::label('roles', 'Roles', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {!! Form::select('roles[]', $roles,
+            old('roles', isset($roles, $user)? $user->roles()->pluck('name', 'name') : ''),
+            ['class' => 'select2_roles form-control', 'multiple' => 'multiple', 'required'
+            => '', 'id'=>'select_rol']) !!}
+        </div>
     </div>
-</div>
 @endcan

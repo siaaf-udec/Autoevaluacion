@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\FuentesSecundarias;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Autoevaluacion\Dependencia;
 use App\Models\Autoevaluacion\DocumentoAutoevaluacion;
+use App\Models\Autoevaluacion\DocumentoInstitucional;
+use App\Models\Autoevaluacion\Factor;
+use App\Models\Autoevaluacion\GrupoDocumento;
 use App\Models\Autoevaluacion\IndicadorDocumental;
 use App\Models\Autoevaluacion\Proceso;
-use App\Models\Autoevaluacion\Factor;
-use App\Models\Autoevaluacion\Dependencia;
 use App\Models\Autoevaluacion\TipoDocumento;
-use App\Models\Autoevaluacion\GrupoDocumento;
-use App\Models\Autoevaluacion\DocumentoInstitucional;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Http\Request;
 
 
 class ReporteController extends Controller
@@ -193,6 +193,5 @@ class ReporteController extends Controller
         return $pdf->download('reporte_documentos_institucionales.pdf');
     }
 
-    
 
 }

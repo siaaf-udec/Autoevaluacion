@@ -5,8 +5,8 @@
 {{-- Contenido principal --}}
 @extends('admin.layouts.app')
 
-@section('content') 
-@component('admin.components.panel') @slot('title', 'Asignar Usuarios A Proceso '. $proceso )
+@section('content')
+    @component('admin.components.panel') @slot('title', 'Asignar Usuarios A Proceso '. $proceso )
     {{-- @can('ASIGNAR_USUARIOS_PROCESOS') --}}
     <div class="col-md-12">
         <div class="actions">
@@ -55,11 +55,11 @@
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#seleccionar_todo").change(function() {
-                if(this.checked) {
+            $("#seleccionar_todo").change(function () {
+                if (this.checked) {
                     $('.ids_usuarios').prop('checked', true);
                 }
-                else{
+                else {
                     $('.ids_usuarios').prop('checked', false);
                 }
             });
@@ -103,10 +103,10 @@
                 }
             });
             $("#asignar_usuarios").click(
-                function(event) {
+                function (event) {
                     event.preventDefault();
                     var id = [];
-                    $('.ids_usuarios:checked').each(function(){
+                    $('.ids_usuarios:checked').each(function () {
                         id.push($(this).val());
                     });
                     $.ajax({
@@ -114,7 +114,7 @@
                         type: 'POST',
                         data: {
                             '_token': $('meta[name="_token"]').attr('content'),
-                            usuarios:id
+                            usuarios: id
                         },
                         dataType: 'json',
                         success: function (response, NULL, jqXHR) {

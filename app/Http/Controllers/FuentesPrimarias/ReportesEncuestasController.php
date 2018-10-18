@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers\FuentesPrimarias;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Autoevaluacion\Caracteristica;
 use App\Models\Autoevaluacion\Encuesta;
 use App\Models\Autoevaluacion\Encuestado;
-use App\Models\Autoevaluacion\PreguntaEncuesta;
-use App\Models\Autoevaluacion\RespuestaPregunta;
-use App\Models\Autoevaluacion\Pregunta;
-use App\Models\Autoevaluacion\GrupoInteres;
-use App\Models\Autoevaluacion\Proceso;
 use App\Models\Autoevaluacion\Factor;
-use App\Models\Autoevaluacion\Caracteristica;
+use App\Models\Autoevaluacion\GrupoInteres;
+use App\Models\Autoevaluacion\Pregunta;
+use App\Models\Autoevaluacion\PreguntaEncuesta;
+use App\Models\Autoevaluacion\Proceso;
+use App\Models\Autoevaluacion\RespuestaPregunta;
 use App\Models\Autoevaluacion\SolucionEncuesta;
-use App\Models\Autoevaluacion\PonderacionRespuesta;
-use Illuminate\Support\Collection;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Http\Request;
 
 class ReportesEncuestasController extends Controller
 {
@@ -55,32 +53,30 @@ class ReportesEncuestasController extends Controller
         $data_caracteristicas = [];
         $data_factor = [];
 
-        $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query){
+        $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query) {
             return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
         })
             ->where('FK_CRT_Factor', '=', '1')
             ->groupby('PK_CRT_Id')
             ->get();
-        
-        foreach ($caracteristicas as $caracteristica)
-        {
+
+        foreach ($caracteristicas as $caracteristica) {
             array_push($labels_caracteristicas, $caracteristica->CRT_Nombre);
-            $soluciones = SolucionEncuesta::whereHas('encuestados.encuesta', function ($query){
+            $soluciones = SolucionEncuesta::whereHas('encuestados.encuesta', function ($query) {
                 return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
             })
-            ->whereHas('respuestas.pregunta.caracteristica', function ($query) use ($caracteristica){
-                return $query->where('PK_CRT_Id', '=', $caracteristica->PK_CRT_Id);
-            })
-            ->with('respuestas.ponderacion')
-            ->get();
-            $totalponderacion=0;
+                ->whereHas('respuestas.pregunta.caracteristica', function ($query) use ($caracteristica) {
+                    return $query->where('PK_CRT_Id', '=', $caracteristica->PK_CRT_Id);
+                })
+                ->with('respuestas.ponderacion')
+                ->get();
+            $totalponderacion = 0;
             $prueba = $soluciones->count();
-            foreach($soluciones as $solucion)
-            {
-                $totalponderacion = $totalponderacion + (10/$solucion->respuestas->ponderacion->PRT_Rango);
+            foreach ($soluciones as $solucion) {
+                $totalponderacion = $totalponderacion + (10 / $solucion->respuestas->ponderacion->PRT_Rango);
             }
-            $prueba = $totalponderacion/$prueba;
-            array_push($data_caracteristicas, $prueba); 
+            $prueba = $totalponderacion / $prueba;
+            array_push($data_caracteristicas, $prueba);
         }
         $datos = [];
         $datos['labels_encuestado'] = $labels_encuestado;
@@ -154,7 +150,7 @@ class ReportesEncuestasController extends Controller
         $data_factor = [];
 
 
-        $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query){
+        $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query) {
             return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
         })
             ->where('FK_CRT_Factor', '=', $request->get('PK_FCT_Id'))
@@ -162,25 +158,23 @@ class ReportesEncuestasController extends Controller
             ->get();
 
         array_push($data_factor, Factor::where('PK_FCT_Id', $request->get('PK_FCT_Id'))->first()->FCT_Nombre);
-        foreach ($caracteristicas as $caracteristica)
-        {
+        foreach ($caracteristicas as $caracteristica) {
             array_push($labels_caracteristicas, $caracteristica->CRT_Nombre);
-            $soluciones = SolucionEncuesta::whereHas('encuestados.encuesta', function ($query){
+            $soluciones = SolucionEncuesta::whereHas('encuestados.encuesta', function ($query) {
                 return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
             })
-            ->whereHas('respuestas.pregunta.caracteristica', function ($query) use ($caracteristica){
-                return $query->where('PK_CRT_Id', '=', $caracteristica->PK_CRT_Id);
-            })
-            ->with('respuestas.ponderacion')
-            ->get();
-            $totalponderacion=0;
+                ->whereHas('respuestas.pregunta.caracteristica', function ($query) use ($caracteristica) {
+                    return $query->where('PK_CRT_Id', '=', $caracteristica->PK_CRT_Id);
+                })
+                ->with('respuestas.ponderacion')
+                ->get();
+            $totalponderacion = 0;
             $prueba = $soluciones->count();
-            foreach($soluciones as $solucion)
-            {
-                $totalponderacion = $totalponderacion + (10/$solucion->respuestas->ponderacion->PRT_Rango);
+            foreach ($soluciones as $solucion) {
+                $totalponderacion = $totalponderacion + (10 / $solucion->respuestas->ponderacion->PRT_Rango);
             }
-            $prueba = $totalponderacion/$prueba;
-            array_push($data_caracteristicas, $prueba); 
+            $prueba = $totalponderacion / $prueba;
+            array_push($data_caracteristicas, $prueba);
         }
         $datos = [];
         $datos['labels_caracteristicas'] = $labels_caracteristicas;
@@ -189,6 +183,7 @@ class ReportesEncuestasController extends Controller
         return json_encode($datos);
 
     }
+
     public function pdf_documento_encuestas(Request $request)
     {
         $imagenes = explode('|', $request->get('json_datos'));

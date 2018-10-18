@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Carbon\Carbon;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ActividadesMejoramientoRequest extends FormRequest
 {
@@ -31,6 +31,7 @@ class ActividadesMejoramientoRequest extends FormRequest
             'ACM_Fecha_Fin' => 'required',
         ];
     }
+
     public function messages()
     {
         return [
@@ -41,7 +42,7 @@ class ActividadesMejoramientoRequest extends FormRequest
         ];
     }
 
-     /**
+    /**
      * Configure the validator instance.
      *
      * @param  \Illuminate\Validation\Validator $validator

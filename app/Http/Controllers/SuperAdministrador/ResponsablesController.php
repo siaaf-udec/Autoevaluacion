@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\SuperAdministrador;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Autoevaluacion\Responsable;
 use DataTables;
+use Illuminate\Http\Request;
 
 class ResponsablesController extends Controller
 {
@@ -26,6 +26,7 @@ class ResponsablesController extends Controller
         $this->middleware('permission:CREAR_RESPONSABLES', ['only' => ['create', 'store']]);
         $this->middleware('permission:ELIMINAR_RESPONSABLES', ['only' => ['destroy']]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +36,7 @@ class ResponsablesController extends Controller
     {
         return view('autoevaluacion.SuperAdministrador.Responsables.index');
     }
-    
+
     /**
      * Process datatables ajax request.
      *
@@ -67,13 +68,13 @@ class ResponsablesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $responsable = new Responsable();
-        $responsable->fill($request->only(['RPS_Nombre', 'RPS_Apellido','RPS_Cargo']));
+        $responsable->fill($request->only(['RPS_Nombre', 'RPS_Apellido', 'RPS_Cargo']));
         $responsable->save();
 
 
@@ -87,7 +88,7 @@ class ResponsablesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -98,7 +99,7 @@ class ResponsablesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -109,14 +110,14 @@ class ResponsablesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $responsable = Responsable::findOrFail($id);
-        $responsable->fill($request->only(['RPS_Nombre', 'RPS_Apellido','RPS_Cargo']));
+        $responsable->fill($request->only(['RPS_Nombre', 'RPS_Apellido', 'RPS_Cargo']));
         $responsable->update();
         return response([
             'msg' => 'El responsable se ha sido modificado exitosamente.',
@@ -128,7 +129,7 @@ class ResponsablesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

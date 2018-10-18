@@ -33,8 +33,9 @@ class PreguntaEncuesta extends Model
      * @var array
      */
     protected $guarded = ['PK_PEN_Id', 'created_at', 'updated_at'];
+
     /**
-     * Relacion muchos a uno con la tabla preguntas, una encuesta puede tener 
+     * Relacion muchos a uno con la tabla preguntas, una encuesta puede tener
      * muchas preguntas, pero la pregunta solo puede pertenecer a una encuesta
      *
      */
@@ -42,8 +43,9 @@ class PreguntaEncuesta extends Model
     {
         return $this->belongsTo(Pregunta::class, 'FK_PEN_Pregunta', 'PK_PGT_Id');
     }
+
     /**
-     * Relacion uno a muchos con la tabla grupos de interes, una pregunta solo puede ir 
+     * Relacion uno a muchos con la tabla grupos de interes, una pregunta solo puede ir
      * dirigida a un grupo de interes, pero un grupo de interes puede tener muchas preguntas.
      *
      */
@@ -51,8 +53,9 @@ class PreguntaEncuesta extends Model
     {
         return $this->belongsto(GrupoInteres::class, 'FK_PEN_GrupoInteres', 'PK_GIT_Id');
     }
+
     /**
-     * Relacion muchos a uno con la tabla dependecia, una encuesta puede tener 
+     * Relacion muchos a uno con la tabla dependecia, una encuesta puede tener
      * muchas preguntas, pero una pregunta solo pertenece a un banco de encuesta
      *
      * @return void

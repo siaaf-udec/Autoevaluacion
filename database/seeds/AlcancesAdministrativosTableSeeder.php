@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\Autoevaluacion\AlcanceAdministrativo;
+use Illuminate\Database\Seeder;
 
 class AlcancesAdministrativosTableSeeder extends Seeder
 {

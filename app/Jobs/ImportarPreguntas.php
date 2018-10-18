@@ -2,19 +2,18 @@
 
 namespace App\Jobs;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
 use App\Models\Autoevaluacion\Caracteristica;
-use App\Models\Autoevaluacion\Factor;
 use App\Models\Autoevaluacion\PonderacionRespuesta;
 use App\Models\Autoevaluacion\Pregunta;
 use App\Models\Autoevaluacion\Proceso;
 use App\Models\Autoevaluacion\RespuestaPregunta;
 use App\Models\Autoevaluacion\TipoRespuesta;
 use Excel;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 
 class ImportarPreguntas implements ShouldQueue
@@ -81,7 +80,7 @@ class ImportarPreguntas implements ShouldQueue
                     foreach ($sheets[1] as $row) {
                         $ponderacion = new PonderacionRespuesta();
                         $ponderacion->PRT_Ponderacion = $row['ponderacion'];
-                        $ponderacion->PRT_Rango = $row['rango']; 
+                        $ponderacion->PRT_Rango = $row['rango'];
                         $ponderacion->FK_PRT_TipoRespuestas = $tipo_respuesta[$row['tipo_respuesta']];
                         $ponderacion->save();
                         $ponderaciones[$row['numero_ponderacion']] = $ponderacion->PK_PRT_Id;

@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers\Publico;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\SolucionEncuestaRequest;
 use App\Http\Controllers\Controller;
-use App\Models\Autoevaluacion\Sede;
-use App\Models\Autoevaluacion\Proceso;
+use App\Http\Requests\SolucionEncuestaRequest;
+use App\Models\Autoevaluacion\CargoAdministrativo;
+use App\Models\Autoevaluacion\DatosEncuesta;
 use App\Models\Autoevaluacion\Encuesta;
 use App\Models\Autoevaluacion\Encuestado;
-use App\Models\Autoevaluacion\SolucionEncuesta;
-use App\Models\Autoevaluacion\PreguntaEncuesta;
-use App\Models\Autoevaluacion\DatosEncuesta;
 use App\Models\Autoevaluacion\GrupoInteres;
-use App\Models\Autoevaluacion\CargoAdministrativo;
+use App\Models\Autoevaluacion\PreguntaEncuesta;
+use App\Models\Autoevaluacion\Proceso;
+use App\Models\Autoevaluacion\SolucionEncuesta;
 use Carbon\Carbon;
-use Exception;
+use Illuminate\Http\Request;
 
 class EncuestasController extends Controller
 {
@@ -23,17 +21,17 @@ class EncuestasController extends Controller
     Este controlador es responsable de manejar el proceso para almacenar las respuestas
     digitadas por un encuestado.
     */
-    
+
     /**
      * La busqueda de los datos del proceso, la encuesta y el grupo de interes se hace por medio de slugs
-     * almacenados en la bd para presentarle al usuario una url amigable y entendible. 
+     * almacenados en la bd para presentarle al usuario una url amigable y entendible.
      */
     public function index($slug_proceso)
     {
         $id_proceso = Proceso::where('PCS_Slug_Procesos', $slug_proceso)
-        ->first()->PK_PCS_Id;
+            ->first()->PK_PCS_Id;
         $id_encuesta = Encuesta::where('FK_ECT_Proceso', $id_proceso)
-        ->first()->FK_ECT_Banco_Encuestas;
+            ->first()->FK_ECT_Banco_Encuestas;
         $grupos = GrupoInteres::whereHas('preguntas_encuesta', function ($query) use ($id_encuesta) {
             return $query->where('FK_PEN_Banco_Encuestas', '=', $id_encuesta);
         })
@@ -51,11 +49,11 @@ class EncuestasController extends Controller
     public function create($slug_proceso, $grupo, $cargo = null)
     {
         $id_proceso = Proceso::where('PCS_Slug_Procesos', $slug_proceso)
-        ->first()->PK_PCS_Id;
+            ->first()->PK_PCS_Id;
         $id_grupo = GrupoInteres::where('GIT_Slug', $grupo)
-        ->first()->PK_GIT_Id;
+            ->first()->PK_GIT_Id;
         $id_encuesta = Encuesta::where('FK_ECT_Proceso', $id_proceso)
-        ->first()->FK_ECT_Banco_Encuestas;
+            ->first()->FK_ECT_Banco_Encuestas;
         $preguntas = PreguntaEncuesta::whereHas('preguntas.respuestas', function ($query) {
             return $query->where('FK_PGT_Estado', '1');
         })
@@ -78,13 +76,13 @@ class EncuestasController extends Controller
     public function store(SolucionEncuestaRequest $request)
     {
         $id_proceso = Proceso::where('PCS_Slug_Procesos', $request->get('proceso'))
-        ->first()->PK_PCS_Id;
+            ->first()->PK_PCS_Id;
         $id_encuesta = Encuesta::where('FK_ECT_Proceso', '=', $id_proceso)
-        ->first();
+            ->first();
         $id_cargo = CargoAdministrativo::where('CAA_Slug', '=', $request->get('cargo'))
-        ->first()->PK_CAA_Id ?? null;
+                ->first()->PK_CAA_Id ?? null;
         $id_grupo = GrupoInteres::where('GIT_Slug', $request->get('grupo'))
-        ->first()->PK_GIT_Id;
+            ->first()->PK_GIT_Id;
         $encuestados = new Encuestado();
         $encuestados->ECD_FechaSolucion = Carbon::now();
         $encuestados->FK_ECD_Encuesta = $id_encuesta->PK_ECT_Id;
@@ -100,10 +98,10 @@ class EncuestasController extends Controller
             ->where('FK_PEN_Banco_Encuestas', '=', $id_encuesta->FK_ECT_Banco_Encuestas)
             ->get();
         /**
-        * Se hace la peticion de las preguntas que conforman la encuesta para obtener el id de cada
-        * una de estas y asi obtener la respuesta digitada por el encuestado ya que el id del grupo 
-        * de radio buttons para las respuestas es la pk de la pregunta.  
-        */
+         * Se hace la peticion de las preguntas que conforman la encuesta para obtener el id de cada
+         * una de estas y asi obtener la respuesta digitada por el encuestado ya que el id del grupo
+         * de radio buttons para las respuestas es la pk de la pregunta.
+         */
         foreach ($preguntasR as $pregunta) {
             $respuestaUsuario = $request->get($pregunta->preguntas->PK_PGT_Id);
             $respuesta_encuesta = new SolucionEncuesta();

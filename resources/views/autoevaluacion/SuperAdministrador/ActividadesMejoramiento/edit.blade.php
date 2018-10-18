@@ -18,7 +18,7 @@
 </div>
 {!! Form::close() !!} @endcomponent
 @endsection
-{{-- Estilos necesarios para el formulario --}} 
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -30,8 +30,8 @@
     <link href="{{ asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css') }}"
           rel="stylesheet">
-@endpush 
-{{-- Scripts necesarios para el formulario --}} 
+@endpush
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>

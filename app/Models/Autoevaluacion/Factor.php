@@ -3,9 +3,6 @@
 namespace App\Models\Autoevaluacion;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Autoevaluacion\Estado;
-use App\Models\Autoevaluacion\Lineamiento;
-use App\Models\Autoevaluacion\Caracteristica;
 
 class Factor extends Model
 {

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\SuperAdministrador;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FactoresRequest;
 use App\Models\Autoevaluacion\Estado;
 use App\Models\Autoevaluacion\Factor;
 use App\Models\Autoevaluacion\Lineamiento;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
-use App\Http\Requests\FactoresRequest;
 
 class FactorController extends Controller
 {

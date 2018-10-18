@@ -24,7 +24,7 @@
     @endcan
     @endcomponent
 @endsection
-{{-- Scripts necesarios para el formulario --}} 
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <!-- Datatables -->
     <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
@@ -35,7 +35,7 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 
 
-@endpush {{-- Estilos necesarios para el formulario --}} 
+@endpush {{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
@@ -43,8 +43,8 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
-@endpush 
-{{-- Funciones necesarias por el formulario --}} 
+@endpush
+{{-- Funciones necesarias por el formulario --}}
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {

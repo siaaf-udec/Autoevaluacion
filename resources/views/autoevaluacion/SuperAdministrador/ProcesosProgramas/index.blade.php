@@ -38,7 +38,7 @@
         @endcan
 
 @endsection
-{{-- Scripts necesarios para el formulario --}} 
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <!-- Datatables -->
     <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
@@ -49,7 +49,7 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 @endpush
 
-{{-- Estilos necesarios para el formulario --}} 
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
@@ -58,11 +58,11 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
 @endpush
-{{-- Funciones necesarias por el formulario --}} 
+{{-- Funciones necesarias por el formulario --}}
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
-            
+
 
             let sesion = sessionStorage.getItem("update");
             if (sesion != null) {
@@ -82,8 +82,8 @@
                 responsive: true,
                 buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                 "ajax": {
-                    "url":"{{ route('admin.procesos_programas.data') }}",
-                    complete: function() {
+                    "url": "{{ route('admin.procesos_programas.data') }}",
+                    complete: function () {
                         $('[data-toggle="tooltip"]').tooltip();
                     }
                 },
@@ -99,7 +99,7 @@
                     {
                         defaultContent:
                             '@can('ELIMINAR_PROCESOS_PROGRAMAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
-                            '@can('MODIFICAR_PROCESOS_PROGRAMAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan'+
+                            '@can('MODIFICAR_PROCESOS_PROGRAMAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan' +
                             '@can('ASIGNAR_PROCESOS_PROGRAMAS_USUARIOS')<a data-toggle="tooltip" title="Asignar usuarios" href="javascript:;" class="btn btn-simple btn-info btn-sm asignar"><i class="fa fa-plus"></i></a>@endcan',
                         data: 'action',
                         name: 'action',

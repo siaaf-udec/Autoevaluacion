@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\Autoevaluacion\DatosEncuesta;
+use Illuminate\Database\Seeder;
 
 class DatosEncuestaTableSeeder extends Seeder
 {

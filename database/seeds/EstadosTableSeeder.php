@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\Autoevaluacion\Estado;
+use Illuminate\Database\Seeder;
 
 class EstadosTableSeeder extends Seeder
 {

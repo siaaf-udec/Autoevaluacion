@@ -25,7 +25,7 @@
     @endcomponent
 @endsection
 
-{{-- Estilos necesarios para el formulario --}} 
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -35,7 +35,7 @@
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @endpush
 
-{{-- Scripts necesarios para el formulario --}} 
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <script src="{{ asset('js/admin.js') }}"></script>
     <!-- validator -->
@@ -49,7 +49,7 @@
     <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
 @endpush
 
-{{-- Funciones necesarias por el formulario --}} 
+{{-- Funciones necesarias por el formulario --}}
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
@@ -57,20 +57,34 @@
             document.getElementById('TotalPonderaciones').value = 10;
             $('#ponderacion').change(function (e) {
                 e.preventDefault();
-                var status=$('#ponderacion')[0].checked;
-                if(status === true){
+                var status = $('#ponderacion')[0].checked;
+                if (status === true) {
                     var number = document.getElementById('cantidad').value;
-                    if(number != 0 && number <= 5)
-                    {
+                    if (number != 0 && number <= 5) {
                         var container = document.getElementById("container");
                         while (container.hasChildNodes()) {
                             container.removeChild(container.lastChild);
                         }
-                        for (i=1;i<=number;i++){
-                            container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
-                            container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
-                            container.appendChild(document.createTextNode("Ponderacion " + (i)));container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
-                            container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;'; 
+                        for (i = 1; i <= number; i++) {
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
+                            container.appendChild(document.createTextNode("Ponderacion " + (i)));
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
+                            container.innerHTML += '&nbsp;';
                             var input = document.createElement("input");
                             input.type = "text";
                             input.name = "Ponderacion_" + i;
@@ -78,24 +92,25 @@
                             input.required = true;
                             input.size = 67;
                             input.pattern = "^[0-9.]*$";
-                            input.style="margin: 0px;width: 300px;height: 34px";
+                            input.style = "margin: 0px;width: 300px;height: 34px";
                             container.appendChild(input);
-                            container.appendChild(document.createElement("br"));container.appendChild(document.createElement("br"));
+                            container.appendChild(document.createElement("br"));
+                            container.appendChild(document.createElement("br"));
                         }
                     }
-                    else
-                    {
+                    else {
                         $("#ponderacion").prop("checked", false);
                         new PNotify({
-                            title: "Error",
-                            text: "El valor para cantidad de respuestas no es valido",
-                            type: 'error',
-                            styling: 'bootstrap3'}
+                                title: "Error",
+                                text: "El valor para cantidad de respuestas no es valido",
+                                type: 'error',
+                                styling: 'bootstrap3'
+                            }
                         )
-                    
+
                     }
                 }
-                else{
+                else {
                     var container = document.getElementById("container");
                     while (container.hasChildNodes()) {
                         container.removeChild(container.lastChild);

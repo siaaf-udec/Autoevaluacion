@@ -25,7 +25,7 @@
     @endcomponent
 @endsection
 
-{{-- Estilos necesarios para el formulario --}} 
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -35,7 +35,7 @@
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @endpush
 
-{{-- Scripts necesarios para el formulario --}} 
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <script src="{{ asset('js/admin.js') }}"></script>
     <!-- validator -->
@@ -49,7 +49,7 @@
     <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
 @endpush
 
-{{-- Funciones necesarias por el formulario --}} 
+{{-- Funciones necesarias por el formulario --}}
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
@@ -68,23 +68,31 @@
                 while (container.hasChildNodes()) {
                     container.removeChild(container.lastChild);
                 }
-                for (i=1;i<=number;i++){
-                    var input = document.createElement("TEXTAREA"); 
-                    input.name = "Respuesta_" + i; 
-                    input.maxLength = 500; 
-                    input.required = true; 
-                    input.style="margin: 0px;width: 324px;height: 214px";
-                    container.appendChild(input);container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;'; 
-                    container.appendChild(document.createTextNode("Ponderacion"));container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';
-                    container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;';container.innerHTML += '&nbsp;'; 
-                    var selectList = document.createElement("select"); 
+                for (i = 1; i <= number; i++) {
+                    var input = document.createElement("TEXTAREA");
+                    input.name = "Respuesta_" + i;
+                    input.maxLength = 500;
+                    input.required = true;
+                    input.style = "margin: 0px;width: 324px;height: 214px";
+                    container.appendChild(input);
+                    container.innerHTML += '&nbsp;';
+                    container.innerHTML += '&nbsp;';
+                    container.innerHTML += '&nbsp;';
+                    container.appendChild(document.createTextNode("Ponderacion"));
+                    container.innerHTML += '&nbsp;';
+                    container.innerHTML += '&nbsp;';
+                    container.innerHTML += '&nbsp;';
+                    container.innerHTML += '&nbsp;';
+                    container.innerHTML += '&nbsp;';
+                    var selectList = document.createElement("select");
                     selectList.name = "Ponderacion_" + i;
-                    selectList.style="margin: 0px;width: 66px;height: 34px"; 
-                    var nombre = "Ponderacion_" + i; 
-                    var route = '{{ url('admin/fuentesPrimarias/mostrarPonderaciones/') }}' + '/' + id; 
-                    mostrarPonderaciones(route,nombre); 
-                    container.appendChild(selectList); 
-                    container.appendChild(document.createElement("br"));container.appendChild(document.createElement("br"));  
+                    selectList.style = "margin: 0px;width: 66px;height: 34px";
+                    var nombre = "Ponderacion_" + i;
+                    var route = '{{ url('admin/fuentesPrimarias/mostrarPonderaciones/') }}' + '/' + id;
+                    mostrarPonderaciones(route, nombre);
+                    container.appendChild(selectList);
+                    container.appendChild(document.createElement("br"));
+                    container.appendChild(document.createElement("br"));
                 }
             });
             var form = $('#form_crear_preguntas');
@@ -112,7 +120,7 @@
                         $("#factor").html('').select2();
                         $('#factor').prop('disabled', true);
                         $('#caracteristica').prop('disabled', true);
-                        $("#lineamiento").select2('data', {});  
+                        $("#lineamiento").select2('data', {});
                         $("#lineamiento").select2({allowClear: true});
                         new PNotify({
                             title: response.title,

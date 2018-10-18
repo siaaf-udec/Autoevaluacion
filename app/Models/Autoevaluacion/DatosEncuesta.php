@@ -3,8 +3,6 @@
 namespace App\Models\Autoevaluacion;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Autoevaluacion\GrupoInteres;
-use App\Models\Autoevaluacion\Encuesta;
 
 class DatosEncuesta extends Model
 {
@@ -35,8 +33,9 @@ class DatosEncuesta extends Model
      * @var array
      */
     protected $guarded = ['PK_DAE_Id', 'created_at', 'updated_at'];
+
     /**
-     * Relacion uno a muchos con la tabla grupos de interes, los datos de una encuesta solo puede ir 
+     * Relacion uno a muchos con la tabla grupos de interes, los datos de una encuesta solo puede ir
      * destinados a un grupo de interes.
      *
      */

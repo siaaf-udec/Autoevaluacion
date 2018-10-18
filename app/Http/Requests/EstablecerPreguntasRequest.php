@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Autoevaluacion\PreguntaEncuesta;
 use App\Models\Autoevaluacion\Encuesta;
-use App\Models\Autoevaluacion\Proceso;
 use App\Models\Autoevaluacion\GrupoInteres;
+use App\Models\Autoevaluacion\PreguntaEncuesta;
+use App\Models\Autoevaluacion\Proceso;
+use Illuminate\Foundation\Http\FormRequest;
 
 class EstablecerPreguntasRequest extends FormRequest
 {

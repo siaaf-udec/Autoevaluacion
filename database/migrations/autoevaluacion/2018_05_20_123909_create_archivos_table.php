@@ -1,15 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateArchivosTable extends Migration
 {
     /**
      * Run the migrations.
      * Tabla creada para guardar la información necesaria para acceder a los archivos
-     * como la url generada y el nombre original del archivo. 
+     * como la url generada y el nombre original del archivo.
      *
      * @return void
      */

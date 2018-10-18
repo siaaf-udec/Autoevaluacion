@@ -37,10 +37,10 @@
             </li>
         @endcan
         @can('ACCEDER_PROCESOS_INSTITUCIONALES')
-        <li>
-            <a href="{{ route('admin.procesos_institucionales.index')}}"><i class="fa fa-building-o"></i> Procesos
-                            institucionales</a>
-        </li>
+            <li>
+                <a href="{{ route('admin.procesos_institucionales.index')}}"><i class="fa fa-building-o"></i> Procesos
+                    institucionales</a>
+            </li>
         @endcan
         @can('ACCEDER_PROCESOS_PROGRAMAS')
             <li>
@@ -62,16 +62,16 @@
                     </li>
                 @endcan
                 @can('ACCEDER_FACTORES')
-                <li class="sub_menu"><a href="{{ route('admin.factores.index') }}"><i class="fa fa-bar-chart"></i>Factor</a>
-                </li>
+                    <li class="sub_menu"><a href="{{ route('admin.factores.index') }}"><i class="fa fa-bar-chart"></i>Factor</a>
+                    </li>
 
                 @endcan
                 @can('ACCEDER_AMBITOS')
                     <li class="sub_menu"><a href="{{ route('admin.ambito.index') }}"><i class="fa fa-laptop"></i>Ambito</a>
                     </li>
                     <li class="sub_menu"><a href="{{ route('admin.caracteristicas.index') }}"><i
-                        class="fa fa-sliders"></i>Caracteristicas</a>
-        </li>
+                                    class="fa fa-sliders"></i>Caracteristicas</a>
+                    </li>
                 @endcan
                 @can('ACCEDER_ASPECTOS')
                     <li class="sub_menu"><a href="{{ route('admin.aspectos.index') }}"><i
@@ -84,19 +84,21 @@
         <li><a><i class="fa fa-star"></i>Plan de Mejoramiento<span class="fa fa-chevron-down"></span> </a>
             <ul class="nav child_menu">
                 @can('ACCEDER_RESPONSABLES')
-                <li>
-                    <a href="{{ route('admin.responsables.index')}}"><i class="fa fa-child"></i>Responsables</a>
-                </li>
+                    <li>
+                        <a href="{{ route('admin.responsables.index')}}"><i class="fa fa-child"></i>Responsables</a>
+                    </li>
                 @endcan
                 @can('ACCEDER_VALORIZACION_CARACTERISTICAS')
-                <li>
-                    <a href="{{ route('admin.caracteristicas_mejoramiento.index')}}"><i class="fa fa-line-chart"></i> Valorizacion de Caracteristicas</a>
-                </li>
+                    <li>
+                        <a href="{{ route('admin.caracteristicas_mejoramiento.index')}}"><i
+                                    class="fa fa-line-chart"></i> Valorizacion de Caracteristicas</a>
+                    </li>
                 @endcan
                 @can('ACCEDER_ACTIVIDADES_MEJORAMIENTO')
-                <li>
-                    <a href="{{ route('admin.actividades_mejoramiento.index')}}"><i class="fa fa-bar-chart"></i>Actividades de Mejoramiento</a>
-                </li>
+                    <li>
+                        <a href="{{ route('admin.actividades_mejoramiento.index')}}"><i class="fa fa-bar-chart"></i>Actividades
+                            de Mejoramiento</a>
+                    </li>
                 @endcan
             </ul>
         </li>

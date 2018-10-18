@@ -33,8 +33,9 @@ class Encuestado extends Model
      * @var array
      */
     protected $guarded = ['PK_ECD_Id', 'created_at', 'updated_at'];
+
     /**
-     * Relacion uno a muchos con la tabla grupos de interes, un encuesta solo puede pertenecer 
+     * Relacion uno a muchos con la tabla grupos de interes, un encuesta solo puede pertenecer
      * a un grupo de interes, pero un grupo de interes puede tener muchos encuestados.
      *
      */
@@ -42,10 +43,12 @@ class Encuestado extends Model
     {
         return $this->belongsTo(GrupoInteres::class, 'FK_ECD_GrupoInteres', 'PK_GIT_Id');
     }
+
     public function solucion()
     {
         return $this->hasMany(SolucionEncuesta::class, 'FK_SEC_Encuestado', 'PK_ECD_Id');
     }
+
     public function encuesta()
     {
         return $this->belongsTo(Encuesta::class, 'FK_ECD_Encuesta', 'PK_ECT_Id');

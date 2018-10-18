@@ -9,7 +9,7 @@
         'data-parsley-pattern-message' => 'Error, digite solo numeros','data-parsley-trigger'=>"change",
         'id' => 'cantidad'  ] ) !!}
     </div>
-    <div class="col-md-5 col-sm-2 col-xs-12"> 
+    <div class="col-md-5 col-sm-2 col-xs-12">
         <input type="checkbox" id="ponderacion" name="ponderacion" value="1" required>Agregar Ponderaciones</br>
     </div>
 </div>

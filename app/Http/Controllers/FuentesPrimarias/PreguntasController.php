@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\FuentesPrimarias;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PreguntasRequest;
 use App\Http\Requests\ModificarPreguntasRequest;
-use Illuminate\Http\Request;
-use App\Models\Autoevaluacion\PonderacionRespuesta;
+use App\Http\Requests\PreguntasRequest;
 use App\Models\Autoevaluacion\Caracteristica;
 use App\Models\Autoevaluacion\Estado;
 use App\Models\Autoevaluacion\Factor;
 use App\Models\Autoevaluacion\Lineamiento;
+use App\Models\Autoevaluacion\PonderacionRespuesta;
 use App\Models\Autoevaluacion\Pregunta;
+use App\Models\Autoevaluacion\PreguntaEncuesta;
+use App\Models\Autoevaluacion\Proceso;
 use App\Models\Autoevaluacion\RespuestaPregunta;
 use App\Models\Autoevaluacion\TipoRespuesta;
-use App\Models\Autoevaluacion\Proceso;
-use App\Models\Autoevaluacion\PreguntaEncuesta;
 use DataTables;
+use Illuminate\Http\Request;
 
 class PreguntasController extends Controller
 {
@@ -27,7 +27,7 @@ class PreguntasController extends Controller
     */
 
     /**
-     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
      * acciones posibles en la aplicacion como los son:
      * Acceder, ver, crea, modificar, eliminar
      */
@@ -48,8 +48,8 @@ class PreguntasController extends Controller
     {
         if ($request->ajax() && $request->isMethod('GET')) {
             /**
-            * Se obtienen todas las preguntas y a que caracteristica, factor y lineamiento pertenecen
-            */
+             * Se obtienen todas las preguntas y a que caracteristica, factor y lineamiento pertenecen
+             */
             $preguntas = Pregunta::with('estado', 'tipo', 'caracteristica', 'caracteristica.factor.lineamiento')->get();
             return DataTables::of($preguntas)
                 ->addColumn('estado', function ($preguntas) {
@@ -103,15 +103,15 @@ class PreguntasController extends Controller
         $pregunta->FK_PGT_Caracteristica = $request->get('PK_CRT_Id');
         $pregunta->save();
         /**
-        * Se obtiene la cantidad de respuestas de la preguntas para poder almacenar cada respuesta digitada 
-        */
+         * Se obtiene la cantidad de respuestas de la preguntas para poder almacenar cada respuesta digitada
+         */
         $tipos = TipoRespuesta::select('TRP_CantidadRespuestas')
             ->where('PK_TRP_Id', $request->get('PK_TRP_Id'))
             ->first();
         /**
-        * Sabiendo la cantidad de respuestas, se buscan los campos creados dinamicamente en la vista
-        * para digitar la totalidad de las respuestas y asi poder ser almacenadas en la base de datos
-        */
+         * Sabiendo la cantidad de respuestas, se buscan los campos creados dinamicamente en la vista
+         * para digitar la totalidad de las respuestas y asi poder ser almacenadas en la base de datos
+         */
         for ($i = 1; $i <= $tipos->TRP_CantidadRespuestas; $i++) {
             $respuestas = new RespuestaPregunta();
             $respuestas->RPG_Texto = $request->get('Respuesta_' . $i);
@@ -203,9 +203,9 @@ class PreguntasController extends Controller
     }
 
     /**
-     * Para que el proceso de eliminacion de una pregunta sea exitoso, el sistema 
-     * debe verificar si la pregunta pertenece a alguna encuesta vinculada a un proceso en fase de 
-     * captura de datos, en el caso que se cumpla esta condicion no se permitira eliminar la pregunta 
+     * Para que el proceso de eliminacion de una pregunta sea exitoso, el sistema
+     * debe verificar si la pregunta pertenece a alguna encuesta vinculada a un proceso en fase de
+     * captura de datos, en el caso que se cumpla esta condicion no se permitira eliminar la pregunta
      * ya que esto afectaria el correcto desarrollo del proceso de autoevaluacion en cuestion.
      */
     public function destroy($id)

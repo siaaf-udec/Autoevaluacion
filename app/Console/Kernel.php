@@ -64,6 +64,7 @@ class Kernel extends ConsoleKernel
                  * LLenar historial con el lieneamiento, factor, caractersitica, indicador
                  */
                 foreach ($proceso as $process) {
+                    $factores = [];
                     $caracteristicas = [];
                     $indicadores = [];
                     $preguntas = [];
@@ -107,11 +108,12 @@ class Kernel extends ConsoleKernel
                         $factor_historial->FCT_Nombre = $factor->FCT_Identificador . '.' . $factor->FCT_Nombre;
                         $factor_historial->FK_FCT_Lineamiento = $lineamiento_historial->PK_LNM_Id;
                         $factor_historial->save();
+                        $factores[$factor->PK_FCT_Id] = $factor_historial->PK_FCT_Id;
 
                         foreach ($factor->caracteristica as $caracteristica) {
                             $caracteristica_historial = new Caracteristica();
                             $caracteristica_historial->CRT_Nombre = $caracteristica->CRT_Identificador . '.' . $caracteristica->CRT_Nombre;
-                            $caracteristica_historial->FK_CRT_Factor = $caracteristica->FK_CRT_Factor;
+                            $caracteristica_historial->FK_CRT_Factor = $factores[$caracteristica->FK_CRT_Factor];
                             $caracteristica_historial->save();
 
                             $caracteristicas[$caracteristica->PK_CRT_Id] = $caracteristica_historial->PK_CRT_Id;
@@ -192,7 +194,7 @@ class Kernel extends ConsoleKernel
                             $solucion_encuesta->SEC_Grupo_Interes = $key;
                             $solucion_encuesta->FK_SEC_Respuesta = $id_respuesta;
                             $solucion_encuesta->SEC_Total_Ponderacion =
-                                (array_get($encuesta_grupo, '0.respuestas.ponderacion.PRT_Ponderacion', 0) *
+                                (10 / array_get($encuesta_grupo, '0.respuestas.ponderacion.PRT_Rango', 0) *
                                     count($encuesta_grupo)) / count($encuesta_grupo);
                             $solucion_encuesta->save();
                         }

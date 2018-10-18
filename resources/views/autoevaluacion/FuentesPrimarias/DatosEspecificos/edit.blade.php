@@ -27,9 +27,9 @@
     <link href="{{ asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
     <!-- Select2 -->
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
-@endpush 
+@endpush
 
-{{-- Scripts necesarios para el formulario --}} 
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <script src="{{ asset('js/admin.js') }}"></script>
     <!-- validator -->
@@ -45,9 +45,9 @@
     <script src="{{asset('gentella/vendors/moment/min/moment.min.js')}}"></script>
     <script src="{{asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 
-@endpush 
+@endpush
 
-{{-- Funciones necesarias por el formulario --}} 
+{{-- Funciones necesarias por el formulario --}}
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {

@@ -16,7 +16,7 @@ class DocumentoInstitucionalController extends Controller
 {
 
     /**
-     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
      * acciones posibles en la aplicación como los son:
      * Acceder, ver, crea, modificar, eliminar
      */
@@ -47,14 +47,14 @@ class DocumentoInstitucionalController extends Controller
                 ->addColumn('archivo', function ($docinstitucional) {
                     /**
                      * Si el documento tiene una archivo guardado en el servidor
-                     * Se obtiene el url y se coloca en un link, si no es asi es porque tiene 
+                     * Se obtiene el url y se coloca en un link, si no es asi es porque tiene
                      * una url entonces también se le asignar a un botón tipo link.
                      */
                     if (!$docinstitucional->archivo) {
                         return '<a class="btn btn-success btn-xs" href="' . $docinstitucional->link .
                             '"target="_blank" role="button">Enlace al documento</a>';
                     } else {
-                        
+
                         return '<a class="btn btn-success btn-xs" href="' . route('descargar') . '?archivo=' .
                             $docinstitucional->archivo->ruta .
                             '" target="_blank" role="button">' . $docinstitucional->archivo->ACV_Nombre . '</a>';
@@ -172,7 +172,7 @@ class DocumentoInstitucionalController extends Controller
             $carpeta = GrupoDocumento::find($request->FK_DOI_GrupoDocumento);
             $nombrecarpeta = $carpeta->GRD_Nombre;
             $url = Storage::url($archivo->store('public/DocumentosInstitucionales/' . $nombrecarpeta));
-            
+
             /**
              * Si el documento y tenia un documento se elimina este y se guarda el nuevo,
              * si no es asi simplemente se guarda
@@ -222,7 +222,7 @@ class DocumentoInstitucionalController extends Controller
         $documento->update();
 
         /**
-         * Se elimina el archivo al final debido a problemas de perdida de datos, esto ocurre 
+         * Se elimina el archivo al final debido a problemas de perdida de datos, esto ocurre
          * si la petición traía un link y el documento antes tenia un archivo guardado en el servidor
          */
         if ($borraArchivo) {

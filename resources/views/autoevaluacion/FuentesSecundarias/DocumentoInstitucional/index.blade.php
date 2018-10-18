@@ -7,30 +7,30 @@
 @section('content')
     @component('admin.components.panel') @slot('title', 'Documentos Institucionales')
 
-<div class="col-md-12">
-    <div class="actions">
-        <a href="{{ route('documental.documentoinstitucional.create') }}" class="btn btn-info">
-                    <i class="fa fa-plus"></i> Agregar Documento Institucional</a></div>
-</div>
-<br>
-<br>
-<br> 
-<div class="col-md-12">
-    @component('admin.components.datatable', ['id' => 'docinstitucional_table_ajax']) 
-    @slot('columns', [ 
-    'id', 
-    'Nombre', 
-    'Descripción',
-    'Grupo de Documentos', 
-    'Archivo',
-    'Acciones' => ['style'
-    => 'width:115px;']]) @endcomponent
+    <div class="col-md-12">
+        <div class="actions">
+            <a href="{{ route('documental.documentoinstitucional.create') }}" class="btn btn-info">
+                <i class="fa fa-plus"></i> Agregar Documento Institucional</a></div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="col-md-12">
+        @component('admin.components.datatable', ['id' => 'docinstitucional_table_ajax'])
+            @slot('columns', [
+            'id',
+            'Nombre',
+            'Descripción',
+            'Grupo de Documentos',
+            'Archivo',
+            'Acciones' => ['style'
+            => 'width:115px;']]) @endcomponent
 
     </div>
     @endcomponent
 @endsection
 
-{{-- Scripts necesarios para el formulario --}} 
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <!-- Datatables -->
     <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
@@ -42,9 +42,9 @@
 
 
 
-@endpush 
+@endpush
 
-{{-- Estilos necesarios para el formulario --}} 
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
@@ -53,7 +53,7 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
 @endpush @push('functions')
-<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
 
             let sesion = sessionStorage.getItem("update");
@@ -160,7 +160,7 @@
                 var route = '{{ url('admin/documental/documentoinstitucional/') }}' + '/' + dataTable.PK_DOI_Id + '/edit';
                 window.location.href = route;
             });
-            
+
         });
 
         function SwalDelete(id, route) {

@@ -7,7 +7,7 @@
             <div class="widget-posts-image"><a href="#"><img src="{{ asset('titan/assets/images/logo.png')}}"
                                                              alt="Post Thumbnail"/></a></div>
         </div>
-        <br>    
+        <br>
         <div class="collapse navbar-collapse" id="custom-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li class="tittle"><a href="{{route('home')}}">Home</a>

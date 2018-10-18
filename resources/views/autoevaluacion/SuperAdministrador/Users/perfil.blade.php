@@ -28,7 +28,7 @@
     @endcomponent
 @endsection
 
-{{-- Estilos necesarios para el formulario --}} 
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -38,7 +38,7 @@
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @endpush
 
-{{-- Scripts necesarios para el formulario --}} 
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
@@ -50,7 +50,7 @@
     <!-- Select2 -->
     <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
 @endpush
-{{-- Funciones necesarias por el formulario --}} 
+{{-- Funciones necesarias por el formulario --}}
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
@@ -81,7 +81,7 @@
                     success: function (response, NULL, jqXHR) {
                         $("#password").val('');
                         $("#password_confimation").val('');
-                         new PNotify({
+                        new PNotify({
                             title: response.title,
                             text: response.msg,
                             type: 'success',

@@ -24,7 +24,7 @@
         {!! Form::close() !!} @endcomponent
 @endsection
 
-{{-- Estilos necesarios para el formulario --}} 
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -40,9 +40,9 @@
             min-height: 0px !important;
         }
     </style>
-@endpush 
+@endpush
 
-{{-- Scripts necesarios para el formulario --}} 
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
@@ -56,12 +56,12 @@
     <!-- Dropzone.js -->
     <script src="{{ asset('gentella/vendors/dropzone/dist/min/dropzone.min.js') }}"></script>
 
-@endpush 
+@endpush
 
-{{-- Funciones necesarias por el formulario --}} 
+{{-- Funciones necesarias por el formulario --}}
 @push('functions')
     <script type="text/javascript">
-    var comprobarDocumento = {{ isset($size)?'true':'false' }};          
+        var comprobarDocumento = {{ isset($size)?'true':'false' }};
         Dropzone.options.myDropzone = {
             url: $('#form_modificar_documento').attr('action'),
             autoProcessQueue: false,
@@ -72,22 +72,24 @@
             addRemoveLinks: true,
             @if($documento->archivo)
             // The setting up of the dropzone
-            init:function() {
+            init: function () {
 
                 // Add server images
                 var myDropzone = this;
 
-                    var file = {name: '{{ $documento->archivo->ACV_Nombre .'.'. $documento->archivo->ACV_Extension}}', 
-                    size: "{{ $size }}" };
-                    myDropzone.options.addedfile.call(myDropzone, file);
-                    myDropzone.options.thumbnail.call(myDropzone, file, '{{ $documento->archivo->ruta }}');
-                    myDropzone.emit("complete", file);
-                    this.on("removedfile", function(file) {
-                        comprobarDocumento = false;
-                    });
-                    
+                var file = {
+                    name: '{{ $documento->archivo->ACV_Nombre .'.'. $documento->archivo->ACV_Extension}}',
+                    size: "{{ $size }}"
+                };
+                myDropzone.options.addedfile.call(myDropzone, file);
+                myDropzone.options.thumbnail.call(myDropzone, file, '{{ $documento->archivo->ruta }}');
+                myDropzone.emit("complete", file);
+                this.on("removedfile", function (file) {
+                    comprobarDocumento = false;
+                });
+
             }
-                
+
             @endif
 
         };

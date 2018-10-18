@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateActividadesMejoramiento extends Migration
 {
@@ -27,10 +27,10 @@ class CreateActividadesMejoramiento extends Migration
 
             $table->foreign("FK_ACM_Responsable")->references("PK_RPS_Id")->on("TBL_Responsables")->onDelete("cascade");
             $table->foreign("FK_ACM_Caracteristica")->references("PK_CRT_Id")->on("TBL_Caracteristicas")->onDelete("cascade");
-	        $table->foreign("FK_ACM_Plan_Mejoramiento")->references("PK_PDM_Id")->on("TBL_Plan_De_Mejoramiento")->onDelete("cascade");
-});    
+            $table->foreign("FK_ACM_Plan_Mejoramiento")->references("PK_PDM_Id")->on("TBL_Plan_De_Mejoramiento")->onDelete("cascade");
+        });
 
-}
+    }
 
     /**
      * Reverse the migrations.

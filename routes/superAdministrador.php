@@ -133,6 +133,10 @@ Route::post('historial/filtro_documental/{id_proceso}', array(
     'as' => 'admin.historial.filtro_documental',
     'uses' => 'HistorialController@filtroDocumental'
 ));
+Route::post('historial/filtro_encuestas/{id_proceso}', array(
+    'as' => 'admin.historial.filtro_encuestas',
+    'uses' => 'HistorialController@filtroEncuestas'
+));
 
 
 //Caracteristicas Mejoramiento

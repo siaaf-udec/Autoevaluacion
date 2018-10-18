@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Str;
-use Illuminate\Auth\Events\PasswordReset;
 
 class ResetPasswordController extends Controller
 {

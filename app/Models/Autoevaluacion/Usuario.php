@@ -2,10 +2,10 @@
 
 namespace App\Models\Autoevaluacion;
 
+use Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-use Hash;
 
 
 class Usuario extends Authenticatable

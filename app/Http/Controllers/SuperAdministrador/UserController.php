@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\SuperAdministrador;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PerfilUsuarioRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Autoevaluacion\Estado;
+use App\Models\Autoevaluacion\ProgramaAcademico;
 use App\Models\Autoevaluacion\User;
 use DataTables;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\PerfilUsuarioRequest;
 use Illuminate\Support\Facades\Gate;
-use App\Models\Autoevaluacion\ProgramaAcademico;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {

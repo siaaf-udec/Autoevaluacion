@@ -18,7 +18,7 @@
         <div class="form-group">
             {!! Form::label('archivo','Agregar Archivos', ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
             <div class="col-md-6 col-sm-6 col-xs-12 dropzone" id="myDropzone">
-            
+
             </div>
         </div>
         <div class="ln_solid"></div>
@@ -32,7 +32,7 @@
     @endcomponent
 @endsection
 
-{{-- Estilos necesarios para el formulario --}} 
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -48,7 +48,7 @@
     </style>
 @endpush
 
-{{-- Scripts necesarios para el formulario --}} 
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
@@ -62,13 +62,13 @@
 @endpush
 
 
-{{-- Funciones necesarias por el formulario --}} 
+{{-- Funciones necesarias por el formulario --}}
 @push('functions')
     <script type="text/javascript">
-    
-    var comprobarDocumento = {{ isset($size)?'true':'false' }};  
-    
-    Dropzone.options.myDropzone = {
+
+        var comprobarDocumento = {{ isset($size)?'true':'false' }};
+
+        Dropzone.options.myDropzone = {
             url: $('#form_modificar_datos').attr('action'),
             autoProcessQueue: false,
             uploadMultiple: false,
@@ -78,25 +78,27 @@
             addRemoveLinks: true,
             @if($user->archivo)
             // The setting up of the dropzone
-            init:function() {
+            init: function () {
 
 
                 // Add server images
                 var myDropzone = this;
 
-                    var file = {name: '{{ $user->archivo->ACV_Nombre}}', 
-                    size: "{{ $size }}" };
-                    myDropzone.options.addedfile.call(myDropzone, file);
-                    myDropzone.options.thumbnail.call(myDropzone, file, '{{ $user->archivo->ruta }}');
-                    myDropzone.emit("complete", file);
-                    this.on("removedfile", function(file) {
-                        comprobarDocumento = false;
-                    });
-                    
+                var file = {
+                    name: '{{ $user->archivo->ACV_Nombre}}',
+                    size: "{{ $size }}"
+                };
+                myDropzone.options.addedfile.call(myDropzone, file);
+                myDropzone.options.thumbnail.call(myDropzone, file, '{{ $user->archivo->ruta }}');
+                myDropzone.emit("complete", file);
+                this.on("removedfile", function (file) {
+                    comprobarDocumento = false;
+                });
+
             }
-                
+
             @endif
-        } 
+        }
         $(document).ready(function () {
             var form = $('#form_modificar_datos');
             $(form).parsley({

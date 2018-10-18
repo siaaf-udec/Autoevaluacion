@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers\SuperAdministrador;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-
+use App\Http\Requests\ProcesosInstitucionalesRequest;
+use App\Models\Autoevaluacion\Fase;
+use App\Models\Autoevaluacion\Lineamiento;
+use App\Models\Autoevaluacion\PlanMejoramiento;
+use App\Models\Autoevaluacion\Proceso;
 use Carbon\Carbon;
 use DataTables;
-use App\Models\Autoevaluacion\Proceso;
-use App\Models\Autoevaluacion\Lineamiento;
-use App\Models\Autoevaluacion\Fase;
-use App\Http\Requests\ProcesosInstitucionalesRequest;
-use App\Models\Autoevaluacion\PlanMejoramiento;
+use Illuminate\Http\Request;
 
 
 class ProcesoInstitucionalController extends Controller
@@ -50,10 +48,10 @@ class ProcesoInstitucionalController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-        /**
-         * Esta funcion llena el datatable de todos los procesos institucionales
-         * el cual requiere de lineamiendos, fecha inicio, fecha fin y fase
-         */
+    /**
+     * Esta funcion llena el datatable de todos los procesos institucionales
+     * el cual requiere de lineamiendos, fecha inicio, fecha fin y fase
+     */
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
@@ -125,7 +123,7 @@ class ProcesoInstitucionalController extends Controller
 
         $proceso->FK_PCS_Fase = 3;
         $proceso->FK_PCS_Lineamiento = $request->get('PK_LNM_Id');
-        $proceso->PCS_Slug_Procesos = "institucional_".Carbon::now()->toDateString();
+        $proceso->PCS_Slug_Procesos = "institucional_" . Carbon::now()->toDateString();
         $proceso->save();
 
         return response([
@@ -184,18 +182,16 @@ class ProcesoInstitucionalController extends Controller
         $proceso->PCS_FechaFin = Carbon::createFromFormat('d/m/Y', $request->get('PCS_FechaFin'));
 
         $proceso->FK_PCS_Fase = $request->get('PK_FSS_Id');
-        $fase = Fase::where('PK_FSS_Id','=',$request->get('PK_FSS_Id'))
-        ->first();
-        if($fase->FSS_Nombre == "plan de mejoramiento")
-        {
-            $verificarPlan = PlanMejoramiento::where('FK_PDM_Proceso','=',$id)
+        $fase = Fase::where('PK_FSS_Id', '=', $request->get('PK_FSS_Id'))
             ->first();
-            if($verificarPlan == null)
-            {
+        if ($fase->FSS_Nombre == "plan de mejoramiento") {
+            $verificarPlan = PlanMejoramiento::where('FK_PDM_Proceso', '=', $id)
+                ->first();
+            if ($verificarPlan == null) {
                 $planmejoramiento = new PlanMejoramiento();
-                $planmejoramiento->PDM_Nombre = "Plan de Mejoramiento Institucional ".$request->get('PCS_Nombre');
-                $planmejoramiento->PDM_Descripcion ="Esta es la descripcion mientrastanto :D ";
-                $planmejoramiento->FK_PDM_Proceso=$id;
+                $planmejoramiento->PDM_Nombre = "Plan de Mejoramiento Institucional " . $request->get('PCS_Nombre');
+                $planmejoramiento->PDM_Descripcion = "Esta es la descripcion mientrastanto :D ";
+                $planmejoramiento->FK_PDM_Proceso = $id;
                 $planmejoramiento->save();
             }
         }

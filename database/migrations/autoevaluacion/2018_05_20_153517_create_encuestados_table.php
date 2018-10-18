@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateEncuestadosTable extends Migration
 {
-     /**
+    /**
      * Run the migrations.
      * Tabla creada para almacenar los datos mas relevantes del encuestado
      * como la fecha de solucion y si este tiene un cargo administrativo.

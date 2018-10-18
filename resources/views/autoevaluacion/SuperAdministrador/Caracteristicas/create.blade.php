@@ -76,9 +76,9 @@
                     $(form)[0].reset();
                     $(form).parsley().reset();
                     $("#factores").html('').select2();
-                        $('#factores').prop('disabled', true);
-                        $("#lineamiento").select2('data', {}); // clear out values selected
-                        $("#lineamiento").select2({allowClear: true});
+                    $('#factores').prop('disabled', true);
+                    $("#lineamiento").select2('data', {}); // clear out values selected
+                    $("#lineamiento").select2({allowClear: true});
                     new PNotify({
                         title: response.title,
                         text: response.msg,

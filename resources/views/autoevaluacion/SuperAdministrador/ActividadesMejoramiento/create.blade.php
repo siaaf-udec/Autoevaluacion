@@ -18,7 +18,7 @@
         <div class="ln_solid"></div>
         <div class="form-group">
             <div class="col-md-6 col-md-offset-3">
-            {{ link_to_route('admin.caracteristicas_mejoramiento.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
+                {{ link_to_route('admin.caracteristicas_mejoramiento.index',"Cancelar", [], ['class' => 'btn btn-info']) }}
                 {!! Form::submit('Crear Actividad', ['class' => 'btn btn-success']) !!}
             </div>
         </div>
@@ -26,7 +26,7 @@
     @endcomponent
 @endsection
 
-{{-- Estilos necesarios para el formulario --}} 
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- PNotify -->
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
@@ -42,7 +42,7 @@
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @endpush
 
-{{-- Scripts necesarios para el formulario --}} 
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <!-- validator -->
     <script src="{{ asset('gentella/vendors/parsleyjs/parsley.min.js') }}"></script>
@@ -57,7 +57,7 @@
     <script src="{{asset('gentella/vendors/moment/min/moment.min.js')}}"></script>
     <script src="{{asset('gentella/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 @endpush
-{{-- Funciones necesarias por el formulario --}} 
+{{-- Funciones necesarias por el formulario --}}
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {

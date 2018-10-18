@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\FuentesPrimarias;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\BancoEncuestasRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BancoEncuestasRequest;
 use App\Models\Autoevaluacion\BancoEncuestas;
 use App\Models\Autoevaluacion\Encuesta;
 use DataTables;
+use Illuminate\Http\Request;
 
 
 class BancoEncuestasController extends Controller
@@ -18,7 +18,7 @@ class BancoEncuestasController extends Controller
     */
 
     /**
-     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
      * acciones posibles en la aplicacion como los son:
      * Acceder, ver, crea, modificar, eliminar
      */
@@ -128,9 +128,9 @@ class BancoEncuestasController extends Controller
     }
 
     /**
-     * Para que el proceso de eliminacion de una encuesta sea exitoso, el sistema debe verificar si existe  
-     * algun proceso en fase de captura de datos, en el caso que se cumpla esta condicion no se permitira 
-     * eliminar la encuesta ya que esto afectaria el correcto desarrollo del proceso de autoevaluacion 
+     * Para que el proceso de eliminacion de una encuesta sea exitoso, el sistema debe verificar si existe
+     * algun proceso en fase de captura de datos, en el caso que se cumpla esta condicion no se permitira
+     * eliminar la encuesta ya que esto afectaria el correcto desarrollo del proceso de autoevaluacion
      * en cuestion.
      */
     public function destroy($id)

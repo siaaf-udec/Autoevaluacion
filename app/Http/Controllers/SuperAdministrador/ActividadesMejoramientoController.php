@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers\SuperAdministrador;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ActividadesMejoramientoRequest;
 use App\Models\Autoevaluacion\ActividadesMejoramiento;
-use App\Models\Autoevaluacion\SolucionEncuesta;
 use App\Models\Autoevaluacion\PlanMejoramiento;
-use App\Models\Autoevaluacion\Encuesta;
-use App\Models\Autoevaluacion\Caracteristica;
-use App\Models\Autoevaluacion\Lineamiento;
 use App\Models\Autoevaluacion\Responsable;
-use DataTables;
 use Carbon\Carbon;
+use DataTables;
+use Illuminate\Http\Request;
 
 class ActividadesMejoramientoController extends Controller
 {
@@ -34,6 +30,7 @@ class ActividadesMejoramientoController extends Controller
         $this->middleware('permission:CREAR_ACTIVIDADES_MEJORAMIENTO', ['only' => ['create', 'store']]);
         $this->middleware('permission:ELIMINAR_ACTIVIDADES_MEJORAMIENTO', ['only' => ['destroy']]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -41,35 +38,35 @@ class ActividadesMejoramientoController extends Controller
      */
     public function index()
     {
-        $planMejoramiento = PlanMejoramiento::where('FK_PDM_Proceso','=',session()->get('id_proceso'))
-        ->first();
+        $planMejoramiento = PlanMejoramiento::where('FK_PDM_Proceso', '=', session()->get('id_proceso'))
+            ->first();
         return view('autoevaluacion.SuperAdministrador.ActividadesMejoramiento.index', compact('planMejoramiento'));
     }
 
     public function data(Request $request)
     {
-        $planMejoramiento = PlanMejoramiento::where('FK_PDM_Proceso','=',session()->get('id_proceso'))
-        ->first();
-        if($planMejoramiento!=null){
+        $planMejoramiento = PlanMejoramiento::where('FK_PDM_Proceso', '=', session()->get('id_proceso'))
+            ->first();
+        if ($planMejoramiento != null) {
             if ($request->ajax() && $request->isMethod('GET')) {
                 $actividades = ActividadesMejoramiento::whereHas('PlanMejoramiento', function ($query) {
-                    return $query->where('FK_PDM_Proceso', '=', session()->get('id_proceso') );
+                    return $query->where('FK_PDM_Proceso', '=', session()->get('id_proceso'));
                 })
-                ->with('Caracteristicas.factor','responsable')
-                ->get();
+                    ->with('Caracteristicas.factor', 'responsable')
+                    ->get();
                 return DataTables::of($actividades)
-                ->editColumn('ACM_Fecha_Inicio', function ($actividades) {
-                    return $actividades->ACM_Fecha_Inicio ? with(new Carbon($actividades->ACM_Fecha_Inicio))->format('d/m/Y') : '';
-                })
-                ->editColumn('ACM_Fecha_Fin', function ($actividades) {
-                    return $actividades->ACM_Fecha_Fin ? with(new Carbon($actividades->ACM_Fecha_Fin))->format('d/m/Y') : '';
-                })
-                ->addColumn('responsable', function($actividades){
-                    return $actividades->responsable->RPS_Nombre." ".$actividades->responsable->RPS_Apellido;
-                })
-                ->removeColumn('created_at')
-                ->removeColumn('updated_at')
-                ->make(true);
+                    ->editColumn('ACM_Fecha_Inicio', function ($actividades) {
+                        return $actividades->ACM_Fecha_Inicio ? with(new Carbon($actividades->ACM_Fecha_Inicio))->format('d/m/Y') : '';
+                    })
+                    ->editColumn('ACM_Fecha_Fin', function ($actividades) {
+                        return $actividades->ACM_Fecha_Fin ? with(new Carbon($actividades->ACM_Fecha_Fin))->format('d/m/Y') : '';
+                    })
+                    ->addColumn('responsable', function ($actividades) {
+                        return $actividades->responsable->RPS_Nombre . " " . $actividades->responsable->RPS_Apellido;
+                    })
+                    ->removeColumn('created_at')
+                    ->removeColumn('updated_at')
+                    ->make(true);
             }
         }
     }
@@ -83,28 +80,28 @@ class ActividadesMejoramientoController extends Controller
     {
         session()->put('id_actividad', $id);
         $responsable = Responsable::selectRaw('PK_RPS_Id, CONCAT(RPS_Nombre," ",RPS_Apellido) AS nombre')
-        ->get()->pluck('nombre', 'PK_RPS_Id');
-        return view('autoevaluacion.SuperAdministrador.ActividadesMejoramiento.create',compact('responsable'));
+            ->get()->pluck('nombre', 'PK_RPS_Id');
+        return view('autoevaluacion.SuperAdministrador.ActividadesMejoramiento.create', compact('responsable'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(ActividadesMejoramientoRequest $request)
     {
         $actividades = new ActividadesMejoramiento();
         /**
-        * Se debe cambiar el formato de la fecha de publicacion y de finalizacion.  
-        */
+         * Se debe cambiar el formato de la fecha de publicacion y de finalizacion.
+         */
         $actividades->fill($request->only(['ACM_Nombre', 'ACM_Descripcion']));
         $actividades->ACM_Fecha_Inicio = Carbon::createFromFormat('d/m/Y', $request->get('ACM_Fecha_Inicio'));;
         $actividades->ACM_Fecha_Fin = Carbon::createFromFormat('d/m/Y', $request->get('ACM_Fecha_Fin'));
         $actividades->FK_ACM_Responsable = $request->get('PK_RPS_Id');
         $actividades->FK_ACM_Caracteristica = session()->get('id_actividad');
-        $idPlanMejoramiento = PlanMejoramiento::where('FK_PDM_Proceso','=', session()->get('id_proceso'))->first()->PK_PDM_Id;
+        $idPlanMejoramiento = PlanMejoramiento::where('FK_PDM_Proceso', '=', session()->get('id_proceso'))->first()->PK_PDM_Id;
         $actividades->FK_ACM_Plan_Mejoramiento = $idPlanMejoramiento;
         $actividades->save();
         return response([
@@ -117,7 +114,7 @@ class ActividadesMejoramientoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -128,25 +125,25 @@ class ActividadesMejoramientoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $responsable = Responsable::selectRaw('PK_RPS_Id, CONCAT(RPS_Nombre," ",RPS_Apellido) AS nombre')
-        ->get()->pluck('nombre', 'PK_RPS_Id');
+            ->get()->pluck('nombre', 'PK_RPS_Id');
         $actividades = ActividadesMejoramiento::findOrFail($id);
         return view(
             'autoevaluacion.SuperAdministrador.ActividadesMejoramiento.edit',
-            compact('responsable','actividades')
+            compact('responsable', 'actividades')
         );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(ActividadesMejoramientoRequest $request, $id)
@@ -154,7 +151,7 @@ class ActividadesMejoramientoController extends Controller
         $actividades = ActividadesMejoramiento::find($id);
         $actividades->ACM_Fecha_Inicio = Carbon::createFromFormat('d/m/Y', $request->get('ACM_Fecha_Inicio'));;
         $actividades->ACM_Fecha_Fin = Carbon::createFromFormat('d/m/Y', $request->get('ACM_Fecha_Fin'));
-        
+
         $actividades->ACM_Nombre = $request->get('ACM_Nombre');
         $actividades->ACM_Descripcion = $request->get('ACM_Descripcion');
         $actividades->FK_ACM_Responsable = $request->get('PK_RPS_Id');
@@ -168,7 +165,7 @@ class ActividadesMejoramientoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

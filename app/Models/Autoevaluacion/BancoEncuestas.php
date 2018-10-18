@@ -3,7 +3,6 @@
 namespace App\Models\Autoevaluacion;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Autoevaluacion\PreguntaEncuesta;
 
 class BancoEncuestas extends Model
 {
@@ -34,7 +33,7 @@ class BancoEncuestas extends Model
      * @var array
      */
     protected $guarded = ['PK_BEC_Id', 'created_at', 'updated_at'];
-    
+
     /**
      * Relación muchos a uno con la tabla encuestas.
      * El banco de encuestas puede tener muchas encuestas,

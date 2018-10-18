@@ -45,7 +45,7 @@
         <br>
         <br>
         <div class="col-md-12">
-        @component('admin.components.datatable', ['id' => 'datos_table_ajax']) @slot('columns', [ 'id', 'Titulo', 'Descripcion', 'Grupo de Interes', 
+            @component('admin.components.datatable', ['id' => 'datos_table_ajax']) @slot('columns', [ 'id', 'Titulo', 'Descripcion', 'Grupo de Interes',
     'Acciones' => ['style' => 'width:85px;'] ]) @endcomponent
 
         </div>
@@ -67,7 +67,7 @@
     <!-- Select2 -->
     <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
 @endpush
-{{-- Estilos necesarios para el formulario --}} 
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
@@ -78,7 +78,7 @@
 
     <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @endpush
-{{-- Funciones necesarias por el formulario --}} 
+{{-- Funciones necesarias por el formulario --}}
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
@@ -93,10 +93,10 @@
 
             var data, routeDatatable;
             data = [
-                {data: 'PK_DAE_Id', name: 'id', "visible": false}, 
-                {data: 'DAE_Titulo', name: 'Titulo'}, 
-                {data: 'DAE_Descripcion', name: 'Descripcion'}, 
-                {data: 'grupos.GIT_Nombre', name: 'Grupos de Interes'}, 
+                {data: 'PK_DAE_Id', name: 'id', "visible": false},
+                {data: 'DAE_Titulo', name: 'Titulo'},
+                {data: 'DAE_Descripcion', name: 'Descripcion'},
+                {data: 'grupos.GIT_Nombre', name: 'Grupos de Interes'},
                 {
                     defaultContent:
                         '@can('ELIMINAR_DATOS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +

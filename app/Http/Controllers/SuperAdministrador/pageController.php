@@ -3,27 +3,15 @@
 namespace App\Http\Controllers\SuperAdministrador;
 
 use App\Http\Controllers\Controller;
+use App\Models\Autoevaluacion\Dependencia;
+use App\Models\Autoevaluacion\Factor;
+use App\Models\Autoevaluacion\GrupoInteres;
 use App\Models\Autoevaluacion\Proceso;
+use App\Models\Autoevaluacion\TipoDocumento;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use App\Models\Autoevaluacion\DocumentoAutoevaluacion;
-use App\Models\Autoevaluacion\IndicadorDocumental;
-use App\Models\Autoevaluacion\Factor;
-use App\Models\Autoevaluacion\Dependencia;
-use App\Models\Autoevaluacion\TipoDocumento;
-use App\Models\Autoevaluacion\GrupoDocumento;
-use App\Models\Autoevaluacion\DocumentoInstitucional;
-
-use App\Models\Autoevaluacion\Encuesta;
-use App\Models\Autoevaluacion\Encuestado;
-use App\Models\Autoevaluacion\PreguntaEncuesta;
-use App\Models\Autoevaluacion\RespuestaPregunta;
-use App\Models\Autoevaluacion\Pregunta;
-use App\Models\Autoevaluacion\GrupoInteres;
-use App\Models\Autoevaluacion\Caracteristica;
-use App\Models\Autoevaluacion\SolucionEncuesta;
-use Barryvdh\DomPDF\Facade as PDF;
 
 class pageController extends Controller
 {

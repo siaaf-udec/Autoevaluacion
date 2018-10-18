@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\SuperAdministrador;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CaracteristicasRequest;
 use App\Models\Autoevaluacion\AmbitoResponsabilidad;
 use App\Models\Autoevaluacion\Caracteristica;
 use App\Models\Autoevaluacion\Estado;
@@ -10,7 +11,6 @@ use App\Models\Autoevaluacion\Factor;
 use App\Models\Autoevaluacion\Lineamiento;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
-use App\Http\Requests\CaracteristicasRequest;
 
 class CaracteristicasController extends Controller
 {
@@ -42,7 +42,7 @@ class CaracteristicasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     /**
+    /**
      * Esta funcion llena el datatable de caracteristica que esta ligado
      * a ambito y factor
      */
@@ -86,7 +86,7 @@ class CaracteristicasController extends Controller
         }
     }
 
-     /**
+    /**
      * Esta funcion llena los selects con ambito, los estados
      * y lineamientos
      */

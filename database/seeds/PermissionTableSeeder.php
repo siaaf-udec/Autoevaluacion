@@ -105,7 +105,7 @@ class PermissionTableSeeder extends Seeder
         //Permisos para valorizacion de caracteristicas 
         Permission::create(['name' => 'ACCEDER_VALORIZACION_CARACTERISTICAS']);
         Permission::create(['name' => 'VER_VALORIZACION_CARACTERISTICAS']);
-        
+
         // Permisos Fuentes primarias
         Permission::create(['name' => 'ACCEDER_ENCUESTAS']);
         Permission::create(['name' => 'VER_ENCUESTAS']);

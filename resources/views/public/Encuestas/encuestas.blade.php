@@ -4,7 +4,7 @@
 @section('descripcion')Proceso de Autoevaluación @endsection
 @section('titulo')Encuesta @endsection
 @section('content')
-@component('admin.components.panel')
+    @component('admin.components.panel')
         {!! Form::open([
         'route' => 'public.encuestas.store',
         'method' => 'POST',
@@ -14,38 +14,40 @@
         ])!!}
         @include('public.Encuestas.wizard')
         <br>
-            {!! Form::close() !!}
+        {!! Form::close() !!}
         </div>
         </div>
-    </div>   
-    </section>
-@endcomponent
+        </div>
+        </section>
+    @endcomponent
 @endsection
 
 @push('styles')
-<!-- PNotify -->
-<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
-<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
-<link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
-<link href="{{ asset('gentella/vendors/SmartWizard/dist/css/smart_wizard.css') }}" rel="stylesheet"type="text/css" />
-<link href="{{ asset('gentella/vendors/SmartWizard/dist/css/smart_wizard_theme_dots.css') }}" rel="stylesheet"type="text/css" />
+    <!-- PNotify -->
+    <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
+    <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
+    <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
+    <link href="{{ asset('gentella/vendors/SmartWizard/dist/css/smart_wizard.css') }}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{ asset('gentella/vendors/SmartWizard/dist/css/smart_wizard_theme_dots.css') }}" rel="stylesheet"
+          type="text/css"/>
 
 @endpush
 
 @push('scripts')
-<!-- PNotify -->
-<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
-<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
-<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
-<script src="{{ asset('gentella/vendors/SmartWizard/dist/js/jquery.smartWizard.min.js') }}"></script>
+    <!-- PNotify -->
+    <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
+    <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
+    <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
+    <script src="{{ asset('gentella/vendors/SmartWizard/dist/js/jquery.smartWizard.min.js') }}"></script>
 @endpush
 
 @push('functions')
     <script type="text/javascript">
         var form = $('#form_encuestas');
-        $(document).ready(function() {
-            $(window).keydown(function(event){
-                if(event.keyCode == 13) {
+        $(document).ready(function () {
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
                     event.preventDefault();
                     return false;
                 }
@@ -54,49 +56,49 @@
         window.location.hash = '';
         $(document).ready(function () {
             $('#smartwizard').smartWizard({
-                selected: 0, 
-                lang: { 
-                next: 'Siguiente',
-                previous: 'Anterior'
-            },
-            toolbarSettings: {
-                showNextButton: true, 
-                showPreviousButton: false, 
-            }
-        });
-        $('.sw-btn-next').bind('click', function() {
-            $('.sw-btn-next').prop( "disabled", true);
-            $('#finalizar').prop( "disabled", true);
-            window.scrollTo(0, 350);
-        });
-        $('#finalizar').bind('click', function() {
-            $('#finalizar').hide();
-        });
-        $(".radios").change(function () {
-            $('.sw-btn-next').prop( "disabled", false);
-            $('#finalizar').prop( "disabled", false);  
-        });
-        form.submit(function (e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            formData.append('proceso','{{ request()->route()->parameter('slug_proceso') }}');
-            formData.append('grupo','{{ request()->route()->parameter('grupo') }}');
-            formData.append('cargo','{{ request()->route()->parameter('cargo') }}');
-            $.ajax({
-                url: form.attr('action'),
-                type: form.attr('method'),
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response, NULL, jqXHR) {
-                    new PNotify({
-                        title: response.title,
-                        text: response.msg,
-                        type: 'success',
-                        styling: 'bootstrap3'
-                    });
-                    window.location.href = " {{route('home')}} ";
+                selected: 0,
+                lang: {
+                    next: 'Siguiente',
+                    previous: 'Anterior'
                 },
+                toolbarSettings: {
+                    showNextButton: true,
+                    showPreviousButton: false,
+                }
+            });
+            $('.sw-btn-next').bind('click', function () {
+                $('.sw-btn-next').prop("disabled", true);
+                $('#finalizar').prop("disabled", true);
+                window.scrollTo(0, 350);
+            });
+            $('#finalizar').bind('click', function () {
+                $('#finalizar').hide();
+            });
+            $(".radios").change(function () {
+                $('.sw-btn-next').prop("disabled", false);
+                $('#finalizar').prop("disabled", false);
+            });
+            form.submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                formData.append('proceso', '{{ request()->route()->parameter('slug_proceso') }}');
+                formData.append('grupo', '{{ request()->route()->parameter('grupo') }}');
+                formData.append('cargo', '{{ request()->route()->parameter('cargo') }}');
+                $.ajax({
+                    url: form.attr('action'),
+                    type: form.attr('method'),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response, NULL, jqXHR) {
+                        new PNotify({
+                            title: response.title,
+                            text: response.msg,
+                            type: 'success',
+                            styling: 'bootstrap3'
+                        });
+                        window.location.href = " {{route('home')}} ";
+                    },
                     error: function (data) {
                         var errores = data.responseJSON.errors;
                         var msg = '';

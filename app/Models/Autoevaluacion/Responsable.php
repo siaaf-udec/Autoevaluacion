@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Responsable extends Model
 {
-     /**
+    /**
      * Conexión usada por el modelo.
      *
      * @var string

@@ -15,15 +15,12 @@ use App\Models\Autoevaluacion\TipoDocumento;
 use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Testing\File;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class DocumentoAutoevaluacionController extends Controller
 {
 
     /**
-     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
      * acciones posibles en la aplicación como los son:
      * Acceder, ver, crea, modificar, eliminar
      */
@@ -71,7 +68,7 @@ class DocumentoAutoevaluacionController extends Controller
                 ->addColumn('file', function ($documento_autoevaluacion) {
                     /**
                      * Si el documento tiene una archivo guardado en el servidor
-                     * Se obtiene el url y se coloca en un link, si no es asi es porque tiene 
+                     * Se obtiene el url y se coloca en un link, si no es asi es porque tiene
                      * una url entonces también se le asignar a un botón tipo link.
                      */
                     if (!$documento_autoevaluacion->archivo) {
@@ -79,7 +76,7 @@ class DocumentoAutoevaluacionController extends Controller
                             '"target="_blank" role="button">Descargar</a>';
                     } else {
 
-                        return '<a class="btn btn-success btn-xs" href="'. route('descargar') . '?archivo=' .
+                        return '<a class="btn btn-success btn-xs" href="' . route('descargar') . '?archivo=' .
                             $documento_autoevaluacion->archivo->ruta .
                             '" target="_blank" role="button">Descargar</a>';
                     }
@@ -179,7 +176,7 @@ class DocumentoAutoevaluacionController extends Controller
             'DOA_Observaciones']));
         /**
          * Si fue guardado un archivo si no se deja nulo el id del archivo
-         */ 
+         */
         $documento_auto->FK_DOA_Archivo = isset($id_archivo) ? $id_archivo : null;
         $documento_auto->FK_DOA_IndicadorDocumental = $request->get('PK_IDO_Id');
         $documento_auto->FK_DOA_TipoDocumento = $request->get('PK_TDO_Id');
@@ -336,7 +333,7 @@ class DocumentoAutoevaluacionController extends Controller
         $documento->FK_DOA_Dependencia = $request->get('PK_DPC_Id');
         $documento->update();
         /**
-         * Se elimina el archivo al final debido a problemas de perdida de datos, esto ocurre 
+         * Se elimina el archivo al final debido a problemas de perdida de datos, esto ocurre
          * si la petición traía un link y el documento antes tenia un archivo guardado en el servidor
          */
         if ($borraArchivo) {

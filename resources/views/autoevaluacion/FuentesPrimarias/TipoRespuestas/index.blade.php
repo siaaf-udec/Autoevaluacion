@@ -26,7 +26,7 @@
 @endcan
 @endsection
 
-{{-- Scripts necesarios para el formulario --}} 
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <!-- Datatables -->
     <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
@@ -36,9 +36,9 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 
-@endpush 
+@endpush
 
-{{-- Estilos necesarios para el formulario --}} 
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
@@ -49,7 +49,7 @@
 
 @endpush
 
-{{-- Funciones necesarias por el formulario --}} 
+{{-- Funciones necesarias por el formulario --}}
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
@@ -73,15 +73,15 @@
                 buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                 "ajax": "{{ route('fuentesP.tipoRespuesta.data') }}",
                 "columns": [
-                    {data: 'PK_TRP_Id', name: 'id', "visible":false},
-                    {data: 'TRP_TotalPonderacion', name: 'Total Ponderacion', className:"min-table-p"},
-                    {data: 'TRP_CantidadRespuestas', name: 'Cantidad Respuestas', className:"min-table-p"},
-                    {data: 'TRP_Descripcion', name: 'Descripcion', className:"desktop"},
+                    {data: 'PK_TRP_Id', name: 'id', "visible": false},
+                    {data: 'TRP_TotalPonderacion', name: 'Total Ponderacion', className: "min-table-p"},
+                    {data: 'TRP_CantidadRespuestas', name: 'Cantidad Respuestas', className: "min-table-p"},
+                    {data: 'TRP_Descripcion', name: 'Descripcion', className: "desktop"},
                     {data: 'estado', name: 'estado', className: "desktop"},
                     {
-                        defaultContent: 
-                        '@can('ELIMINAR_TIPO_RESPUESTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
-                        '@can('MODIFICAR_TIPO_RESPUESTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
+                        defaultContent:
+                            '@can('ELIMINAR_TIPO_RESPUESTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
+                            '@can('MODIFICAR_TIPO_RESPUESTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
                         data: 'action',
                         name: 'action',
                         title: 'Acciones',
@@ -119,7 +119,7 @@
                     }
                 },
                 initComplete: function () {
-                    this.api().columns([1,2]).every(function () {
+                    this.api().columns([1, 2]).every(function () {
                         var column = this;
                         var select = $('<select style="width: 100px;"><option value=""></option></select>')
                             .appendTo($(column.footer()).empty())
@@ -158,7 +158,7 @@
 
 
             });
-            
+
         });
 
         function SwalDelete(id, route) {

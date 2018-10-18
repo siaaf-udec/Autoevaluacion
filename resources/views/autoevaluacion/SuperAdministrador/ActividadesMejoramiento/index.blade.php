@@ -3,27 +3,27 @@
 
 {{-- Contenido principal --}}
 @extends('admin.layouts.app')
-@section('content') 
-    @component('admin.components.panel') 
-    @slot('title', 'Actividades de Mejoramiento')
-    @if(session()->get('id_proceso'))
-    @if(isset($planMejoramiento))
-    @can('VER_ACTIVIDADES_MEJORAMIENTO')
-        <div class="col-md-12">
-            @component('admin.components.datatable', ['id' => 'actividades_mejoramiento_table_ajax']) @slot('columns', [
+@section('content')
+    @component('admin.components.panel')
+        @slot('title', 'Actividades de Mejoramiento')
+        @if(session()->get('id_proceso'))
+            @if(isset($planMejoramiento))
+                @can('VER_ACTIVIDADES_MEJORAMIENTO')
+                    <div class="col-md-12">
+                        @component('admin.components.datatable', ['id' => 'actividades_mejoramiento_table_ajax']) @slot('columns', [
             'id','Factor','Caracteristica','Nombre', 'Descripcion', 'Fecha de Inicio', 'Fecha de Finalizacion', 'Responsable',
             'Acciones' => ['style' => 'width:85px;']]) @endcomponent
-        </div> 
-    @endcan
-    @else
-    Este proceso aun no tiene plan de mejoramiento.
-    @endif
-    @else
-    Por favor seleccione un proceso
-    @endif
+                    </div>
+                @endcan
+            @else
+                Este proceso aun no tiene plan de mejoramiento.
+            @endif
+        @else
+            Por favor seleccione un proceso
+        @endif
     @endcomponent
 @endsection
-{{-- Scripts necesarios para el formulario --}} 
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <!-- Datatables -->
     <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
@@ -33,8 +33,8 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 
-@endpush 
-{{-- Estilos necesarios para el formulario --}} 
+@endpush
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
@@ -43,56 +43,56 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
 
-@endpush 
-{{-- Funciones necesarias por el formulario --}} 
+@endpush
+{{-- Funciones necesarias por el formulario --}}
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
-            
-            @if(session()->get('id_proceso'))
-                let sesion = sessionStorage.getItem("update");
-                if (sesion != null) {
-                    sessionStorage.clear();
-                    new PNotify({
-                        title: "Actividad Modificada!",
-                        text: sesion,
-                        type: 'success',
-                        styling: 'bootstrap3'
-                    });
-                }
-                table = $('#actividades_mejoramiento_table_ajax').DataTable({
-                    processing: true,
-                    serverSide: false,
-                    stateSave: true,
-                    keys: true,
-                    dom: 'lBfrtip',
-                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-                    "ajax": "{{ route('admin.actividades_mejoramiento.data') }}",
-                    "columns": [
-                        {data: 'PK_ACM_Id', name: 'id', "visible": false},
-                        {data: 'caracteristicas.CRT_Nombre', name: 'Caracteristica', className: "min-phone-l"},
-                        {data: 'caracteristicas.factor.FCT_Nombre', name: 'Factor', className: "min-phone-l"},
-                        {data: 'ACM_Nombre', name: 'Nombre', className: "min-phone-l"},
-                        {data: 'ACM_Descripcion', name: 'Descripcion', className: "min-phone-l"},
-                        {data: 'ACM_Fecha_Inicio', name: 'Fecha de Inicio', className: "min-phone-l"},
-                        {data: 'ACM_Fecha_Fin', name: 'Fecha de Finalizacion', className: "all"},
-                        {data: 'responsable', name: 'Responsable', className: "all"},
-                        {
-                            defaultContent:
-                                '@can('ELIMINAR_ACTIVIDADES_MEJORAMIENTO')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
-                                '@can('MODIFICAR_ACTIVIDADES_MEJORAMIENTO')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
-                                data: 'action',
-                                name: 'action',
-                                title: 'Acciones',
-                                orderable: false,
-                                searchable: false,
-                                exportable: false,
-                                printable: false,
-                                className: 'text-right',
-                                render: null,
-                                responsivePriority: 2
-                        }
-                    ],
+
+                    @if(session()->get('id_proceso'))
+            let sesion = sessionStorage.getItem("update");
+            if (sesion != null) {
+                sessionStorage.clear();
+                new PNotify({
+                    title: "Actividad Modificada!",
+                    text: sesion,
+                    type: 'success',
+                    styling: 'bootstrap3'
+                });
+            }
+            table = $('#actividades_mejoramiento_table_ajax').DataTable({
+                processing: true,
+                serverSide: false,
+                stateSave: true,
+                keys: true,
+                dom: 'lBfrtip',
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                "ajax": "{{ route('admin.actividades_mejoramiento.data') }}",
+                "columns": [
+                    {data: 'PK_ACM_Id', name: 'id', "visible": false},
+                    {data: 'caracteristicas.CRT_Nombre', name: 'Caracteristica', className: "min-phone-l"},
+                    {data: 'caracteristicas.factor.FCT_Nombre', name: 'Factor', className: "min-phone-l"},
+                    {data: 'ACM_Nombre', name: 'Nombre', className: "min-phone-l"},
+                    {data: 'ACM_Descripcion', name: 'Descripcion', className: "min-phone-l"},
+                    {data: 'ACM_Fecha_Inicio', name: 'Fecha de Inicio', className: "min-phone-l"},
+                    {data: 'ACM_Fecha_Fin', name: 'Fecha de Finalizacion', className: "all"},
+                    {data: 'responsable', name: 'Responsable', className: "all"},
+                    {
+                        defaultContent:
+                            '@can('ELIMINAR_ACTIVIDADES_MEJORAMIENTO')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
+                            '@can('MODIFICAR_ACTIVIDADES_MEJORAMIENTO')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
+                        data: 'action',
+                        name: 'action',
+                        title: 'Acciones',
+                        orderable: false,
+                        searchable: false,
+                        exportable: false,
+                        printable: false,
+                        className: 'text-right',
+                        render: null,
+                        responsivePriority: 2
+                    }
+                ],
                 language: {
                     "sProcessing": "Procesando...",
                     "sLengthMenu": "Mostrar _MENU_ registros",
@@ -117,7 +117,7 @@
                         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                     }
                 },
-                
+
             });
 
             table.on('click', '.remove', function (e) {

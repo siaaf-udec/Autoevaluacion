@@ -3,36 +3,36 @@
 
 {{-- Contenido principal --}}
 @extends('admin.layouts.app')
-@section('content') 
-    @component('admin.components.panel') 
-    @slot('title', 'Valorizacion de Caracteristicas')
+@section('content')
+    @component('admin.components.panel')
+        @slot('title', 'Valorizacion de Caracteristicas')
 
-    @if(session()->get('id_proceso'))
-    @if(isset($planMejoramiento))
-        <div class="col-md-12">
-            <div class="actions">
-                <a href="{{ route('admin.informes_mejoramiento') }}" class="btn btn-info">
-                    <i class="fa fa-plus"></i> Ver Reporte</a></div>
-            </div>
-        <br>
-        <br>
-        <br>
-    @can('VER_VALORIZACION_CARACTERISTICAS')
-        <div class="col-md-12">
-            @component('admin.components.datatable', ['id' => 'caracteristicas_mejoramiento_table_ajax']) @slot('columns', [
+        @if(session()->get('id_proceso'))
+            @if(isset($planMejoramiento))
+                <div class="col-md-12">
+                    <div class="actions">
+                        <a href="{{ route('admin.informes_mejoramiento') }}" class="btn btn-info">
+                            <i class="fa fa-plus"></i> Ver Reporte</a></div>
+                </div>
+                <br>
+                <br>
+                <br>
+                @can('VER_VALORIZACION_CARACTERISTICAS')
+                    <div class="col-md-12">
+                        @component('admin.components.datatable', ['id' => 'caracteristicas_mejoramiento_table_ajax']) @slot('columns', [
             'id', 'Nombre', 'Descripcion', 'Identificador', 'Factor', 'Ambito', 'Valorizacion', 'Calificacion',
             'Acciones' => ['style' => 'width:50px;']]) @endcomponent
-        </div> 
-    @endcan
-    @else
-    Este proceso aun no tiene plan de mejoramiento.
-    @endIf
-    @else
-    Por favor seleccione un proceso
-    @endif
+                    </div>
+                @endcan
+            @else
+                Este proceso aun no tiene plan de mejoramiento.
+            @endIf
+        @else
+            Por favor seleccione un proceso
+        @endif
     @endcomponent
 @endsection
-{{-- Scripts necesarios para el formulario --}} 
+{{-- Scripts necesarios para el formulario --}}
 @push('scripts')
     <!-- Datatables -->
     <script src="{{asset('gentella/vendors/DataTables/datatables.min.js') }}"></script>
@@ -42,8 +42,8 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
 
-@endpush 
-{{-- Estilos necesarios para el formulario --}} 
+@endpush
+{{-- Estilos necesarios para el formulario --}}
 @push('styles')
     <!-- Datatables -->
     <link href="{{ asset('gentella/vendors/DataTables/datatables.min.css') }}" rel="stylesheet">
@@ -52,55 +52,55 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
 
-@endpush 
-{{-- Funciones necesarias por el formulario --}} 
+@endpush
+{{-- Funciones necesarias por el formulario --}}
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
-            
-            @if(session()->get('id_proceso'))
-                let sesion = sessionStorage.getItem("update");
-                if (sesion != null) {
-                    sessionStorage.clear();
-                    new PNotify({
-                        title: "Actividad Modificada!",
-                        text: sesion,
-                        type: 'success',
-                        styling: 'bootstrap3'
-                    });
-                }
-                table = $('#caracteristicas_mejoramiento_table_ajax').DataTable({
-                    processing: true,
-                    serverSide: false,
-                    stateSave: true,
-                    keys: true,
-                    dom: 'lBfrtip',
-                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-                    "ajax": "{{ route('admin.caracteristicas_mejoramiento.data') }}",
-                    "columns": [
-                        {data: 'PK_CRT_Id', name: 'id', "visible": false},
-                        {data: 'CRT_Nombre', name: 'Nombre', className: "min-phone-l"},
-                        {data: 'CRT_Descripcion', name: 'Descripcion', className: "min-phone-l"},
-                        {data: 'CRT_Identificador', name: 'Identificador', className: "min-phone-l"},
-                        {data: 'factor.FCT_Nombre', name: 'Factor', className: "all"},
-                        {data: 'Ambito', name: 'Ambito', className: "min-phone-l"},
-                        {data: 'Valorizacion', name: 'Valorizacion', className: "min-phone-l"},
-                        {data: 'Calificacion', name: 'Calificacion', className: "min-phone-l"},
-                        {
-                            defaultContent:
-                                '@can('CREAR_ACTIVIDADES_MEJORAMIENTO')<a data-toggle="tooltip" title="Crear Actividades de Mejoramiento " href="javascript:;" class="btn btn-simple btn-primary btn-sm asignar"><i class="fa fa-plus"></i></a>@endcan', 
-                                data: 'action',
-                                name: 'action',
-                                title: 'Acciones',
-                                orderable: false,
-                                searchable: false,
-                                exportable: false,
-                                printable: false,
-                                className: 'text-right',
-                                render: null,
-                                responsivePriority: 2
-                        }
-                    ],
+
+                    @if(session()->get('id_proceso'))
+            let sesion = sessionStorage.getItem("update");
+            if (sesion != null) {
+                sessionStorage.clear();
+                new PNotify({
+                    title: "Actividad Modificada!",
+                    text: sesion,
+                    type: 'success',
+                    styling: 'bootstrap3'
+                });
+            }
+            table = $('#caracteristicas_mejoramiento_table_ajax').DataTable({
+                processing: true,
+                serverSide: false,
+                stateSave: true,
+                keys: true,
+                dom: 'lBfrtip',
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                "ajax": "{{ route('admin.caracteristicas_mejoramiento.data') }}",
+                "columns": [
+                    {data: 'PK_CRT_Id', name: 'id', "visible": false},
+                    {data: 'CRT_Nombre', name: 'Nombre', className: "min-phone-l"},
+                    {data: 'CRT_Descripcion', name: 'Descripcion', className: "min-phone-l"},
+                    {data: 'CRT_Identificador', name: 'Identificador', className: "min-phone-l"},
+                    {data: 'factor.FCT_Nombre', name: 'Factor', className: "all"},
+                    {data: 'Ambito', name: 'Ambito', className: "min-phone-l"},
+                    {data: 'Valorizacion', name: 'Valorizacion', className: "min-phone-l"},
+                    {data: 'Calificacion', name: 'Calificacion', className: "min-phone-l"},
+                    {
+                        defaultContent:
+                            '@can('CREAR_ACTIVIDADES_MEJORAMIENTO')<a data-toggle="tooltip" title="Crear Actividades de Mejoramiento " href="javascript:;" class="btn btn-simple btn-primary btn-sm asignar"><i class="fa fa-plus"></i></a>@endcan',
+                        data: 'action',
+                        name: 'action',
+                        title: 'Acciones',
+                        orderable: false,
+                        searchable: false,
+                        exportable: false,
+                        printable: false,
+                        className: 'text-right',
+                        render: null,
+                        responsivePriority: 2
+                    }
+                ],
                 language: {
                     "sProcessing": "Procesando...",
                     "sLengthMenu": "Mostrar _MENU_ registros",
@@ -143,17 +143,18 @@
                         });
                     });
                 }
-                
+
             });
-            table.on('click', '.asignar', function (e) { 
-                e.preventDefault(); 
-                $tr = $(this).closest('tr'); 
-                var dataTable = table.row($tr).data(); 
-                var route = '{{ url('admin/actividades_mejoramiento/') }}' + '/' + dataTable.PK_CRT_Id; 
-                window.location.href = route; 
+            table.on('click', '.asignar', function (e) {
+                e.preventDefault();
+                $tr = $(this).closest('tr');
+                var dataTable = table.row($tr).data();
+                var route = '{{ url('admin/actividades_mejoramiento/') }}' + '/' + dataTable.PK_CRT_Id;
+                window.location.href = route;
             });
             @endif
         });
+
         function SwalDelete(id, route) {
             swal({
                 title: 'Esta seguro?',

@@ -174,10 +174,22 @@ function peticionGraficasHistorial(ruta) {
             // Limpiamos el select
             select2.find('option').remove();
             select2.append('<option value="">-- Seleccione --</option>');
-            console.log(r.factores);
             $.each(r.factores, function (key, data) { // indice, valor
                 select2.append('<option value="' + key + '">' + data + '</option>');
-            })
+            });
+
+            filtro = crearGrafica('pie_filtro', 'doughnut', "Cantidad de Encuestados", r.labels_encuestado, ['adasd'], r.data_encuestado);
+            crearGrafica('encuestados', 'bar', 'Cantidad de Encuestados', r.labels_encuestado, ['Cantidad'], r.data_encuestado);
+            caracteristicas = crearGrafica('caracteristicas', 'horizontalBar', r.factor_elegido, r.labels_caracteristicas,
+                ['Valorización'], r.data_caracteristicas);
+
+            var select2 = $('#factor');
+            // Limpiamos el select
+            select2.find('option').remove();
+            select2.append('<option value="">-- Seleccione --</option>');
+            $.each(r.data_factor, function (key, data) { // indice, valor
+                select2.append('<option value="' + key + '">' + data + '</option>');
+            });
 
 
         },

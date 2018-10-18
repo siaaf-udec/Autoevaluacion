@@ -1,15 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRespuestasPreguntasTable extends Migration
 {
-     /**
+    /**
      * Run the migrations.
-     * Tabla creada para almacenar el cuerpo de las respuestas 
-     * pertenecientes a una pregunta 
+     * Tabla creada para almacenar el cuerpo de las respuestas
+     * pertenecientes a una pregunta
      * se relaciona con la tabla pregunta y ponderacion_respuesta.
      *
      * @return void

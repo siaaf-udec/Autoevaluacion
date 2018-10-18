@@ -8,8 +8,8 @@
     </div>
 </section>
 <section class="module">
-<div class="container">
-<div class="row">
-<div class="col-sm-8 col-sm-offset-2">
-<h4 class="font-alt mb-0">@yield('titulo')</h4>
-<hr class="divider-w mt-10 mb-20">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+                <h4 class="font-alt mb-0">@yield('titulo')</h4>
+                <hr class="divider-w mt-10 mb-20">

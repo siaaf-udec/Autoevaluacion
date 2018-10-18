@@ -3,27 +3,27 @@
 namespace App\Http\Controllers\FuentesPrimarias;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ModificarEstablecerPreguntasRequest;
 use App\Http\Requests\EstablecerPreguntasRequest;
-use Illuminate\Http\Request;
-use App\Models\Autoevaluacion\PreguntaEncuesta;
-use App\Models\Autoevaluacion\Factor;
-use App\Models\Autoevaluacion\Lineamiento;
-use App\Models\Autoevaluacion\GrupoInteres;
-use App\Models\Autoevaluacion\Caracteristica;
+use App\Http\Requests\ModificarEstablecerPreguntasRequest;
 use App\Models\Autoevaluacion\BancoEncuestas;
+use App\Models\Autoevaluacion\Caracteristica;
 use App\Models\Autoevaluacion\Encuesta;
+use App\Models\Autoevaluacion\Factor;
+use App\Models\Autoevaluacion\GrupoInteres;
+use App\Models\Autoevaluacion\Lineamiento;
+use App\Models\Autoevaluacion\PreguntaEncuesta;
 use DataTables;
+use Illuminate\Http\Request;
 
 class EstablecerPreguntasController extends Controller
 {
-     /**
-    * Este controlador es responsable de manejar las preguntas que conforman las encuestas 
-    * almacenadas en el banco de encuestas y que pueden ser aplicables a procesos de autoevaluacion 
-    */
+    /**
+     * Este controlador es responsable de manejar las preguntas que conforman las encuestas
+     * almacenadas en el banco de encuestas y que pueden ser aplicables a procesos de autoevaluacion
+     */
 
     /**
-     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
      * acciones posibles en la aplicacion como los son:
      * Acceder, ver, crea, modificar, eliminar
      */
@@ -38,9 +38,9 @@ class EstablecerPreguntasController extends Controller
     public function index($id)
     {
         /**
-        * En una variable de sesion se almacena el id de la encuesta a la cual se le 
-        * estableceran las preguntas y asi poder ser instanciado en otras funciones.  
-        */
+         * En una variable de sesion se almacena el id de la encuesta a la cual se le
+         * estableceran las preguntas y asi poder ser instanciado en otras funciones.
+         */
         session()->put('id_encuesta', $id);
         return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.index');
     }
@@ -48,9 +48,9 @@ class EstablecerPreguntasController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-             /**
-            * Se hace la peticion de todas las preguntas pertenecientes a la encuesta
-            */
+            /**
+             * Se hace la peticion de todas las preguntas pertenecientes a la encuesta
+             */
             $preguntas = PreguntaEncuesta::with('preguntas', 'grupos')
                 ->with('preguntas.estado')
                 ->with('preguntas.tipo')
@@ -102,8 +102,8 @@ class EstablecerPreguntasController extends Controller
     public function store(EstablecerPreguntasRequest $request)
     {
         /**
-        * La pregunta es almacenada y vinculada a la encuesta para cada grupo de interes seleccionado
-        */
+         * La pregunta es almacenada y vinculada a la encuesta para cada grupo de interes seleccionado
+         */
         foreach ($request->get('gruposInteres') as $grupo => $valor) {
             $preguntas_encuestas = new PreguntaEncuesta();
             $preguntas_encuestas->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
@@ -154,7 +154,7 @@ class EstablecerPreguntasController extends Controller
         $id_caracteristica = $preguntas->preguntas->caracteristica->factor()->pluck('PK_FCT_Id')[0];
         $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('CRT_Nombre', 'PK_CRT_Id');
         /**
-         * Se obtiene el cuerpo de la pregunta 
+         * Se obtiene el cuerpo de la pregunta
          */
         $pregunta_encuesta = new Pregunta();
         $id_pregunta = $preguntas->preguntas->caracteristica()->pluck('PK_CRT_Id')[0];
@@ -182,9 +182,9 @@ class EstablecerPreguntasController extends Controller
     }
 
     /**
-     * Para que el proceso de eliminacion de una pregunta de una encuesta sea exitoso, el sistema 
-     * debe verificar si existe algun proceso en fase de captura de datos, en el caso que se cumpla 
-     * esta condicion no se permitira eliminar la pregunta de la encuesta ya que esto afectaria el 
+     * Para que el proceso de eliminacion de una pregunta de una encuesta sea exitoso, el sistema
+     * debe verificar si existe algun proceso en fase de captura de datos, en el caso que se cumpla
+     * esta condicion no se permitira eliminar la pregunta de la encuesta ya que esto afectaria el
      * correcto desarrollo del proceso de autoevaluacion en cuestion.
      */
     public function destroy($id)

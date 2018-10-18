@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateDatosEncuestasTable extends Migration
 {
-     /**
+    /**
      * Run the migrations.
      * Tabla creada para almacenar datos repetitivos de una encuesta
      * se relaciona con la tabla grupos de interes

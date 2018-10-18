@@ -3,8 +3,6 @@
 namespace App\Models\Autoevaluacion;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Autoevaluacion\Factor;
-use App\Models\Autoevaluacion\Encuesta;
 
 class Estado extends Model
 {

@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreatePreguntasEncuestasTable extends Migration
 {
-     /**
+    /**
      * Run the migrations.
      * Tabla intermedia creada para identificar las preguntas que pertenecen a una encuesta y a que grupo
      * de interes estan destinadas

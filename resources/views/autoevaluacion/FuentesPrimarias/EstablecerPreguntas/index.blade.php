@@ -12,14 +12,14 @@
                 <div class="actions">
                     <a href="{{ route('fuentesP.establecerPreguntas.create') }}" class="btn btn-info">
                         <i class="fa fa-plus"></i> Agregar Pregunta</a>
-                        {{ link_to_route('fuentesP.bancoEncuestas.index'," Volver ", [], ['class' => 'fa fa-hand-o-left btn btn-warning']) }}
+                    {{ link_to_route('fuentesP.bancoEncuestas.index'," Volver ", [], ['class' => 'fa fa-hand-o-left btn btn-warning']) }}
                 </div>
             </div>
             <br>
             <br>
             <br>
         @endcan
-        
+
         @can('VER_ESTABLECER_PREGUNTAS')
             <div class="col-md-12">
                 @component('admin.components.datatable', ['id' => 'establecerPreguntas-table-ajax']) @slot('columns', [ 'id', 'Pregunta','Estado','Tipo Respuesta','Caracteristica',
@@ -81,7 +81,7 @@
                     {data: 'grupos.GIT_Nombre', name: 'Grupo de Interes', className: "all"},
                     {
                         defaultContent:
-                            '@can('ELIMINAR_ESTABLECER_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan'+
+                            '@can('ELIMINAR_ESTABLECER_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
                             '@can('MODIFICAR_ESTABLECER_PREGUNTAS')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
                         data: 'action',
                         name: 'action',
@@ -120,7 +120,7 @@
                     }
                 },
                 initComplete: function () {
-                    this.api().columns([4,5]).every(function () {
+                    this.api().columns([4, 5]).every(function () {
                         var column = this;
                         var select = $('<select style="width: 100px;"><option value=""></option></select>')
                             .appendTo($(column.footer()).empty())

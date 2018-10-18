@@ -33,8 +33,9 @@ class RespuestaPregunta extends Model
      * @var array
      */
     protected $guarded = ['PK_RPG_Id', 'created_at', 'updated_at'];
+
     /**
-     * Relacion uno a muchos con la tabla pregunta, una respuesta solo puede pertenecer 
+     * Relacion uno a muchos con la tabla pregunta, una respuesta solo puede pertenecer
      * a una pregunta, pero una pregunta puede tener muchas respuestas
      *
      */
@@ -42,8 +43,9 @@ class RespuestaPregunta extends Model
     {
         return $this->belongsTo(Pregunta::class, 'FK_RPG_Pregunta', 'PK_PGT_Id');
     }
+
     /**
-     * Relacion uno a muchos con la tabla ponderaciones, una respuesta solo puede tener 
+     * Relacion uno a muchos con la tabla ponderaciones, una respuesta solo puede tener
      * una ponderacion, pero una ponderacion puede pertenecer a muchas respuestas.
      *
      * @return void
@@ -52,8 +54,9 @@ class RespuestaPregunta extends Model
     {
         return $this->belongsTo(PonderacionRespuesta::class, 'FK_RPG_PonderacionRespuesta', 'PK_PRT_Id');
     }
+
     /**
-     * Relacion muchos a muchos con la tabla solucion_encuesta, una respuesta puede pertecer a muchas  
+     * Relacion muchos a muchos con la tabla solucion_encuesta, una respuesta puede pertecer a muchas
      * soluciones de la encuesta y una solucion de la encuesta puede tener muchas respuestas
      *
      */

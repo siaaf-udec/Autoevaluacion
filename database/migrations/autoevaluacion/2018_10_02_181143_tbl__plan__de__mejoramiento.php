@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class TblPlanDeMejoramiento extends Migration
 {
@@ -21,9 +21,9 @@ class TblPlanDeMejoramiento extends Migration
             $table->timestamps();
 
             $table->foreign("FK_PDM_Proceso")->references("PK_PCS_Id")->on("TBL_Procesos")->onDelete("cascade");
-        //
-});    
-}
+            //
+        });
+    }
 
     /**
      * Reverse the migrations.

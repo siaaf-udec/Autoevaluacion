@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\SuperAdministrador;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Autoevaluacion\Proceso;
 use App\Models\Autoevaluacion\User;
 use DataTables;
-use App\Models\Autoevaluacion\Proceso;
+use Illuminate\Http\Request;
 
 class ProcesoUsuarioController extends Controller
 {

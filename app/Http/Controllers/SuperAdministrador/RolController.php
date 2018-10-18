@@ -6,10 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RolRequest;
 use DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 
 class RolController extends Controller

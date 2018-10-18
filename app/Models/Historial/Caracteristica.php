@@ -48,10 +48,11 @@ class Caracteristica extends Model
     {
         return $this->hasMany(IndicadorDocumental::class, 'FK_IDO_Caracteristica', 'PK_CRT_Id');
     }
+
     public function preguntas()
     {
         return $this->hasMany(Pregunta::class, 'FK_PGT_Caracteristica', 'PK_CRT_Id');
     }
-    
+
 
 }

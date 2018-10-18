@@ -78,8 +78,8 @@ class DocumentoAutoevaluacion extends Model
     }
 
     /**
-     * Relación uno a muchos con la tabla indicadores documentales 
-     * un documento solo puede tener un indicador, pero un indicador puede tener muchos documentos 
+     * Relación uno a muchos con la tabla indicadores documentales
+     * un documento solo puede tener un indicador, pero un indicador puede tener muchos documentos
      *
      */
     public function indicadorDocumental()
@@ -99,7 +99,7 @@ class DocumentoAutoevaluacion extends Model
     }
 
     /**
-     * Relacion uno a muchos con la tabla dependecia, un documento solo puede tener 
+     * Relacion uno a muchos con la tabla dependecia, un documento solo puede tener
      * una dependencia de expedicion, pero una dependencia puede tener muchos documentos
      *
      * @return void

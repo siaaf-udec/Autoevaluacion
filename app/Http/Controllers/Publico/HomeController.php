@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Publico;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Autoevaluacion\Encuesta;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {

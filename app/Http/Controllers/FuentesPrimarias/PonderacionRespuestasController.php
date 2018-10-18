@@ -16,7 +16,7 @@ class PonderacionRespuestasController extends Controller
     */
 
     /**
-     * Permisos asignados en el constructor del controller para poder controlar las diferentes 
+     * Permisos asignados en el constructor del controller para poder controlar las diferentes
      * acciones posibles en la aplicacion como los son:
      * Acceder, ver, crea, modificar, eliminar
      */

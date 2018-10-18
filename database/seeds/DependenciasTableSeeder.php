@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\Autoevaluacion\Dependencia;
+use Illuminate\Database\Seeder;
 
 class DependenciasTableSeeder extends Seeder
 {

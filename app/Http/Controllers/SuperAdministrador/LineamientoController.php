@@ -4,14 +4,11 @@ namespace App\Http\Controllers\SuperAdministrador;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LineamientosRequest;
-use App\Models\Autoevaluacion\Aspecto;
-use App\Models\Autoevaluacion\Caracteristica;
-use App\Models\Autoevaluacion\Factor;
+use App\Jobs\ImportarLineamiento;
 use App\Models\Autoevaluacion\Lineamiento;
 use DataTables;
 use Excel;
 use Illuminate\Http\Request;
-use App\Jobs\ImportarLineamiento;
 use Illuminate\Support\Facades\Storage;
 
 class LineamientoController extends Controller
