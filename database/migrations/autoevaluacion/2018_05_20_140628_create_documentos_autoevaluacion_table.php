@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateDocumentosAutoevaluacionTable extends Migration
 {
     /**
      * Run the migrations.
-     * 
+     *
      * tabla creada con el fin de subir los archivos necesarios en la autoevaluación,
      * esto se hace por medio de la relación con la tabla archivos para guardar el
      * documento o si no es un documento se especifica el campo url, ademas esta relacionada

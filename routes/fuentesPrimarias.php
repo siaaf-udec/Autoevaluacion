@@ -64,7 +64,7 @@ Route::get(
 
 //Reportes pdf documentos de autoevaluacion
 Route::post('informes_encuestas/descargar', array(
-    'as' => 'encuestas.informe_encuesta.descargar',
-    'uses' => 'ReportesEncuestasController@pdf_documento_encuestas'
+        'as' => 'encuestas.informe_encuesta.descargar',
+        'uses' => 'ReportesEncuestasController@pdf_documento_encuestas'
     )
 );

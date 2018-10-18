@@ -3,7 +3,6 @@
  * Fuentes Secundarias
  */
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 //Rutas para especificar las dependencias a las que pertenece cada documento
@@ -89,8 +88,8 @@ Route::get('informes_documentales/data', array(
 
 //Reportes pdf documentos de autoevaluacion
 Route::post('informes_documentales/descargar', array(
-    'as' => 'documental.informe_documental.descargar',
-    'uses' => 'ReporteController@pdf_documento_autoevaluacion'
+        'as' => 'documental.informe_documental.descargar',
+        'uses' => 'ReporteController@pdf_documento_autoevaluacion'
     )
 );
 //Reportes pdf documentos de autoevaluacion

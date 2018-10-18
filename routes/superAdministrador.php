@@ -112,7 +112,7 @@ Route::post('informe_general/descargar', array(
 ));
 
 //Historial
-Route::get('historial',  array(
+Route::get('historial', array(
     'as' => 'admin.historial',
     'uses' => 'HistorialController@index'
 ));
