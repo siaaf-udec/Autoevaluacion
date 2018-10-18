@@ -167,3 +167,8 @@ Route::post('informes_mejoramiento/filtrar_factores', array(
     'as' => 'admin.informes_mejoramiento.filtrar_factores',
     'uses' => 'ReportesPlanMejoramientoController@filtro_factores'
 ));
+
+Route::get('notificaciones', array(
+    'as' => 'admin.notificaciones',
+    'uses' => 'NotificacionesController@index'
+));

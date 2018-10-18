@@ -55,20 +55,6 @@ class ActividadesMejoramientoController extends Controller
                     ->with('Caracteristicas.factor', 'responsable')
                     ->get();
                 return DataTables::of($actividades)
-<<<<<<< Updated upstream
-                    ->editColumn('ACM_Fecha_Inicio', function ($actividades) {
-                        return $actividades->ACM_Fecha_Inicio ? with(new Carbon($actividades->ACM_Fecha_Inicio))->format('d/m/Y') : '';
-                    })
-                    ->editColumn('ACM_Fecha_Fin', function ($actividades) {
-                        return $actividades->ACM_Fecha_Fin ? with(new Carbon($actividades->ACM_Fecha_Fin))->format('d/m/Y') : '';
-                    })
-                    ->addColumn('responsable', function ($actividades) {
-                        return $actividades->responsable->RPS_Nombre . " " . $actividades->responsable->RPS_Apellido;
-                    })
-                    ->removeColumn('created_at')
-                    ->removeColumn('updated_at')
-                    ->make(true);
-=======
                 ->editColumn('ACM_Fecha_Inicio', function ($actividades) {
                     return $actividades->ACM_Fecha_Inicio ? with(new Carbon($actividades->ACM_Fecha_Inicio))->format('d/m/Y') : '';
                 })
@@ -81,7 +67,6 @@ class ActividadesMejoramientoController extends Controller
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
                 ->make(true);
->>>>>>> Stashed changes
             }
         }
     }
@@ -94,15 +79,9 @@ class ActividadesMejoramientoController extends Controller
     public function create($id)
     {
         session()->put('id_actividad', $id);
-<<<<<<< Updated upstream
-        $responsable = Responsable::selectRaw('PK_RPS_Id, CONCAT(RPS_Nombre," ",RPS_Apellido) AS nombre')
-            ->get()->pluck('nombre', 'PK_RPS_Id');
-        return view('autoevaluacion.SuperAdministrador.ActividadesMejoramiento.create', compact('responsable'));
-=======
         $responsable = Responsable::selectRaw('PK_RPS_Id, CONCAT(RPS_Cargo," ",RPS_Nombre," ",RPS_Apellido) AS nombre')
         ->get()->pluck('nombre', 'PK_RPS_Id');
         return view('autoevaluacion.SuperAdministrador.ActividadesMejoramiento.create',compact('responsable'));
->>>>>>> Stashed changes
     }
 
     /**
@@ -151,13 +130,8 @@ class ActividadesMejoramientoController extends Controller
      */
     public function edit($id)
     {
-<<<<<<< Updated upstream
-        $responsable = Responsable::selectRaw('PK_RPS_Id, CONCAT(RPS_Nombre," ",RPS_Apellido) AS nombre')
-            ->get()->pluck('nombre', 'PK_RPS_Id');
-=======
         $responsable = Responsable::selectRaw('PK_RPS_Id, CONCAT(RPS_Cargo," ",RPS_Nombre," ",RPS_Apellido) AS nombre')
         ->get()->pluck('nombre', 'PK_RPS_Id');
->>>>>>> Stashed changes
         $actividades = ActividadesMejoramiento::findOrFail($id);
         return view(
             'autoevaluacion.SuperAdministrador.ActividadesMejoramiento.edit',

@@ -60,7 +60,35 @@
     </div>
 </div>
 @include('admin.shared.scripts')
-
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            url: '{{route('admin.notificaciones')}}',
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                let numero_notificaciones = 0;
+                $.each(response.notificaciones,function(key,data){
+                    numero_notificaciones++;
+                    $('#menu1').append(`
+                        <li>
+                        <a>
+                        <span>
+                        <span>${data.ACM_Nombre}</span>
+                        </span>
+                        <span class="message">Se esta venciendo la actividad de mejoramiento</span>
+                        </a>
+                        </li>
+                    `)
+                });
+                $('#numero_notificaciones').text(numero_notificaciones);
+            },
+            error:function()
+            {
+            }
+        });
+    });
+</script>
 <!-- Functions for content -->
 @stack('functions')
 </body>
