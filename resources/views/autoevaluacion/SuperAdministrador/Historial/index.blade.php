@@ -95,7 +95,7 @@
 
 @endcomponent
 @endsection
-@can('SUPERADMINISTRADOR') {{-- Scripts necesarios para el formulario --}} @push('scripts')
+{{-- Scripts necesarios para el formulario --}} @push('scripts')
     <!-- Char js -->
     <script src="{{ asset('gentella/vendors/Chart.js/Chart.min.js') }}"></script>
     <script src="{{ asset('js/charts.js') }}"></script>
@@ -167,6 +167,4 @@
     </script>
 
 
-
-
-@endpush @endcan
+@endpush

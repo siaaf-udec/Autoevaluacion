@@ -199,9 +199,9 @@ class Kernel extends ConsoleKernel
                             $solucion_encuesta->save();
                         }
                     }
-                    //$process->delete();
+                    $process->delete();
                 }
-            })->everyMinute();
+            })->daily();
 
         /**
          * Schedule usado para comprobar la fecha en la que inicia la
