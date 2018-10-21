@@ -24,11 +24,11 @@ class IndicadoresDocumentalesRequest extends FormRequest
      */
     public function rules()
     {
-
+        $id = $this->route()->parameter('indicadores_documentale');
         return [
             'IDO_Nombre' => 'required|string',
             'IDO_Identificador' => 'required|numeric|' . Rule::unique('TBL_Indicadores_Documentales', 'IDO_Identificador')
-                    ->where('FK_IDO_Caracteristica', $this->request->get('PK_CRT_Id')),
+                    ->where('FK_IDO_Caracteristica', $this->request->get('PK_CRT_Id'))->ignore($id, 'PK_IDO_Id'),
             'IDO_Descripcion' => 'required',
             'PK_ESD_Id' => 'exists:TBL_Estados',
             'PK_CRT_Id' => 'exists:TBL_Caracteristicas'
