@@ -16,10 +16,10 @@
             @foreach ($encuestas as $encuesta)
                 @if($encuesta->proceso->programa)
                     <a href="/grupos/{{ $encuesta->proceso->PCS_Slug_Procesos }}" class="btn btn-d btn-round">
-                        {{$encuesta->proceso->nombre_proceso}}&nbsp;{{$encuesta->proceso->programa->PAC_Nombre}}</a>
+                        Inicio&nbsp;{{$encuesta->proceso->nombre_proceso}}&nbsp;{{$encuesta->proceso->programa->PAC_Nombre}}</a>
                 @else
                     <a href="/grupos/{{ $encuesta->proceso->PCS_Slug_Procesos }}" class="btn btn-d btn-round">
-                        {{$encuesta->proceso->nombre_proceso}}</a>
+                        Inicio&nbsp;{{$encuesta->proceso->nombre_proceso}}</a>
                 @endif
             @endforeach
             <br></br>
