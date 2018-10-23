@@ -15,14 +15,14 @@ class HistorialController extends Controller
 {
     public function index()
     {
-        $procesos_historial = Proceso::pluck('PCS_Nombre', 'PK_PCS_Id');
-        $procesos_anios = Proceso::orderBy('PCS_Anio_Proceso', 'desc')
+        $procesosHistorial = Proceso::pluck('PCS_Nombre', 'PK_PCS_Id');
+        $procesosAnios = Proceso::orderBy('PCS_Anio_Proceso', 'desc')
             ->get()
             ->pluck('PCS_Anio_Proceso', 'PCS_Anio_Proceso');
 
 
         return view('autoevaluacion.SuperAdministrador.Historial.index', compact(
-            'procesos_historial', 'procesos_anios'
+            'procesosHistorial', 'procesosAnios'
         ));
     }
 
@@ -34,18 +34,18 @@ class HistorialController extends Controller
         return json_encode($procesos);
     }
 
-    public function obtenerDatosGraficas($id_proceso)
+    public function obtenerDatosGraficas($idProceso)
     {
         //Documental
-        $proceso = Proceso::find($id_proceso);
+        $proceso = Proceso::find($idProceso);
 
-        $indicadores_documentales = IndicadorDocumental::whereHas('caracteristica.factor', function ($query) use ($proceso) {
+        $indicadoresDocumentales = IndicadorDocumental::whereHas('caracteristica.factor', function ($query) use ($proceso) {
             $query->where('FK_FCT_Lineamiento', '=', $proceso->FK_PCS_Lineamiento);
         })
             ->with('documentosAutoevaluacion', 'caracteristica')
             ->get();
         $documentosAux = DocumentoProceso::with('indicadorDocumental')
-            ->where('FK_DPC_Proceso', '=', $id_proceso)
+            ->where('FK_DPC_Proceso', '=', $idProceso)
             ->oldest()
             ->get();
 
@@ -58,20 +58,20 @@ class HistorialController extends Controller
 
 
         //Grafico barras
-        $labels_indicador = [];
-        $data_indicador = [];
-        foreach ($indicadores_documentales as $documentoIndicador) {
-            array_push($labels_indicador, $documentoIndicador->IDO_Nombre);
-            array_push($data_indicador, $documentoIndicador->documentosAutoevaluacion->count());
+        $labelsIndicador = [];
+        $dataIndicador = [];
+        foreach ($indicadoresDocumentales as $documentoIndicador) {
+            array_push($labelsIndicador, $documentoIndicador->IDO_Nombre);
+            array_push($dataIndicador, $documentoIndicador->documentosAutoevaluacion->count());
         }
 
 
         //grafico historial fechas
-        $labels_fechas = $documentosAuto->keys()->toArray();
-        $data_fechas = [];
+        $labelsFechas = $documentosAuto->keys()->toArray();
+        $dataFechas = [];
 
         foreach ($documentosAuto as $documentoAuto) {
-            array_push($data_fechas, $documentoAuto->count());
+            array_push($dataFechas, $documentoAuto->count());
         }
 
         //Grafico pie
@@ -82,10 +82,10 @@ class HistorialController extends Controller
         $datos = [];
         $datos['completado'] = number_format($completado, 1);
         $datos['dataPie'] = $dataPie;
-        $datos['labels_fecha'] = $labels_fechas;
-        $datos['data_fechas'] = array($data_fechas);
-        $datos['labels_indicador'] = $labels_indicador;
-        $datos['data_indicador'] = array($data_indicador);
+        $datos['labels_fecha'] = $labelsFechas;
+        $datos['data_fechas'] = array($dataFechas);
+        $datos['labels_indicador'] = $labelsIndicador;
+        $datos['data_indicador'] = array($dataIndicador);
         $datos['factores'] = Factor::whereHas('caracteristica.indicadores_documentales')
             ->where('FK_FCT_Lineamiento', '=', $proceso->FK_PCS_Lineamiento)
             ->get()
@@ -95,25 +95,25 @@ class HistorialController extends Controller
         //Encuestas
 
         //cantidad de encuestados
-        $labels_encuestado = [];
-        $data_encuestado = [];
-        $encuestas_cantidad = SolucionEncuesta::whereHas('respuestas.pregunta', function ($query) use ($proceso) {
+        $labelsEncuestado = [];
+        $dataEncuestado = [];
+        $encuestasCantidad = SolucionEncuesta::whereHas('respuestas.pregunta', function ($query) use ($proceso) {
             $query->where('FK_PGT_Proceso', '=', $proceso->PK_PCS_Id);
         })
             ->get()
             ->groupBy('SEC_Grupo_Interes');
 
         $contador = 0;
-        foreach ($encuestas_cantidad as $key => $encuestados) {
-            array_push($labels_encuestado, $key);
-            array_push($data_encuestado, $encuestados[$contador]->SEC_Total_Encuestados);
+        foreach ($encuestasCantidad as $key => $encuestados) {
+            array_push($labelsEncuestado, $key);
+            array_push($dataEncuestado, $encuestados[$contador]->SEC_Total_Encuestados);
             $contador++;
         }
 
         //valorizacion de las caracteristicas
-        $labels_caracteristicas = [];
-        $data_caracteristicas = [];
-        $data_factor = [];
+        $labelsCaracteristicas = [];
+        $dataCaracteristicas = [];
+        $dataFactor = [];
 
         $factor = Factor::where('FK_FCT_Lineamiento', '=', $proceso->FK_PCS_Lineamiento)->first();
 
@@ -127,7 +127,7 @@ class HistorialController extends Controller
             ->groupBy('PK_CRT_Id');
 
         foreach ($caracteristicas as $key_caracteristica => $caracteristica) {
-            array_push($labels_caracteristicas, $caracteristica[0]->CRT_Nombre);
+            array_push($labelsCaracteristicas, $caracteristica[0]->CRT_Nombre);
             $total_ponderaciones = 0;
             $cantidad = 0;
             foreach ($caracteristica[0]->preguntas as $pregunta) {
@@ -139,78 +139,78 @@ class HistorialController extends Controller
                 }
             }
             $data = $total_ponderaciones != 0 ? $total_ponderaciones / $cantidad : 0;
-            array_push($data_caracteristicas, $data);
+            array_push($dataCaracteristicas, $data);
         }
 
-        $data_factor = Factor::where('FK_FCT_Lineamiento', '=', $proceso->FK_PCS_Lineamiento)
+        $dataFactor = Factor::where('FK_FCT_Lineamiento', '=', $proceso->FK_PCS_Lineamiento)
             ->get()
             ->pluck('FCT_Nombre', 'PK_FCT_Id');
 
-        $datos['labels_encuestado'] = $labels_encuestado;
-        $datos['data_encuestado'] = array($data_encuestado);
-        $datos['labels_caracteristicas'] = $labels_caracteristicas;
-        $datos['data_caracteristicas'] = array($data_caracteristicas);
+        $datos['labels_encuestado'] = $labelsEncuestado;
+        $datos['data_encuestado'] = array($dataEncuestado);
+        $datos['labels_caracteristicas'] = $labelsCaracteristicas;
+        $datos['data_caracteristicas'] = array($dataCaracteristicas);
         $datos['factor_elegido'] = array($factor->FCT_Nombre);
-        $datos['data_factor'] = $data_factor;
+        $datos['data_factor'] = $dataFactor;
 
         return json_encode($datos);
     }
 
-    public function obtenerCaracteristicas($id_factor)
+    public function obtenerCaracteristicas($idFactor)
     {
         $caracteristicas = Caracteristica::has('indicadores_documentales')
-            ->where('FK_CRT_Factor', '=', $id_factor)
+            ->where('FK_CRT_Factor', '=', $idFactor)
             ->get()
             ->pluck('CRT_Nombre', 'PK_CRT_Id');
         return json_encode($caracteristicas);
     }
 
-    public function filtroDocumental(Request $request, $id_proceso)
+    public function filtroDocumental(Request $request, $idProceso)
     {
-        $proceso = Proceso::find($id_proceso);
-        $id_factor = $request->get('PK_FCT_Id');
-        $id_caracteristica = $request->get('PK_CRT_Id');
+        $proceso = Proceso::find($idProceso);
+        $idFactor = $request->get('PK_FCT_Id');
+        $idCaracteristica = $request->get('PK_CRT_Id');
 
         /**
          * Se utilizan consultas con filtros para obtner diferentes resultados deseados por el
          * usuario
          */
-        $indicadores_documentales = IndicadorDocumental::whereHas('caracteristica.factor', function ($query) use ($proceso, $id_factor) {
+        $indicadoresDocumentales = IndicadorDocumental::whereHas('caracteristica.factor', function ($query) use ($proceso, $idFactor) {
             $query->where('FK_FCT_Lineamiento', '=', $proceso->FK_PCS_Lineamiento)
-                ->when($id_factor, function ($q) use ($id_factor) {
-                    return $q->where('PK_FCT_Id', $id_factor);
+                ->when($idFactor, function ($q) use ($idFactor) {
+                    return $q->where('PK_FCT_Id', $idFactor);
                 });
         })
-            ->when($id_caracteristica, function ($q) use ($id_caracteristica) {
-                return $q->where('FK_IDO_Caracteristica', $id_caracteristica);
+            ->when($idCaracteristica, function ($q) use ($idCaracteristica) {
+                return $q->where('FK_IDO_Caracteristica', $idCaracteristica);
             })
             ->get();
 
         //Grafico barras
-        $labels_indicador = [];
-        $data_indicador = [];
-        foreach ($indicadores_documentales as $documentoIndicador) {
-            array_push($labels_indicador, $documentoIndicador->IDO_Nombre);
-            array_push($data_indicador, $documentoIndicador->documentosAutoevaluacion->count());
+        $labelsIndicador = [];
+        $dataIndicador = [];
+        foreach ($indicadoresDocumentales as $documentoIndicador) {
+            array_push($labelsIndicador, $documentoIndicador->IDO_Nombre);
+            array_push($dataIndicador, $documentoIndicador->documentosAutoevaluacion->count());
         }
 
         $datos = [];
-        $datos['labels_indicador'] = $labels_indicador;
-        $datos['data_indicador'] = array($data_indicador);
+        $datos['labels_indicador'] = $labelsIndicador;
+        $datos['data_indicador'] = array($dataIndicador);
 
         return json_encode($datos);
     }
 
-    public function filtroEncuestas(Request $request, $id_proceso)
+    public function filtroEncuestas(Request $request, $idProceso)
     {
-        $labels_caracteristicas = [];
-        $data_caracteristicas = [];
-        $data_factor = [];
+        $labelsCaracteristicas = [];
+        $dataCaracteristicas = [];
+        $dataFactor = [];
 
         $factor = Factor::find($request->get('PK_FCT_Id'));
 
-        $caracteristicas = Caracteristica::whereHas('preguntas', function ($query) use ($id_proceso) {
-            return $query->where('FK_PGT_Proceso', '=', $id_proceso);
+        $caracteristicas = Caracteristica::whereHas('preguntas', function ($query) use ($idProceso) {
+            return $query->where('FK_PGT_Proceso', '=', $idProceso);
         })
             ->whereHas('preguntas.respuestas.solucion')
             ->where('FK_CRT_Factor', '=', $request->get('PK_FCT_Id'))
@@ -219,7 +219,7 @@ class HistorialController extends Controller
             ->groupBy('PK_CRT_Id');
 
         foreach ($caracteristicas as $key_caracteristica => $caracteristica) {
-            array_push($labels_caracteristicas, $caracteristica[0]->CRT_Nombre);
+            array_push($labelsCaracteristicas, $caracteristica[0]->CRT_Nombre);
             $total_ponderaciones = 0;
             $cantidad = 0;
             foreach ($caracteristica[0]->preguntas as $pregunta) {
@@ -231,11 +231,11 @@ class HistorialController extends Controller
                 }
             }
             $data = $total_ponderaciones != 0 ? $total_ponderaciones / $cantidad : 0;
-            array_push($data_caracteristicas, $data);
+            array_push($dataCaracteristicas, $data);
         }
 
-        $datos['labels_caracteristicas'] = $labels_caracteristicas;
-        $datos['data_caracteristicas'] = array($data_caracteristicas);
+        $datos['labels_caracteristicas'] = $labelsCaracteristicas;
+        $datos['data_caracteristicas'] = array($dataCaracteristicas);
         $datos['factor_elegido'] = array($factor->FCT_Nombre);
 
         return json_encode($datos);

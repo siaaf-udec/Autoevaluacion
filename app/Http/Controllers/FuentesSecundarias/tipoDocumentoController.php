@@ -19,7 +19,7 @@ class tipoDocumentoController extends Controller
     public function __construct()
     {
         $this->middleware('permission:ACCEDER_TIPO_DOCUMENTO')->except('show');
-        $this->middleware(['permissionMODIFICAR_TIPO_DOCUMENTO', 'permission:VER_TIPO_DOCUMENTO'], ['only' => ['edit', 'update']]);
+        $this->middleware(['permission:MODIFICAR_TIPO_DOCUMENTO', 'permission:VER_TIPO_DOCUMENTO'], ['only' => ['edit', 'update']]);
         $this->middleware('permission:CREAR_TIPO_DOCUMENTO', ['only' => ['create', 'store']]);
         $this->middleware('permission:ELIMINAR_TIPO_DOCUMENTO', ['only' => ['destroy']]);
     }

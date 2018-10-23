@@ -133,12 +133,12 @@ class AspectoController extends Controller
         $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
 
         $factor = new Factor();
-        $id_factor = $aspecto->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
-        $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('nombre_factor', 'PK_FCT_Id');
+        $idFactor = $aspecto->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
+        $factores = $factor->where('FK_FCT_Lineamiento', $idFactor)->get()->pluck('nombre_factor', 'PK_FCT_Id');
 
         $caracteristica = new Caracteristica();
-        $id_caracteristica = $aspecto->caracteristica->factor()->pluck('PK_FCT_Id')[0];
-        $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('nombre_caracteristica', 'PK_CRT_Id');
+        $idCaracteristica = $aspecto->caracteristica->factor()->pluck('PK_FCT_Id')[0];
+        $caracteristicas = $caracteristica->where('FK_CRT_Factor', $idCaracteristica)->get()->pluck('nombre_caracteristica', 'PK_CRT_Id');
 
 
         return view(

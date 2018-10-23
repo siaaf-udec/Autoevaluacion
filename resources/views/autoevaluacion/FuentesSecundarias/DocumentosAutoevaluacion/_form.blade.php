@@ -36,7 +36,7 @@
 <div class="item form-group">
     {!! Form::label('PK_TDO_Id', 'Tipo de documento', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::select('PK_TDO_Id', $tipo_documentos,
+        {!! Form::select('PK_TDO_Id', $tipoDocumentos,
         old('PK_DPC_Id', isset($documento)? $documento->FK_DOA_TipoDocumento:''),
         ['class' => 'select2 form-control','placeholder' => 'Seleccione un tipo de documento', 'required' => '',
         'id' => 'tipo_documento']) !!}

@@ -26,8 +26,8 @@ class ReportesEncuestasController extends Controller
     {
         $grupos = GrupoInteres::where('FK_GIT_Estado', '=', '1')
             ->get()->pluck('GIT_Nombre', 'PK_GIT_Id');
-        $id_lineamiento = Proceso::find(session()->get('id_proceso'))->FK_PCS_Lineamiento ?? null;
-        $factores = Factor::where('FK_FCT_Lineamiento', '=', $id_lineamiento)
+        $idLineamiento = Proceso::find(session()->get('id_proceso'))->FK_PCS_Lineamiento ?? null;
+        $factores = Factor::where('FK_FCT_Lineamiento', '=', $idLineamiento)
             ->get()->pluck('nombre_factor', 'PK_FCT_Id');
         return view('autoevaluacion.FuentesPrimarias.Reportes.index', compact('grupos', 'factores'));
     }
@@ -41,17 +41,17 @@ class ReportesEncuestasController extends Controller
             ->selectRaw('*, COUNT(FK_ECD_GrupoInteres) as cantidad')
             ->groupby('FK_ECD_GrupoInteres')
             ->get();
-        $labels_encuestado = [];
-        $data_encuestado = [];
+        $labelsEncuestado = [];
+        $dataEncuestado = [];
         foreach ($encuestados as $encuestado) {
-            array_push($labels_encuestado, $encuestado->grupos->GIT_Nombre);
-            array_push($data_encuestado, $encuestado->cantidad);
+            array_push($labelsEncuestado, $encuestado->grupos->GIT_Nombre);
+            array_push($dataEncuestado, $encuestado->cantidad);
         }
 
-        //valorizacion de las caracteristicas
-        $labels_caracteristicas = [];
-        $data_caracteristicas = [];
-        $data_factor = [];
+        //valorizacion de las caraCaracteristica = [];
+        $labelsCaracteristica = [];
+        $dataCaracteristicas = [];
+        $dataFactor = [];
 
         $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query) {
             return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
@@ -61,7 +61,7 @@ class ReportesEncuestasController extends Controller
             ->get();
 
         foreach ($caracteristicas as $caracteristica) {
-            array_push($labels_caracteristicas, $caracteristica->CRT_Nombre);
+            array_push($labelsCaracteristica, $caracteristica->CRT_Nombre);
             $soluciones = SolucionEncuesta::whereHas('encuestados.encuesta', function ($query) {
                 return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
             })
@@ -70,20 +70,20 @@ class ReportesEncuestasController extends Controller
                 })
                 ->with('respuestas.ponderacion')
                 ->get();
-            $totalponderacion = 0;
+            $totalPonderacion = 0;
             $prueba = $soluciones->count();
             foreach ($soluciones as $solucion) {
-                $totalponderacion = $totalponderacion + (10 / $solucion->respuestas->ponderacion->PRT_Rango);
+                $totalPonderacion = $totalPonderacion + (10 / $solucion->respuestas->ponderacion->PRT_Rango);
             }
-            $prueba = $totalponderacion / $prueba;
-            array_push($data_caracteristicas, $prueba);
+            $prueba = $totalPonderacion / $prueba;
+            array_push($dataCaracteristicas, $prueba);
         }
         $datos = [];
-        $datos['labels_encuestado'] = $labels_encuestado;
-        $datos['data_encuestado'] = array($data_encuestado);
-        $datos['labels_caracteristicas'] = $labels_caracteristicas;
-        $datos['data_caracteristicas'] = array($data_caracteristicas);
-        $datos['data_factor'] = array($data_factor);
+        $datos['labels_encuestado'] = $labelsEncuestado;
+        $datos['data_encuestado'] = array($dataEncuestado);
+        $datos['labels_caracteristicas'] = $labelsCaracteristica;
+        $datos['data_caracteristicas'] = array($dataCaracteristicas);
+        $datos['data_factor'] = array($dataFactor);
         return json_encode($datos);
     }
 
@@ -104,10 +104,10 @@ class ReportesEncuestasController extends Controller
             ->where('FK_ECD_GrupoInteres', '=', $request->get('PK_GIT_Id'))
             ->first();
         //cantidad de respuestas por cada pregunta
-        $labels_respuestas = [];
-        $data_respuestas = [];
-        $data_titulo = [];
-        array_push($data_titulo, $preguntas->PGT_Texto);
+        $labelsEncuestas = [];
+        $dataRespuestas = [];
+        $dataTitulo = [];
+        array_push($dataTitulo, $preguntas->PGT_Texto);
         foreach ($respuestas as $respuesta) {
             $total_respuestas = SolucionEncuesta::whereHas('encuestados', function ($query) use ($request, $encuesta) {
                 return $query->where('FK_ECD_GrupoInteres', '=', $request->get('PK_GIT_Id'))
@@ -116,13 +116,13 @@ class ReportesEncuestasController extends Controller
                 ->where('FK_SEC_Respuesta', '=', $respuesta->PK_RPG_Id)
                 ->get();
             if ($encuestados->cantidad != 0)
-                array_push($labels_respuestas, $respuesta->RPG_Texto . " " . number_format($total_respuestas->count() * 100 / $encuestados->cantidad, 1) . "%");
-            array_push($data_respuestas, $total_respuestas->count());
+                array_push($labelsEncuestas, $respuesta->RPG_Texto . " " . number_format($total_respuestas->count() * 100 / $encuestados->cantidad, 1) . "%");
+            array_push($dataRespuestas, $total_respuestas->count());
         }
         $datos = [];
-        $datos['labels_respuestas'] = $labels_respuestas;
-        $datos['data_respuestas'] = array($data_respuestas);
-        $datos['data_titulo'] = array($data_titulo);
+        $datos['labels_respuestas'] = $labelsEncuestas;
+        $datos['data_respuestas'] = array($dataRespuestas);
+        $datos['data_titulo'] = array($dataTitulo);
         return json_encode($datos);
 
     }
@@ -145,9 +145,9 @@ class ReportesEncuestasController extends Controller
         /*filtro para obtener la valorizacion de las caracteristicas pertenecientes al factor digitado 
         por el usuario.
         */
-        $labels_caracteristicas = [];
-        $data_caracteristicas = [];
-        $data_factor = [];
+        $labelsCaracteristica = [];
+        $dataCaracteristicas = [];
+        $dataFactor = [];
 
 
         $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query) {
@@ -157,9 +157,9 @@ class ReportesEncuestasController extends Controller
             ->groupby('PK_CRT_Id')
             ->get();
 
-        array_push($data_factor, Factor::where('PK_FCT_Id', $request->get('PK_FCT_Id'))->first()->FCT_Nombre);
+        array_push($dataFactor, Factor::where('PK_FCT_Id', $request->get('PK_FCT_Id'))->first()->FCT_Nombre);
         foreach ($caracteristicas as $caracteristica) {
-            array_push($labels_caracteristicas, $caracteristica->CRT_Nombre);
+            array_push($labelsCaracteristica, $caracteristica->CRT_Nombre);
             $soluciones = SolucionEncuesta::whereHas('encuestados.encuesta', function ($query) {
                 return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
             })
@@ -168,18 +168,18 @@ class ReportesEncuestasController extends Controller
                 })
                 ->with('respuestas.ponderacion')
                 ->get();
-            $totalponderacion = 0;
+            $totalPonderacion = 0;
             $prueba = $soluciones->count();
             foreach ($soluciones as $solucion) {
-                $totalponderacion = $totalponderacion + (10 / $solucion->respuestas->ponderacion->PRT_Rango);
+                $totalPonderacion = $totalPonderacion + (10 / $solucion->respuestas->ponderacion->PRT_Rango);
             }
-            $prueba = $totalponderacion / $prueba;
-            array_push($data_caracteristicas, $prueba);
+            $prueba = $totalPonderacion / $prueba;
+            array_push($dataCaracteristicas, $prueba);
         }
         $datos = [];
-        $datos['labels_caracteristicas'] = $labels_caracteristicas;
-        $datos['data_caracteristicas'] = array($data_caracteristicas);
-        $datos['data_factor'] = array($data_factor);
+        $datos['labels_caracteristicas'] = $labelsCaracteristica;
+        $datos['data_caracteristicas'] = array($dataCaracteristicas);
+        $datos['data_factor'] = array($dataFactor);
         return json_encode($datos);
 
     }

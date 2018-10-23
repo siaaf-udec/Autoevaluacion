@@ -6,13 +6,13 @@
 <div class="row">
     <form action="#" method="post" id="form_selecionar_proceso">
         <div class=" col-md-6 col-sm-6 col-xs-12">
-            {!! Form::label('anio', 'Año', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!} {!! Form::select('anio', isset($procesos_anios)?$procesos_anios:[],
+            {!! Form::label('anio', 'Año', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!} {!! Form::select('anio', isset($procesosAnios)?$procesosAnios:[],
             old('anio'), ['class' => 'select2 form-control', 'placeholder' => 'Seleccione un año', 'required' => '', 'id'
             => 'proceso_anio']) !!}
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
             {!! Form::label('PK_PCS_Id', 'Proceso', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!} {!! Form::select('PK_PCS_Id',
-            isset($procesos_historial)?$procesos_historial:[], old('PK_PCS_Id'), ['class' => 'select2 form-control', 'placeholder'
+            isset($procesosHistorial)?$procesosHistorial:[], old('PK_PCS_Id'), ['class' => 'select2 form-control', 'placeholder'
             => 'Seleccione un proceso', 'required' => '', 'id' => 'proceso_historial']) !!}
         </div>
     </form>

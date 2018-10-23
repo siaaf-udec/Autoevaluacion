@@ -27,7 +27,7 @@ class DocumentoInstitucionalRequest extends FormRequest
         $archivo = "required";
         $link = "required";
         $id = $this->route()->parameter('documentoinstitucional');
-        $id_archivo = DocumentoInstitucional::find($id);
+        $idArchivo = DocumentoInstitucional::find($id);
         $comprobar = $this->request->get('comprobarArchivo');
         if ($this->hasFile('archivo') && $this->request->get('link') !== null) {
             $link = 'file';
@@ -38,10 +38,10 @@ class DocumentoInstitucionalRequest extends FormRequest
         } elseif ($this->request->get('link') !== null) {
             $link = 'url';
             $archivo = '';
-            if ($this->method() == 'PUT' && ($comprobar == 'true' && isset($id_archivo->FK_DOI_Archivo))) {
+            if ($this->method() == 'PUT' && ($comprobar == 'true' && isset($idArchivo->FK_DOI_Archivo))) {
                 $link = 'file';
             }
-        } elseif ($this->method() == 'PUT' && ($comprobar == 'true' && isset($id_archivo->FK_DOI_Archivo))) {
+        } elseif ($this->method() == 'PUT' && ($comprobar == 'true' && isset($idArchivo->FK_DOI_Archivo))) {
             $archivo = "";
             $link = "";
         }

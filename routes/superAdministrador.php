@@ -121,19 +121,19 @@ Route::get('historial/proceso/{anio}', array(
     'uses' => 'HistorialController@obtenerProceso'
 ));
 
-Route::get('historial/datos_graficas/{id_proceso}', array(
+Route::get('historial/datos_graficas/{idProceso}', array(
     'as' => 'admin.historial.datos_graficas',
     'uses' => 'HistorialController@obtenerDatosGraficas'
 ));
-Route::get('historial/caracteristicas/{id_factor}', array(
+Route::get('historial/caracteristicas/{idFactor}', array(
     'as' => 'admin.historial.obtener_caracteristicas',
     'uses' => 'HistorialController@obtenerCaracteristicas'
 ));
-Route::post('historial/filtro_documental/{id_proceso}', array(
+Route::post('historial/filtro_documental/{idProceso}', array(
     'as' => 'admin.historial.filtro_documental',
     'uses' => 'HistorialController@filtroDocumental'
 ));
-Route::post('historial/filtro_encuestas/{id_proceso}', array(
+Route::post('historial/filtro_encuestas/{idProceso}', array(
     'as' => 'admin.historial.filtro_encuestas',
     'uses' => 'HistorialController@filtroEncuestas'
 ));

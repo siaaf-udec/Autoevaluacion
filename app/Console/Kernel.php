@@ -68,13 +68,13 @@ class Kernel extends ConsoleKernel
                     $caracteristicas = [];
                     $indicadores = [];
                     $preguntas = [];
-                    $respuestas_array = [];
+                    $respuestasArray = [];
 
 
                     /**
                      * Para las graficas documentales
                      */
-                    $indicadores_documentales = IndicadorDocumental::whereHas('caracteristica.factor', function ($query) use ($process) {
+                    $indicadoresDocumentales = IndicadorDocumental::whereHas('caracteristica.factor', function ($query) use ($process) {
                         $query->where('FK_FCT_Lineamiento', '=', $process->FK_PCS_Lineamiento);
                     })
                         ->with('documentosAutoevaluacion', 'caracteristica')
@@ -87,87 +87,87 @@ class Kernel extends ConsoleKernel
                     $documentos = $documentosAux->groupBy('FK_DOA_IndicadorDocumental');
 
 
-                    $lineamientos_autoevaluacion = Lineamiento::with('factor_.caracteristica.indicadores_documentales')
+                    $lineamientosAutoevaluacion = Lineamiento::with('factor_.caracteristica.indicadoresDocumentales')
                         ->where('PK_LNM_Id', '=', $process->FK_PCS_Lineamiento)
                         ->get();
 
-                    $lineamiento_historial = new \App\Models\Historial\Lineamiento();
-                    $lineamiento_historial->LNM_Nombre = $lineamientos_autoevaluacion[0]->LNM_Nombre;
-                    $lineamiento_historial->save();
+                    $lineamientosHistorial = new \App\Models\Historial\Lineamiento();
+                    $lineamientosHistorial->LNM_Nombre = $lineamientosAutoevaluacion[0]->LNM_Nombre;
+                    $lineamientosHistorial->save();
 
 
-                    $proceso_historial = new \App\Models\Historial\Proceso();
-                    $proceso_historial->PCS_Nombre = $process->nombre_proceso;
-                    $proceso_historial->PCS_Completitud_Documental = (($documentos->count() / $indicadores_documentales->count()) * 100);
-                    $proceso_historial->FK_PCS_Lineamiento = $lineamiento_historial->PK_LNM_Id;
-                    $proceso_historial->PCS_Anio_Proceso = $process->PCS_FechaInicio;
-                    $proceso_historial->save();
+                    $procesoHistorial = new \App\Models\Historial\Proceso();
+                    $procesoHistorial->PCS_Nombre = $process->nombre_proceso;
+                    $procesoHistorial->PCS_Completitud_Documental = (($documentos->count() / $indicadoresDocumentales->count()) * 100);
+                    $procesoHistorial->FK_PCS_Lineamiento = $lineamientosHistorial->PK_LNM_Id;
+                    $procesoHistorial->PCS_Anio_Proceso = $process->PCS_FechaInicio;
+                    $procesoHistorial->save();
 
-                    foreach ($lineamientos_autoevaluacion[0]->factor_ as $factor) {
-                        $factor_historial = new Factor();
-                        $factor_historial->FCT_Nombre = $factor->FCT_Identificador . '.' . $factor->FCT_Nombre;
-                        $factor_historial->FK_FCT_Lineamiento = $lineamiento_historial->PK_LNM_Id;
-                        $factor_historial->save();
-                        $factores[$factor->PK_FCT_Id] = $factor_historial->PK_FCT_Id;
+                    foreach ($lineamientosAutoevaluacion[0]->factor_ as $factor) {
+                        $factorHistorial = new Factor();
+                        $factorHistorial->FCT_Nombre = $factor->FCT_Identificador . '.' . $factor->FCT_Nombre;
+                        $factorHistorial->FK_FCT_Lineamiento = $lineamientosHistorial->PK_LNM_Id;
+                        $factorHistorial->save();
+                        $factores[$factor->PK_FCT_Id] = $factorHistorial->PK_FCT_Id;
 
                         foreach ($factor->caracteristica as $caracteristica) {
-                            $caracteristica_historial = new Caracteristica();
-                            $caracteristica_historial->CRT_Nombre = $caracteristica->CRT_Identificador . '.' . $caracteristica->CRT_Nombre;
-                            $caracteristica_historial->FK_CRT_Factor = $factores[$caracteristica->FK_CRT_Factor];
-                            $caracteristica_historial->save();
+                            $caracteristicaHistorial = new Caracteristica();
+                            $caracteristicaHistorial->CRT_Nombre = $caracteristica->CRT_Identificador . '.' . $caracteristica->CRT_Nombre;
+                            $caracteristicaHistorial->FK_CRT_Factor = $factores[$caracteristica->FK_CRT_Factor];
+                            $caracteristicaHistorial->save();
 
-                            $caracteristicas[$caracteristica->PK_CRT_Id] = $caracteristica_historial->PK_CRT_Id;
+                            $caracteristicas[$caracteristica->PK_CRT_Id] = $caracteristicaHistorial->PK_CRT_Id;
 
-                            foreach ($caracteristica->indicadores_documentales as $indicador_documental) {
-                                $indicador_documental_historial = new \App\Models\Historial\IndicadorDocumental();
-                                $indicador_documental_historial->IDO_Nombre = $indicador_documental->IDO_Nombre;
-                                $indicador_documental_historial->FK_IDO_Caracteristica = $caracteristica_historial->PK_CRT_Id;
-                                $indicador_documental_historial->save();
-                                $indicadores[$indicador_documental->PK_IDO_Id] = $indicador_documental_historial->PK_IDO_Id;
+                            foreach ($caracteristica->indicadoresDocumentales as $indicador_documental) {
+                                $indicadorDocumentalHistorial = new \App\Models\Historial\IndicadorDocumental();
+                                $indicadorDocumentalHistorial->IDO_Nombre = $indicador_documental->IDO_Nombre;
+                                $indicadorDocumentalHistorial->FK_IDO_Caracteristica = $caracteristicaHistorial->PK_CRT_Id;
+                                $indicadorDocumentalHistorial->save();
+                                $indicadores[$indicador_documental->PK_IDO_Id] = $indicadorDocumentalHistorial->PK_IDO_Id;
                             }
                         }
                     }
 
-                    $documentos_autoevaluacion = DocumentoAutoevaluacion::all()
+                    $documentosAutoevaluacion = DocumentoAutoevaluacion::all()
                         ->where('FK_DOA_Proceso', '=', $process->PK_PCS_Id);
 
 
-                    foreach ($documentos_autoevaluacion as $documento) {
-                        $documentos_historial = new DocumentoProceso();
-                        $documentos_historial->DPC_Fecha_Subida = $documento->created_at;
-                        $documentos_historial->FK_DPC_Proceso = $proceso_historial->PK_PCS_Id;
-                        $documentos_historial->FK_DPC_Indicador = $indicadores[$documento->FK_DOA_IndicadorDocumental];
-                        $documentos_historial->save();
+                    foreach ($documentosAutoevaluacion as $documento) {
+                        $documentosHistorial = new DocumentoProceso();
+                        $documentosHistorial->DPC_Fecha_Subida = $documento->created_at;
+                        $documentosHistorial->FK_DPC_Proceso = $procesoHistorial->PK_PCS_Id;
+                        $documentosHistorial->FK_DPC_Indicador = $indicadores[$documento->FK_DOA_IndicadorDocumental];
+                        $documentosHistorial->save();
                     }
 
-                    $preguntas_autoevaluacion = \App\Models\Autoevaluacion\Pregunta::whereHas('caracteristica.factor', function ($query) use ($lineamientos_autoevaluacion) {
-                        $query->where('FK_FCT_Lineamiento', $lineamientos_autoevaluacion[0]->PK_LNM_Id);
+                    $preguntasAutoevaluacion = \App\Models\Autoevaluacion\Pregunta::whereHas('caracteristica.factor', function ($query) use ($lineamientosAutoevaluacion) {
+                        $query->where('FK_FCT_Lineamiento', $lineamientosAutoevaluacion[0]->PK_LNM_Id);
                     })
                         ->get();
 
 
-                    foreach ($preguntas_autoevaluacion as $pregunta) {
-                        $preguntas_historial = new Pregunta();
-                        $preguntas_historial->PGT_Texto = $pregunta->PGT_Texto;
-                        $preguntas_historial->FK_PGT_Caracteristica = $caracteristicas[$pregunta->FK_PGT_Caracteristica];
-                        $preguntas_historial->FK_PGT_Proceso = $proceso_historial->PK_PCS_Id;
-                        $preguntas_historial->save();
+                    foreach ($preguntasAutoevaluacion as $pregunta) {
+                        $preguntasHistorial = new Pregunta();
+                        $preguntasHistorial->PGT_Texto = $pregunta->PGT_Texto;
+                        $preguntasHistorial->FK_PGT_Caracteristica = $caracteristicas[$pregunta->FK_PGT_Caracteristica];
+                        $preguntasHistorial->FK_PGT_Proceso = $procesoHistorial->PK_PCS_Id;
+                        $preguntasHistorial->save();
 
-                        $preguntas[$pregunta->PK_PGT_Id] = $preguntas_historial->PK_PGT_Id;
+                        $preguntas[$pregunta->PK_PGT_Id] = $preguntasHistorial->PK_PGT_Id;
                     }
 
-                    $respuestas_autoevaluacion = RespuestaPregunta::whereHas('pregunta.caracteristica.factor', function ($query) use ($lineamientos_autoevaluacion) {
-                        $query->where('FK_FCT_Lineamiento', $lineamientos_autoevaluacion[0]->PK_LNM_Id);
+                    $respuestasAutoevaluacion = RespuestaPregunta::whereHas('pregunta.caracteristica.factor', function ($query) use ($lineamientosAutoevaluacion) {
+                        $query->where('FK_FCT_Lineamiento', $lineamientosAutoevaluacion[0]->PK_LNM_Id);
                     })
                         ->get();
 
-                    foreach ($respuestas_autoevaluacion as $respuestas) {
-                        $respuestas_historial = new \App\Models\Historial\RespuestaPregunta();
-                        $respuestas_historial->RPG_Texto = $respuestas->RPG_Texto;
-                        $respuestas_historial->FK_RPG_Pregunta = $preguntas[$respuestas->FK_RPG_Pregunta];
-                        $respuestas_historial->save();
+                    foreach ($respuestasAutoevaluacion as $respuestas) {
+                        $respuestasHistorial = new \App\Models\Historial\RespuestaPregunta();
+                        $respuestasHistorial->RPG_Texto = $respuestas->RPG_Texto;
+                        $respuestasHistorial->FK_RPG_Pregunta = $preguntas[$respuestas->FK_RPG_Pregunta];
+                        $respuestasHistorial->save();
 
-                        $respuestas_array[$respuestas->PK_RPG_Id] = $respuestas_historial->PK_RPG_Id;
+                        $respuestasArray[$respuestas->PK_RPG_Id] = $respuestasHistorial->PK_RPG_Id;
                     }
 
                     $encuestas = SolucionEncuesta::with('encuestados.grupos')
@@ -178,25 +178,25 @@ class Kernel extends ConsoleKernel
                         ->with('respuestas.ponderacion')
                         ->get();
 
-                    $encuestas_respuestas = $encuestas->groupBy('FK_SEC_Respuesta')
+                    $encuestasRespuesta = $encuestas->groupBy('FK_SEC_Respuesta')
                         ->transform(function ($item, $key) {
                             return $item->groupBy('encuestados.grupos.GIT_Nombre');
                         });
 
-                    $id_respuestas = $encuestas_respuestas->keys()->toArray();
-                    $encuestas_respuestas = $encuestas_respuestas->toArray();
+                    $idRespuesta = $encuestasRespuesta->keys()->toArray();
+                    $encuestasRespuesta = $encuestasRespuesta->toArray();
 
-                    foreach ($encuestas_respuestas as $encuesta_respuesta) {
-                        $id_respuesta = $respuestas_array[array_shift($id_respuestas)];
+                    foreach ($encuestasRespuesta as $encuesta_respuesta) {
+                        $id_respuesta = $respuestasArray[array_shift($idRespuesta)];
                         foreach ($encuesta_respuesta as $key => $encuesta_grupo) {
-                            $solucion_encuesta = new \App\Models\Historial\SolucionEncuesta();
-                            $solucion_encuesta->SEC_Total_Encuestados = count($encuesta_grupo);
-                            $solucion_encuesta->SEC_Grupo_Interes = $key;
-                            $solucion_encuesta->FK_SEC_Respuesta = $id_respuesta;
-                            $solucion_encuesta->SEC_Total_Ponderacion =
+                            $solucionEncuesta = new \App\Models\Historial\SolucionEncuesta();
+                            $solucionEncuesta->SEC_Total_Encuestados = count($encuesta_grupo);
+                            $solucionEncuesta->SEC_Grupo_Interes = $key;
+                            $solucionEncuesta->FK_SEC_Respuesta = $id_respuesta;
+                            $solucionEncuesta->SEC_Total_Ponderacion =
                                 (10 / array_get($encuesta_grupo, '0.respuestas.ponderacion.PRT_Rango', 0) *
                                     count($encuesta_grupo)) / count($encuesta_grupo);
-                            $solucion_encuesta->save();
+                            $solucionEncuesta->save();
                         }
                     }
                     $process->delete();

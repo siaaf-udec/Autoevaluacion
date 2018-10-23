@@ -6,8 +6,8 @@
 @section('content')
     @component('admin.components.panel')
         @slot('title', 'Modificar Programa academico')
-        {!! Form::model($programa_academico, [ 'route' => ['admin.programas_academicos.update', $programa_academico],
-        'method' => 'PUT', 'id' => 'form_modificar_programa_academico',
+        {!! Form::model($programaAcademico, [ 'route' => ['admin.programas_academicos.update', $programaAcademico],
+        'method' => 'PUT', 'id' => 'form_modificar_programaAcademico',
         'class' => 'form-horizontal form-label-lef', 'novalidate' ])
         !!}
         @include('autoevaluacion.SuperAdministrador.ProgramasAcademicos._form')
@@ -52,7 +52,7 @@
             $('#facultad').select2();
             $('#estado').select2();
 
-            var form = $('#form_modificar_programa_academico');
+            var form = $('#form_modificar_programaAcademico');
             $(form).parsley({
                 trigger: 'change',
                 successClass: "has-success",

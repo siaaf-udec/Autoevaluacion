@@ -59,8 +59,8 @@ class ImportarPreguntasController extends Controller
         $archivo = $request->file('archivo');
         $results = "";
         if ($archivo) {
-            $url_temporal = Storage::url($archivo->store('public'));
-            ImportarPreguntas::dispatch($url_temporal, session()->get('id_proceso'));
+            $urlTemporal = Storage::url($archivo->store('public'));
+            ImportarPreguntas::dispatch($urlTemporal, session()->get('id_proceso'));
         }
         return response(['msg' => 'Preguntas registradas correctamente.',
             'title' => '¡Registro exitoso!'

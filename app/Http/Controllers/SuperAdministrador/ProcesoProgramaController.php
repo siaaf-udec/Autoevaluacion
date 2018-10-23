@@ -62,7 +62,7 @@ class ProcesoProgramaController extends Controller
     {
         if ($request->ajax() && $request->isMethod('GET')) {
             if (Gate::allows('SUPERADMINISTRADOR')) {
-                $procesos_programas = Proceso::with(['fase' => function ($query) {
+                $procesosProgramas = Proceso::with(['fase' => function ($query) {
                     return $query->select('PK_FSS_Id', 'FSS_Nombre');
                 }])
                     ->with('programa.sede')
@@ -70,18 +70,18 @@ class ProcesoProgramaController extends Controller
                     ->where('PCS_Institucional', '=', '0')
                     ->get();
 
-                return DataTables::of($procesos_programas)
-                    ->editColumn('PCS_FechaInicio', function ($proceso_programa) {
-                        return $proceso_programa->PCS_FechaInicio ? with(new Carbon($proceso_programa->PCS_FechaInicio))->format('d/m/Y') : '';
+                return DataTables::of($procesosProgramas)
+                    ->editColumn('PCS_FechaInicio', function ($procesoPrograma) {
+                        return $procesoPrograma->PCS_FechaInicio ? with(new Carbon($procesoPrograma->PCS_FechaInicio))->format('d/m/Y') : '';
                     })
-                    ->editColumn('PCS_FechaFin', function ($proceso_programa) {
-                        return $proceso_programa->PCS_FechaFin ? with(new Carbon($proceso_programa->PCS_FechaFin))->format('d/m/Y') : '';;
+                    ->editColumn('PCS_FechaFin', function ($procesoPrograma) {
+                        return $procesoPrograma->PCS_FechaFin ? with(new Carbon($procesoPrograma->PCS_FechaFin))->format('d/m/Y') : '';;
                     })
                     ->removeColumn('created_at')
                     ->removeColumn('updated_at')
                     ->make(true);
             } else {
-                $procesos_programas = Proceso::with(['fase' => function ($query) {
+                $procesosProgramas = Proceso::with(['fase' => function ($query) {
                     return $query->select('PK_FSS_Id', 'FSS_Nombre');
                 }])
                     ->with('programa.sede')
@@ -90,12 +90,12 @@ class ProcesoProgramaController extends Controller
                     ->where('FK_PCS_Programa', '=', Auth::user()->id_programa)
                     ->get();
 
-                return DataTables::of($procesos_programas)
-                    ->editColumn('PCS_FechaInicio', function ($proceso_programa) {
-                        return $proceso_programa->PCS_FechaInicio ? with(new Carbon($proceso_programa->PCS_FechaInicio))->format('d/m/Y') : '';
+                return DataTables::of($procesosProgramas)
+                    ->editColumn('PCS_FechaInicio', function ($procesoPrograma) {
+                        return $procesoPrograma->PCS_FechaInicio ? with(new Carbon($procesoPrograma->PCS_FechaInicio))->format('d/m/Y') : '';
                     })
-                    ->editColumn('PCS_FechaFin', function ($proceso_programa) {
-                        return $proceso_programa->PCS_FechaFin ? with(new Carbon($proceso_programa->PCS_FechaFin))->format('d/m/Y') : '';;
+                    ->editColumn('PCS_FechaFin', function ($procesoPrograma) {
+                        return $procesoPrograma->PCS_FechaFin ? with(new Carbon($procesoPrograma->PCS_FechaFin))->format('d/m/Y') : '';;
                     })
                     ->removeColumn('created_at')
                     ->removeColumn('updated_at')
@@ -233,11 +233,11 @@ class ProcesoProgramaController extends Controller
             $verificarPlan = PlanMejoramiento::where('FK_PDM_Proceso', '=', $id)
                 ->first();
             if ($verificarPlan == null) {
-                $planmejoramiento = new PlanMejoramiento();
-                $planmejoramiento->PDM_Nombre = "Plan de Mejoramiento " . $request->get('PCS_Nombre');
-                $planmejoramiento->PDM_Descripcion = "Esta es la descripcion mientrastanto :D ";
-                $planmejoramiento->FK_PDM_Proceso = $id;
-                $planmejoramiento->save();
+                $planMejoramiento = new PlanMejoramiento();
+                $planMejoramiento->PDM_Nombre = "Plan de Mejoramiento " . $request->get('PCS_Nombre');
+                $planMejoramiento->PDM_Descripcion = "Esta es la descripcion mientrastanto :D ";
+                $planMejoramiento->FK_PDM_Proceso = $id;
+                $planMejoramiento->save();
             }
         }
         $proceso->FK_PCS_Programa = $request->get('PK_PAC_Id');

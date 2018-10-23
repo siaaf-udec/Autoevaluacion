@@ -28,7 +28,7 @@ class DocumentosAutoevaluacionRequest extends FormRequest
         $archivo = "required";
         $link = "required";
         $id = $this->route()->parameter('documentos_autoevaluacion');
-        $id_archivo = DocumentoAutoevaluacion::find($id);
+        $idArchivo = DocumentoAutoevaluacion::find($id);
         $comprobar = $this->request->get('comprobarArchivo');
         if ($this->hasFile('archivo') && $this->request->get('DOA_Link') !== null) {
             $link = 'file';
@@ -39,10 +39,10 @@ class DocumentosAutoevaluacionRequest extends FormRequest
         } elseif ($this->request->get('DOA_Link') !== null) {
             $link = 'url';
             $archivo = '';
-            if ($this->method() == 'PUT' && ($comprobar == 'true' && isset($id_archivo->FK_DOA_Archivo))) {
+            if ($this->method() == 'PUT' && ($comprobar == 'true' && isset($idArchivo->FK_DOA_Archivo))) {
                 $link = 'file';
             }
-        } elseif ($this->method() == 'PUT' && ($comprobar == 'true' && isset($id_archivo->FK_DOA_Archivo))) {
+        } elseif ($this->method() == 'PUT' && ($comprobar == 'true' && isset($idArchivo->FK_DOA_Archivo))) {
             $archivo = "";
             $link = "";
         }

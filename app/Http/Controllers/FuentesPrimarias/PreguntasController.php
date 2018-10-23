@@ -161,14 +161,14 @@ class PreguntasController extends Controller
          * Se obtiene los factores que estan siendo afectados y tienen relacion con las preguntas
          */
         $factor = new Factor();
-        $id_factor = $pregunta->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
-        $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('nombre_factor', 'PK_FCT_Id');
+        $idFactor = $pregunta->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
+        $factores = $factor->where('FK_FCT_Lineamiento', $idFactor)->get()->pluck('nombre_factor', 'PK_FCT_Id');
         /**
          * Se obtiene los caracteristicas que estan siendo apuntadas por las preguntas
          */
         $caracteristica = new Caracteristica();
-        $id_caracteristica = $pregunta->caracteristica->factor()->pluck('PK_FCT_Id')[0];
-        $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('nombre_caracteristica', 'PK_CRT_Id');
+        $idCaracteristica = $pregunta->caracteristica->factor()->pluck('PK_FCT_Id')[0];
+        $caracteristicas = $caracteristica->where('FK_CRT_Factor', $idCaracteristica)->get()->pluck('nombre_caracteristica', 'PK_CRT_Id');
         return view('autoevaluacion.FuentesPrimarias.Preguntas.edit',
             compact('pregunta', 'estados', 'factores', 'caracteristicas', 'respuestas', 'lineamientos', 'ponderaciones')
         );
@@ -211,12 +211,12 @@ class PreguntasController extends Controller
     public function destroy($id)
     {
         $pregunta = Pregunta::findOrFail($id);
-        $preguntas_encuesta = PreguntaEncuesta::with('banco.encuestas')
+        $preguntasEncuesta = PreguntaEncuesta::with('banco.encuestas')
             ->where('FK_PEN_Pregunta', '=', $pregunta->PK_PGT_Id)
             ->get();
         $contador = 0;
-        foreach ($preguntas_encuesta as $pregunta_encuesta) {
-            foreach ($pregunta_encuesta->banco->encuestas as $encuesta) {
+        foreach ($preguntasEncuesta as $preguntaEncuesta) {
+            foreach ($preguntaEncuesta->banco->encuestas as $encuesta) {
                 $proceso = Proceso::find($encuesta->FK_ECT_Proceso);
                 if ($proceso->FK_PCS_Fase == 4) $contador = 1;
                 break;

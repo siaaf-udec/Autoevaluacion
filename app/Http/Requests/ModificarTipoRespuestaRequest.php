@@ -51,8 +51,8 @@ class ModificarTipoRespuestaRequest extends FormRequest
         $validator->after(function ($validator) {
             $id = $this->route()->parameter('tipoRespuestum');
             $sumatoria = 0;
-            $valor_one = 0;
-            $valor_dos = 0;
+            $valorOne = 0;
+            $valorDos = 0;
             $bandera = 0;
             foreach (PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)->get() as $ponderacion) {
                 $sumatoria = $sumatoria + $this->request->get($ponderacion->PK_PRT_Id);
@@ -64,13 +64,13 @@ class ModificarTipoRespuestaRequest extends FormRequest
             foreach (PonderacionRespuesta::where('FK_PRT_TipoRespuestas', $id)->get() as $ponderacion) {
                 $sumatoria = $sumatoria + $this->request->get($ponderacion->PK_PRT_Id);
                 if ($i == 1) {
-                    $valor_one = $this->request->get($ponderacion->PK_PRT_Id);
+                    $valorOne = $this->request->get($ponderacion->PK_PRT_Id);
                 }
                 if ($i == 2) {
-                    if ($valor_one <= $this->request->get($ponderacion->PK_PRT_Id)) {
+                    if ($valorOne <= $this->request->get($ponderacion->PK_PRT_Id)) {
                         $bandera = 1;
                     }
-                    $valor_one = $this->request->get($ponderacion->PK_PRT_Id);
+                    $valorOne = $this->request->get($ponderacion->PK_PRT_Id);
                 }
                 $i = 2;
             }

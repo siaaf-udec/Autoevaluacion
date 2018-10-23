@@ -25,11 +25,12 @@ class FactoresRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route()->parameter('factore');
         return [
             'FCT_Nombre' => 'required',
             'FCT_Descripcion' => 'required',
             'FCT_Identificador' => 'required|numeric|' . Rule::unique('TBL_Factores', 'FCT_Identificador')
-                    ->where('FK_FCT_Lineamiento', $this->request->get('FK_FCT_Lineamiento')),
+                    ->where('FK_FCT_Lineamiento', $this->request->get('FK_FCT_Lineamiento'))->ignore($id, 'PK_FCT_Id'),
             'FCT_Ponderacion_factor' => 'required|numeric',
             'FK_FCT_Estado' => 'exists:TBL_Estados,PK_ESD_Id',
             'FK_FCT_Lineamiento' => 'exists:TBL_Lineamientos,PK_LNM_Id'

@@ -41,23 +41,23 @@ class DocumentoInstitucionalController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $docinstitucional = DocumentoInstitucional::with('archivo', 'grupodocumento')
+            $docInstitucional = DocumentoInstitucional::with('archivo', 'grupodocumento')
                 ->get();
-            return Datatables::of($docinstitucional)
-                ->addColumn('archivo', function ($docinstitucional) {
+            return Datatables::of($docInstitucional)
+                ->addColumn('archivo', function ($docInstitucional) {
                     /**
                      * Si el documento tiene una archivo guardado en el servidor
                      * Se obtiene el url y se coloca en un link, si no es asi es porque tiene
                      * una url entonces también se le asignar a un botón tipo link.
                      */
-                    if (!$docinstitucional->archivo) {
-                        return '<a class="btn btn-success btn-xs" href="' . $docinstitucional->link .
+                    if (!$docInstitucional->archivo) {
+                        return '<a class="btn btn-success btn-xs" href="' . $docInstitucional->link .
                             '"target="_blank" role="button">Enlace al documento</a>';
                     } else {
 
                         return '<a class="btn btn-success btn-xs" href="' . route('descargar') . '?archivo=' .
-                            $docinstitucional->archivo->ruta .
-                            '" target="_blank" role="button">' . $docinstitucional->archivo->ACV_Nombre . '</a>';
+                            $docInstitucional->archivo->ruta .
+                            '" target="_blank" role="button">' . $docInstitucional->archivo->ACV_Nombre . '</a>';
 
 
                     }
@@ -77,8 +77,8 @@ class DocumentoInstitucionalController extends Controller
      */
     public function create()
     {
-        $grupodocumentos = GrupoDocumento::pluck('GRD_Nombre', 'PK_GRD_Id');
-        return view('autoevaluacion.FuentesSecundarias.DocumentoInstitucional.create', compact('grupodocumentos'));
+        $grupoDocumentos = GrupoDocumento::pluck('GRD_Nombre', 'PK_GRD_Id');
+        return view('autoevaluacion.FuentesSecundarias.DocumentoInstitucional.create', compact('grupoDocumentos'));
     }
 
     /**
@@ -99,17 +99,17 @@ class DocumentoInstitucionalController extends Controller
             $archivo->ACV_Nombre = $file->getClientOriginalName();
             $archivo->ACV_Extension = $file->extension();
             $carpeta = GrupoDocumento::find($request->FK_DOI_GrupoDocumento);
-            $nombrecarpeta = $carpeta->GRD_Nombre;
-            $archivo->ruta = Storage::url($file->store('public/DocumentosInstitucionales/' . $nombrecarpeta));
+            $nombreCarpeta = $carpeta->GRD_Nombre;
+            $archivo->ruta = Storage::url($file->store('public/DocumentosInstitucionales/' . $nombreCarpeta));
             $archivo->save();
 
-            $docinstitucional = new DocumentoInstitucional;
-            $docinstitucional->DOI_Nombre = $request->DOI_Nombre;
-            $docinstitucional->DOI_Descripcion = $request->DOI_Descripcion;
-            $docinstitucional->link = $request->link;
-            $docinstitucional->FK_DOI_Archivo = $archivo->PK_ACV_Id;
-            $docinstitucional->FK_DOI_GrupoDocumento = $request->FK_DOI_GrupoDocumento;
-            $docinstitucional->save();
+            $docInstitucional = new DocumentoInstitucional;
+            $docInstitucional->DOI_Nombre = $request->DOI_Nombre;
+            $docInstitucional->DOI_Descripcion = $request->DOI_Descripcion;
+            $docInstitucional->link = $request->link;
+            $docInstitucional->FK_DOI_Archivo = $archivo->PK_ACV_Id;
+            $docInstitucional->FK_DOI_GrupoDocumento = $request->FK_DOI_GrupoDocumento;
+            $docInstitucional->save();
         } else {
             DocumentoInstitucional::create($request->except('archivo'));
         }
@@ -138,13 +138,13 @@ class DocumentoInstitucionalController extends Controller
      */
     public function edit($id)
     {
-        $grupodocumentos = GrupoDocumento::pluck('GRD_Nombre', 'PK_GRD_Id');
+        $grupoDocumentos = GrupoDocumento::pluck('GRD_Nombre', 'PK_GRD_Id');
         $documento = DocumentoInstitucional::findOrFail($id);
         $size = $documento->archivo ? filesize(public_path($documento->archivo->ruta)) : null;
         return view('autoevaluacion.FuentesSecundarias.DocumentoInstitucional.edit', [
             'user' => $documento,
             'edit' => true,
-        ], compact('grupodocumentos', 'size'));
+        ], compact('grupoDocumentos', 'size'));
     }
 
     /**
@@ -170,8 +170,8 @@ class DocumentoInstitucionalController extends Controller
             $nombre = $archivo->getClientOriginalName();
             $extension = $archivo->getClientOriginalExtension();
             $carpeta = GrupoDocumento::find($request->FK_DOI_GrupoDocumento);
-            $nombrecarpeta = $carpeta->GRD_Nombre;
-            $url = Storage::url($archivo->store('public/DocumentosInstitucionales/' . $nombrecarpeta));
+            $nombreCarpeta = $carpeta->GRD_Nombre;
+            $url = Storage::url($archivo->store('public/DocumentosInstitucionales/' . $nombreCarpeta));
 
             /**
              * Si el documento y tenia un documento se elimina este y se guarda el nuevo,
@@ -185,7 +185,7 @@ class DocumentoInstitucionalController extends Controller
                 $archivos->ACV_Extension = $extension;
                 $archivos->ruta = $url;
                 $archivos->update();
-                $id_archivo = $archivos->PK_ACV_Id;
+                $idArchivo = $archivos->PK_ACV_Id;
             } else {
                 $archivos = new Archivo();
                 $archivos->ACV_Nombre = $nombre;
@@ -193,7 +193,7 @@ class DocumentoInstitucionalController extends Controller
                 $archivos->ruta = $url;
                 $archivos->save();
 
-                $id_archivo = $archivos->PK_ACV_Id;
+                $idArchivo = $archivos->PK_ACV_Id;
             }
         }
 
@@ -214,8 +214,8 @@ class DocumentoInstitucionalController extends Controller
             'link',
         ]));
 
-        if (isset($id_archivo)) {
-            $documento->FK_DOI_Archivo = $id_archivo;
+        if (isset($idArchivo)) {
+            $documento->FK_DOI_Archivo = $idArchivo;
         }
 
         $documento->FK_DOI_GrupoDocumento = $request->FK_DOI_GrupoDocumento;

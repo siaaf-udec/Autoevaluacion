@@ -27,19 +27,19 @@ class ImportarPreguntas implements ShouldQueue
      */
     public $tries = 3;
 
-    protected $url_archivo, $id_proceso;
+    protected $urlArchivo, $idProceso;
 
     /**
      * Constructor del job para recibir la url del archivo excel que se guarda temporalmente
      * para ser importado, ademas del proceso al cual pertenece.
      *
-     * @param string $url_archivo
-     * @param int $id_proceso
+     * @param string $urlArchivo
+     * @param int $idProceso
      */
-    public function __construct($url_archivo, $id_proceso)
+    public function __construct($urlArchivo, $idProceso)
     {
-        $this->url_archivo = $url_archivo;
-        $this->id_proceso = $id_proceso;
+        $this->urlArchivo = $urlArchivo;
+        $this->idProceso = $idProceso;
 
     }
 
@@ -51,13 +51,13 @@ class ImportarPreguntas implements ShouldQueue
     public function handle()
     {
         try {
-            $id_proceso = $this->id_proceso;
+            $idProceso = $this->idProceso;
             //Se seleccionan solo las hojas del archivo escel especificadas en la funcion
-            Excel::selectSheets('TIPO', 'PONDERACION', 'PREGUNTA', 'RESPUESTA')->load(public_path($this->url_archivo), function ($reader) use ($id_proceso) {
+            Excel::selectSheets('TIPO', 'PONDERACION', 'PREGUNTA', 'RESPUESTA')->load(public_path($this->urlArchivo), function ($reader) use ($idProceso) {
                 // obtiene todas las hojas del excel y las conveirte en array
                 $sheets = $reader->all()->toArray();
 
-                $tipo_respuesta = [];
+                $tipoRespuesta = [];
 
                 $count = count($sheets);
                 //Si contiene menos de cuatro hojas y al menos una en este caso sera el tipo de respuesta
@@ -70,7 +70,7 @@ class ImportarPreguntas implements ShouldQueue
                         $tipoRespuesta->TRP_Descripcion = $row['descripcion'];
                         $tipoRespuesta->FK_TRP_Estado = 1;
                         $tipoRespuesta->save();
-                        $tipo_respuesta[$row['numero_tipo_respuesta']] = $tipoRespuesta->PK_TRP_Id;
+                        $tipoRespuesta[$row['numero_tipoRespuesta']] = $tipoRespuesta->PK_TRP_Id;
                     }
                 }
                 //Si contiene menos de tres hojas y al menos mas de dos esta incluye ponderaciones para cada respuesta
@@ -81,14 +81,14 @@ class ImportarPreguntas implements ShouldQueue
                         $ponderacion = new PonderacionRespuesta();
                         $ponderacion->PRT_Ponderacion = $row['ponderacion'];
                         $ponderacion->PRT_Rango = $row['rango'];
-                        $ponderacion->FK_PRT_TipoRespuestas = $tipo_respuesta[$row['tipo_respuesta']];
+                        $ponderacion->FK_PRT_TipoRespuestas = $tipoRespuesta[$row['tipoRespuesta']];
                         $ponderacion->save();
                         $ponderaciones[$row['numero_ponderacion']] = $ponderacion->PK_PRT_Id;
                     }
                 }
                 //El archivo puede ser unicamente cargado al sistema unicamente cuando exista proceso seleccionado
                 $lineamiento = Proceso::select('FK_PCS_Lineamiento')
-                    ->where('PK_PCS_Id', '=', $id_proceso)
+                    ->where('PK_PCS_Id', '=', $idProceso)
                     ->first();
                 $caracteristicas = Caracteristica::whereHas('factor', function ($query) use ($lineamiento) {
                     return $query->where('FK_FCT_Lineamiento', $lineamiento->FK_PCS_Lineamiento);
@@ -103,7 +103,7 @@ class ImportarPreguntas implements ShouldQueue
                         $pregunta = new Pregunta();
                         $pregunta->PGT_Texto = $row['pregunta'];
                         $pregunta->FK_PGT_Estado = 1;
-                        $pregunta->FK_PGT_TipoRespuesta = $tipo_respuesta[$row['tipo_respuesta']];
+                        $pregunta->FK_PGT_TipoRespuesta = $tipoRespuesta[$row['tipoRespuesta']];
                         $id = $caracteristicas->where('CRT_Identificador', $row['numero_caracteristica'])->first();
 
                         $pregunta->FK_PGT_Caracteristica = $id->PK_CRT_Id;
@@ -132,7 +132,7 @@ class ImportarPreguntas implements ShouldQueue
              * que fue guardado en el servidor
              */
 
-            $ruta = str_replace('storage', 'public', $this->url_archivo);
+            $ruta = str_replace('storage', 'public', $this->urlArchivo);
             Storage::delete($ruta);
         }
     }

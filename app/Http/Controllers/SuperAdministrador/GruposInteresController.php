@@ -46,8 +46,8 @@ class GruposInteresController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $grupos_interes = GrupoInteres::with('estado')->get();
-            return Datatables::of($grupos_interes)
+            $grupoInteres = GrupoInteres::with('estado')->get();
+            return Datatables::of($grupoInteres)
                 ->make(true);
         }
     }
@@ -73,15 +73,15 @@ class GruposInteresController extends Controller
      */
     public function store(GruposInteresRequest $request)
     {
-        $grupos_interes = new GrupoInteres();
-        $grupos_interes->fill($request->only(['GIT_Nombre']));
-        $grupos_interes->FK_GIT_Estado = $request->get('PK_ESD_Id');
+        $grupoInteres = new GrupoInteres();
+        $grupoInteres->fill($request->only(['GIT_Nombre']));
+        $grupoInteres->FK_GIT_Estado = $request->get('PK_ESD_Id');
         $nombres = explode(' ', strtolower($request->get('GIT_Nombre')));
         $slug = "";
         foreach ($nombres as $nombre) $slug = $slug . '_' . $nombre;
-        $grupos_interes->GIT_Slug = $slug;
-        $grupos_interes->FK_GIT_Estado = $request->get('PK_ESD_Id');
-        $grupos_interes->save();
+        $grupoInteres->GIT_Slug = $slug;
+        $grupoInteres->FK_GIT_Estado = $request->get('PK_ESD_Id');
+        $grupoInteres->save();
         return response([
             'msg' => 'Grupo de interes registrado correctamente.',
             'title' => '¡Registro exitoso!'
@@ -123,14 +123,14 @@ class GruposInteresController extends Controller
      */
     public function update(GruposInteresRequest $request, $id)
     {
-        $grupos_interes = GrupoInteres::findOrFail($id);
-        $grupos_interes->fill($request->only(['GIT_Nombre']));
-        $grupos_interes->FK_GIT_Estado = $request->get('PK_ESD_Id');
+        $grupoInteres = GrupoInteres::findOrFail($id);
+        $grupoInteres->fill($request->only(['GIT_Nombre']));
+        $grupoInteres->FK_GIT_Estado = $request->get('PK_ESD_Id');
         $nombres = explode(' ', strtolower($request->get('GIT_Nombre')));
         $slug = "";
         foreach ($nombres as $nombre) $slug = $slug . '_' . $nombre;
-        $grupos_interes->GIT_Slug = $slug;
-        $grupos_interes->update();
+        $grupoInteres->GIT_Slug = $slug;
+        $grupoInteres->update();
         return response([
             'msg' => 'El grupo de interes ha sido modificado exitosamente.',
             'title' => 'Grupo de Interes Modificado!'
@@ -149,8 +149,8 @@ class GruposInteresController extends Controller
      */
     public function destroy($id)
     {
-        $grupos_interes = GrupoInteres::findOrFail($id);
-        $grupos_interes->delete();
+        $grupoInteres = GrupoInteres::findOrFail($id);
+        $grupoInteres->delete();
         return response([
             'msg' => 'El grupo de interes ha sido eliminado exitosamente.',
             'title' => '¡Grupo de Interes Eliminado!'

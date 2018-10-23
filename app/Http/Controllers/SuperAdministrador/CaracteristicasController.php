@@ -149,8 +149,8 @@ class CaracteristicasController extends Controller
         $ambitos = AmbitoResponsabilidad::pluck('AMB_Nombre', 'PK_AMB_Id');
 
         $factor = new Factor();
-        $id_factor = $caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
-        $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('nombre_factor', 'PK_FCT_Id');
+        $idFactor = $caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
+        $factores = $factor->where('FK_FCT_Lineamiento', $idFactor)->get()->pluck('nombre_factor', 'PK_FCT_Id');
 
         return view('autoevaluacion.SuperAdministrador.Caracteristicas.edit', [
             'user' => Caracteristica::findOrFail($id),

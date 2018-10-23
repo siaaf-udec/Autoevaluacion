@@ -48,8 +48,8 @@ class BancoEncuestasController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $banco_encuestas = BancoEncuestas::all();
-            return Datatables::of($banco_encuestas)
+            $bancoEncuestas = BancoEncuestas::all();
+            return Datatables::of($bancoEncuestas)
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
                 ->make(true);
@@ -78,9 +78,9 @@ class BancoEncuestasController extends Controller
      */
     public function store(BancoEncuestasRequest $request)
     {
-        $banco_encuestas = new BancoEncuestas();
-        $banco_encuestas->fill($request->only(['BEC_Nombre', 'BEC_Descripcion']));
-        $banco_encuestas->save();
+        $bancoEncuestas = new BancoEncuestas();
+        $bancoEncuestas->fill($request->only(['BEC_Nombre', 'BEC_Descripcion']));
+        $bancoEncuestas->save();
         return response(['msg' => 'Datos de encuesta registrados correctamente.',
             'title' => '¡Registro exitoso!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
@@ -118,9 +118,9 @@ class BancoEncuestasController extends Controller
      */
     public function update(BancoEncuestasRequest $request, $id)
     {
-        $banco_encuestas = BancoEncuestas::findOrFail($id);
-        $banco_encuestas->fill($request->only(['BEC_Nombre', 'BEC_Descripcion']));
-        $banco_encuestas->update();
+        $bancoEncuestas = BancoEncuestas::findOrFail($id);
+        $bancoEncuestas->fill($request->only(['BEC_Nombre', 'BEC_Descripcion']));
+        $bancoEncuestas->update();
         return response(['msg' => 'Los datos han sido modificados exitosamente.',
             'title' => 'Datos Modificados!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
@@ -135,14 +135,14 @@ class BancoEncuestasController extends Controller
      */
     public function destroy($id)
     {
-        $banco_encuestas = BancoEncuestas::findOrFail($id);
+        $bancoEncuestas = BancoEncuestas::findOrFail($id);
         $encuestas = Encuesta::whereHas('proceso', function ($query) {
             return $query->where('FK_PCS_Fase', '=', '4');
         })
-            ->where('FK_ECT_Banco_Encuestas', '=', $banco_encuestas->PK_BEC_Id)
+            ->where('FK_ECT_Banco_Encuestas', '=', $bancoEncuestas->PK_BEC_Id)
             ->get();
         if ($encuestas->count() == 0) {
-            $banco_encuestas->delete();
+            $bancoEncuestas->delete();
             return response(['msg' => 'La encuesta ha sido eliminada exitosamente.',
                 'title' => 'Encuesta Eliminada!'
             ], 200)// 200 Status Code: Standard response for successful HTTP request

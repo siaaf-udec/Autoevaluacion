@@ -223,7 +223,7 @@
         function SwalDelete(id, route) {
             swal({
                 title: 'Esta seguro?',
-                text: "SE ELIMINARA EL AMBITO SOCIO !",
+                text: "Se eliminara el ambito permanentemente!",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

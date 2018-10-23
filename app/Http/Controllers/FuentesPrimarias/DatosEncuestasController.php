@@ -73,10 +73,10 @@ class DatosEncuestasController extends Controller
      */
     public function store(DatosEncuestasRequest $request)
     {
-        $datos_encuesta = new DatosEncuesta();
-        $datos_encuesta->fill($request->only(['DAE_Titulo', 'DAE_Descripcion']));
-        $datos_encuesta->FK_DAE_GruposInteres = $request->get('PK_GIT_Id');
-        $datos_encuesta->save();
+        $datosEncuesta = new DatosEncuesta();
+        $datosEncuesta->fill($request->only(['DAE_Titulo', 'DAE_Descripcion']));
+        $datosEncuesta->FK_DAE_GruposInteres = $request->get('PK_GIT_Id');
+        $datosEncuesta->save();
         return response(['msg' => 'Datos registrados correctamente.',
             'title' => '¡Registro exitoso!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
@@ -113,10 +113,10 @@ class DatosEncuestasController extends Controller
      */
     public function update(DatosEncuestasRequest $request, $id)
     {
-        $datos_encuesta = DatosEncuesta::findOrFail($id);
-        $datos_encuesta->fill($request->only(['DAE_Titulo', 'DAE_Descripcion']));
-        $datos_encuesta->FK_DAE_GruposInteres = $request->get('PK_GIT_Id');
-        $datos_encuesta->update();
+        $datosEncuesta = DatosEncuesta::findOrFail($id);
+        $datosEncuesta->fill($request->only(['DAE_Titulo', 'DAE_Descripcion']));
+        $datosEncuesta->FK_DAE_GruposInteres = $request->get('PK_GIT_Id');
+        $datosEncuesta->update();
         return response(['msg' => 'Los datos han sido modificado exitosamente.',
             'title' => 'Datos Modificados!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
@@ -131,8 +131,8 @@ class DatosEncuestasController extends Controller
      */
     public function destroy($id)
     {
-        $datos_encuesta = DatosEncuesta::findOrFail($id);
-        $datos_encuesta->delete();
+        $datosEncuesta = DatosEncuesta::findOrFail($id);
+        $datosEncuesta->delete();
         return response(['msg' => 'Los datos han sido eliminados exitosamente.',
             'title' => 'Datos Eliminados!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request

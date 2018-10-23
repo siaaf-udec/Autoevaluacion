@@ -54,7 +54,7 @@ class ProgramaAcademicoController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $programas_academicos = ProgramaAcademico::with(['facultad' => function ($query) {
+            $programasAcademicos = ProgramaAcademico::with(['facultad' => function ($query) {
                 return $query->select('PK_FCD_Id', 'FCD_Nombre');
 
             }])
@@ -65,7 +65,7 @@ class ProgramaAcademicoController extends Controller
                     return $query->select('PK_ESD_Id', 'ESD_Nombre');
                 }])
                 ->get();
-            return DataTables::of($programas_academicos)
+            return DataTables::of($programasAcademicos)
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
                 ->make(true);
@@ -105,12 +105,12 @@ class ProgramaAcademicoController extends Controller
      */
     public function store(ProgramasAcademicosRequest $request)
     {
-        $programa_academico = new ProgramaAcademico();
-        $programa_academico->fill($request->only(['PAC_Nombre', 'PAC_Descripcion']));
-        $programa_academico->FK_PAC_Sede = $request->get('PK_SDS_Id');
-        $programa_academico->FK_PAC_Estado = $request->get('PK_ESD_Id');
-        $programa_academico->FK_PAC_Facultad = $request->get('PK_FCD_Id');
-        $programa_academico->save();
+        $programaAcademico = new ProgramaAcademico();
+        $programaAcademico->fill($request->only(['PAC_Nombre', 'PAC_Descripcion']));
+        $programaAcademico->FK_PAC_Sede = $request->get('PK_SDS_Id');
+        $programaAcademico->FK_PAC_Estado = $request->get('PK_ESD_Id');
+        $programaAcademico->FK_PAC_Facultad = $request->get('PK_FCD_Id');
+        $programaAcademico->save();
 
         return response([
             'msg' => 'Programa academico registrado correctamente.',
@@ -140,7 +140,7 @@ class ProgramaAcademicoController extends Controller
      */
     public function edit($id)
     {
-        $programa_academico = ProgramaAcademico::findOrFail($id);
+        $programaAcademico = ProgramaAcademico::findOrFail($id);
         $sedes = Sede::pluck('SDS_Nombre', 'PK_SDS_Id');
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         $facultades = Facultad::pluck('FCD_Nombre', 'PK_FCD_Id');
@@ -148,7 +148,7 @@ class ProgramaAcademicoController extends Controller
 
         return view(
             'autoevaluacion.SuperAdministrador.ProgramasAcademicos.edit',
-            compact('programa_academico', 'sedes', 'estados', 'facultades')
+            compact('programaAcademico', 'sedes', 'estados', 'facultades')
         );
     }
 
@@ -164,13 +164,13 @@ class ProgramaAcademicoController extends Controller
      */
     public function update(ProgramasAcademicosRequest $request, $id)
     {
-        $programa_academico = ProgramaAcademico::find($id);
-        $programa_academico->fill($request->only(['PAC_Nombre', 'PAC_Descripcion']));
-        $programa_academico->FK_PAC_Sede = $request->get('PK_SDS_Id');
-        $programa_academico->FK_PAC_Estado = $request->get('PK_ESD_Id');
-        $programa_academico->FK_PAC_Facultad = $request->get('PK_FCD_Id');
+        $programaAcademico = ProgramaAcademico::find($id);
+        $programaAcademico->fill($request->only(['PAC_Nombre', 'PAC_Descripcion']));
+        $programaAcademico->FK_PAC_Sede = $request->get('PK_SDS_Id');
+        $programaAcademico->FK_PAC_Estado = $request->get('PK_ESD_Id');
+        $programaAcademico->FK_PAC_Facultad = $request->get('PK_FCD_Id');
 
-        $programa_academico->update();
+        $programaAcademico->update();
 
 
         return response([

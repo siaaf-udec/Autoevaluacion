@@ -18,8 +18,8 @@ class ReportesPlanMejoramientoController extends Controller
      */
     public function index()
     {
-        $id_lineamiento = Proceso::find(session()->get('id_proceso'))->FK_PCS_Lineamiento ?? null;
-        $factores = Factor::where('FK_FCT_Lineamiento', '=', $id_lineamiento)
+        $idLineamiento = Proceso::find(session()->get('id_proceso'))->FK_PCS_Lineamiento ?? null;
+        $factores = Factor::where('FK_FCT_Lineamiento', '=', $idLineamiento)
             ->get()->pluck('nombre_factor', 'PK_FCT_Id');
         return view('autoevaluacion.SuperAdministrador.ReportesPlanMejoramiento.index', compact('factores'));
     }
@@ -32,9 +32,9 @@ class ReportesPlanMejoramientoController extends Controller
     public function obtenerDatos(Request $request)
     {
         //valorizacion de las caracteristicas
-        $labels_caracteristicas = [];
-        $data_caracteristicas = [];
-        $data_factor = [];
+        $labelsCaracteristicas = [];
+        $dataCaracteristicas = [];
+        $dataFactor = [];
 
         $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query) {
             return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
@@ -44,7 +44,7 @@ class ReportesPlanMejoramientoController extends Controller
             ->get();
 
         foreach ($caracteristicas as $caracteristica) {
-            array_push($labels_caracteristicas, $caracteristica->CRT_Nombre);
+            array_push($labelsCaracteristicas, $caracteristica->CRT_Nombre);
             $soluciones = SolucionEncuesta::whereHas('encuestados.encuesta', function ($query) {
                 return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
             })
@@ -59,12 +59,12 @@ class ReportesPlanMejoramientoController extends Controller
                 $totalponderacion = $totalponderacion + (10 / $solucion->respuestas->ponderacion->PRT_Rango);
             }
             $prueba = $totalponderacion / $prueba;
-            array_push($data_caracteristicas, $prueba);
+            array_push($dataCaracteristicas, $prueba);
         }
         $datos = [];
-        $datos['labels_caracteristicas'] = $labels_caracteristicas;
-        $datos['data_caracteristicas'] = array($data_caracteristicas);
-        $datos['data_factor'] = array($data_factor);
+        $datos['labels_caracteristicas'] = $labelsCaracteristicas;
+        $datos['data_caracteristicas'] = array($dataCaracteristicas);
+        $datos['data_factor'] = array($dataFactor);
         return json_encode($datos);
     }
 
@@ -73,9 +73,9 @@ class ReportesPlanMejoramientoController extends Controller
         /*filtro para obtener la valorizacion de las caracteristicas pertenecientes al factor digitado 
         por el usuario.
         */
-        $labels_caracteristicas = [];
-        $data_caracteristicas = [];
-        $data_factor = [];
+        $labelsCaracteristicas = [];
+        $dataCaracteristicas = [];
+        $dataFactor = [];
 
 
         $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query) {
@@ -85,9 +85,9 @@ class ReportesPlanMejoramientoController extends Controller
             ->groupby('PK_CRT_Id')
             ->get();
 
-        array_push($data_factor, Factor::where('PK_FCT_Id', $request->get('PK_FCT_Id'))->first()->FCT_Nombre);
+        array_push($dataFactor, Factor::where('PK_FCT_Id', $request->get('PK_FCT_Id'))->first()->FCT_Nombre);
         foreach ($caracteristicas as $caracteristica) {
-            array_push($labels_caracteristicas, $caracteristica->CRT_Nombre);
+            array_push($labelsCaracteristicas, $caracteristica->CRT_Nombre);
             $soluciones = SolucionEncuesta::whereHas('encuestados.encuesta', function ($query) {
                 return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));
             })
@@ -102,12 +102,12 @@ class ReportesPlanMejoramientoController extends Controller
                 $totalponderacion = $totalponderacion + (10 / $solucion->respuestas->ponderacion->PRT_Rango);
             }
             $prueba = $totalponderacion / $prueba;
-            array_push($data_caracteristicas, $prueba);
+            array_push($dataCaracteristicas, $prueba);
         }
         $datos = [];
-        $datos['labels_caracteristicas'] = $labels_caracteristicas;
-        $datos['data_caracteristicas'] = array($data_caracteristicas);
-        $datos['data_factor'] = array($data_factor);
+        $datos['labels_caracteristicas'] = $labelsCaracteristicas;
+        $datos['data_caracteristicas'] = array($dataCaracteristicas);
+        $datos['data_factor'] = array($dataFactor);
         return json_encode($datos);
 
     }

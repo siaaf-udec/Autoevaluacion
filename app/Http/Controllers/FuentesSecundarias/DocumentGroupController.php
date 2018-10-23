@@ -42,8 +42,8 @@ class DocumentGroupController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $grupodoc = GrupoDocumento::all();
-            return Datatables::of($grupodoc)
+            $grupoDoc = GrupoDocumento::all();
+            return Datatables::of($grupoDoc)
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
                 ->addIndexColumn()
@@ -106,7 +106,7 @@ class DocumentGroupController extends Controller
     public function edit($id)
     {
         return view('autoevaluacion.FuentesSecundarias.DocumentGroup.edit', [
-            'grupodocumento' => GrupoDocumento::findOrFail($id),
+            'grupoDocumento' => GrupoDocumento::findOrFail($id),
             'edit' => true
         ]);
 
@@ -121,9 +121,9 @@ class DocumentGroupController extends Controller
      */
     public function update(DocumentGroupRequest $request, $id)
     {
-        $grupodocumento = GrupoDocumento::find($id);
-        $grupodocumento->fill($request->all());
-        $grupodocumento->save();
+        $grupoDocumento = GrupoDocumento::find($id);
+        $grupoDocumento->fill($request->all());
+        $grupoDocumento->save();
         return response(['msg' => 'El grupo ha sido modificado exitosamente.',
             'title' => 'Grupo Modificado!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request

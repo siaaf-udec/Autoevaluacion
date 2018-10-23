@@ -53,7 +53,7 @@ class DocumentoAutoevaluacionController extends Controller
             /**
              * Obtiene todos los documentos que tengan archivo, dependencia, proceso
              */
-            $documentos_autoevaluacion = DocumentoAutoevaluacion::with('indicadorDocumental.caracteristica.factor')
+            $documentosAutoevaluacion = DocumentoAutoevaluacion::with('indicadorDocumental.caracteristica.factor')
                 ->with('archivo')
                 ->with(['tipoDocumento' => function ($query) {
                     return $query->select('PK_TDO_Id', 'TDO_Nombre');
@@ -64,42 +64,42 @@ class DocumentoAutoevaluacionController extends Controller
                 ->where('FK_DOA_Proceso', '=', session()->get('id_proceso'))
                 ->get();
 
-            return DataTables::of($documentos_autoevaluacion)
-                ->addColumn('file', function ($documento_autoevaluacion) {
+            return DataTables::of($documentosAutoevaluacion)
+                ->addColumn('file', function ($documentoAutoevaluacion) {
                     /**
                      * Si el documento tiene una archivo guardado en el servidor
                      * Se obtiene el url y se coloca en un link, si no es asi es porque tiene
                      * una url entonces también se le asignar a un botón tipo link.
                      */
-                    if (!$documento_autoevaluacion->archivo) {
-                        return '<a class="btn btn-success btn-xs" href="' . $documento_autoevaluacion->DOA_Link .
+                    if (!$documentoAutoevaluacion->archivo) {
+                        return '<a class="btn btn-success btn-xs" href="' . $documentoAutoevaluacion->DOA_Link .
                             '"target="_blank" role="button">Descargar</a>';
                     } else {
 
                         return '<a class="btn btn-success btn-xs" href="' . route('descargar') . '?archivo=' .
-                            $documento_autoevaluacion->archivo->ruta .
+                            $documentoAutoevaluacion->archivo->ruta .
                             '" target="_blank" role="button">Descargar</a>';
                     }
                 })
-                ->addColumn('nombre', function ($documento_autoevaluacion) {
+                ->addColumn('nombre', function ($documentoAutoevaluacion) {
                     /**
                      * Se agrega el nombre original del archivo si no tiene es porque
                      * tiene un link, simplemente se le coloca link para identificar.
                      */
-                    if ($documento_autoevaluacion->archivo) {
-                        return $documento_autoevaluacion->archivo->ACV_Nombre;
+                    if ($documentoAutoevaluacion->archivo) {
+                        return $documentoAutoevaluacion->archivo->ACV_Nombre;
                     } else {
                         return 'Link';
                     }
                 })
-                ->addColumn('nombre_factor', function ($documento_autoevaluacion) {
-                    return $documento_autoevaluacion->indicadorDocumental->caracteristica->factor->nombre_factor;
+                ->addColumn('nombre_factor', function ($documentoAutoevaluacion) {
+                    return $documentoAutoevaluacion->indicadorDocumental->caracteristica->factor->nombre_factor;
                 })
-                ->addColumn('nombre_caracteristica', function ($documento_autoevaluacion) {
-                    return $documento_autoevaluacion->indicadorDocumental->caracteristica->nombre_caracteristica;
+                ->addColumn('nombre_caracteristica', function ($documentoAutoevaluacion) {
+                    return $documentoAutoevaluacion->indicadorDocumental->caracteristica->nombre_caracteristica;
                 })
-                ->addColumn('nombre_indicador', function ($documento_autoevaluacion) {
-                    return $documento_autoevaluacion->indicadorDocumental->nombre_indicador;
+                ->addColumn('nombre_indicador', function ($documentoAutoevaluacion) {
+                    return $documentoAutoevaluacion->indicadorDocumental->nombre_indicador;
                 })
                 ->rawColumns(['file'])
                 ->removeColumn('created_at')
@@ -118,24 +118,24 @@ class DocumentoAutoevaluacionController extends Controller
     {
         /**
          * Se obtiene el lineamiento del proceso que tiene seleccionado
-         * sino tiene un proceso selecionado se deja nulo el id_lineamiento
+         * sino tiene un proceso selecionado se deja nulo el idLineamiento
          */
-        $id_lineamiento = Proceso::find(session()->get('id_proceso'))->FK_PCS_Lineamiento ?? null;
+        $idLineamiento = Proceso::find(session()->get('id_proceso'))->FK_PCS_Lineamiento ?? null;
 
         /**
          * Se obtiene los factores que tenga características y que estas características
          * también tengan relacionados indicadores
          */
         $factores = Factor::has('caracteristica.indicadores_documentales')
-            ->where('FK_FCT_Lineamiento', '=', $id_lineamiento)
+            ->where('FK_FCT_Lineamiento', '=', $idLineamiento)
             ->where('FK_FCT_estado', '=', '1')
             ->get()
             ->pluck('nombre_factor', 'PK_FCT_Id');
         $dependencias = Dependencia::pluck('DPC_Nombre', 'PK_DPC_Id');
-        $tipo_documentos = TipoDocumento::pluck('TDO_Nombre', 'PK_TDO_Id');
+        $tipoDocumentos = TipoDocumento::pluck('TDO_Nombre', 'PK_TDO_Id');
 
         return view('autoevaluacion.FuentesSecundarias.DocumentosAutoevaluacion.create',
-            compact('factores', 'dependencias', 'tipo_documentos'));
+            compact('factores', 'dependencias', 'tipoDocumentos'));
     }
 
     /**
@@ -154,7 +154,7 @@ class DocumentoAutoevaluacionController extends Controller
             $archivo = $request->file('archivo');
             $nombre = pathinfo($archivo->getClientOriginalName(), PATHINFO_FILENAME);
             $extension = $archivo->getClientOriginalExtension();
-            $url = Storage::url($archivo->store('public/documentos_autoevaluacion'));
+            $url = Storage::url($archivo->store('public/documentosAutoevaluacion'));
 
             $archivos = new Archivo();
             $archivos->ACV_Nombre = $nombre;
@@ -162,11 +162,11 @@ class DocumentoAutoevaluacionController extends Controller
             $archivos->ruta = $url;
             $archivos->save();
 
-            $id_archivo = $archivos->PK_ACV_Id;
+            $idArchivo = $archivos->PK_ACV_Id;
         }
 
-        $documento_auto = new DocumentoAutoevaluacion();
-        $documento_auto->fill($request->only(['IDO_Nombre',
+        $documentoAuto = new DocumentoAutoevaluacion();
+        $documentoAuto->fill($request->only(['IDO_Nombre',
             'DOA_Numero',
             'DOA_Anio',
             'DOA_Link',
@@ -177,12 +177,12 @@ class DocumentoAutoevaluacionController extends Controller
         /**
          * Si fue guardado un archivo si no se deja nulo el id del archivo
          */
-        $documento_auto->FK_DOA_Archivo = isset($id_archivo) ? $id_archivo : null;
-        $documento_auto->FK_DOA_IndicadorDocumental = $request->get('PK_IDO_Id');
-        $documento_auto->FK_DOA_TipoDocumento = $request->get('PK_TDO_Id');
-        $documento_auto->FK_DOA_Dependencia = $request->get('PK_DPC_Id');
-        $documento_auto->FK_DOA_Proceso = session()->get('id_proceso');
-        $documento_auto->save();
+        $documentoAuto->FK_DOA_Archivo = isset($idArchivo) ? $idArchivo : null;
+        $documentoAuto->FK_DOA_IndicadorDocumental = $request->get('PK_IDO_Id');
+        $documentoAuto->FK_DOA_TipoDocumento = $request->get('PK_TDO_Id');
+        $documentoAuto->FK_DOA_Dependencia = $request->get('PK_DPC_Id');
+        $documentoAuto->FK_DOA_Proceso = session()->get('id_proceso');
+        $documentoAuto->save();
 
         return response(['msg' => 'El documento se ha registrado correctamente.',
             'title' => '¡Registro exitoso!'
@@ -240,12 +240,12 @@ class DocumentoAutoevaluacionController extends Controller
         $indicadores = IndicadorDocumental::where('FK_IDO_Caracteristica', '=', $documento->indicadorDocumental->FK_IDO_Caracteristica)
             ->pluck('IDO_Nombre', 'PK_IDO_Id');
         $dependencias = Dependencia::pluck('DPC_Nombre', 'PK_DPC_Id');
-        $tipo_documentos = TipoDocumento::pluck('TDO_Nombre', 'PK_TDO_Id');
+        $tipoDocumentos = TipoDocumento::pluck('TDO_Nombre', 'PK_TDO_Id');
         $size = $documento->archivo ? filesize(public_path($documento->archivo->ruta)) : null;
 
         return view(
             'autoevaluacion.FuentesSecundarias.DocumentosAutoevaluacion.edit',
-            compact('documento', 'factores', 'caracteristicas', 'indicadores', 'dependencias', 'tipo_documentos', 'size')
+            compact('documento', 'factores', 'caracteristicas', 'indicadores', 'dependencias', 'tipoDocumentos', 'size')
         );
     }
 
@@ -276,7 +276,7 @@ class DocumentoAutoevaluacionController extends Controller
             $archivo = $request->file('archivo');
             $nombre = pathinfo($archivo->getClientOriginalName(), PATHINFO_FILENAME);
             $extension = $archivo->getClientOriginalExtension();
-            $url = Storage::url($archivo->store('public/documentos_autoevaluacion'));
+            $url = Storage::url($archivo->store('public/documentosAutoevaluacion'));
 
             /**
              * Si el documento y tenia un documento se elimina este y se guarda el nuevo,
@@ -290,7 +290,7 @@ class DocumentoAutoevaluacionController extends Controller
                 $archivos->ACV_Extension = $extension;
                 $archivos->ruta = $url;
                 $archivos->update();
-                $id_archivo = $archivos->PK_ACV_Id;
+                $idArchivo = $archivos->PK_ACV_Id;
             } else {
                 $archivos = new Archivo();
                 $archivos->ACV_Nombre = $nombre;
@@ -298,7 +298,7 @@ class DocumentoAutoevaluacionController extends Controller
                 $archivos->ruta = $url;
                 $archivos->save();
 
-                $id_archivo = $archivos->PK_ACV_Id;
+                $idArchivo = $archivos->PK_ACV_Id;
             }
         }
 
@@ -323,8 +323,8 @@ class DocumentoAutoevaluacionController extends Controller
             'DOA_Observaciones'
         ]));
 
-        if (isset($id_archivo)) {
-            $documento->FK_DOA_Archivo = $id_archivo;
+        if (isset($idArchivo)) {
+            $documento->FK_DOA_Archivo = $idArchivo;
         }
 
 

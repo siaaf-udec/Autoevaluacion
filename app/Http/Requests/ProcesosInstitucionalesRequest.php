@@ -64,13 +64,13 @@ class ProcesosInstitucionalesRequest extends FormRequest
                 $validator->errors()->add('Error', 'La fecha de finalización del proceso tiene que ser mayor que la fecha de inicio');
             }
 
-            $procesos_institucionales = Proceso::where('PCS_Institucional', '=', 1)
+            $procesosIntitucionales = Proceso::where('PCS_Institucional', '=', 1)
                 ->where('FK_PCS_Fase', '!=', '1')
                 ->where('FK_PCS_Fase', '!=', '2')
                 ->where('PK_PCS_Id', '!=', $id)
                 ->get();
 
-            if ($procesos_institucionales->isNotEmpty()) {
+            if ($procesosIntitucionales->isNotEmpty()) {
                 $validator->errors()->add('Error', 'Solo puede haber un proceso institucional en curso.');
             }
 

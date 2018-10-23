@@ -84,8 +84,8 @@ class LineamientoController extends Controller
         $results = "";
         $id = Lineamiento::create($request->except('archivo'))->PK_LNM_Id;
         if ($archivo) {
-            $url_temporal = Storage::url($archivo->store('public'));
-            ImportarLineamiento::dispatch($url_temporal, $id);
+            $urlTemporal = Storage::url($archivo->store('public'));
+            ImportarLineamiento::dispatch($urlTemporal, $id);
         }
         return response(['msg' => 'Lineamiento registrado correctamente.',
             'title' => '¡Registro exitoso!'

@@ -9,6 +9,7 @@ use App\Models\Autoevaluacion\BancoEncuestas;
 use App\Models\Autoevaluacion\Caracteristica;
 use App\Models\Autoevaluacion\Encuesta;
 use App\Models\Autoevaluacion\Factor;
+use App\Models\Autoevaluacion\Pregunta;
 use App\Models\Autoevaluacion\GrupoInteres;
 use App\Models\Autoevaluacion\Lineamiento;
 use App\Models\Autoevaluacion\PreguntaEncuesta;
@@ -105,11 +106,11 @@ class EstablecerPreguntasController extends Controller
          * La pregunta es almacenada y vinculada a la encuesta para cada grupo de interes seleccionado
          */
         foreach ($request->get('gruposInteres') as $grupo => $valor) {
-            $preguntas_encuestas = new PreguntaEncuesta();
-            $preguntas_encuestas->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
-            $preguntas_encuestas->FK_PEN_Banco_Encuestas = $request->get('PK_BEC_Id');
-            $preguntas_encuestas->FK_PEN_GrupoInteres = $valor;
-            $preguntas_encuestas->save();
+            $preguntasEncuesta = new PreguntaEncuesta();
+            $preguntasEncuesta->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
+            $preguntasEncuesta->FK_PEN_Banco_Encuestas = $request->get('PK_BEC_Id');
+            $preguntasEncuesta->FK_PEN_GrupoInteres = $valor;
+            $preguntasEncuesta->save();
         }
         return response(['msg' => 'Datos registrados correctamente.',
             'title' => '¡Registro exitoso!'
@@ -145,21 +146,21 @@ class EstablecerPreguntasController extends Controller
          * Se obtiene los factores que estan siendo afectados y tienen relacion con las preguntas
          */
         $factor = new Factor();
-        $id_factor = $preguntas->preguntas->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
-        $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
+        $idFactor = $preguntas->preguntas->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
+        $factores = $factor->where('FK_FCT_Lineamiento', $idFactor)->get()->pluck('FCT_Nombre', 'PK_FCT_Id');
         /**
          * Se obtiene los caracteristicas que estan siendo apuntadas por las preguntas
          */
         $caracteristica = new Caracteristica();
-        $id_caracteristica = $preguntas->preguntas->caracteristica->factor()->pluck('PK_FCT_Id')[0];
-        $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('CRT_Nombre', 'PK_CRT_Id');
+        $idCaracteristica = $preguntas->preguntas->caracteristica->factor()->pluck('PK_FCT_Id')[0];
+        $caracteristicas = $caracteristica->where('FK_CRT_Factor', $idCaracteristica)->get()->pluck('CRT_Nombre', 'PK_CRT_Id');
         /**
          * Se obtiene el cuerpo de la pregunta
          */
-        $pregunta_encuesta = new Pregunta();
-        $id_pregunta = $preguntas->preguntas->caracteristica()->pluck('PK_CRT_Id')[0];
-        $preguntas_encuesta = $pregunta_encuesta->where('FK_PGT_Caracteristica', $id_pregunta)->get()->pluck('PGT_Texto', 'PK_PGT_Id');
-        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.edit', compact('lineamientos', 'factores', 'grupos', 'caracteristicas', 'preguntas', 'preguntas_encuesta'));
+        $preguntaEncuesta = new Pregunta();
+        $idPregunta = $preguntas->preguntas->caracteristica()->pluck('PK_CRT_Id')[0];
+        $preguntasEncuesta = $preguntaEncuesta->where('FK_PGT_Caracteristica', $idPregunta)->get()->pluck('PGT_Texto', 'PK_PGT_Id');
+        return view('autoevaluacion.FuentesPrimarias.EstablecerPreguntas.edit', compact('lineamientos', 'factores', 'grupos', 'caracteristicas', 'preguntas', 'preguntasEncuesta'));
     }
 
     /**
@@ -171,10 +172,10 @@ class EstablecerPreguntasController extends Controller
      */
     public function update(ModificarEstablecerPreguntasRequest $request, $id)
     {
-        $preguntas_encuestas = PreguntaEncuesta::find($id);
-        $preguntas_encuestas->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
-        $preguntas_encuestas->FK_PEN_Banco_Encuestas = $request->get('PK_BEC_Id');
-        $preguntas_encuestas->update();
+        $preguntasEncuesta = PreguntaEncuesta::find($id);
+        $preguntasEncuesta->FK_PEN_Pregunta = $request->get('PK_PGT_Id');
+        $preguntasEncuesta->FK_PEN_Banco_Encuestas = $request->get('PK_BEC_Id');
+        $preguntasEncuesta->update();
         return response(['msg' => 'La pregunta se ha modificado correctamente.',
             'title' => '¡Pregunta Modificada!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
@@ -189,14 +190,14 @@ class EstablecerPreguntasController extends Controller
      */
     public function destroy($id)
     {
-        $preguntas_encuestas = PreguntaEncuesta::findOrFail($id);
+        $preguntasEncuesta = PreguntaEncuesta::findOrFail($id);
         $encuestas = Encuesta::whereHas('proceso', function ($query) {
             return $query->where('FK_PCS_Fase', '=', '4');
         })
-            ->where('FK_ECT_Banco_Encuestas', '=', BancoEncuestas::findOrFail($preguntas_encuestas->FK_PEN_Banco_Encuestas)->PK_BEC_Id)
+            ->where('FK_ECT_Banco_Encuestas', '=', BancoEncuestas::findOrFail($preguntasEncuesta->FK_PEN_Banco_Encuestas)->PK_BEC_Id)
             ->get();
         if ($encuestas->count() == 0) {
-            $preguntas_encuestas->delete();
+            $preguntasEncuesta->delete();
             return response(['msg' => 'La pregunta ha sido eliminada exitosamente de la encuesta.',
                 'title' => 'Pregunta Eliminada!'
             ], 200)// 200 Status Code: Standard response for successful HTTP request

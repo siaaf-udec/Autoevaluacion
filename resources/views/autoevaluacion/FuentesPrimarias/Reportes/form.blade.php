@@ -14,8 +14,8 @@
 <div class="item form-group">
     {!! Form::label('PK_PGT_Id', 'Pregunta', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::select('PK_PGT_Id', isset($preguntas_encuesta)?$preguntas_encuesta:[],
-         old('PK_PGT_Id', isset($preguntas_encuesta)? $preguntas_encuesta
+        {!! Form::select('PK_PGT_Id', isset($preguntasEncuesta)?$preguntasEncuesta:[],
+         old('PK_PGT_Id', isset($preguntasEncuesta)? $preguntasEncuesta
         : ''), ['class' => 'select2 form-control','placeholder' => 'Seleccione una pregunta', 
         'required' => '',
         'id' => 'preguntas']) !!}

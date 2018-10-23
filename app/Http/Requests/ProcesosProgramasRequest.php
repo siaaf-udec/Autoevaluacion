@@ -57,10 +57,10 @@ class ProcesosProgramasRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            $id_programa = $this->request->get('PK_PAC_Id');
+            $idPrograma = $this->request->get('PK_PAC_Id');
             $id = $this->route()->parameter('procesos_programa');
 
-            $procesosPrograma = Proceso::where('FK_PCS_Programa', '=', $id_programa)
+            $procesosPrograma = Proceso::where('FK_PCS_Programa', '=', $idPrograma)
                 ->where('FK_PCS_Fase', '!=', '1')
                 ->where('FK_PCS_Fase', '!=', '2')
                 ->where('PK_PCS_Id', '!=', $id)

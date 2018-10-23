@@ -8,8 +8,8 @@
         @slot('title', 'Bienvenido a la plataforma SIA.')
         @can('SUPERADMINISTRADOR')
 
-            @if(session()->get('id_proceso') && isset($factores_documental))
-                @if($factores_documental->isNotEmpty())
+            @if(session()->get('id_proceso') && isset($factoresDocumentales))
+                @if($factoresDocumentales->isNotEmpty())
 
                     <div id="graficas" class="hidden">
                         <h3>Reporte Documental</h3>
@@ -139,8 +139,8 @@
     @push('functions')
         <script type="text/javascript">
             $(document).ready(function () {
-                @if(session()->get('id_proceso') && isset($factores_documental))
-                @if($factores_documental->isNotEmpty())
+                @if(session()->get('id_proceso') && isset($factoresDocumentales))
+                @if($factoresDocumentales->isNotEmpty())
 
                 //Documental
                 $('#factor_documental').select2({

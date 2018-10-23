@@ -25,19 +25,19 @@ class ImportarLineamiento implements ShouldQueue
      */
     public $tries = 3;
 
-    protected $url_archivo, $id_lineamiento;
+    protected $urlArchivo, $idLineamiento;
 
     /**
      * Constructor del job para recibir la url del archivo excel que se guarda temporalmente
      * para ser importado, ademas del lineamiento al cual pertenece.
      *
-     * @param [string] $url_archivo
-     * @param [int] $id_lineamiento
+     * @param [string] $urlArchivo
+     * @param [int] $idLineamiento
      */
-    public function __construct($url_archivo, $id_lineamiento)
+    public function __construct($urlArchivo, $idLineamiento)
     {
-        $this->url_archivo = $url_archivo;
-        $this->id_lineamiento = $id_lineamiento;
+        $this->urlArchivo = $urlArchivo;
+        $this->idLineamiento = $idLineamiento;
     }
 
     /**
@@ -48,9 +48,9 @@ class ImportarLineamiento implements ShouldQueue
     public function handle()
     {
         try {
-            $id = $this->id_lineamiento;
+            $id = $this->idLineamiento;
             //Se seleccionan solo las hojas del archivo escel especificadas en la funcion
-            Excel::selectSheets('FACTORES', 'CARACTERISTICAS', 'ASPECTOS')->load(public_path($this->url_archivo), function ($reader) use ($id) {
+            Excel::selectSheets('FACTORES', 'CARACTERISTICAS', 'ASPECTOS')->load(public_path($this->urlArchivo), function ($reader) use ($id) {
                 // obtiene todas las hojas del excel y las conveirte en array
                 $sheets = $reader->all()->toArray();
                 $factores = [];
@@ -66,7 +66,7 @@ class ImportarLineamiento implements ShouldQueue
                         $factor->FCT_Identificador = $row['numero_factor'];
                         $factor->FCT_Ponderacion_Factor = $row['ponderacion'];
 
-                        $factor->FK_FCT_Lineamiento = $this->id_lineamiento;
+                        $factor->FK_FCT_Lineamiento = $this->idLineamiento;
                         $factor->FK_FCT_Estado = 1;
                         $factor->save();
                         $factores[$row['numero_factor']] = $factor->PK_FCT_Id;
@@ -106,7 +106,7 @@ class ImportarLineamiento implements ShouldQueue
              * Clausula finally sin importar que siempre elimina el archivo temporal
              * que fue guardado en el servidor
              */
-            $ruta = str_replace('storage', 'public', $this->url_archivo);
+            $ruta = str_replace('storage', 'public', $this->urlArchivo);
             Storage::delete($ruta);
         }
     }

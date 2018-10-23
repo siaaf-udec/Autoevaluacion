@@ -46,26 +46,26 @@ class IndicadorDocumentalController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $indicadores_documentales = IndicadorDocumental::with('caracteristica.factor.lineamiento')
+            $indicadoresDocumentales = IndicadorDocumental::with('caracteristica.factor.lineamiento')
                 ->with(['estado' => function ($query) {
                     return $query->select('PK_ESD_Id', 'ESD_Nombre');
                 }])
                 ->get();
-            return DataTables::of($indicadores_documentales)
+            return DataTables::of($indicadoresDocumentales)
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
                 /**
                  * SE agregan mutadores para obtener el identificador del factor, característica,
                  * indicador junto a su respectivo indicador
                  */
-                ->addColumn('nombre_factor', function ($indicadores_documentales) {
-                    return $indicadores_documentales->caracteristica->factor->nombre_factor;
+                ->addColumn('nombre_factor', function ($indicadoresDocumentales) {
+                    return $indicadoresDocumentales->caracteristica->factor->nombre_factor;
                 })
-                ->addColumn('nombre_caracteristica', function ($indicadores_documentales) {
-                    return $indicadores_documentales->caracteristica->nombre_caracteristica;
+                ->addColumn('nombre_caracteristica', function ($indicadoresDocumentales) {
+                    return $indicadoresDocumentales->caracteristica->nombre_caracteristica;
                 })
-                ->addColumn('nombre_indicador', function ($indicadores_documentales) {
-                    return $indicadores_documentales->nombre_indicador;
+                ->addColumn('nombre_indicador', function ($indicadoresDocumentales) {
+                    return $indicadoresDocumentales->nombre_indicador;
                 })
                 ->make(true);
         }
@@ -94,11 +94,11 @@ class IndicadorDocumentalController extends Controller
      */
     public function store(IndicadoresDocumentalesRequest $request)
     {
-        $indicador_documental = new IndicadorDocumental();
-        $indicador_documental->fill($request->only(['IDO_Nombre', 'IDO_Descripcion', 'IDO_Identificador']));
-        $indicador_documental->FK_IDO_Caracteristica = $request->get('PK_CRT_Id');
-        $indicador_documental->FK_IDO_Estado = $request->get('PK_ESD_Id');
-        $indicador_documental->save();
+        $indicadorDocumental = new IndicadorDocumental();
+        $indicadorDocumental->fill($request->only(['IDO_Nombre', 'IDO_Descripcion', 'IDO_Identificador']));
+        $indicadorDocumental->FK_IDO_Caracteristica = $request->get('PK_CRT_Id');
+        $indicadorDocumental->FK_IDO_Estado = $request->get('PK_ESD_Id');
+        $indicadorDocumental->save();
 
         return response(['msg' => 'Indicador documental registrado correctamente.',
             'title' => '¡Registro exitoso!'
@@ -114,10 +114,10 @@ class IndicadorDocumentalController extends Controller
      */
     public function show($id)
     {
-        $indicadores_documentales = IndicadorDocumental::where('FK_IDO_Caracteristica', $id)
+        $indicadoresDocumentales = IndicadorDocumental::where('FK_IDO_Caracteristica', $id)
             ->get()
             ->pluck('nombre_indicador', 'PK_IDO_Id');
-        return json_encode($indicadores_documentales);
+        return json_encode($indicadoresDocumentales);
     }
 
     /**
@@ -132,12 +132,12 @@ class IndicadorDocumentalController extends Controller
         $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
 
         $factor = new Factor();
-        $id_factor = $indicador->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
-        $factores = $factor->where('FK_FCT_Lineamiento', $id_factor)->get()->pluck('nombre_factor', 'PK_FCT_Id');
+        $idFactor = $indicador->caracteristica->factor->lineamiento()->pluck('PK_LNM_Id')[0];
+        $factores = $factor->where('FK_FCT_Lineamiento', $idFactor)->get()->pluck('nombre_factor', 'PK_FCT_Id');
 
         $caracteristica = new Caracteristica();
-        $id_caracteristica = $indicador->caracteristica->factor()->pluck('PK_FCT_Id')[0];
-        $caracteristicas = $caracteristica->where('FK_CRT_Factor', $id_caracteristica)->get()->pluck('nombre_caracteristica', 'PK_CRT_Id');
+        $idCaracteristica = $indicador->caracteristica->factor()->pluck('PK_FCT_Id')[0];
+        $caracteristicas = $caracteristica->where('FK_CRT_Factor', $idCaracteristica)->get()->pluck('nombre_caracteristica', 'PK_CRT_Id');
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
 
         return view(

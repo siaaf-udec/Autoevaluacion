@@ -32,15 +32,15 @@
 <div class="item form-group">
     {!! Form::label('documento','Grupo de Documentos', [ 'class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {{-- <select id= "grupodocumentos" class="select2_user form-control" name="grupodocumentos" >
-            @foreach($grupodocumentos as $grupodocumento)
+        {{-- <select id= "grupoDocumentos" class="select2_user form-control" name="grupoDocumentos" >
+            @foreach($grupoDocumentos as $grupodocumento)
         <option selected="{{ isset($user)?  }}" value="{{ $grupodocumento->PK_GRD_Id }}">{{ $grupodocumento->GRD_Nombre }}</option>
             @endforeach                                          
         </select> --}}
-        {!! Form::select('FK_DOI_GrupoDocumento',$grupodocumentos, old('FK_DOI_GrupoDocumento'), [
+        {!! Form::select('FK_DOI_GrupoDocumento',$grupoDocumentos, old('FK_DOI_GrupoDocumento'), [
             'placeholder' => 'Seleccione un Grupo de Documentos',
             'class' => 'select2_user form-control',
-            'id' => 'grupodocumentos'
+            'id' => 'grupoDocumentos'
             ]) !!}
     </div>
 </div>
