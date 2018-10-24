@@ -45,6 +45,7 @@
 @push('functions')
     <script type="text/javascript">
         var form = $('#form_encuestas');
+        $('#finalizar').prop("disabled", true);
         $(document).ready(function () {
             $(window).keydown(function (event) {
                 if (event.keyCode == 13) {
