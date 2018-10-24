@@ -57,7 +57,7 @@ class ImportarPreguntas implements ShouldQueue
                 // obtiene todas las hojas del excel y las conveirte en array
                 $sheets = $reader->all()->toArray();
 
-                $tipoRespuesta = [];
+                $tipoRespuestas = [];
 
                 $count = count($sheets);
                 //Si contiene menos de cuatro hojas y al menos una en este caso sera el tipo de respuesta
@@ -70,7 +70,7 @@ class ImportarPreguntas implements ShouldQueue
                         $tipoRespuesta->TRP_Descripcion = $row['descripcion'];
                         $tipoRespuesta->FK_TRP_Estado = 1;
                         $tipoRespuesta->save();
-                        $tipoRespuesta[$row['numero_tipoRespuesta']] = $tipoRespuesta->PK_TRP_Id;
+                        $tipoRespuestas[$row['numero_tipo_respuesta']] = $tipoRespuesta->PK_TRP_Id;
                     }
                 }
                 //Si contiene menos de tres hojas y al menos mas de dos esta incluye ponderaciones para cada respuesta
@@ -81,7 +81,7 @@ class ImportarPreguntas implements ShouldQueue
                         $ponderacion = new PonderacionRespuesta();
                         $ponderacion->PRT_Ponderacion = $row['ponderacion'];
                         $ponderacion->PRT_Rango = $row['rango'];
-                        $ponderacion->FK_PRT_TipoRespuestas = $tipoRespuesta[$row['tipoRespuesta']];
+                        $ponderacion->FK_PRT_TipoRespuestas = $tipoRespuestas[$row['tipo_respuesta']];
                         $ponderacion->save();
                         $ponderaciones[$row['numero_ponderacion']] = $ponderacion->PK_PRT_Id;
                     }
@@ -103,7 +103,7 @@ class ImportarPreguntas implements ShouldQueue
                         $pregunta = new Pregunta();
                         $pregunta->PGT_Texto = $row['pregunta'];
                         $pregunta->FK_PGT_Estado = 1;
-                        $pregunta->FK_PGT_TipoRespuesta = $tipoRespuesta[$row['tipoRespuesta']];
+                        $pregunta->FK_PGT_TipoRespuesta = $tipoRespuestas[$row['tipo_respuesta']];
                         $id = $caracteristicas->where('CRT_Identificador', $row['numero_caracteristica'])->first();
 
                         $pregunta->FK_PGT_Caracteristica = $id->PK_CRT_Id;

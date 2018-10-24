@@ -55,20 +55,25 @@
         });
         window.location.hash = '';
         $(document).ready(function () {
-            $('#finalizar').prop("disabled", true);
             $('#smartwizard').smartWizard({
                 selected: 0,
                 lang: {
                     next: 'Siguiente',
-                    previous: 'Anterior'
+                    previous: 'Anterior',
                 },
                 toolbarSettings: {
                     showNextButton: true,
                     showPreviousButton: false,
-                }
+                }, 
             });
+            var contador = 0;
             $('.sw-btn-next').bind('click', function () {
-                $('.sw-btn-next').prop("disabled", true);
+                if(contador >= {{count($preguntas)}}){
+                    $('.sw-btn-next').prop("disabled", false);}
+                else{
+                    $('.sw-btn-next').prop("disabled", true);
+                    $('#finalizar').prop("disabled", true);}
+                contador++;
                 window.scrollTo(0, 350);
             });
             $('#finalizar').bind('click', function () {
