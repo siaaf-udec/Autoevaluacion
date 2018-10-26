@@ -20,7 +20,7 @@
                 @can('VER_VALORIZACION_CARACTERISTICAS')
                     <div class="col-md-12">
                         @component('admin.components.datatable', ['id' => 'caracteristicas_mejoramiento_table_ajax']) @slot('columns', [
-            'id', 'Nombre', 'Descripcion', 'Identificador', 'Factor', 'Ambito', 'Valorizacion', 'Calificacion',
+            'id', 'Caracteristica', 'Descripcion', 'Identificador', 'Factor', 'Ambito', 'Valorizacion', 'Calificacion',
             'Acciones' => ['style' => 'width:50px;']]) @endcomponent
                     </div>
                 @endcan
@@ -79,7 +79,7 @@
                 "ajax": "{{ route('admin.caracteristicas_mejoramiento.data') }}",
                 "columns": [
                     {data: 'PK_CRT_Id', name: 'id', "visible": false},
-                    {data: 'CRT_Nombre', name: 'Nombre', className: "min-phone-l"},
+                    {data: 'CRT_Nombre', name: 'Caracteristica', className: "min-phone-l"},
                     {data: 'CRT_Descripcion', name: 'Descripcion', className: "min-phone-l"},
                     {data: 'CRT_Identificador', name: 'Identificador', className: "min-phone-l"},
                     {data: 'factor.FCT_Nombre', name: 'Factor', className: "all"},

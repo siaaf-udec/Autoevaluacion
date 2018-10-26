@@ -10,7 +10,7 @@
                 @can('VER_ACTIVIDADES_MEJORAMIENTO')
                     <div class="col-md-12">
                         @component('admin.components.datatable', ['id' => 'actividades_mejoramiento_table_ajax']) @slot('columns', [
-            'id','Factor','Caracteristica','Nombre', 'Descripcion', 'Fecha de Inicio', 'Fecha de Finalizacion', 'Responsable',
+            'id','Factor','Caracteristica','Actividad', 'Descripcion', 'Fecha de Inicio', 'Fecha de Finalizacion', 'Responsable',
             'Acciones' => ['style' => 'width:85px;']]) @endcomponent
                     </div>
                 @endcan
@@ -68,7 +68,7 @@
                         {data: 'PK_ACM_Id', name: 'id', "visible": false},
                         {data: 'caracteristicas.factor.FCT_Nombre', name: 'Factor', className: "min-phone-l"},
                         {data: 'caracteristicas.CRT_Nombre', name: 'Caracteristica', className: "min-phone-l"},
-                        {data: 'ACM_Nombre', name: 'Nombre', className: "min-phone-l"},
+                        {data: 'ACM_Nombre', name: 'Actividad', className: "min-phone-l"},
                         {data: 'ACM_Descripcion', name: 'Descripcion', className: "min-phone-l"},
                         {data: 'ACM_Fecha_Inicio', name: 'Fecha de Inicio', className: "min-phone-l"},
                         {data: 'ACM_Fecha_Fin', name: 'Fecha de Finalizacion', className: "all"},
