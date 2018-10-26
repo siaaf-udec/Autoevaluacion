@@ -61,7 +61,7 @@ class SolucionEncuestaRequest extends FormRequest
             foreach ($preguntasR as $pregunta) {
                 $respuestaUsuario = $this->request->get($pregunta->preguntas->PK_PGT_Id);
                 if ($respuestaUsuario == null) {
-                    $validator->errors()->add('Error', 'Por favor diligencia el número total de preguntas');
+                    $validator->errors()->add('Error', 'Por favor diligencia el número total de preguntas. Se redirigirá a la página de inicio');
                 }
                
             }

@@ -57,6 +57,7 @@
         $(document).ready(function () {
             $('#smartwizard').smartWizard({
                 selected: 0,
+                showStepURLhash: false,
                 lang: {
                     next: 'Siguiente',
                     previous: 'Anterior',
@@ -76,11 +77,13 @@
                 contador++;
                 window.scrollTo(0, 350);
             });
-            $('#finalizar').bind('click', function () {
-                $('#finalizar').hide();
-            });
             $(".radios").change(function () {
                 $('.sw-btn-next').prop("disabled", false);
+                $('#finalizar').prop("disabled", false);
+            });
+            $(document).ajaxStart(function () {
+                $('#finalizar').prop("disabled", true);
+                }).ajaxStop(function () {
                 $('#finalizar').prop("disabled", false);
             });
             form.submit(function (e) {
@@ -116,6 +119,7 @@
                             type: 'error',
                             styling: 'bootstrap3'
                         });
+                        window.location.href = " {{route('home')}} ";
                     }
                 });
             });
