@@ -10,10 +10,10 @@
     <div>
         <div id="descripcion" class="">
             <font face="helvetica, arial">
-                {!! Form::label('PK_DAE_Id',isset($datos)? $datos->DAE_Descripcion: 'Su opinion es importante para nosotros. Por favor continue con el proceso de solucion de la encuesta') !!}
+                {!! Form::label('PK_DAE_Id',isset($datos)? $datos->DAE_Descripcion: 'Su opinión es importante para nosotros. Por favor continúe con el proceso de solución de la encuesta') !!}
                 <br/>
                 <label>INSTRUCCIONES: </label><br/>
-                {!! Form::label('Instricciones','Para cada una de las preguntas, seleccione la opcion que mejor exprese su opinion sobre el tema que trate. Una vez seleccionada una respuesta, se habilitará la opción de continuar para finalizar el proceso de solución de la encuesta. ') !!}
+                {!! Form::label('Instrucciones','Para cada una de las preguntas, seleccione la opción que mejor exprese su opinión sobre el tema que trate. Una vez seleccionada una respuesta, se habilitará la opción de continuar para finalizar el proceso de solución de la encuesta. ') !!}
             </font>
         </div>
         @foreach($preguntas as $pregunta)
