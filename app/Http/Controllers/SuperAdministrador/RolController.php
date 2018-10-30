@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-
 class RolController extends Controller
 {
     /**
@@ -66,7 +65,6 @@ class RolController extends Controller
         }
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -115,10 +113,9 @@ class RolController extends Controller
         $permisos = $request->input('permission') ? $request->input('permission') : [];
         $rol->givePermissionTo($permisos);
 
-
         return response(['msg' => 'Rol registrado correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Registro exitoso!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -195,10 +192,9 @@ class RolController extends Controller
         $permisos = $request->input('permission') ? $request->input('permission') : [];
         $rol->syncPermissions($permisos);
 
-
         return response(['msg' => 'El Rol ha sido modificado exitosamente.',
-            'title' => 'Rol Modificado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Rol Modificado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -217,8 +213,8 @@ class RolController extends Controller
         $rol->delete();
 
         return response(['msg' => 'El Rol ha sido eliminado exitosamente.',
-            'title' => '¡Rol Eliminado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Rol Eliminado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 }

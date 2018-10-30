@@ -104,7 +104,6 @@ class ProcesoProgramaController extends Controller
         }
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -155,7 +154,10 @@ class ProcesoProgramaController extends Controller
         $proceso->PCS_FechaFin = $fechaFin;
         $nombres = explode(' ', ProgramaAcademico::where('PK_PAC_Id', $request->get('PK_PAC_Id'))->first()->PAC_Nombre);
         $slug = "";
-        foreach ($nombres as $nombre) $slug = $slug . '_' . $nombre;
+        foreach ($nombres as $nombre) {
+            $slug = $slug . '_' . $nombre;
+        }
+
         $proceso->PCS_Slug_Procesos = "Proceso" . $slug . Carbon::now()->toDateString();
 
         $proceso->FK_PCS_Fase = 3;
@@ -165,8 +167,8 @@ class ProcesoProgramaController extends Controller
 
         return response([
             'msg' => 'Proceso registrado correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Registro exitoso!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -201,7 +203,6 @@ class ProcesoProgramaController extends Controller
         $programas = $programas::where('FK_PAC_Sede', '=', $proceso->programa->sede->PK_SDS_Id)
             ->where('FK_PAC_Facultad', '=', $proceso->programa->facultad->PK_FCD_Id)
             ->pluck('PAC_Nombre', 'PK_PAC_Id');
-
 
         return view(
             'autoevaluacion.SuperAdministrador.ProcesosProgramas.edit',
@@ -244,15 +245,17 @@ class ProcesoProgramaController extends Controller
         $proceso->FK_PCS_Lineamiento = $request->get('PK_LNM_Id');
         $nombres = explode(' ', ProgramaAcademico::where('PK_PAC_Id', $request->get('PK_PAC_Id'))->first()->PAC_Nombre);
         $slug = "";
-        foreach ($nombres as $nombre) $slug = $slug . '_' . $nombre;
+        foreach ($nombres as $nombre) {
+            $slug = $slug . '_' . $nombre;
+        }
+
         $proceso->PCS_Slug_Procesos = $slug . Carbon::now()->toDateString();
         $proceso->update();
 
-
         return response([
             'msg' => 'El proceso ha sido modificado exitosamente.',
-            'title' => 'Proceso Modificado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Proceso Modificado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -271,11 +274,10 @@ class ProcesoProgramaController extends Controller
 
         return response([
             'msg' => 'El Proceso ha sido eliminado exitosamente.',
-            'title' => 'Proceso Eliminado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Proceso Eliminado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
-
 
     public function ObtenerProgramas($id_sede, $id_facultad)
     {

@@ -70,13 +70,12 @@ class ReportesPlanMejoramientoController extends Controller
 
     public function filtro_factores(Request $request)
     {
-        /*filtro para obtener la valorizacion de las caracteristicas pertenecientes al factor digitado 
+        /*filtro para obtener la valorizacion de las caracteristicas pertenecientes al factor digitado
         por el usuario.
-        */
+         */
         $labelsCaracteristicas = [];
         $dataCaracteristicas = [];
         $dataFactor = [];
-
 
         $caracteristicas = Caracteristica::whereHas('preguntas.respuestas.solucion.encuestados.encuesta', function ($query) {
             return $query->where('FK_ECT_Proceso', '=', session()->get('id_proceso'));

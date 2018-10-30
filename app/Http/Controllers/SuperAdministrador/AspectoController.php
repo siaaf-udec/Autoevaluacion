@@ -70,7 +70,6 @@ class AspectoController extends Controller
         }
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -100,8 +99,8 @@ class AspectoController extends Controller
         $aspecto->save();
 
         return response(['msg' => 'Aspecto registrado correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Registro exitoso!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -140,7 +139,6 @@ class AspectoController extends Controller
         $idCaracteristica = $aspecto->caracteristica->factor()->pluck('PK_FCT_Id')[0];
         $caracteristicas = $caracteristica->where('FK_CRT_Factor', $idCaracteristica)->get()->pluck('nombre_caracteristica', 'PK_CRT_Id');
 
-
         return view(
             'autoevaluacion.SuperAdministrador.Aspectos.edit',
             compact('aspecto', 'lineamientos', 'factores', 'caracteristicas')
@@ -165,10 +163,9 @@ class AspectoController extends Controller
 
         $aspecto->update();
 
-
         return response(['msg' => 'El Aspecto ha sido modificado exitosamente.',
-            'title' => '¡Usuario Modificado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Usuario Modificado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -186,8 +183,8 @@ class AspectoController extends Controller
         Aspecto::destroy($id);
 
         return response(['msg' => 'El aspectos ha sido eliminado exitosamente.',
-            'title' => '¡Aspecto Eliminado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Aspecto Eliminado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 }

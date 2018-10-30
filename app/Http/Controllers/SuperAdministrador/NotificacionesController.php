@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\SuperAdministrador;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Autoevaluacion\ActividadesMejoramiento;
 use Carbon\Carbon;
@@ -16,9 +15,9 @@ class NotificacionesController extends Controller
      */
     public function index()
     {
-        $actividades = ActividadesMejoramiento::where('ACM_Fecha_Fin','>',Carbon::now()->subDay(2))
-        ->where('ACM_Fecha_Fin','<=',Carbon::now())
-        ->get();
+        $actividades = ActividadesMejoramiento::where('ACM_Fecha_Fin', '>', Carbon::now()->subDay(2))
+            ->where('ACM_Fecha_Fin', '<=', Carbon::now())
+            ->get();
         $datos['notificaciones'] = $actividades;
         return json_encode($datos);
     }

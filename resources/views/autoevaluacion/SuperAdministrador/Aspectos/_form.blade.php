@@ -30,14 +30,23 @@
 <div class="form-group">
     {!! Form::label('ASP_Identificador','Identificador', ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::text('ASP_Identificador', old('ASP_Identificador'),[ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 'required' => 'required',
+        {!! Form::text('ASP_Identificador', old('ASP_Identificador'),
+        [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 
+        'required' => 'required',
+        'data-parsley-pattern' => '^[a-zA-Z0-9-_\.,;:ñÑáéíóúÁÉÍÓÚ ]+$',
+        'data-parsley-pattern-message' => 'Error en el texto',
+        'data-parsley-length' => "[1, 250]", 
          'data-parsley-trigger'=>"change" ] ) !!}
     </div>
 </div>
 <div class="form-group">
     {!! Form::label('ASP_Nombre','Nombre', ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::text('ASP_Nombre', old('ASP_Nombre'),[ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 'required' => 'required',
+        {!! Form::text('ASP_Nombre', old('ASP_Nombre'),
+        [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 
+        'required' => 'required',
+        'data-parsley-pattern' => '^[a-zA-Z0-9-_\.,;:ñÑáéíóúÁÉÍÓÚ ]+$',
+        'data-parsley-pattern-message' => 'Error en el texto',
         'data-parsley-length'=>'[5, 330]', 'data-parsley-trigger'=>"change" ] ) !!}
     </div>
 </div>
@@ -46,6 +55,10 @@
     {!! Form::label('ASP_Descripcion','Descripción', ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
         {!! Form::textarea('ASP_Descripcion', old('ASP_Descripcion'),[ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 'required'
-        => 'required', 'data-parsley-trigger'=>"change" ] ) !!}
+        => 'required',
+        'data-parsley-pattern' => '^[a-zA-Z0-9-_\.,;:ñÑáéíóúÁÉÍÓÚ ]+$',
+        'data-parsley-pattern-message' => 'Error en el texto',
+        'data-parsley-length' => "[1, 250]", 
+        'data-parsley-trigger'=>"change" ] ) !!}
     </div>
 </div>

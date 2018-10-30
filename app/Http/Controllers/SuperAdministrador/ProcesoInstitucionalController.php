@@ -12,7 +12,6 @@ use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;
 
-
 class ProcesoInstitucionalController extends Controller
 {
     /**
@@ -78,7 +77,6 @@ class ProcesoInstitucionalController extends Controller
         }
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -92,7 +90,6 @@ class ProcesoInstitucionalController extends Controller
     {
         $lineamientos = Lineamiento::pluck('LNM_Nombre', 'PK_LNM_Id');
         $fases = Fase::pluck('FSS_Nombre', 'PK_FSS_Id');
-
 
         return view(
             'autoevaluacion.SuperAdministrador.ProcesosInstitucionales.create',
@@ -114,7 +111,6 @@ class ProcesoInstitucionalController extends Controller
         $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->get('PCS_FechaInicio'));
         $fechaFin = Carbon::createFromFormat('d/m/Y', $request->get('PCS_FechaFin'));
 
-
         $proceso = new Proceso();
         $proceso->fill($request->only(['PCS_Nombre']));
         $proceso->PCS_FechaInicio = $fechaInicio;
@@ -128,8 +124,8 @@ class ProcesoInstitucionalController extends Controller
 
         return response([
             'msg' => 'Proceso registrado correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Registro exitoso!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -198,11 +194,10 @@ class ProcesoInstitucionalController extends Controller
         $proceso->FK_PCS_Lineamiento = $request->get('PK_LNM_Id');
         $proceso->update();
 
-
         return response([
             'msg' => 'El proceso se ha sido modificado exitosamente.',
-            'title' => 'Proceso Modificado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Proceso Modificado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -221,8 +216,8 @@ class ProcesoInstitucionalController extends Controller
 
         return response([
             'msg' => 'El Proceso ha sido eliminado exitosamente.',
-            'title' => 'Proceso Eliminado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Proceso Eliminado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 

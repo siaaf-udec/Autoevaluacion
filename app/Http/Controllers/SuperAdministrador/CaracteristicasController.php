@@ -58,12 +58,12 @@ class CaracteristicasController extends Controller
                         'AMB_Nombre as nombre'
                     );
                 }])->with(['factor' => function ($query) {
-                    return $query->select(
-                        'PK_FCT_Id',
-                        'FCT_Nombre',
-                        'FCT_Identificador'
-                    );
-                }])
+                return $query->select(
+                    'PK_FCT_Id',
+                    'FCT_Nombre',
+                    'FCT_Identificador'
+                );
+            }])
                 ->get();
             return Datatables::of($caracteristicas)
                 ->addColumn('ambito', function ($caracteristica) {
@@ -111,8 +111,8 @@ class CaracteristicasController extends Controller
     {
         Caracteristica::create($request->except('FK_FCT_Lineamiento'));
         return response(['msg' => 'Datos registrados correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Registro exitoso!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -174,8 +174,8 @@ class CaracteristicasController extends Controller
         $caracteristica->fill($request->except('FK_FCT_Lineamiento'));
         $caracteristica->save();
         return response(['msg' => 'Los datos han sido modificado exitosamente.',
-            'title' => 'Datos Modificadoa!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Datos Modificadoa!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -193,8 +193,8 @@ class CaracteristicasController extends Controller
         Caracteristica::destroy($id);
 
         return response(['msg' => 'Los datos han sido eliminados exitosamente.',
-            'title' => 'Datos Eliminados!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Datos Eliminados!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 

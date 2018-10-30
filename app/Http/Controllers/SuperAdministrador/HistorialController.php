@@ -20,7 +20,6 @@ class HistorialController extends Controller
             ->get()
             ->pluck('PCS_Anio_Proceso', 'PCS_Anio_Proceso');
 
-
         return view('autoevaluacion.SuperAdministrador.Historial.index', compact(
             'procesosHistorial', 'procesosAnios'
         ));
@@ -49,13 +48,11 @@ class HistorialController extends Controller
             ->oldest()
             ->get();
 
-
         $documentos = $documentosAux->groupBy('FK_DPC_IndicadorDocumental');
 
         $documentosAuto = $documentosAux->groupBy(function ($date) {
             return $date->created_at->format('Y-m-d');
         });
-
 
         //Grafico barras
         $labelsIndicador = [];
@@ -64,7 +61,6 @@ class HistorialController extends Controller
             array_push($labelsIndicador, $documentoIndicador->IDO_Nombre);
             array_push($dataIndicador, $documentoIndicador->documentosAutoevaluacion->count());
         }
-
 
         //grafico historial fechas
         $labelsFechas = $documentosAuto->keys()->toArray();
@@ -77,7 +73,6 @@ class HistorialController extends Controller
         //Grafico pie
         $completado = $proceso->PCS_Completitud_Documental;
         $dataPie = [array(number_format($completado, 1), 100 - number_format($completado, 1))];
-
 
         $datos = [];
         $datos['completado'] = number_format($completado, 1);

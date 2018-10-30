@@ -11,7 +11,6 @@ use App\Models\Autoevaluacion\Sede;
 use DataTables;
 use Illuminate\Http\Request;
 
-
 class ProgramaAcademicoController extends Controller
 {
     /**
@@ -72,7 +71,6 @@ class ProgramaAcademicoController extends Controller
         }
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -114,8 +112,8 @@ class ProgramaAcademicoController extends Controller
 
         return response([
             'msg' => 'Programa academico registrado correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Registro exitoso!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -145,7 +143,6 @@ class ProgramaAcademicoController extends Controller
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
         $facultades = Facultad::pluck('FCD_Nombre', 'PK_FCD_Id');
 
-
         return view(
             'autoevaluacion.SuperAdministrador.ProgramasAcademicos.edit',
             compact('programaAcademico', 'sedes', 'estados', 'facultades')
@@ -172,11 +169,10 @@ class ProgramaAcademicoController extends Controller
 
         $programaAcademico->update();
 
-
         return response([
             'msg' => 'El Programa academico ha sido modificado exitosamente.',
-            'title' => 'Programa academico Modificado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Programa academico Modificado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -195,8 +191,8 @@ class ProgramaAcademicoController extends Controller
 
         return response([
             'msg' => 'El programa academico ha sido eliminado exitosamente.',
-            'title' => 'Programa academico Eliminado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Programa academico Eliminado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 }

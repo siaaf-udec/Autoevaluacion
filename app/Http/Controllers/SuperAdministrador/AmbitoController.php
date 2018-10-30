@@ -29,7 +29,6 @@ class AmbitoController extends Controller
         return view('autoevaluacion.SuperAdministrador.Ambito.index');
     }
 
-
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
@@ -62,8 +61,8 @@ class AmbitoController extends Controller
         $ambito->save();
 
         return response(['msg' => 'Ambito registrado correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Registro exitoso!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
 
     }
@@ -103,8 +102,8 @@ class AmbitoController extends Controller
         $ambito->fill($request->only(['AMB_Nombre']));
         $ambito->update();
         return response(['msg' => 'El Ambito ha sido modificado exitosamente.',
-            'title' => '¡Ambito modificado :*!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Ambito modificado :*!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
 
     }
@@ -120,8 +119,8 @@ class AmbitoController extends Controller
         AmbitoResponsabilidad::destroy($id);
 
         return response(['msg' => 'El Ambito ha sido eliminado exitosamente.',
-            'title' => '¡Ambito Eliminado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Ambito Eliminado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 }

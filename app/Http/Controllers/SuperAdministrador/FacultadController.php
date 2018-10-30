@@ -9,9 +9,6 @@ use App\Models\Autoevaluacion\Facultad;
 use DataTables;
 use Illuminate\Http\Request;
 
-;
-
-
 class FacultadController extends Controller
 {
     /**
@@ -61,7 +58,6 @@ class FacultadController extends Controller
         }
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -89,8 +85,8 @@ class FacultadController extends Controller
 
         return response([
             'msg' => 'Facultad registrada correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Registro exitoso!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -133,11 +129,10 @@ class FacultadController extends Controller
         $facultad->FK_FCD_Estado = $request->get('PK_ESD_Id');
         $facultad->update();
 
-
         return response([
             'msg' => 'La facultad ha sido modificado exitosamente.',
-            'title' => 'Facultad Modificada!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Facultad Modificada!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -155,11 +150,10 @@ class FacultadController extends Controller
         $facultad = Facultad::findOrFail($id);
         $facultad->delete();
 
-
         return response([
             'msg' => 'La Facultad ha sido eliminada exitosamente.',
-            'title' => '¡Facultad Eliminada!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Facultad Eliminada!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 }

@@ -9,7 +9,6 @@ use App\Models\Autoevaluacion\Sede;
 use DataTables;
 use Illuminate\Http\Request;
 
-
 class SedeController extends Controller
 {
     /**
@@ -59,7 +58,6 @@ class SedeController extends Controller
         }
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -85,11 +83,10 @@ class SedeController extends Controller
         $sede->FK_SDS_Estado = $request->get('PK_ESD_Id');
         $sede->save();
 
-
         return response([
             'msg' => 'Sede registrada correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Registro exitoso!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -132,8 +129,8 @@ class SedeController extends Controller
         $sede->update();
         return response([
             'msg' => 'La sede ha sido modificada exitosamente.',
-            'title' => 'Sede Modificada!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Sede Modificada!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -151,11 +148,10 @@ class SedeController extends Controller
         $sede = Sede::findOrFail($id);
         $sede->delete();
 
-
         return response([
             'msg' => 'La sede ha sido eliminada exitosamente.',
-            'title' => '¡Sede Eliminada!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Sede Eliminada!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 }

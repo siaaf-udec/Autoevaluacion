@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Permission;
 
-
 class PermisosController extends Controller
 {
     /**
@@ -74,7 +73,6 @@ class PermisosController extends Controller
         }
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -97,10 +95,9 @@ class PermisosController extends Controller
     {
         $rol = Permission::create($request->all());
 
-
         return response(['msg' => 'Permiso registrado correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Registro exitoso!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -140,10 +137,9 @@ class PermisosController extends Controller
         $permission = Permission::findOrFail($id);
         $permission->update($request->all());
 
-
         return response(['msg' => 'El Permiso ha sido modificado exitosamente.',
-            'title' => 'Permiso Modificado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Permiso Modificado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -161,10 +157,9 @@ class PermisosController extends Controller
         $permission = Permission::findOrFail($id);
         $permission->delete();
 
-
         return response(['msg' => 'El Permiso ha sido eliminado exitosamente.',
-            'title' => '¡Permiso Eliminado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Permiso Eliminado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 }

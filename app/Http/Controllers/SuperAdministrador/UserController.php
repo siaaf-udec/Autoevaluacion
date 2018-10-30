@@ -117,7 +117,6 @@ class UserController extends Controller
         }
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -170,8 +169,8 @@ class UserController extends Controller
         $user->assignRole($roles);
 
         return response(['msg' => 'Usuario registrado correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Registro exitoso!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -254,8 +253,8 @@ class UserController extends Controller
         $user->syncRoles($roles);
 
         return response(['msg' => 'El usuario ha sido modificado exitosamente.',
-            'title' => '¡Usuario Modificado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Usuario Modificado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -273,8 +272,8 @@ class UserController extends Controller
         User::destroy($id);
 
         return response(['msg' => 'El usuario se ha sido eliminado exitosamente.',
-            'title' => '¡Usuario Eliminado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Usuario Eliminado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -310,10 +309,9 @@ class UserController extends Controller
         }
 
         return response(['msg' => 'El usuario se ha sido modificado exitosamente.',
-            'title' => '¡Usuario Modificado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Usuario Modificado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
-
 
     }
 }

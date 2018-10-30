@@ -89,8 +89,8 @@ class FactorController extends Controller
     {
         Factor::create($request->all());
         return response(['msg' => 'Factor registrado correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Registro exitoso!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
 
     }
@@ -143,8 +143,8 @@ class FactorController extends Controller
         $user->fill($request->all());
         $user->save();
         return response(['msg' => 'EL factor ha sido modificado exitosamente.',
-            'title' => 'Factor Modificado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Factor Modificado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
 
     }
@@ -163,8 +163,8 @@ class FactorController extends Controller
         Factor::destroy($id);
 
         return response(['msg' => 'El factor ha sido eliminado exitosamente.',
-            'title' => 'Factor Eliminado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Factor Eliminado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 }

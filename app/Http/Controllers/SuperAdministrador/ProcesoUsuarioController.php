@@ -70,7 +70,6 @@ class ProcesoUsuarioController extends Controller
         $proceso = Proceso::findOrFail($id)->nombre_proceso;
         $proceso = str_limit($proceso, 40, '...');
 
-
         return view('autoevaluacion.SuperAdministrador.ProcesosUsuarios.index', compact('proceso'));
     }
 
@@ -90,8 +89,8 @@ class ProcesoUsuarioController extends Controller
 
         return response([
             'msg' => 'Proceso asignado correctamente.',
-            'title' => '¡Asignacion exitosa!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Asignacion exitosa!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
 
     }
@@ -107,8 +106,8 @@ class ProcesoUsuarioController extends Controller
 
         return response([
             'errors' => ['La fecha de inicio tiene que ser menor que la fecha de terminación del proceso.'],
-            'title' => '¡Error!'
-        ], 422)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Error!',
+        ], 422) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 }

@@ -7,7 +7,7 @@
         'required' => 'required', 
         'data-parsley-pattern' => '^[a-zA-Z0-9-_\.,;:ñÑáéíóúÁÉÍÓÚ ]+$',
         'data-parsley-pattern-message' => 'Error en el texto',
-        'data-parsley-length' => "[1, 250]", 
+        'data-parsley-length' => "[1, 50]", 
         'data-parsley-trigger'=>"change"] ) !!}
     </div>
 </div>
@@ -19,7 +19,7 @@
         'required' => 'required', 
         'data-parsley-pattern' => '^[a-zA-Z ][a-zA-Z0-9-_\.,;:ñÑáéíóúÁÉÍÓÚ ]+$',
         'data-parsley-pattern-message' => 'Error en el texto',
-        'data-parsley-length' => "[1, 3000]", 
+        'data-parsley-length' => "[1, 50]", 
         'data-parsley-trigger'=>"change"] ) !!}
     </div>
 </div>
@@ -32,7 +32,7 @@
         'required' => 'required', 
         'data-parsley-pattern' => '^[a-zA-Z ][a-zA-Z0-9-_\.,;:ñÑáéíóúÁÉÍÓÚ ]+$',
         'data-parsley-pattern-message' => 'Error en el texto',
-        'data-parsley-length' => "[1, 3000]", 
+        'data-parsley-length' => "[1, 50]", 
         'data-parsley-trigger'=>"change"] ) !!}
     </div>
 </div>

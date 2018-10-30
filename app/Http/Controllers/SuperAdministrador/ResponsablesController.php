@@ -54,7 +54,6 @@ class ResponsablesController extends Controller
         }
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -77,11 +76,10 @@ class ResponsablesController extends Controller
         $responsable->fill($request->only(['RPS_Nombre', 'RPS_Apellido', 'RPS_Cargo']));
         $responsable->save();
 
-
         return response([
             'msg' => 'Responsable registrado correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Registro exitoso!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -121,8 +119,8 @@ class ResponsablesController extends Controller
         $responsable->update();
         return response([
             'msg' => 'El responsable se ha sido modificado exitosamente.',
-            'title' => 'Responsable Modificado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Responsable Modificado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -137,11 +135,10 @@ class ResponsablesController extends Controller
         $responsable = Responsable::findOrFail($id);
         $responsable->delete();
 
-
         return response([
             'msg' => 'El responsable ha sido eliminado exitosamente.',
-            'title' => '¡Responsable Eliminado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Responsable Eliminado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 }

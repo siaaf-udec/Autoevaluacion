@@ -78,14 +78,17 @@ class GruposInteresController extends Controller
         $grupoInteres->FK_GIT_Estado = $request->get('PK_ESD_Id');
         $nombres = explode(' ', strtolower($request->get('GIT_Nombre')));
         $slug = "";
-        foreach ($nombres as $nombre) $slug = $slug . '_' . $nombre;
+        foreach ($nombres as $nombre) {
+            $slug = $slug . '_' . $nombre;
+        }
+
         $grupoInteres->GIT_Slug = $slug;
         $grupoInteres->FK_GIT_Estado = $request->get('PK_ESD_Id');
         $grupoInteres->save();
         return response([
             'msg' => 'Grupo de interes registrado correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Registro exitoso!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -128,13 +131,16 @@ class GruposInteresController extends Controller
         $grupoInteres->FK_GIT_Estado = $request->get('PK_ESD_Id');
         $nombres = explode(' ', strtolower($request->get('GIT_Nombre')));
         $slug = "";
-        foreach ($nombres as $nombre) $slug = $slug . '_' . $nombre;
+        foreach ($nombres as $nombre) {
+            $slug = $slug . '_' . $nombre;
+        }
+
         $grupoInteres->GIT_Slug = $slug;
         $grupoInteres->update();
         return response([
             'msg' => 'El grupo de interes ha sido modificado exitosamente.',
-            'title' => 'Grupo de Interes Modificado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Grupo de Interes Modificado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -153,8 +159,8 @@ class GruposInteresController extends Controller
         $grupoInteres->delete();
         return response([
             'msg' => 'El grupo de interes ha sido eliminado exitosamente.',
-            'title' => '¡Grupo de Interes Eliminado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Grupo de Interes Eliminado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 }

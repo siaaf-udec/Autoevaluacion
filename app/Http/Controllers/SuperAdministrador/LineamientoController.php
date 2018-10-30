@@ -7,7 +7,6 @@ use App\Http\Requests\LineamientosRequest;
 use App\Jobs\ImportarLineamiento;
 use App\Models\Autoevaluacion\Lineamiento;
 use DataTables;
-use Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -58,7 +57,6 @@ class LineamientoController extends Controller
         }
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -88,8 +86,8 @@ class LineamientoController extends Controller
             ImportarLineamiento::dispatch($urlTemporal, $id);
         }
         return response(['msg' => 'Lineamiento registrado correctamente.',
-            'title' => '¡Registro exitoso!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Registro exitoso!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -134,10 +132,9 @@ class LineamientoController extends Controller
         $lineamiento = Lineamiento::findOrFail($id);
         $lineamiento->update($request->all());
 
-
         return response(['msg' => 'El Lineamiento ha sido modificado exitosamente.',
-            'title' => 'Lineamiento Modificado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => 'Lineamiento Modificado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 
@@ -156,8 +153,8 @@ class LineamientoController extends Controller
         $lineamiento->delete();
 
         return response(['msg' => 'El Lineamiento ha sido eliminado exitosamente.',
-            'title' => '¡Lineamiento Eliminado!'
-        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            'title' => '¡Lineamiento Eliminado!',
+        ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
     }
 }

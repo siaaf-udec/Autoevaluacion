@@ -31,7 +31,9 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
         {!! Form::text('PAC_Nombre', old('PAC_Nombre'),
         [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 'required' => 'required',
-        'data-parsley-length'=>'[5, 330]', 'data-parsley-trigger'=>"change" ] ) !!}
+        'data-parsley-pattern' => '^[a-zA-Z0-9-_\.,;:ñÑáéíóúÁÉÍÓÚ ]+$',
+        'data-parsley-pattern-message' => 'Error en el texto',
+        'data-parsley-length'=>'[5,50]', 'data-parsley-trigger'=>"change" ] ) !!}
     </div>
 </div>
 
@@ -40,6 +42,10 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
         {!! Form::textarea('PAC_Descripcion', old('PAC_Descripcion'),
         [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 'required'
-        => 'required', 'data-parsley-trigger'=>"change" ] ) !!}
+        => 'required', 
+        'data-parsley-pattern' => '^[a-zA-Z0-9-_\.,;:ñÑáéíóúÁÉÍÓÚ ]+$',
+        'data-parsley-pattern-message' => 'Error en el texto',
+        'data-parsley-length'=>'[5,100]',
+        'data-parsley-trigger'=>"change" ] ) !!}
     </div>
 </div>
