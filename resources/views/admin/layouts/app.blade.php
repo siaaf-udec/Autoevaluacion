@@ -47,6 +47,7 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         @include('admin.shared.mostrarProcesos')
+                        @include('admin.shared.modalCancelar')
                         @yield('content')
                     </div>
                 </div>

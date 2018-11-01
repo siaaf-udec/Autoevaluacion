@@ -245,3 +245,13 @@ function mostrarPonderaciones(ruta,nombre) {
         }
     });
 }
+
+$('.btn').click(function(e){
+    if($(this).text() == 'Cancelar'){
+        e.preventDefault();
+        $('#modal_mostrar_cancelar_peticion').modal('toggle');
+        $("#cancelar_peticion").attr("href", $(this).attr('href'));
+    }
+    
+  });
+    
