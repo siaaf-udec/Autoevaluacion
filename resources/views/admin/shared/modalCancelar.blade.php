@@ -8,7 +8,7 @@
                 <h4 class="modal-title" id="modal_titulo">¿Esta seguro?</h4>
             </div>
             <div class="modal-body">
-                <h4>Si oprime el boton cancelar se perderan todos los datos que ha digitado en el formulario.</h4>
+                <h4>Si oprime el botón aceptar se perderán todos los datos que ha digitado en el formulario.</h4>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
