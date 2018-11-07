@@ -15,8 +15,8 @@ class NotificacionesController extends Controller
      */
     public function index()
     {
-        $actividades = ActividadesMejoramiento::where('ACM_Fecha_Fin', '>', Carbon::now()->subDay(2))
-            ->where('ACM_Fecha_Fin', '<=', Carbon::now())
+        $actividades = ActividadesMejoramiento::where('ACM_Fecha_Fin', '<=', Carbon::now()->addDay(2))
+            ->where('ACM_Fecha_Fin', '>=', Carbon::now())
             ->get();
         $datos['notificaciones'] = $actividades;
         return json_encode($datos);
