@@ -246,6 +246,7 @@ class UserController extends Controller
         }
 
         $user->id_estado = $request->get('PK_ESD_Id');
+        $user->id_programa = $request->get('PK_PAC_Id');
 
         $user->update();
 
