@@ -254,4 +254,15 @@ $('.btn').click(function(e){
     }
     
   });
+
+  Dropzone.prototype.defaultOptions.dictDefaultMessage = "Suelta el archivo aquí para subirlo";
+  Dropzone.prototype.defaultOptions.dictFallbackMessage = "Tu navegador no soporta esta función.";
+  Dropzone.prototype.defaultOptions.dictFallbackText = "Please use the fallback form below to upload your files like in the olden days.";
+  Dropzone.prototype.defaultOptions.dictFileTooBig = "El archivo pesa ({{filesize}}MiB). Tamaño máximo: {{maxFilesize}}MiB.";
+  Dropzone.prototype.defaultOptions.dictInvalidFileType = "Archivo no admitido.";
+  Dropzone.prototype.defaultOptions.dictResponseError = "Server responded with {{statusCode}} code.";
+  Dropzone.prototype.defaultOptions.dictCancelUpload = "Cancelar";
+  Dropzone.prototype.defaultOptions.dictCancelUploadConfirmation = "esta seguro de cancelar ?";
+  Dropzone.prototype.defaultOptions.dictRemoveFile = "Remover archivo";
+  Dropzone.prototype.defaultOptions.dictMaxFilesExceeded = "No puede subir mas archivos.";
     

@@ -16,7 +16,7 @@ class SeguridadController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('permission:ACCEDER_SEGURIDAD');
+        $this->middleware('permission:ACCESO_SEGURIDAD');
     }
     public function index()
     {

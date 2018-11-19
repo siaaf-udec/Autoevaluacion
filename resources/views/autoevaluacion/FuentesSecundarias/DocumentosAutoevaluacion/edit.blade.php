@@ -67,8 +67,9 @@
             autoProcessQueue: false,
             uploadMultiple: false,
             parallelUploads: 1,
+            acceptedFiles: 'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, image/*',
             maxFiles: 1,
-            maxFilesize: 4,
+            maxFilesize: 10,
             addRemoveLinks: true,
             @if($documento->archivo)
             // The setting up of the dropzone

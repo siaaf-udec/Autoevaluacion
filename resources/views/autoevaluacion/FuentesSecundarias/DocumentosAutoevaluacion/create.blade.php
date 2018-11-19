@@ -70,7 +70,8 @@
             uploadMultiple: false,
             parallelUploads: 1,
             maxFiles: 1,
-            maxFilesize: 4,
+            maxFilesize: 10,
+            acceptedFiles: 'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, image/*',
             addRemoveLinks: true,
         }
         $(document).ready(function () {
