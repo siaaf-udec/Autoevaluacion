@@ -63,6 +63,7 @@
                 stateSave: true,
                 keys: true,
                 dom: 'lBfrtip',
+                "scrollX": true,
                 buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                 "ajax": routeDatatable,
                 "columns": data,

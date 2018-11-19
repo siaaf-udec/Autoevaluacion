@@ -37,23 +37,28 @@ class SeguridadController extends Controller
                 })
                 
                 ->addColumn('antes', function ($seguridad) {
-                    $json = explode(',', $seguridad->properties);
-                    if($seguridad->description == 'deleted'){
-                        return $json[0];
-                    }
-                    if(count($json) == 2){
-                        $data = $json[1];
+                    $json = json_decode($seguridad->properties, true);
+                    
+                    if($json['old']){
+                        $data = json_encode($json['old']);
                         return $data;
                     }
                     
                     return '';
                 })
                 ->addColumn('despues', function ($seguridad) {
+                    $json = json_decode($seguridad->properties, true);
+
                     if ($seguridad->description == 'deleted') {
                         return '';
                     }
-                    $json = explode(',', $seguridad->properties);
-                    return $json[0];
+
+                    if ($json['attributes']) {
+                        $data = json_encode($json['attributes']);
+                        return $data;
+                    }
+
+                    return '';
                 })
                 ->rawColumns(['antes, despues'])
                 ->make(true);
