@@ -39,7 +39,7 @@ class SeguridadController extends Controller
                 ->addColumn('antes', function ($seguridad) {
                     $json = json_decode($seguridad->properties, true);
                     
-                    if($json['old']){
+                    if(isset($json['old'])){
                         $data = json_encode($json['old']);
                         return $data;
                     }
@@ -53,7 +53,7 @@ class SeguridadController extends Controller
                         return '';
                     }
 
-                    if ($json['attributes']) {
+                    if (isset($json['attributes'])) {
                         $data = json_encode($json['attributes']);
                         return $data;
                     }
