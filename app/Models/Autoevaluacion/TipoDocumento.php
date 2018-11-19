@@ -3,9 +3,11 @@
 namespace App\Models\Autoevaluacion;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Spatie\Activitylog\Traits\LogsActivity;
 class TipoDocumento extends Model
 {
+    use LogsActivity;
+    protected static $logFillable = true;
     /**
      * Conexión usada por el modelo.
      *

@@ -4,9 +4,12 @@ namespace App\Models\Autoevaluacion;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Proceso extends Model
 {
+    use LogsActivity;
+    protected static $logUnguarded = true;
     /**
      * Conexión usada por el modelo.
      *

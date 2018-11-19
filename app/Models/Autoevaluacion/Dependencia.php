@@ -3,9 +3,12 @@
 namespace App\Models\Autoevaluacion;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Dependencia extends Model
 {
+    
+    use LogsActivity;
     /**
      * Conexión usada por el modelo.
      *
@@ -33,4 +36,6 @@ class Dependencia extends Model
      * @var array
      */
     protected $guarded = ['PK_DPC_Id', 'created_at', 'updated_at'];
+
+    protected static $logUnguarded = true;
 }

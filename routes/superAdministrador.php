@@ -172,3 +172,13 @@ Route::get('notificaciones', array(
     'as' => 'admin.notificaciones',
     'uses' => 'NotificacionesController@index'
 ));
+
+Route::get('seguridad', array(
+    'as' => 'admin.seguridad',
+    'uses' => 'SeguridadController@index'
+));
+Route::get('seguridad/data', array(
+    'as' => 'admin.seguridad.data',
+    'uses' => 'SeguridadController@data'
+));
+

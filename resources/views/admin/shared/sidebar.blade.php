@@ -32,6 +32,13 @@
                             <i class="fa fa-history"></i> Historial
                         </a>
                     </li>
+                    {{-- @can('ACCESO_SEGURIDAD') --}}
+                    <li>
+                        <a href="{{ route('admin.seguridad')}}">
+                            <i class="fa fa-cogs"></i> Seguridad
+                        </a>
+                    </li>
+                    {{-- @endcan --}}
 
                 </ul>
             </div>

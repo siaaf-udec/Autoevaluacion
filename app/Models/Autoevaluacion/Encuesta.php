@@ -3,9 +3,12 @@
 namespace App\Models\Autoevaluacion;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Encuesta extends Model
 {
+    use LogsActivity;
+    protected static $logUnguarded = true;
     /**
      * Conexión usada por el modelo.
      *

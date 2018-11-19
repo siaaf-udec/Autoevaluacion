@@ -18,6 +18,7 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'ACCESO_MODULO_SUPERADMINISTRADOR']);
         Permission::create(['name' => 'ACCESO_MODULO_FUENTES_PRIMARIAS']);
         Permission::create(['name' => 'ACCESO_MODULO_FUENTES_SECUNDARIAS']);
+        Permission::create(['name' => 'ACCESO_SEGURIDAD']);
 
         // Permisos Superadmin
         //Permisos para usuarios

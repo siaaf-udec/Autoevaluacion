@@ -2,10 +2,14 @@
 
 namespace App\Models\Autoevaluacion;
 
+use Spatie\Activitylog\Traits\LogsActivity;
+
 use Illuminate\Database\Eloquent\Model;
 
 class ProgramaAcademico extends Model
 {
+    use LogsActivity;
+    protected static $logUnguarded = true;
     /**
      * Conexión usada por el modelo.
      *

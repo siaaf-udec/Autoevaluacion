@@ -6,7 +6,7 @@ use Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Usuario extends Authenticatable
 {
