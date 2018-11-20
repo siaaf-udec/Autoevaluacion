@@ -15,7 +15,10 @@ class HomeController extends Controller
     public function index()
     {
         $fecha = Carbon::now()->toDateString();
-        $encuestas = Encuesta::with('proceso.programa.sede')
+        $encuestas = Encuesta::whereHas('proceso.fase', function ($query) {
+            return $query->where('FSS_Nombre', '=', 'captura de datos');
+        })
+            ->with('proceso.programa.sede')
             ->where('ECT_FechaPublicacion', '<=', $fecha)
             ->where('ECT_FechaFinalizacion', '>=', $fecha)
             ->where('FK_ECT_Estado', '=', '1')
