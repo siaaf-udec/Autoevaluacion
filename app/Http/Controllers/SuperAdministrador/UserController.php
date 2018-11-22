@@ -9,6 +9,7 @@ use App\Models\Autoevaluacion\Estado;
 use App\Models\Autoevaluacion\ProgramaAcademico;
 use App\Models\Autoevaluacion\User;
 use DataTables;
+use Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -159,6 +160,17 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
+
+        function generateRandomString($length = 20) {
+            return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+        }
+        $request->merge(array('password'=>generateRandomString()));
+
+        Mail::send('email', $request->all(), function ($message) use ($request){
+
+            $message->to('sistemadeautoevaluacion@gmail.com', $request->get('name'));
+            $message->subject('Usuario registrado');
+        });
         $user = new User();
         $user->fill($request->all());
         $user->id_estado = $request->get('PK_ESD_Id');

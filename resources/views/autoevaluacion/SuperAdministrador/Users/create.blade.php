@@ -55,6 +55,10 @@
 
         $(document).ready(function () {
             $('.select2_user').select2();
+            //$('#pass').prop('disabled', true);
+            document.getElementById('pass').style.display = 'none';
+            document.getElementById('labelpass').style.display = 'none';
+            $('#pass').val('123456789');
             $('.select2_roles').select2();
             var form = $('#form_crear_usuario');
             $(form).parsley({
