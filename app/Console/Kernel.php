@@ -215,7 +215,7 @@ class Kernel extends ConsoleKernel
             })
                 ->where('FK_PCS_Fase', '!=', '1')
                 ->update(['FK_PCS_Fase' => 4]);
-        })->daily();
+        })->everyMinute();
     }
 
     /**
