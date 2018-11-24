@@ -7,6 +7,27 @@
 @section('content')
     @component('admin.components.panel')
         @slot('title', 'Modificar Indicador documental')
+
+        <!-- Modal Cancelar-->
+        <div class="modal fade" id="modal_mostrar_comprobar_modificar" tabindex="-1" role="dialog" aria-labelledby="modal_titulo">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modal_titulo">¿Esta seguro?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Este indicador ha sido usado para subir diferentes documentos de autoevaluación, si lo modifica afectara estos documentos, ¿esta seguro?, si es asi presione el botón aceptar.</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar </button>
+                        <a class="btn btn-danger" href="#" id="aceptar_modificar" role="button">Aceptar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--FIN Modal Cancelar-->
         {!! Form::model($indicador, [ 'route' => ['documental.indicadores_documentales.update', $indicador],
         'method' => 'PUT', 'id' => 'form_modificar_indicador_documental',
         'class' => 'form-horizontal form-label-lef', 'novalidate' ])
@@ -72,36 +93,50 @@
                 errorsWrapper: '<p class="help-block help-block-error"></p>',
                 errorTemplate: '<span></span>',
             });
+            var comprobarModificar = false;
 
+            $('#aceptar_modificar').on('click', function() { 
+                comprobarModificar = true;
+                $("#form_modificar_indicador_documental").submit();
+            });
 
             form.submit(function (e) {
+                @if($uso > 0)
+                    $('#modal_mostrar_comprobar_modificar').modal('toggle');
+                @else
+                    comprobarModificar = true;
+                @endif
 
                 e.preventDefault();
-                $.ajax({
-                    url: form.attr('action'),
-                    type: form.attr('method'),
-                    data: form.serialize(),
-                    dataType: 'json',
-                    Accept: 'application/json',
-                    success: function (response, NULL, jqXHR) {
-                        sessionStorage.setItem('update', 'El Indicador documental se ha modificado exitosamente.');
-                        window.location.href = " {{ route('documental.indicadores_documentales.index')}} ";
-                    },
-                    error: function (data) {
-                        console.log(data);
-                        var errores = data.responseJSON.errors;
-                        var msg = '';
-                        $.each(errores, function (name, val) {
-                            msg += val + '<br>';
-                        });
-                        new PNotify({
-                            title: "Error!",
-                            text: msg,
-                            type: 'error',
-                            styling: 'bootstrap3'
-                        });
-                    }
-                });
+
+                if(comprobarModificar)
+                {
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: form.attr('method'),
+                        data: form.serialize(),
+                        dataType: 'json',
+                        Accept: 'application/json',
+                        success: function (response, NULL, jqXHR) {
+                            sessionStorage.setItem('update', 'El Indicador documental se ha modificado exitosamente.');
+                            window.location.href = " {{ route('documental.indicadores_documentales.index')}} ";
+                        },
+                        error: function (data) {
+                            console.log(data);
+                            var errores = data.responseJSON.errors;
+                            var msg = '';
+                            $.each(errores, function (name, val) {
+                                msg += val + '<br>';
+                            });
+                            new PNotify({
+                                title: "Error!",
+                                text: msg,
+                                type: 'error',
+                                styling: 'bootstrap3'
+                            });
+                        }
+                    });
+                }
             });
         });
 

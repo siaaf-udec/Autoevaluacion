@@ -47,7 +47,7 @@
             var data, routeDatatable;
             data = [
                 {data: 'id', name: 'id', "visible": false},
-                {data: 'tabla', name: 'Tabla', className: "min-table-p"},
+                {data: 'tabla', name: 'Tabla', className: "all"},
                 {data: 'usuario', name: 'Usuario', className: "desktop"},
                 {data: 'description', name: 'Tipo', className: "all"},
                 {data: 'antes', name: 'Antes', className: "all"},

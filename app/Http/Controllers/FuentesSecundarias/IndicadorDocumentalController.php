@@ -5,6 +5,7 @@ namespace App\Http\Controllers\FuentesSecundarias;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IndicadoresDocumentalesRequest;
 use App\Models\Autoevaluacion\Caracteristica;
+use App\Models\Autoevaluacion\DocumentoAutoevaluacion;
 use App\Models\Autoevaluacion\Estado;
 use App\Models\Autoevaluacion\Factor;
 use App\Models\Autoevaluacion\IndicadorDocumental;
@@ -140,9 +141,11 @@ class IndicadorDocumentalController extends Controller
         $caracteristicas = $caracteristica->where('FK_CRT_Factor', $idCaracteristica)->get()->pluck('nombre_caracteristica', 'PK_CRT_Id');
         $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
 
+        $uso = DocumentoAutoevaluacion::where('FK_DOA_IndicadorDocumental', '=', $id)->get()->count();
+
         return view(
             'autoevaluacion.FuentesSecundarias.IndicadoresDocumentales.edit',
-            compact('indicador', 'lineamientos', 'factores', 'caracteristicas', 'estados')
+            compact('indicador', 'lineamientos', 'factores', 'caracteristicas', 'estados', 'uso')
         );
     }
 
