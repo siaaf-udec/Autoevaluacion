@@ -74,7 +74,7 @@ class DependenciaController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DependenceRequest $request)
     {
 
         Dependencia::create($request->except('_token'));
