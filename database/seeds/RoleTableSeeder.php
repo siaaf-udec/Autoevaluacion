@@ -212,6 +212,7 @@ class RoleTableSeeder extends Seeder
             'CREAR_DOCUMENTOS_INSTITUCIONALES',
             'MODIFICAR_DOCUMENTOS_INSTITUCIONALES',
             'ELIMINAR_DOCUMENTOS_INSTITUCIONALES',
+            'EVALUAR_DOCUMENTOS_AUTOEVALUACION'
         ]);
     }
 }
