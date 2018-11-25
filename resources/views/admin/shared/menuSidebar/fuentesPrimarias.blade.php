@@ -36,8 +36,10 @@
         <li><a href="{{ route('primarias.informe_encuestas') }}"><i class="fa fa-bar-chart"></i>
                 Informes </a>
         </li>
+        @can('ACCEDER_RESULTADOS')
          <li><a href="{{ route('fuentesP.resultados.index') }}"><i class="fa fa-table"></i>
                 Resultados </a>
         </li>
+        @endcan
     </ul>
 </li>             

@@ -4,17 +4,19 @@
 @extends('admin.layouts.app')
 
 @section('content') @component('admin.components.panel') @slot('title', 'Resultados')
+@can('VER_RESULTADOS')
 @if(session()->get('id_proceso'))
 
     <div class="col-md-12">
         @component('admin.components.datatable', ['id' => 'resultados_table_ajax']) @slot('columns', [
-        'id', 'Pregunta', 'Respuesta', 'Grupo de Interes','Encuestados'
+        'id', 'Pregunta', 'Respuesta', 'Grupo de Interes','Total Respuestas'
          => ['style' => 'width:85px;']]) @endcomponent
     </div>
     @else
             Por favor seleccione un proceso
     @endif
     @endcomponent
+    @endcan
 @endsection
 
 {{-- Scripts necesarios para el formulario --}}
@@ -58,7 +60,7 @@
                     {data: 'pregunta.PGT_Texto', name: 'Pregunta', className: "all"},
                     {data: 'RPG_Texto', name: 'Respuesta', className: "min-phone-l"},
                     {data: 'Grupo', name: 'Grupo de Interes', className: "min-tablet"},
-                    {data: 'Encuestados', name: 'Encuestados', className: "desktop"},
+                    {data: 'Encuestados', name: 'Total Respuestas', className: "desktop"},
                 ],
                 language: {
                     "sProcessing": "Procesando...",
@@ -85,7 +87,7 @@
                     }
                 },
                 initComplete: function () {
-                    this.api().columns([4, 5]).every(function () {
+                    this.api().columns([3]).every(function () {
                         var column = this;
                         var select = $('<select style="width: 100px;"><option value=""></option></select>')
                             .appendTo($(column.footer()).empty())

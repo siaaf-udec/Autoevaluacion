@@ -15,7 +15,7 @@
                         <h4 class="modal-title" id="modal_titulo">¿Esta seguro?</h4>
                     </div>
                     <div class="modal-body">
-                        <h4>Esta pregunta ha sido usada para solucionar diferentes encuestas, si la modifica afectara los resultados de estas encuestas, ¿está seguro?, si es así presione el botón aceptar.</h4>
+                        <h4>Esta pregunta ha sido usada para solucionar diferentes encuestas, si la modifica afectará los resultados de estas encuestas, ¿está seguro?, si es así presione el botón aceptar.</h4>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar </button>
