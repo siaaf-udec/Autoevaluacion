@@ -212,6 +212,7 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'CREAR_DOCUMENTOS_INSTITUCIONALES']);
         Permission::create(['name' => 'MODIFICAR_DOCUMENTOS_INSTITUCIONALES']);
         Permission::create(['name' => 'ELIMINAR_DOCUMENTOS_INSTITUCIONALES']);
+        Permission::create(['name' => 'EVALUAR_DOCUMENTOS_AUTOEVALUACION']);
 
 
     }

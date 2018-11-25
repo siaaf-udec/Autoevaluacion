@@ -30,7 +30,7 @@
                     'Tipo',
                     'Nombre',
                     'Archivo',
-                    'Acciones' => ['style' => 'width:85px;']])
+                    'Acciones' => ['style' => 'width:115px;']])
                 @endcomponent
 
             </div>
@@ -82,7 +82,12 @@
                 dom: 'lBfrtip',
                 responsive: true,
                 buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-                "ajax": "{{ route('documental.documentos_autoevaluacion.data') }}",
+                "ajax": {
+                    "url": "{{ route('documental.documentos_autoevaluacion.data') }}",
+                    complete: function () {
+                        $('[data-toggle="tooltip"]').tooltip();
+                    }
+                },
                 "columns": [
                     {data: 'PK_DOA_Id', name: 'id', "visible": false},
                     {data: 'nombre_factor', name: 'Factor', className: "all"},
@@ -99,7 +104,8 @@
                     {
                         defaultContent:
                             '@can('ELIMINAR_DOCUMENTOS_AUTOEVALUACION')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
-                            '@can('MODIFICAR_DOCUMENTOS_AUTOEVALUACION')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan',
+                            '@can('MODIFICAR_DOCUMENTOS_AUTOEVALUACION')<a href="javascript:;" class="btn btn-simple btn-info btn-sm edit" data-toggle="confirmation"><i class="fa fa-pencil"></i></a>@endcan'+
+                            '@can('EVALUAR_DOCUMENTOS_AUTOEVALUACION')<a data-toggle="tooltip" title="Evaluar documento" href="javascript:;" class="btn btn-simple btn-info btn-sm evaluar"><i class="fa fa-book"></i></a>@endcan',
                         data: 'action',
                         name: 'action',
                         title: 'Acciones',
@@ -174,6 +180,13 @@
                 $tr = $(this).closest('tr');
                 var dataTable = table.row($tr).data();
                 var route = '{{ url('admin/documental/documentos_autoevaluacion') }}' + '/' + dataTable.PK_DOA_Id + '/edit';
+                window.location.href = route;
+            });
+             table.on('click', '.evaluar', function (e) {
+                e.preventDefault();
+                $tr = $(this).closest('tr');
+                var dataTable = table.row($tr).data();
+                var route = '{{ url('admin/documental/documentos_autoevaluacion/evaluar') }}' + '/' + dataTable.PK_DOA_Id;
                 window.location.href = route;
             });
 

@@ -4,6 +4,7 @@
  */
 
 use Illuminate\Http\Request;
+use App\Models\Autoevaluacion\Archivo;
 
 //Rutas para especificar las dependencias a las que pertenece cada documento
 Route::resource('dependencia', 'DependenciaController', ['as' => 'documental'])->except([
@@ -50,6 +51,14 @@ Route::get(
 
 //Rutas para CRUD documentos autoevaluacion
 Route::resource('documentos_autoevaluacion', 'DocumentoAutoevaluacionController', ['as' => 'documental']);
+Route::get(
+    'documentos_autoevaluacion/evaluar/{id_documento}',
+    array('as' => 'documental.documentos_autoevaluacion.evaluar', 'uses' => 'DocumentoAutoevaluacionController@evaluar')
+);
+Route::post(
+    'documentos_autoevaluacion/evaluar/{id_documento}',
+    array('as' => 'documental.documentos_autoevaluacion.evaluar.post', 'uses' => 'DocumentoAutoevaluacionController@evaluarFormulario')
+);
 Route::get(
     'documentos_autoevaluacion/data/data',
     array('as' => 'documental.documentos_autoevaluacion.data', 'uses' => 'DocumentoAutoevaluacionController@data')
@@ -100,6 +109,8 @@ Route::post('informes_institucionales/descargar', array(
 
 Route::get('descargar', function (Request $request) {
     $archivo = substr($request->query('archivo'), 9);
-    return response()->download(storage_path('app/public/' . $archivo));
+    $nombre = Archivo::where('ruta', '=', $request->query('archivo'))
+        ->get();
+    return response()->download(storage_path('app/public/' . $archivo), $nombre[0]->ACV_Nombre);
 })->name('descargar');
 
