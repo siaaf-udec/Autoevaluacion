@@ -109,8 +109,10 @@ Route::post('informes_institucionales/descargar', array(
 
 Route::get('descargar', function (Request $request) {
     $archivo = substr($request->query('archivo'), 9);
+    
     $nombre = Archivo::where('ruta', '=', $request->query('archivo'))
         ->get();
-    return response()->download(storage_path('app/public/' . $archivo), $nombre[0]->ACV_Nombre);
+    $nombreArchivo = $nombre[0]->ACV_Nombre . '.' . $nombre[0]->ACV_Extension;
+    return response()->download(storage_path('app/public/' . $archivo), $nombreArchivo);
 })->name('descargar');
 
