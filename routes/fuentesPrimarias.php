@@ -31,6 +31,10 @@ Route::get('mostrarPonderaciones/{id}', array('as' => 'fuentesP.mostrarPonderaci
 Route::resource('preguntas', 'PreguntasController', ['as' => 'fuentesP']);
 Route::get('preguntas/data/data', array('as' => 'fuentesP.preguntas.data', 'uses' => 'PreguntasController@data'));
 
+//resultados
+Route::resource('resultados', 'ResultadosController', ['as' => 'fuentesP']);
+Route::get('resultados/data/data', array('as' => 'fuentesP.resultados.data', 'uses' => 'ResultadosController@data'));
+
 //Importar preguntas
 Route::resource('Importarpreguntas', 'ImportarPreguntasController', ['as' => 'fuentesP']);
 
