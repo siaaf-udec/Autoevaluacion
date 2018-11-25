@@ -150,6 +150,7 @@ Route::get('responsables/data/data', array('as' => 'admin.responsables.data', 'u
 //Actividades de mejoramiento
 Route::resource('actividades_mejoramiento', 'ActividadesMejoramientoController', ['as' => 'admin'])->except(['show']);
 Route::get('actividades_mejoramiento/{id}', array('as' => 'admin.actividades_mejoramiento.datos', 'uses' => 'ActividadesMejoramientoController@create'));
+Route::get('estado_actividades/{id}', array('as' => 'admin.actividades_mejoramiento.estado', 'uses' => 'ActividadesMejoramientoController@estado'));
 Route::get('actividades_mejoramiento/data/data', array('as' => 'admin.actividades_mejoramiento.data', 'uses' => 'ActividadesMejoramientoController@data'));
 
 //informes plan de mejoramiento
@@ -181,4 +182,3 @@ Route::get('seguridad/data', array(
     'as' => 'admin.seguridad.data',
     'uses' => 'SeguridadController@data'
 ));
-

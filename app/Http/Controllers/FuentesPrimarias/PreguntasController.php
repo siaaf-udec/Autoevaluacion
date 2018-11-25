@@ -12,6 +12,7 @@ use App\Models\Autoevaluacion\Lineamiento;
 use App\Models\Autoevaluacion\PonderacionRespuesta;
 use App\Models\Autoevaluacion\Pregunta;
 use App\Models\Autoevaluacion\PreguntaEncuesta;
+use App\Models\Autoevaluacion\SolucionEncuesta;
 use App\Models\Autoevaluacion\Proceso;
 use App\Models\Autoevaluacion\RespuestaPregunta;
 use App\Models\Autoevaluacion\TipoRespuesta;
@@ -169,8 +170,13 @@ class PreguntasController extends Controller
         $caracteristica = new Caracteristica();
         $idCaracteristica = $pregunta->caracteristica->factor()->pluck('PK_FCT_Id')[0];
         $caracteristicas = $caracteristica->where('FK_CRT_Factor', $idCaracteristica)->get()->pluck('nombre_caracteristica', 'PK_CRT_Id');
+        
+        $uso = SolucionEncuesta::whereHas('respuestas.pregunta', function ($query) use($id){
+            return $query->where('PK_PGT_Id', '=', $id);
+        })->get()->count();
+        
         return view('autoevaluacion.FuentesPrimarias.Preguntas.edit',
-            compact('pregunta', 'estados', 'factores', 'caracteristicas', 'respuestas', 'lineamientos', 'ponderaciones')
+            compact('pregunta', 'estados', 'factores', 'caracteristicas', 'respuestas', 'lineamientos', 'ponderaciones','uso')
         );
     }
 

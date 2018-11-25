@@ -33,7 +33,7 @@ class SeguridadController extends Controller
                     return substr($seguridad->subject_type, 26);
                 })
                 ->addColumn('usuario', function ($seguridad) {
-                    return $seguridad->causer->email;
+                    return $seguridad->causer->email ?? 'Usuario no especificado';
                 })
                 
                 ->addColumn('antes', function ($seguridad) {

@@ -249,6 +249,26 @@ class DocumentoAutoevaluacionController extends Controller
         );
     }
 
+    public function evaluar($id_documento)
+    {
+        $documento = DocumentoAutoevaluacion::where('PK_DOA_Id', '=', $id_documento)
+            ->with(['archivo', 'indicadorDocumental', 'tipoDocumento', 'dependencia'])
+            ->get();
+        return view('autoevaluacion.FuentesSecundarias.DocumentosAutoevaluacion.evaluar', 
+        compact('documento'));
+    }
+    public function evaluarFormulario(Request $request, $id_documento)
+    {
+        $documento = DocumentoAutoevaluacion::findOrFail($id_documento);
+        $documento->DOA_Observaciones = $request->get('DOA_Observaciones');
+        $documento->update();
+        return response([
+            'msg' => 'El Indicador documental ha sido modificado exitosamente.',
+            'title' => 'Indicador Modificado!'
+        ], 200)// 200 Status Code: Standard response for successful HTTP request
+            ->header('Content-Type', 'application/json');
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -404,4 +424,6 @@ class DocumentoAutoevaluacionController extends Controller
             ->pluck('nombre_caracteristica', 'PK_CRT_Id');
         return json_encode($caracteristicas);
     }
+
+    
 }

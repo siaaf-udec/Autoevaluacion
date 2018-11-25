@@ -5,6 +5,26 @@
 @extends('admin.layouts.app')
 
 @section('content') @component('admin.components.panel') @slot('title', 'Modificar Pregunta')
+ <!-- Modal Cancelar-->
+        <div class="modal fade" id="modal_mostrar_comprobar_modificar" tabindex="-1" role="dialog" aria-labelledby="modal_titulo">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modal_titulo">¿Esta seguro?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Esta pregunta ha sido usada para solucionar diferentes encuestas, si la modifica afectará los resultados de estas encuestas, ¿está seguro?, si es así presione el botón aceptar.</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar </button>
+                        <a class="btn btn-danger" href="#" id="aceptar_modificar" role="button">Aceptar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--FIN Modal Cancelar-->
 {!! Form::model($pregunta, [ 'route' => ['fuentesP.preguntas.update', $pregunta], 'method' => 'PUT', 'id' => 'form_modificar_pregunta',
 'class' => 'form-horizontal form-label-lef', 'novalidate' ])!!}
 @include('autoevaluacion.FuentesPrimarias.Preguntas._form')
@@ -86,11 +106,23 @@
                 errorsWrapper: '<p class="help-block help-block-error"></p>',
                 errorTemplate: '<span></span>',
             });
+            var comprobarModificar = false;
+            $('#aceptar_modificar').on('click', function() { 
+                comprobarModificar = true;
+                $("#form_modificar_pregunta").submit();
+            });
 
 
             form.submit(function (e) {
+                @if($uso > 0)
+                    $('#modal_mostrar_comprobar_modificar').modal('toggle');
+                @else
+                    comprobarModificar = true;
+                @endif
 
                 e.preventDefault();
+                if(comprobarModificar)
+                {
                 $.ajax({
                     url: form.attr('action'),
                     type: form.attr('method'),
@@ -117,6 +149,7 @@
                         });
                     }
                 });
+                }
             });
         });
 

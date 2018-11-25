@@ -74,7 +74,7 @@
             parallelUploads: 1,
             maxFiles: 1,
             maxFilesize: 10,
-            acceptedFiles: 'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, image/*',
+            acceptedFiles: 'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, image/*,.xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf',
             addRemoveLinks: true,
         }
 

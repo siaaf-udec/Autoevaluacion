@@ -96,7 +96,7 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'CREAR_RESPONSABLES']);
         Permission::create(['name' => 'MODIFICAR_RESPONSABLES']);
         Permission::create(['name' => 'ELIMINAR_RESPONSABLES']);
-        //Permisos para Actividaddes de mejoramiento
+        //Permisos para Actividades de mejoramiento
         Permission::create(['name' => 'ACCEDER_ACTIVIDADES_MEJORAMIENTO']);
         Permission::create(['name' => 'VER_ACTIVIDADES_MEJORAMIENTO']);
         Permission::create(['name' => 'CREAR_ACTIVIDADES_MEJORAMIENTO']);
@@ -158,6 +158,9 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'MODIFICAR_RESPUESTAS']);
         Permission::create(['name' => 'ELIMINAR_RESPUESTAS']);
         Permission::create(['name' => 'CREAR_RESPUESTAS']);
+         // Permisos para respuestas
+         Permission::create(['name' => 'ACCEDER_RESULTADOS']);
+         Permission::create(['name' => 'VER_RESULTADOS']);
         // Permisos Fuentes secundarias
         Permission::create(['name' => 'ACCEDER_DEPENDENCIAS']);
         Permission::create(['name' => 'VER_DEPENDENCIAS']);
@@ -212,6 +215,7 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['name' => 'CREAR_DOCUMENTOS_INSTITUCIONALES']);
         Permission::create(['name' => 'MODIFICAR_DOCUMENTOS_INSTITUCIONALES']);
         Permission::create(['name' => 'ELIMINAR_DOCUMENTOS_INSTITUCIONALES']);
+        Permission::create(['name' => 'EVALUAR_DOCUMENTOS_AUTOEVALUACION']);
 
 
     }

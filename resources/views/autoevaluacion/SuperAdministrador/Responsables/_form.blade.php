@@ -1,38 +1,27 @@
 {!! Form::hidden('PK_RPS_Id', old('PK_RPS_Id'), ['id' => 'PK_RPS_Id']) !!}
-<div class="item form-group">
-    {!! Form::label('RPS_Nombre','Nombre', ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
+
+<div class="form-group">
+    {!! Form::label('id', 'Responsables', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::text('RPS_Nombre', old('RPS_Nombre'),
-        [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 
+        {!! Form::select('id', $usuarios, old('id', isset($responsables)? $responsables->FK_RPS_Responsable: ''), ['class' => 'select2 form-control',
+         'id' => 'responsable',
+        'style' => 'width:100%',
+        'placeholder' => 'Seleccione un responsable', 
         'required' => 'required', 
-        'data-parsley-pattern' => '^[a-zA-Z0-9-_\.,;:ñÑáéíóúÁÉÍÓÚ ]+$',
-        'data-parsley-pattern-message' => 'Error en el texto',
-        'data-parsley-length' => "[1, 50]", 
-        'data-parsley-trigger'=>"change"] ) !!}
-    </div>
-</div>
-<div class="item form-group">
-    {!! Form::label('RPS_Apellido','Apellido', ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::text('RPS_Apellido', old('RPS_Apellido'),
-        [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 
-        'required' => 'required', 
-        'data-parsley-pattern' => '^[a-zA-Z ][a-zA-Z0-9-_\.,;:ñÑáéíóúÁÉÍÓÚ ]+$',
-        'data-parsley-pattern-message' => 'Error en el texto',
-        'data-parsley-length' => "[1, 50]", 
-        'data-parsley-trigger'=>"change"] ) !!}
+        ])
+        !!}
     </div>
 </div>
 
-<div class="item form-group">
-    {!! Form::label('RPS_Cargo','Cargo', ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']) !!}
+<div class="form-group">
+    {!! Form::label('PK_CAA_Id', 'Cargo', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!}
     <div class="col-md-6 col-sm-6 col-xs-12">
-        {!! Form::text('RPS_Cargo', old('RPS_Cargo'),
-        [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 
+        {!! Form::select('PK_CAA_Id', $cargos, old('PK_CAA_Id', isset($responsables)? $responsables->FK_RPS_Cargo: ''), ['class' => 'select2 form-control',
+         'id' => 'cargo',
+        'style' => 'width:100%',
+        'placeholder' => 'Seleccione un cargo', 
         'required' => 'required', 
-        'data-parsley-pattern' => '^[a-zA-Z ][a-zA-Z0-9-_\.,;:ñÑáéíóúÁÉÍÓÚ ]+$',
-        'data-parsley-pattern-message' => 'Error en el texto',
-        'data-parsley-length' => "[1, 50]", 
-        'data-parsley-trigger'=>"change"] ) !!}
+        ])
+        !!}
     </div>
 </div>

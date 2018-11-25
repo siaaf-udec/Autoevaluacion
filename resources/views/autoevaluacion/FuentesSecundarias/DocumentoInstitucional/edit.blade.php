@@ -74,7 +74,7 @@
             uploadMultiple: false,
             parallelUploads: 1,
             maxFiles: 1,
-            acceptedFiles: 'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, image/*',
+            acceptedFiles: 'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, image/*,.xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf',
             maxFilesize: 10,
             addRemoveLinks: true,
             @if($user->archivo)

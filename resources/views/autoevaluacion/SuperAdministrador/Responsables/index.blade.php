@@ -50,8 +50,7 @@
     ['id' => 'responsable_table_ajax'])
     @slot('columns',
         [ 'id',
-        'Nombre',
-        'Apellido',
+        'Responsable',
         'Cargo',
         'Acciones' => ['style' => 'width:125px;']])
 @endcomponent
@@ -70,6 +69,8 @@
         <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
         <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
         <script src="{{ asset('js/admin.js') }}"></script>
+        <!-- Select2 -->
+    <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
 
 @endpush
 
@@ -81,6 +82,7 @@
         <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
         <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
         <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
+        <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
     @endpush
 
 
@@ -88,6 +90,8 @@
     @push('functions')
         <script type="text/javascript">
             $(document).ready(function () {
+                $('#responsable').select2();
+                $('#cargo').select2();
                 var formCreate = $('#form_responsable');
                 $('#crear_responsable').click(function () {
                     $(formCreate)[0].reset();
@@ -98,9 +102,8 @@
                 var data, routeDatatable;
                 data = [
                     {data: 'PK_RPS_Id', name: 'id', "visible": false},
-                    {data: 'RPS_Nombre', name: 'Nombre', className: "all"},
-                    {data: 'RPS_Apellido', name: 'Apellido', className: "min-phone-l"},
-                    {data: 'RPS_Cargo', name: 'Cargo', className: "min-phone-l"},
+                    {data: 'responsable', name: 'Responsable', className: "all"},
+                    {data: 'cargo.CAA_Cargo', name: 'Cargo', className: "min-phone-l"},
                     {
                         defaultContent:
                             '@can('ELIMINAR_RESPONSABLES')<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fa fa-trash"></i></a>@endcan' +
@@ -130,12 +133,12 @@
                     "columns": data,
                     language: {
                         "sProcessing": "Procesando...",
-                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sLengthMenu": "Mostrar MENU registros",
                         "sZeroRecords": "No se encontraron resultados",
                         "sEmptyTable": "Ningún dato disponible en esta tabla",
-                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfo": "Mostrando registros del START al END de un total de TOTAL registros",
                         "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoFiltered": "(filtrado de un total de MAX registros)",
                         "sInfoPostFix": "",
                         "sSearch": "Buscar:",
                         "sUrl": "",

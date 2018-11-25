@@ -4,12 +4,14 @@ namespace App\Http\Controllers\SuperAdministrador;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ActividadesMejoramientoRequest;
+use App\Http\Requests\ModificarActividadesRequest;
 use App\Models\Autoevaluacion\ActividadesMejoramiento;
 use App\Models\Autoevaluacion\PlanMejoramiento;
 use App\Models\Autoevaluacion\Responsable;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ActividadesMejoramientoController extends Controller
 {
@@ -49,11 +51,26 @@ class ActividadesMejoramientoController extends Controller
             ->first();
         if ($planMejoramiento != null) {
             if ($request->ajax() && $request->isMethod('GET')) {
-                $actividades = ActividadesMejoramiento::whereHas('PlanMejoramiento', function ($query) {
-                    return $query->where('FK_PDM_Proceso', '=', session()->get('id_proceso'));
-                })
-                    ->with('Caracteristicas.factor', 'responsable')
-                    ->get();
+                if(Auth::user()->hasRole('SUPERADMIN') || Auth::user()->hasRole('SUPERADMIN'))
+                {
+                    $actividades = ActividadesMejoramiento::whereHas('PlanMejoramiento', function ($query) {
+                        return $query->where('FK_PDM_Proceso', '=', session()->get('id_proceso'));
+                    })
+                        ->with('Caracteristicas.factor', 'responsable.usuarios')
+                        ->get();
+                }
+                else
+                {
+                    $responsable = Responsable::where('FK_RPS_Responsable','=',Auth::user()->id)
+                    ->first();
+                    $actividades = ActividadesMejoramiento::whereHas('PlanMejoramiento', function ($query) {
+                        return $query->where('FK_PDM_Proceso', '=', session()->get('id_proceso'));
+                    })
+                        ->with('Caracteristicas.factor', 'responsable.usuarios')
+                        ->where('FK_ACM_Responsable','=',$responsable->PK_RPS_Id ?? null)
+                        ->get(); 
+
+                }
                 return DataTables::of($actividades)
                     ->editColumn('ACM_Fecha_Inicio', function ($actividades) {
                         return $actividades->ACM_Fecha_Inicio ? with(new Carbon($actividades->ACM_Fecha_Inicio))->format('d/m/Y') : '';
@@ -62,8 +79,20 @@ class ActividadesMejoramientoController extends Controller
                         return $actividades->ACM_Fecha_Fin ? with(new Carbon($actividades->ACM_Fecha_Fin))->format('d/m/Y') : '';
                     })
                     ->addColumn('responsable', function ($actividades) {
-                        return $actividades->responsable->RPS_Cargo . " " . $actividades->responsable->RPS_Nombre . " " . $actividades->responsable->RPS_Apellido;
+                        return $actividades->responsable->usuarios->name." ".$actividades->responsable->usuarios->lastname;
+                        
                     })
+                    ->addColumn('estado', function ($actividades) {
+                        if($actividades->ACM_Estado == 0)
+                        {
+                            return "<span class='label label-sm label-warning'>Actividad pendiente</span>";
+                        }
+                        else
+                        {
+                            return "<span class='label label-sm label-success'>Actividad realizada</span>";
+                        }
+                    })
+                    ->rawColumns(['estado'])
                     ->removeColumn('created_at')
                     ->removeColumn('updated_at')
                     ->make(true);
@@ -79,11 +108,14 @@ class ActividadesMejoramientoController extends Controller
     public function create($id)
     {
         session()->put('id_actividad', $id);
-        $responsable = Responsable::selectRaw('PK_RPS_Id, CONCAT(RPS_Cargo," ",RPS_Nombre," ",RPS_Apellido) AS nombre')
-            ->get()->pluck('nombre', 'PK_RPS_Id');
+        $responsable = Responsable::with(['usuarios' => function($query){
+            $query->selectRaw('*, CONCAT(name," ",lastname) as nombre');
+        }])
+        ->where('FK_RPS_Proceso','=',session()->get('id_proceso')??null)
+        ->get()->pluck('usuarios.nombre','PK_RPS_Id');
         return view('autoevaluacion.SuperAdministrador.ActividadesMejoramiento.create', compact('responsable'));
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -101,6 +133,7 @@ class ActividadesMejoramientoController extends Controller
         $actividades->ACM_Fecha_Fin = Carbon::createFromFormat('d/m/Y', $request->get('ACM_Fecha_Fin'));
         $actividades->FK_ACM_Responsable = $request->get('PK_RPS_Id');
         $actividades->FK_ACM_Caracteristica = session()->get('id_actividad');
+        $actividades->ACM_Estado=0;
         $idPlanMejoramiento = PlanMejoramiento::where('FK_PDM_Proceso', '=', session()->get('id_proceso'))->first()->PK_PDM_Id;
         $actividades->FK_ACM_Plan_Mejoramiento = $idPlanMejoramiento;
         $actividades->save();
@@ -130,8 +163,11 @@ class ActividadesMejoramientoController extends Controller
      */
     public function edit($id)
     {
-        $responsable = Responsable::selectRaw('PK_RPS_Id, CONCAT(RPS_Cargo," ",RPS_Nombre," ",RPS_Apellido) AS nombre')
-            ->get()->pluck('nombre', 'PK_RPS_Id');
+        $responsable = Responsable::with(['usuarios' => function($query){
+            $query->selectRaw('*, CONCAT(name," ",lastname) as nombre');
+        }])
+        ->where('FK_RPS_Proceso','=',session()->get('id_proceso')??null)
+        ->get()->pluck('usuarios.nombre','PK_RPS_Id');
         $actividades = ActividadesMejoramiento::findOrFail($id);
         return view(
             'autoevaluacion.SuperAdministrador.ActividadesMejoramiento.edit',
@@ -146,7 +182,7 @@ class ActividadesMejoramientoController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ActividadesMejoramientoRequest $request, $id)
+    public function update(ModificarActividadesRequest $request, $id)
     {
         $actividades = ActividadesMejoramiento::find($id);
         $actividades->ACM_Fecha_Inicio = Carbon::createFromFormat('d/m/Y', $request->get('ACM_Fecha_Inicio'));
@@ -176,5 +212,37 @@ class ActividadesMejoramientoController extends Controller
             'title' => 'Actividad de Mejoramiento Eliminada!',
         ], 200) // 200 Status Code: Standard response for successful HTTP request
         ->header('Content-Type', 'application/json');
+    }
+    public function estado($id)
+    {
+        $actividades = ActividadesMejoramiento::find($id);
+        $responsable = Responsable::where('PK_RPS_Id','=',$actividades->FK_ACM_Responsable)
+        ->first();
+        $id_usuario = Auth::user()->id;
+        if(!Auth::user()->hasRole('SUPERADMIN') || !Auth::user()->hasRole('SUPERADMIN'))
+        {
+            if($id_usuario != $responsable->FK_RPS_Responsable )
+            {
+                return redirect()->back()->with('error','Mensaje Enviado');
+            }
+            else
+            {
+                if($actividades->ACM_Estado == 1){
+                    $actividades->ACM_Estado=0;}
+                else{
+                    $actividades->ACM_Estado=1;}
+                $actividades->update();
+                return redirect()->back()->with('status','Mensaje Enviado');
+            }
+        }
+        else
+        {
+            if($actividades->ACM_Estado == 1){
+                $actividades->ACM_Estado=0;}
+            else{
+                $actividades->ACM_Estado=1;}
+            $actividades->update();
+            return redirect()->back()->with('status','Mensaje Enviado');
+        } 
     }
 }

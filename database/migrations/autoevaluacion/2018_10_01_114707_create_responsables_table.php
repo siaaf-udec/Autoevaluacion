@@ -15,10 +15,13 @@ class CreateResponsablesTable extends Migration
     {
         Schema::connection('autoevaluacion')->create('TBL_Responsables', function (Blueprint $table) {
             $table->increments('PK_RPS_Id');
-            $table->string("RPS_Nombre");
-            $table->string("RPS_Apellido");
-            $table->string("RPS_Cargo");
+            $table->integer("FK_RPS_Responsable")->unsigned();
+            $table->integer("FK_RPS_Cargo")->unsigned();
+            $table->integer("FK_RPS_Proceso")->unsigned();
             $table->timestamps();
+            $table->foreign('FK_RPS_Responsable')->references('id')->on("users")->onDelete('cascade');
+            $table->foreign('FK_RPS_Cargo')->references('PK_CAA_Id')->on("TBL_Cargos_Administrativos")->onDelete('cascade');
+            $table->foreign('FK_RPS_Proceso')->references('PK_PCS_Id')->on("TBL_Procesos")->onDelete('cascade');
         });
     }
 
