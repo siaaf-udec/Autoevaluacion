@@ -22,6 +22,7 @@ class CargosAdministrativosTableSeeder extends Seeder
             ['CAA_Cargo' => 'DIRECTOR/COORDINADOR DE EXTENSION', 'FK_CAA_AlcanceCargo' => '4', 'CAA_Slug' => 'director_coordinador_de_extension'],
             ['CAA_Cargo' => 'DIRECTOR/COORDINADOR DE INTERNACIONALIZACION', 'FK_CAA_AlcanceCargo' => '1', 'CAA_Slug' => 'director_coordinador_de_internacionalizacion'],
             ['CAA_Cargo' => 'DIRECTOR/COORDINADOR DE BIENESTAR', 'FK_CAA_AlcanceCargo' => '1', 'CAA_Slug' => 'director_coordinador_de_bienestar'],
+            ['CAA_Cargo' => 'Docente', 'FK_CAA_AlcanceCargo' => '3', 'CAA_Slug' => 'Docente'],
         ]);
     }
 }

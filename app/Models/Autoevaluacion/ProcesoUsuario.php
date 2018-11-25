@@ -5,7 +5,7 @@ namespace App\Models\Autoevaluacion;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Responsable extends Model
+class ProcesoUsuario extends Model
 {
     use LogsActivity;
     protected static $logUnguarded = true;
@@ -21,34 +21,24 @@ class Responsable extends Model
      *
      * @var string
      */
-    protected $table = 'TBL_Responsables';
+    protected $table = 'TBL_Procesos_Usuarios';
 
     /**
      * LLave primaria del modelo.
      *
      * @var string
      */
-    protected $primaryKey = 'PK_RPS_Id';
+    protected $primaryKey = 'PK_PCU_Id';
 
     /**
      * Atributos del modelo que no pueden ser asignados en masa.
      *
      * @var array
      */
-    protected $guarded = ['PK_RPS_Id', 'created_at', 'updated_at'];
-   
+    protected $guarded = ['PK_PCU_Id', 'created_at', 'updated_at'];
+    
     public function usuarios()
     {
-        return $this->belongsTo(User::class, 'FK_RPS_Responsable', 'id');
+        return $this->belongsTo(User::class, 'FK_PCU_Usuario', 'id');
     }
-    public function cargo()
-    {
-        return $this->belongsTo(CargoAdministrativo::class, 'FK_RPS_Cargo', 'PK_CAA_Id');
-    }
-    public function proceso()
-    {
-        return $this->belongsTo(Proceso::class, 'FK_RPS_Proceso', 'PK_PCS_Id');
-    }
-
-    
 }

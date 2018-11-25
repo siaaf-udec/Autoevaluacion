@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Autoevaluacion\Responsable;
 use DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Autoevaluacion\CargoAdministrativo;
+use App\Models\Autoevaluacion\ProcesoUsuario;
+use App\Http\Requests\ResponsableRequest;
 
 class ResponsablesController extends Controller
 {
@@ -34,7 +38,14 @@ class ResponsablesController extends Controller
      */
     public function index()
     {
-        return view('autoevaluacion.SuperAdministrador.Responsables.index');
+        $cargos = CargoAdministrativo::get()->pluck('CAA_Cargo', 'PK_CAA_Id');
+        $usuarios = ProcesoUsuario::with(['usuarios' => function($query){
+            $query->selectRaw('*, CONCAT(name," ",lastname) as nombre');
+        }])
+        ->where('FK_PCU_Proceso','=',session()->get('id_proceso')??null)
+        ->get()
+        ->pluck('usuarios.nombre', 'usuarios.id');
+        return view('autoevaluacion.SuperAdministrador.Responsables.index', compact('usuarios','cargos'));
     }
 
     /**
@@ -43,15 +54,28 @@ class ResponsablesController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     /**
-     * Esta funcion lista en el datatable todas las sedes
+     * Esta funcion lista en el datatable todos los responsables por proceso
      */
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $responsables = Responsable::all();
+            $responsables = Responsable::whereHas('usuarios.procesos', function ($query) {
+                return $query->where('FK_RPS_Proceso','=',session()->get('id_proceso')??null);
+            })
+            ->with('usuarios','cargo','proceso')
+            ->get();
             return Datatables::of($responsables)
+                ->addColumn('responsable', function($responsables){
+                    return $responsables->usuarios->name." ".$responsables->usuarios->lastname;
+                })
+                ->removeColumn('created_at')
+                ->removeColumn('updated_at')
                 ->make(true);
         }
+        return AjaxResponse::fail(
+            '¡Lo sentimos!',
+            'No se pudo completar tu solicitud.'
+        );
     }
 
     /**
@@ -70,10 +94,12 @@ class ResponsablesController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ResponsableRequest $request)
     {
         $responsable = new Responsable();
-        $responsable->fill($request->only(['RPS_Nombre', 'RPS_Apellido', 'RPS_Cargo']));
+        $responsable->FK_RPS_Responsable = $request->get('id');
+        $responsable->FK_RPS_Cargo = $request->get('PK_CAA_Id');
+        $responsable->FK_RPS_Proceso = session()->get('id_proceso');
         $responsable->save();
 
         return response([
@@ -112,10 +138,11 @@ class ResponsablesController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ResponsableRequest $request, $id)
     {
         $responsable = Responsable::findOrFail($id);
-        $responsable->fill($request->only(['RPS_Nombre', 'RPS_Apellido', 'RPS_Cargo']));
+        $responsable->FK_RPS_Responsable = $request->get('id');
+        $responsable->FK_RPS_Cargo = $request->get('PK_CAA_Id');
         $responsable->update();
         return response([
             'msg' => 'El responsable se ha sido modificado exitosamente.',

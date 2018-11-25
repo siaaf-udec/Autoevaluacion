@@ -63,6 +63,7 @@ class ActividadesMejoramientoController extends Controller
                     })
                     ->addColumn('responsable', function ($actividades) {
                         return $actividades->responsable->RPS_Cargo . " " . $actividades->responsable->RPS_Nombre . " " . $actividades->responsable->RPS_Apellido;
+                        
                     })
                     ->removeColumn('created_at')
                     ->removeColumn('updated_at')
@@ -79,10 +80,13 @@ class ActividadesMejoramientoController extends Controller
     public function create($id)
     {
         session()->put('id_actividad', $id);
-        $responsable = Responsable::selectRaw('PK_RPS_Id, CONCAT(RPS_Cargo," ",RPS_Nombre," ",RPS_Apellido) AS nombre')
-            ->get()->pluck('nombre', 'PK_RPS_Id');
+        $responsable =Responsable::join('Users','FK_RPS_Responsable','=','id')
+        ->selectRaw('PK_RPS_Id ,CONCAT(name," ",lastname) AS nombre')
+        ->where('FK_RPS_Proceso','=',session()->get('id_proceso')??null)
+        ->get()->pluck('nombre','PK_RPS_Id');
         return view('autoevaluacion.SuperAdministrador.ActividadesMejoramiento.create', compact('responsable'));
     }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -101,6 +105,7 @@ class ActividadesMejoramientoController extends Controller
         $actividades->ACM_Fecha_Fin = Carbon::createFromFormat('d/m/Y', $request->get('ACM_Fecha_Fin'));
         $actividades->FK_ACM_Responsable = $request->get('PK_RPS_Id');
         $actividades->FK_ACM_Caracteristica = session()->get('id_actividad');
+        $actividades->ACM_Estado=0;
         $idPlanMejoramiento = PlanMejoramiento::where('FK_PDM_Proceso', '=', session()->get('id_proceso'))->first()->PK_PDM_Id;
         $actividades->FK_ACM_Plan_Mejoramiento = $idPlanMejoramiento;
         $actividades->save();
