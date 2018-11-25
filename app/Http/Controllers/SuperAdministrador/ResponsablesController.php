@@ -59,10 +59,8 @@ class ResponsablesController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $responsables = Responsable::whereHas('usuarios.procesos', function ($query) {
-                return $query->where('FK_RPS_Proceso','=',session()->get('id_proceso')??null);
-            })
-            ->with('usuarios','cargo','proceso')
+            $responsables = Responsable::with('usuarios','cargo')
+            ->where('FK_RPS_Proceso','=',session()->get('id_proceso')??null)
             ->get();
             return Datatables::of($responsables)
                 ->addColumn('responsable', function($responsables){
@@ -161,7 +159,6 @@ class ResponsablesController extends Controller
     {
         $responsable = Responsable::findOrFail($id);
         $responsable->delete();
-
         return response([
             'msg' => 'El responsable ha sido eliminado exitosamente.',
             'title' => '¡Responsable Eliminado!',

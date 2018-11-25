@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Models\Autoevaluacion\Responsable;
 
 class ResponsableRequest extends FormRequest
 {
@@ -24,15 +25,8 @@ class ResponsableRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->route()->parameter('responsable');
-        $responsable = 'unique:tbl_responsables,fk_rps_responsable';
-
-        if ($this->method() == 'PUT') {
-            $responsable = Rule::unique('TBL_Responsables', 'fk_rps_responsable')->ignore($id, 'PK_RPS_Id');
-        }
         return [
-            'id' => 'required|exists:users',
-            'id' => $responsable
+            'id' => 'required|exists:users'
         ];
     }
 
@@ -46,7 +40,23 @@ class ResponsableRequest extends FormRequest
         return [
             'id.required' => 'Debe seleccionar un responsable.',
             'id.exists' => 'El usuario que selecciona no existe en nuestros registros.',
-            'id.unique' => 'Ya existe el responsable',
         ];
+    }
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $responsable = Responsable::where('FK_RPS_Responsable','=',$this->request->get('id'))
+            ->where('FK_RPS_Proceso','=',session()->get('id_proceso')??null)
+            ->first();
+            if ($responsable) {
+                $validator->errors()->add('Error', 'El responsable ya existe!');
+            }
+        });
     }
 }
