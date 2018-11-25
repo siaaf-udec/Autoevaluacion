@@ -312,7 +312,9 @@
                       <td>
                         <p>Bienvenido, {!!$name!!}</p>
 
-                        <p>Sometimes you just want to send a simple HTML email with a simple design and clear call to action. This is it.</p>
+                        <p>Es un gusto para nosotros que forme parte del sistema de autoevaluación, por favor ingresar al siguiente enlace, su
+                            usuario es su correo INSTITUCIONAL y su contraseña es la siguiente: {!!$password!!}
+                        </p>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                           <tbody>
                             <tr>
@@ -320,7 +322,7 @@
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
                                     <tr>
-                                      <td> <a href="https://www.siaudec.com/" target="_blank">Ingresar al sistema</a> </td>
+                                      <td> <a href="https://www.siaudec.com/login" target="_blank">Ingresar al sistema</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>
@@ -328,7 +330,6 @@
                             </tr>
                           </tbody>
                         </table>
-                        <p>This is a really simple email template. Its sole purpose is to get the recipient to click the button with no distractions.</p>
                         <p>Good luck! Hope it works.</p>
                       </td>
                     </tr>

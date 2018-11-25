@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('cedula');
             $table->string('email');
             $table->string('password');
+            $table->string('estado_pass');
             $table->string('remember_token')->nullable();
             $table->timestamps();
         });

@@ -6,6 +6,7 @@
 @section('content')
     @component('admin.components.panel')
         @slot('title', 'Bienvenido a la plataforma SIA.')
+
         @can('SUPERADMINISTRADOR')
 
             @if(session()->get('id_proceso') && isset($factoresDocumentales))
@@ -113,9 +114,51 @@
             @endif
 
         @endcan
+        <!-- Modal-->
+        <div class="modal fade" id="modal_ambito" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal_titulo">Por favor cambiar su contraseña</h4>
+                    </div>
+                    <div class="modal-body" >
+                            <form  name="f1" >
+                                    <div class="form-group row">
+                                            <label for="example-password-input" id="clave1" class="col-2 col-form-label control-label">Contraseña nueva (*)</label>
+
+                                    </div>
+
+                       </div>
+                    <div class="modal-footer">
+                            <a href="{{route('reset.index')}}">CAMBIAR</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--FIN Modal CREAR-->
     @endcomponent
 @endsection
 
+@push('scripts')
+<!-- PNotify -->
+<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
+<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
+<script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
+<!-- Select2 -->
+    @endpush
+@push('functions')
+<script type="text/javascript">
+
+            $(document).ready(function(){
+                @if(Auth::user()->estado_pass  == 1)
+                $('#modal_ambito').modal({backdrop: 'static', keyboard: false})
+                $('#modal_ambito').modal('show');
+                $("[name='clave1']").attr("required", true);
+                @endif
+            });
+</script>
+@endpush
 @can('SUPERADMINISTRADOR')
 
     {{-- Scripts necesarios para el formulario --}}
@@ -139,6 +182,7 @@
     @push('functions')
         <script type="text/javascript">
             $(document).ready(function () {
+
                 @if(session()->get('id_proceso') && isset($factoresDocumentales))
                 @if($factoresDocumentales->isNotEmpty())
 
@@ -236,3 +280,5 @@
 
     @endpush
 @endcan
+
+

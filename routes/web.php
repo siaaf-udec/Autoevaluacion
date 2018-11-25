@@ -28,6 +28,9 @@ Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+Route::get('reset', 'Auth\ResetController@index')->name('reset.index');
+Route::get('reset/pass/{id?}/{clave?}', 'Auth\ResetController@update')->name('reset.update');
+
 
 Route::get('/las', function () {
     symlink('/home/siaudecc/siav3/storage/app/public', '/home/siaudecc/public_html/storage');

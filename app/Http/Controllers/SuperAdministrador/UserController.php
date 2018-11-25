@@ -168,13 +168,14 @@ class UserController extends Controller
 
         Mail::send('email', $request->all(), function ($message) use ($request){
 
-            $message->to('sistemadeautoevaluacion@gmail.com', $request->get('name'));
+            $message->to($request->get('email'), $request->get('name'));
             $message->subject('Usuario registrado');
         });
         $user = new User();
         $user->fill($request->all());
         $user->id_estado = $request->get('PK_ESD_Id');
         $user->id_programa = $request->get('PK_PAC_Id');
+        $user->estado_pass = 1;
         $user->save();
 
         $roles = $request->input('roles') ? $request->input('roles') : [];
