@@ -124,14 +124,14 @@
                     <div class="modal-body" >
                             <form  name="f1" >
                                     <div class="form-group row">
-                                            <label for="example-password-input" id="clave1" class="col-2 col-form-label control-label">Contraseña nueva (*)</label>
+                                            <label for="example-password-input" id="clave1" class="col-2 col-form-label control-label">Por motivos de seguridad por favor cambiar la contrasela dando clic en el siguiente boton </label>
 
+                                    </div>
+                                    <div>
+                                            <a  href="{{route('reset.index')}}"  class="btn btn-danger">CAMBIAR</a>
                                     </div>
 
                        </div>
-                    <div class="modal-footer">
-                            <a href="{{route('reset.index')}}">CAMBIAR</a>
-                    </div>
 
                 </div>
             </div>
